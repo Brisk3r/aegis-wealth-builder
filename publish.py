@@ -13,6 +13,18 @@ HISTORY_FILE = BASE_DIR / "data" / "history.json"
 
 DOMAIN = config.custom_domain or "aegis-wealth-builder.vercel.app"
 
+TOOL_DESCRIPTIONS = {
+    "CSS Flexbox Cheat Sheet": "Interactive Flexbox playground and alignment generator with real-time visual grid testing and CSS/Tailwind export.",
+    "Developer Productivity": "FlowState Journal: Document current branch contexts before switching to minimize team context-switching toil.",
+    "Developer Tools": "DevTools Ideation Hub: Instantly brainstorm and prototype developer micro-SaaS concepts for targeted niches."
+}
+
+AFFILIATE_DESCRIPTIONS = {
+    "digitalocean": "Deploy your next web application or backend cloud. Get a $200 free trial credit.",
+    "vercel": "Instantly deploy static frontends and serverless API endpoints. The default home of React & Next.js.",
+    "hosting": "Get high-performance web hosting, free custom domains, and automated sitemaps for your portfolio or blogs.",
+}
+
 def ensure_dirs():
     STATIC_DIR.mkdir(exist_ok=True)
     TOOLS_DIR.mkdir(exist_ok=True)
@@ -228,7 +240,7 @@ def generate_index_page(tools, articles) -> str:
         tools_list_html += f"""
         <div class="card">
             <h3>{tool['name']}</h3>
-            <p>Interactive utility built to optimize frontend workflows and layouts.</p>
+            <p>{tool['description']}</p>
             <a href="/{tool['path'].replace(chr(92), '/')}" class="btn">Launch Tool &rarr;</a>
         </div>
         """
@@ -241,7 +253,7 @@ def generate_index_page(tools, articles) -> str:
         articles_list_html += f"""
         <div class="card">
             <h3>{art['title']}</h3>
-            <p>Companion educational guide and resources targeting developer productivity.</p>
+            <p>{art['description']}</p>
             <a href="/{art['path'].replace(chr(92), '/')}" class="btn sec">Read Article &rarr;</a>
         </div>
         """
@@ -262,10 +274,11 @@ def generate_index_page(tools, articles) -> str:
         affiliate_html = '<div class="section-title">Sponsored Developer Resources</div><div class="grid">'
         for partner, link in config.affiliate_links.items():
             partner_title = partner.title()
+            partner_desc = AFFILIATE_DESCRIPTIONS.get(partner.lower(), "Curated platform resource or exclusive developer deal.")
             affiliate_html += f"""
             <div class="card" style="border-color: rgba(59, 130, 246, 0.15); background: linear-gradient(135deg, rgba(59, 130, 246, 0.05), transparent);">
                 <h3>{partner_title}</h3>
-                <p>Curated platform resource or exclusive developer deal.</p>
+                <p>{partner_desc}</p>
                 <a href="{link}" target="_blank" rel="noopener sponsored" class="btn sec">Get Offer &rarr;</a>
             </div>
             """
@@ -460,9 +473,11 @@ def publish_all():
         if tool_path and os.path.exists(BASE_DIR / tool_path):
             if tool_path not in seen_tools:
                 seen_tools.add(tool_path)
+                desc = TOOL_DESCRIPTIONS.get(topic, "Interactive utility built to optimize frontend workflows and layouts.")
                 tools.append({
                     "name": topic,
-                    "path": tool_path
+                    "path": tool_path,
+                    "description": desc
                 })
             
         # 2. Gather & compile articles
@@ -472,6 +487,24 @@ def publish_all():
             article_file_name = f"{topic_slug}.html"
             article_rel_path = f"static/articles/{article_file_name}"
             article_abs_path = ARTICLES_DIR / article_file_name
+            
+            # Extract H1 title and first paragraph description
+            title = topic
+            match = re.search(r"^#\s+(.+)$", article_text, re.MULTILINE)
+            if match:
+                title = match.group(1).strip()
+                
+            description = "Read our companion educational guide and resources targeting developer productivity."
+            paragraphs = [p.strip() for p in article_text.split("\n\n") if p.strip()]
+            for p in paragraphs:
+                if not p.startswith("#") and not p.startswith("---") and not p.startswith("|") and not p.startswith("*") and not p.startswith("!"):
+                    clean_p = re.sub(r"\*\*|__", "", p)
+                    clean_p = re.sub(r"\[([^\]]+)\]\([^)]+\)", r"\1", clean_p)
+                    if len(clean_p) > 160:
+                        description = clean_p[:157] + "..."
+                    else:
+                        description = clean_p
+                    break
             
             if article_rel_path not in seen_articles:
                 seen_articles.add(article_rel_path)
@@ -483,8 +516,9 @@ def publish_all():
                     art_f.write(full_html)
                     
                 articles.append({
-                    "title": f"Essential tools for {topic}",
-                    "path": article_rel_path
+                    "title": title,
+                    "path": article_rel_path,
+                    "description": description
                 })
 
     # 3. Create root landing page
