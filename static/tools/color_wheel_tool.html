@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Visual Color Wheel & Palette Generator - Aegis Hub</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #0b0f19;
+            --card-bg: rgba(255, 255, 255, 0.03);
+            --border-color: rgba(255, 255, 255, 0.08);
+            --primary-accent: #3b82f6;
+            --secondary-accent: #60a5fa;
+            --text-main: #f3f4f6;
+            --text-muted: #9ca3af;
+        }
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-family: 'Outfit', sans-serif;
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+        }
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 40px;
+            border-bottom: 1px solid var(--border-color);
+            background: rgba(11, 15, 25, 0.7);
+            backdrop-filter: blur(12px);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .navbar a {
+            color: var(--text-main);
+            text-decoration: none;
+            font-weight: 600;
+        }
+        .back-link {
+            color: var(--secondary-accent) !important;
+            font-size: 0.95rem;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 0 20px;
+            display: grid;
+            grid-template-columns: 400px 1fr;
+            gap: 40px;
+        }
+        @media (max-width: 900px) {
+            .container {
+                grid-template-columns: 1fr;
+            }
+        }
+        .panel {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 25px;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(8px);
+        }
+        .panel h2 {
+            margin-top: 0;
+            font-size: 1.4rem;
+            color: var(--secondary-accent);
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+        }
+        .wheel-container {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 25px;
+            position: relative;
+        }
+        canvas {
+            border-radius: 50%;
+            cursor: crosshair;
+            box-shadow: 0 0 20px rgba(59, 130, 246, 0.15);
+        }
+        .control-group {
+            margin-bottom: 20px;
+        }
+        .control-group label {
+            display: block;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+        .btn-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        .btn-option {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border-color);
+            color: var(--text-main);
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .btn-option:hover {
+            border-color: var(--secondary-accent);
+            background: rgba(59, 130, 246, 0.1);
+        }
+        .btn-option.active {
+            background: var(--primary-accent);
+            border-color: var(--primary-accent);
+            color: white;
+        }
+        .color-inputs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        .color-inputs input[type="text"] {
+            flex-grow: 1;
+            background: rgba(0,0,0,0.4);
+            border: 1px solid var(--border-color);
+            color: var(--text-main);
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-family: monospace;
+            font-size: 0.95rem;
+            outline: none;
+        }
+        .color-inputs input[type="color"] {
+            border: none;
+            width: 40px;
+            height: 38px;
+            border-radius: 6px;
+            cursor: pointer;
+            background: transparent;
+        }
+        .palette-area {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+        .swatches-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 12px;
+            min-height: 180px;
+        }
+        .swatch-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            transition: transform 0.2s;
+        }
+        .swatch-card:hover {
+            transform: translateY(-4px);
+        }
+        .swatch-color {
+            flex-grow: 1;
+            min-height: 100px;
+            transition: background 0.3s;
+        }
+        .swatch-info {
+            padding: 12px;
+            text-align: center;
+            font-family: monospace;
+            font-size: 0.85rem;
+            cursor: pointer;
+            background: rgba(0,0,0,0.2);
+            transition: background 0.2s;
+        }
+        .swatch-info:hover {
+            background: rgba(59, 130, 246, 0.1);
+            color: var(--secondary-accent);
+        }
+        .code-output {
+            background: rgba(0,0,0,0.6);
+            border: 1px solid var(--border-color);
+            padding: 20px;
+            border-radius: 12px;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 0.85rem;
+            color: #34d399;
+            overflow-x: auto;
+            position: relative;
+        }
+        .copy-btn {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid var(--border-color);
+            color: var(--text-main);
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            cursor: pointer;
+        }
+        .sponsored-box {
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.05), transparent);
+            border: 1px solid rgba(59, 130, 246, 0.15);
+            border-radius: 12px;
+            padding: 25px;
+            text-align: center;
+            margin-top: 20px;
+        }
+        .sponsored-box h3 {
+            margin-top: 0;
+            color: var(--secondary-accent);
+        }
+        .btn-buy {
+            display: inline-block;
+            background: var(--primary-accent);
+            color: white;
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-weight: bold;
+            font-size: 0.9rem;
+            margin-top: 10px;
+            transition: background 0.2s;
+        }
+        .btn-buy:hover {
+            background: #2563eb;
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <a href="/" style="display: flex; align-items: center; gap: 10px;">
+            <img src="/static/logo.png" alt="Aegis Hub Logo" style="height: 30px;">
+            <span>Aegis Developer Hub</span>
+        </a>
+        <a href="/" class="back-link">&larr; Back to Hub</a>
+    </div>
+    
+    <div class="container">
+        <div class="panel">
+            <h2>Color Wheel</h2>
+            <div class="wheel-container">
+                <canvas id="wheel" width="280" height="280"></canvas>
+            </div>
+            
+            <div class="control-group">
+                <label>Base Color Selector</label>
+                <div class="color-inputs">
+                    <input type="color" id="colorPicker" value="#3b82f6" oninput="updateFromPicker(this.value)">
+                    <input type="text" id="hexInput" value="#3b82f6" onchange="updateFromHex(this.value)">
+                </div>
+            </div>
+            
+            <div class="control-group">
+                <label>Harmony Scheme</label>
+                <div class="btn-group" id="scheme-group">
+                    <button class="btn-option active" onclick="setScheme('monochromatic', this)">Monochromatic</button>
+                    <button class="btn-option" onclick="setScheme('triad', this)">Triad</button>
+                    <button class="btn-option" onclick="setScheme('tetrad', this)">Tetrad</button>
+                    <button class="btn-option" onclick="setScheme('analogous', this)">Analogous</button>
+                </div>
+            </div>
+        </div>
+        
+        <div class="palette-area">
+            <div class="panel" style="flex-grow: 1;">
+                <h2>Color Swatches</h2>
+                <div class="swatches-grid" id="swatches"></div>
+            </div>
+            
+            <div class="code-output">
+                <button class="copy-btn" onclick="copyCSS()">Copy Config</button>
+                <pre id="css-text">/* CSS variables config */</pre>
+            </div>
+            
+            <div class="sponsored-box">
+                <h3>UI Kit Design System Templates</h3>
+                <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 15px;">Get Figma design tokens exporters, clean component templates, and visual CSS design systems.</p>
+                <a href="https://aegisdev.lemonsqueezy.com/checkout/buy/design-system-templates" class="lemonsqueezy-button btn-buy">Get UI Templates ($9.99)</a>
+            </div>
+        </div>
+    </div>
+    
+    <script src="https://assets.lemonsqueezy.com/lemon.js" defer></script>
+    <script>
+        const canvas = document.getElementById('wheel');
+        const ctx = canvas.getContext('2d');
+        const radius = canvas.width / 2;
+        
+        let currentH = 217;
+        let currentS = 91;
+        let currentL = 60;
+        let currentScheme = 'monochromatic';
+        
+        // Draw standard color wheel
+        function drawWheel() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            for (let angle = 0; angle < 360; angle++) {
+                const startAngle = (angle - 1) * Math.PI / 180;
+                const endAngle = (angle + 1) * Math.PI / 180;
+                ctx.beginPath();
+                ctx.moveTo(radius, radius);
+                ctx.arc(radius, radius, radius - 15, startAngle, endAngle);
+                ctx.closePath();
+                
+                const grad = ctx.createRadialGradient(radius, radius, 0, radius, radius, radius - 15);
+                grad.addColorStop(0, '#ffffff');
+                grad.addColorStop(1, `hsl(${angle}, 100%, 50%)`);
+                
+                ctx.fillStyle = grad;
+                ctx.fill();
+            }
+            drawMarker();
+        }
+        
+        function drawMarker() {
+            const radAngle = currentH * Math.PI / 180;
+            const dist = (radius - 15) * (currentS / 100);
+            const x = radius + dist * Math.cos(radAngle);
+            const y = radius + dist * Math.sin(radAngle);
+            
+            ctx.beginPath();
+            ctx.arc(x, y, 6, 0, 2 * Math.PI);
+            ctx.strokeStyle = '#000000';
+            ctx.lineWidth = 2;
+            ctx.stroke();
+            ctx.fillStyle = '#ffffff';
+            ctx.fill();
+        }
+        
+        function handleCanvasClick(e) {
+            const rect = canvas.getBoundingClientRect();
+            const x = e.clientX - rect.left - radius;
+            const y = e.clientY - rect.top - radius;
+            
+            let angle = Math.round(Math.atan2(y, x) * 180 / Math.PI);
+            if (angle < 0) angle += 360;
+            
+            const dist = Math.min(Math.sqrt(x*x + y*y), radius - 15);
+            const sat = Math.round((dist / (radius - 15)) * 100);
+            
+            currentH = angle;
+            currentS = sat;
+            
+            const hex = hslToHex(currentH, currentS, currentL);
+            document.getElementById('hexInput').value = hex;
+            document.getElementById('colorPicker').value = hex;
+            
+            drawWheel();
+            generatePalette();
+        }
+        
+        canvas.addEventListener('mousedown', (e) => {
+            handleCanvasClick(e);
+            function onMouseMove(moveEvent) {
+                handleCanvasClick(moveEvent);
+            }
+            window.addEventListener('mousemove', onMouseMove);
+            window.addEventListener('mouseup', () => {
+                window.removeEventListener('mousemove', onMouseMove);
+            }, { once: true });
+        });
+        
+        // HSL Conversion helpers
+        function hslToHex(h, s, l) {
+            l /= 100;
+            const a = s * Math.min(l, 1 - l) / 100;
+            const f = n => {
+                const k = (n + h / 30) % 12;
+                const color = l - a * Math.max(Math.min(k - 3, 9 - k, 1), -1);
+                return Math.round(255 * color).toString(16).padStart(2, '0');
+            };
+            return `#${f(0)}${f(8)}${f(4)}`;
+        }
+        
+        function hexToHsl(hex) {
+            hex = hex.replace(/^#/, '');
+            let r = parseInt(hex.substring(0, 2), 16) / 255;
+            let g = parseInt(hex.substring(2, 4), 16) / 255;
+            let b = parseInt(hex.substring(4, 6), 16) / 255;
+            
+            let max = Math.max(r, g, b), min = Math.min(r, g, b);
+            let h, s, l = (max + min) / 2;
+            
+            if (max === min) {
+                h = s = 0;
+            } else {
+                let d = max - min;
+                s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+                switch (max) {
+                    case r: h = (g - b) / d + (g < b ? 6 : 0); break;
+                    case g: h = (b - r) / d + 2; break;
+                    case b: h = (r - g) / d + 4; break;
+                }
+                h /= 6;
+            }
+            return {
+                h: Math.round(h * 360),
+                s: Math.round(s * 100),
+                l: Math.round(l * 100)
+            };
+        }
+        
+        function updateFromPicker(val) {
+            document.getElementById('hexInput').value = val;
+            const hsl = hexToHsl(val);
+            currentH = hsl.h;
+            currentS = hsl.s;
+            currentL = hsl.l;
+            drawWheel();
+            generatePalette();
+        }
+        
+        function updateFromHex(val) {
+            if (/^#[0-9A-F]{6}$/i.test(val)) {
+                document.getElementById('colorPicker').value = val;
+                const hsl = hexToHsl(val);
+                currentH = hsl.h;
+                currentS = hsl.s;
+                currentL = hsl.l;
+                drawWheel();
+                generatePalette();
+            }
+        }
+        
+        function setScheme(scheme, btn) {
+            const siblings = btn.parentElement.children;
+            for(let sib of siblings) {
+                sib.classList.remove('active');
+            }
+            btn.classList.add('active');
+            currentScheme = scheme;
+            generatePalette();
+        }
+        
+        function generatePalette() {
+            let colors = [];
+            
+            if (currentScheme === 'monochromatic') {
+                colors = [
+                    { h: currentH, s: currentS, l: Math.max(currentL - 30, 15) },
+                    { h: currentH, s: Math.max(currentS - 20, 10), l: Math.max(currentL - 15, 25) },
+                    { h: currentH, s: currentS, l: currentL },
+                    { h: currentH, s: Math.min(currentS + 10, 100), l: Math.min(currentL + 15, 80) },
+                    { h: currentH, s: Math.min(currentS + 15, 100), l: Math.min(currentL + 30, 95) }
+                ];
+            } else if (currentScheme === 'triad') {
+                colors = [
+                    { h: currentH, s: currentS, l: currentL },
+                    { h: (currentH + 120) % 360, s: currentS, l: currentL },
+                    { h: (currentH + 240) % 360, s: currentS, l: currentL },
+                    { h: currentH, s: Math.max(currentS - 30, 10), l: Math.min(currentL + 20, 85) },
+                    { h: (currentH + 120) % 360, s: Math.max(currentS - 30, 10), l: Math.min(currentL + 20, 85) }
+                ];
+            } else if (currentScheme === 'tetrad') {
+                colors = [
+                    { h: currentH, s: currentS, l: currentL },
+                    { h: (currentH + 90) % 360, s: currentS, l: currentL },
+                    { h: (currentH + 180) % 360, s: currentS, l: currentL },
+                    { h: (currentH + 270) % 360, s: currentS, l: currentL },
+                    { h: currentH, s: Math.max(currentS - 30, 10), l: Math.max(currentL - 20, 20) }
+                ];
+            } else if (currentScheme === 'analogous') {
+                colors = [
+                    { h: (currentH + 330) % 360, s: currentS, l: currentL },
+                    { h: (currentH + 345) % 360, s: currentS, l: currentL },
+                    { h: currentH, s: currentS, l: currentL },
+                    { h: (currentH + 15) % 360, s: currentS, l: currentL },
+                    { h: (currentH + 30) % 360, s: currentS, l: currentL }
+                ];
+            }
+            
+            const hexColors = colors.map(c => hslToHex(c.h, c.s, c.l));
+            renderSwatches(hexColors);
+            renderCSSCode(hexColors);
+        }
+        
+        function renderSwatches(hexColors) {
+            const swatches = document.getElementById('swatches');
+            swatches.innerHTML = hexColors.map((hex, idx) => `
+                <div class="swatch-card">
+                    <div class="swatch-color" style="background: ${hex};"></div>
+                    <div class="swatch-info" onclick="copySwatch('${hex}')">
+                        ${hex.toUpperCase()}
+                        <div style="font-size: 0.65rem; color: var(--text-muted); margin-top:4px;">Copy</div>
+                    </div>
+                </div>
+            `).join('');
+        }
+        
+        function renderCSSCode(hexColors) {
+            const cssText = document.getElementById('css-text');
+            cssText.textContent = `:root {
+    --color-primary-light: ${hexColors[0]};
+    --color-primary-subtle: ${hexColors[1]};
+    --color-primary: ${hexColors[2]};
+    --color-primary-dark: ${hexColors[3]};
+    --color-accent: ${hexColors[4]};
+}
+
+/* Tailwind Palette Config */
+module.exports = {
+  theme: {
+    extend: {
+      colors: {
+        brand: {
+          light: '${hexColors[0]}',
+          subtle: '${hexColors[1]}',
+          DEFAULT: '${hexColors[2]}',
+          dark: '${hexColors[3]}',
+          accent: '${hexColors[4]}',
+        }
+      }
+    }
+  }
+}`;
+        }
+        
+        function copyCSS() {
+            const text = document.getElementById('css-text').textContent;
+            navigator.clipboard.writeText(text).then(() => {
+                const btn = document.querySelector('.copy-btn');
+                btn.textContent = 'Copied!';
+                setTimeout(() => btn.textContent = 'Copy Config', 1500);
+            });
+        }
+        
+        function copySwatch(hex) {
+            navigator.clipboard.writeText(hex).then(() => {
+                alert(`Copied ${hex.toUpperCase()} to clipboard!`);
+            });
+        }
+        
+        // Initial Draw
+        drawWheel();
+        generatePalette();
+    </script>
+</body>
+</html>

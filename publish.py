@@ -16,7 +16,8 @@ DOMAIN = config.custom_domain or "aegis-wealth-builder.vercel.app"
 TOOL_DESCRIPTIONS = {
     "CSS Flexbox Cheat Sheet": "Interactive Flexbox playground and alignment generator with real-time visual grid testing and CSS/Tailwind export.",
     "Developer Productivity": "FlowState Journal: Document current branch contexts before switching to minimize team context-switching toil.",
-    "Developer Tools": "DevTools Ideation Hub: Instantly brainstorm and prototype developer micro-SaaS concepts for targeted niches."
+    "Developer Tools": "DevTools Ideation Hub: Instantly brainstorm and prototype developer micro-SaaS concepts for targeted niches.",
+    "Color Wheel Tool": "Paletton-inspired visual HSL color wheel and harmony palette generator with CSS variables and Tailwind config exporter."
 }
 
 AFFILIATE_DESCRIPTIONS = {
