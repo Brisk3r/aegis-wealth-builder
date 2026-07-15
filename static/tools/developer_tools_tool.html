@@ -3,18 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DevTool Niche Ideator</title>
-    <style>
-        :root { --bg: #0f172a; --card: #1e293b; --text: #f1f5f9; --accent: #38bdf8; }
-        body { font-family: 'Inter', system-ui, sans-serif; background: var(--bg); color: var(--text); padding: 2rem; display: flex; justify-content: center; }
-        .container { max-width: 600px; width: 100%; }
-        .card { background: var(--card); padding: 2rem; border-radius: 1rem; box-shadow: 0 10px 25px rgba(0,0,0,0.3); border: 1px solid #334155; }
-        h1 { margin-top: 0; color: var(--accent); }
-        .niche { margin: 1.5rem 0; padding: 1rem; border-left: 4px solid var(--accent); background: rgba(255,255,255,0.03); cursor: pointer; transition: 0.2s; }
-        .niche:hover { background: rgba(255,255,255,0.08); }
-        .details { display: none; margin-top: 1rem; font-size: 0.9rem; color: #94a3b8; }
-    </style>
-
+    <title>DevTool Niche Ideator - Aegis Hub</title>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -27,55 +16,196 @@
             --text-muted: #9ca3af;
         }
         body {
-            background-color: var(--bg-color) !important;
-            color: var(--text-main) !important;
-            font-family: 'Outfit', sans-serif !important;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-family: 'Outfit', sans-serif;
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+        }
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 40px;
+            border-bottom: 1px solid var(--border-color);
+            background: rgba(11, 15, 25, 0.7);
+            backdrop-filter: blur(12px);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .navbar a {
+            color: var(--text-main);
+            text-decoration: none;
+            font-weight: 600;
+        }
+        .back-link {
+            color: var(--secondary-accent) !important;
+            font-size: 0.95rem;
+        }
+        .container {
+            max-width: 700px;
+            margin: 60px auto;
+            padding: 0 20px;
+        }
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 40px;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(8px);
+        }
+        h1 {
+            color: var(--secondary-accent);
+            font-size: 2.2rem;
+            font-weight: 800;
+            margin-top: 0;
+            margin-bottom: 15px;
+        }
+        p {
+            color: var(--text-muted);
+            margin-bottom: 30px;
+        }
+        .niche {
+            margin-bottom: 16px;
+            padding: 20px;
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            background: rgba(255,255,255,0.01);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .niche:hover {
+            border-color: var(--secondary-accent);
+            background: rgba(59, 130, 246, 0.05);
+        }
+        .niche-title {
+            font-weight: 600;
+            font-size: 1.15rem;
+            color: var(--text-main);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .niche-title::after {
+            content: '+';
+            font-size: 1.2rem;
+            color: var(--secondary-accent);
+        }
+        .niche.active .niche-title::after {
+            content: '−';
+        }
+        .details {
+            display: none;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px dashed var(--border-color);
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            line-height: 1.7;
+        }
+        .sponsored-box {
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.05), transparent);
+            border: 1px solid rgba(59, 130, 246, 0.15);
+            border-radius: 12px;
+            padding: 25px;
+            margin-top: 40px;
+            text-align: center;
+        }
+        .sponsored-box h3 {
+            margin-top: 0;
+            color: var(--secondary-accent);
+        }
+        .btn-buy {
+            display: inline-block;
+            background: var(--primary-accent);
+            color: white;
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-weight: bold;
+            font-size: 0.9rem;
+            margin-top: 10px;
+            transition: background 0.2s;
+        }
+        .btn-buy:hover {
+            background: #2563eb;
         }
     </style>
 </head>
-
 <body>
-
-    <div class="navbar" style="display: flex; justify-content: space-between; align-items: center; padding: 20px 40px; border-bottom: 1px solid rgba(255,255,255,0.08); background: rgba(11, 15, 25, 0.7); backdrop-filter: blur(12px); position: sticky; top: 0; z-index: 100; font-family: 'Outfit', sans-serif;">
-        <a href="/" style="display: flex; align-items: center; gap: 10px; color: #f3f4f6; text-decoration: none; font-weight: 600;">
+    <div class="navbar">
+        <a href="/" style="display: flex; align-items: center; gap: 10px;">
             <img src="/static/logo.png" alt="Aegis Hub Logo" style="height: 30px;">
             <span>Aegis Developer Hub</span>
         </a>
-        <a href="/" style="color: #60a5fa; text-decoration: none; font-size: 0.95rem;">&larr; Back to Hub</a>
+        <a href="/" class="back-link">&larr; Back to Hub</a>
     </div>
     
     <div class="container">
         <div class="card">
             <h1>Dev Niche Ideator</h1>
-            <p>Select a sub-niche to view monetization potential & strategy:</p>
+            <p>Explore high-value sub-niches, visual strategy options, and monetization outlines for developer tools and micro-SaaS utilities.</p>
+            
             <div id="niches"></div>
+            
+            <div class="sponsored-box">
+                <h3>SaaS Boilerplate Starter Kit</h3>
+                <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 15px;">Launch your SaaS in 24h with a pre-configured Next.js, Tailwind CSS, and Supabase template.</p>
+                <a href="https://aegisdev.lemonsqueezy.com/checkout/buy/saas-boilerplate" class="lemonsqueezy-button btn-buy">Get Boilerplate ($29.00)</a>
+            </div>
         </div>
     </div>
+    
+    <script src="https://assets.lemonsqueezy.com/lemon.js" defer></script>
     <script>
         const data = [
-            { title: "AI Documentation Maintenance", desc: "Syncs README/Swagger with Git diffs.", strat: "Target: SaaS teams with frequent releases. Monetization: Monthly subscription." },
-            { title: "Dev Environment Syncing", desc: "Unified Docker/DevContainer standards.", strat: "Target: CTOs/Lead Engineers. Monetization: Team-based licensing." },
-            { title: "Niche API Monitoring", desc: "Specialized tests for Stripe/Shopify.", strat: "Target: E-commerce devs. Monetization: Tiered API call limits." }
+            { 
+                title: "AI Documentation Maintenance", 
+                desc: "Automatically monitors your git commits and triggers automated Swagger, OpenAPI, or markdown updates.", 
+                strat: "B2B SaaS. Target engineering leads at teams scaling from 10 to 50 devs to minimize developer onboarding friction." 
+            },
+            { 
+                title: "Dev Environment Synchronization", 
+                desc: "Secures DevContainer variables, dotfiles, and dependency parity across hybrid/remote teams.", 
+                strat: "Team-based seat licensing. Focuses on companies losing productivity due to 'it works on my machine' errors." 
+            },
+            { 
+                title: "Niche E-Commerce API Monitoring", 
+                desc: "Tracks and validates third-party integrations (Stripe, Shopify webhooks, Twilio endpoints) with custom alerts.", 
+                strat: "Tiered usage model. Targets e-commerce software developers who require rapid failure resolution to protect cart checkouts." 
+            }
         ];
+        
         const container = document.getElementById('niches');
         data.forEach((item, i) => {
             const el = document.createElement('div');
             el.className = 'niche';
-            el.innerHTML = `<strong>${item.title}</strong><div class="details" id="d-${i}">${item.desc}<br><br><em>Strategy: ${item.strat}</em></div>`;
+            el.innerHTML = `
+                <div class="niche-title">${item.title}</div>
+                <div class="details" id="d-${i}">
+                    <p style="margin: 0 0 10px 0;">${item.desc}</p>
+                    <strong style="color: var(--secondary-accent);">Strategy:</strong> ${item.strat}
+                </div>
+            `;
             el.onclick = () => {
-                const d = document.getElementById(`d-${i}`);
-                d.style.display = d.style.display === 'block' ? 'none' : 'block';
+                const isActive = el.classList.contains('active');
+                
+                // Collapse others
+                document.querySelectorAll('.niche').forEach(n => {
+                    n.classList.remove('active');
+                    n.querySelector('.details').style.display = 'none';
+                });
+                
+                if (!isActive) {
+                    el.classList.add('active');
+                    document.getElementById(`d-${i}`).style.display = 'block';
+                }
             };
             container.appendChild(el);
         });
     </script>
-
-    <div class="sponsored-box" style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.05), transparent); border: 1px solid rgba(59, 130, 246, 0.15); border-radius: 12px; padding: 25px; margin: 40px auto; max-width: 600px; text-align: center; font-family: 'Outfit', sans-serif;">
-        <h3 style="margin-top: 0; color: #60a5fa; font-size: 1.3rem;">SaaS Boilerplate</h3>
-        <p style="font-size: 0.9rem; color: #9ca3af; margin-bottom: 15px;">Launch in 24h with a pre-configured Next.js, Tailwind, and Supabase starter kit.</p>
-        <a href="https://aegisdev.lemonsqueezy.com/checkout/buy/saas-boilerplate" class="lemonsqueezy-button" style="display: inline-block; background: #3b82f6; color: white; text-decoration: none; padding: 10px 20px; border-radius: 8px; font-weight: bold; font-size: 0.9rem; transition: background 0.2s;">Get Offer ($29.00)</a>
-    </div>
-    <script src="https://assets.lemonsqueezy.com/lemon.js" defer></script>
-    
 </body>
 </html>
