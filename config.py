@@ -57,10 +57,12 @@ class SystemConfig(BaseModel):
     def affiliate_links(self) -> dict[str, str]:
         import json
         if self.affiliate_links_json:
+            cleaned = self.affiliate_links_json.strip().strip("'\"")
             try:
-                return json.loads(self.affiliate_links_json)
-            except Exception:
-                pass
+                return json.loads(cleaned)
+            except Exception as e:
+                import logging
+                logging.getLogger(__name__).error("Failed to parse AFFILIATE_LINKS_JSON: %s", e)
         return {}
 
     def model_post_init(self, __context):
