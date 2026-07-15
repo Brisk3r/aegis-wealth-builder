@@ -44,11 +44,30 @@ class SystemConfig(BaseModel):
     # Active domains managed by Aegis
     active_domains: list[str] = Field(default_factory=list)
     
+    # Custom Domain & Monetization configs
+    custom_domain: str | None = Field(default_factory=lambda: os.environ.get("AEGIS_CUSTOM_DOMAIN"))
+    carbon_ads_src: str | None = Field(default_factory=lambda: os.environ.get("CARBON_ADS_SRC"))
+    affiliate_links_json: str | None = Field(default_factory=lambda: os.environ.get("AFFILIATE_LINKS_JSON"))
+
     @property
     def remaining_budget(self) -> float:
         return self.starting_budget - self.budget_spent
 
+    @property
+    def affiliate_links(self) -> dict[str, str]:
+        import json
+        if self.affiliate_links_json:
+            try:
+                return json.loads(self.affiliate_links_json)
+            except Exception:
+                pass
+        return {}
+
     def model_post_init(self, __context):
+        # Dynamically set domains if custom domain configured
+        if self.custom_domain and self.custom_domain not in self.active_domains:
+            self.active_domains.append(self.custom_domain)
+            
         env_backend = os.environ.get("MODEL_BACKEND")
         if env_backend in ("gemini", "ollama"):
             self.model_backend = env_backend

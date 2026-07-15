@@ -3,12 +3,15 @@ import json
 import re
 import subprocess
 from pathlib import Path
+from config import config
 
 BASE_DIR = Path(__file__).parent.resolve()
 STATIC_DIR = BASE_DIR / "static"
 TOOLS_DIR = STATIC_DIR / "tools"
 ARTICLES_DIR = STATIC_DIR / "articles"
 HISTORY_FILE = BASE_DIR / "data" / "history.json"
+
+DOMAIN = config.custom_domain or "aegis-wealth-builder.vercel.app"
 
 def ensure_dirs():
     STATIC_DIR.mkdir(exist_ok=True)
@@ -62,13 +65,31 @@ def simple_markdown_to_html(md_text: str) -> str:
             
     return "\n".join(output_lines)
 
-def generate_article_page(title: str, content_html: str) -> str:
+def generate_article_page(title: str, content_html: str, article_rel_path: str) -> str:
+    ads_html = ""
+    if config.carbon_ads_src:
+        ads_html = f"""
+        <div style="margin-bottom: 30px;">
+            <script async type="text/javascript" src="{config.carbon_ads_src}" id="_carbonads_js"></script>
+        </div>
+        """
+        
+    affiliate_sidebar_html = ""
+    if config.affiliate_links:
+        affiliate_sidebar_html = '<div class="sponsored-links-box" style="margin: 30px 0; padding: 20px; background: rgba(59, 130, 246, 0.03); border: 1px solid var(--border-color); border-radius: 12px;">'
+        affiliate_sidebar_html += '<h4 style="margin-top:0; color: var(--secondary-accent); font-size: 1.1rem; font-weight:600; margin-bottom:12px;">Sponsored Developer Resources</h4><ul style="margin:0; padding-left:20px; font-size: 0.95rem; line-height: 1.6;">'
+        for partner, link in config.affiliate_links.items():
+            partner_title = partner.title()
+            affiliate_sidebar_html += f'<li style="margin-bottom:8px;"><a href="{link}" target="_blank" rel="noopener sponsored" style="color: var(--secondary-accent); font-weight:600; text-decoration: underline;">{partner_title}</a> - Premium platform services, cloud deployment credit, and elite design resources.</li>'
+        affiliate_sidebar_html += '</ul></div>'
+
     return f"""<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{title} - Aegis Developer Hub</title>
+    <link rel="canonical" href="https://{DOMAIN}/{article_rel_path}">
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
     <style>
         :root {{
@@ -184,6 +205,8 @@ def generate_article_page(title: str, content_html: str) -> str:
             <div class="disclosure">
                 <strong>Affiliate Disclosure:</strong> Some links on this site may be affiliate links. We may earn a commission if you make a purchase through them at no additional cost to you.
             </div>
+            {ads_html}
+            {affiliate_sidebar_html}
             {content_html}
             <div style="margin-top: 40px; padding-top: 20px; border-top: 1px dashed var(--border-color); font-size: 0.85rem; color: var(--text-muted);">
                 <strong>Disclaimer:</strong> The tools and content provided on this website are for educational and informational purposes only and do not constitute financial, investment, legal, or professional advice.
@@ -226,12 +249,35 @@ def generate_index_page(tools, articles) -> str:
     if not articles:
         articles_list_html = "<p class='empty'>No articles published yet. Checking back soon!</p>"
 
+    ads_html = ""
+    if config.carbon_ads_src:
+        ads_html = f"""
+        <div style="margin: 20px auto; max-width: 330px;">
+            <script async type="text/javascript" src="{config.carbon_ads_src}" id="_carbonads_js"></script>
+        </div>
+        """
+        
+    affiliate_html = ""
+    if config.affiliate_links:
+        affiliate_html = '<div class="section-title">Sponsored Developer Resources</div><div class="grid">'
+        for partner, link in config.affiliate_links.items():
+            partner_title = partner.title()
+            affiliate_html += f"""
+            <div class="card" style="border-color: rgba(59, 130, 246, 0.15); background: linear-gradient(135deg, rgba(59, 130, 246, 0.05), transparent);">
+                <h3>{partner_title}</h3>
+                <p>Curated platform resource or exclusive developer deal.</p>
+                <a href="{link}" target="_blank" rel="noopener sponsored" class="btn sec">Get Offer &rarr;</a>
+            </div>
+            """
+        affiliate_html += '</div>'
+
     return f"""<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Aegis Developer Hub</title>
+    <link rel="canonical" href="https://{DOMAIN}/">
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
     <style>
         :root {{
@@ -360,6 +406,7 @@ def generate_index_page(tools, articles) -> str:
     <div class="hero">
         <h1>Aegis Developer Hub</h1>
         <p>An autonomous sandbox creating high-utility tools, interactive components, and premium developer guides.</p>
+        {ads_html}
     </div>
     <div class="container">
         <div class="section-title">Interactive SaaS Utilities</div>
@@ -371,6 +418,8 @@ def generate_index_page(tools, articles) -> str:
         <div class="grid">
             {articles_list_html}
         </div>
+
+        {affiliate_html}
     </div>
     <footer>
         <p>&copy; 2026 Aegis Developer Hub. Created autonomously by local multi-agent system.</p>
@@ -422,7 +471,7 @@ def publish_all():
             
             # Convert and save
             html_content = simple_markdown_to_html(article_text)
-            full_html = generate_article_page(topic, html_content)
+            full_html = generate_article_page(topic, html_content, article_rel_path)
             
             with open(article_abs_path, "w", encoding="utf-8") as art_f:
                 art_f.write(full_html)

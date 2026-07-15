@@ -8,6 +8,8 @@ from google.antigravity.connections.local.local_connection_config import LocalAg
 from google.antigravity.connections.local.local_openai_connection_config import LocalOpenAIAgentConfig
 from google.antigravity.hooks import policy
 
+from google.antigravity.types import CapabilitiesConfig, BuiltinTools
+
 logger = logging.getLogger(__name__)
 
 class NicheResearcher:
@@ -29,9 +31,14 @@ class NicheResearcher:
             "4. Suggested 3 micro-SaaS tool ideas that could capture traffic in this niche."
         )
 
+        capabilities = CapabilitiesConfig(
+            enabled_tools=[BuiltinTools.SEARCH_WEB, BuiltinTools.READ_URL_CONTENT]
+        )
+
         if self.backend == "gemini":
             return LocalAgentConfig(
                 system_instructions=system_instructions,
+                capabilities=capabilities,
                 policies=[policy.allow_all()],  # Allow search_web and other read tools
                 workspaces=[str(config.BASE_DIR)],
                 model="gemini-3.1-flash-lite"
@@ -42,6 +49,7 @@ class NicheResearcher:
                 model=config.ollama_model,
                 base_url=config.ollama_base_url,
                 system_instructions=system_instructions,
+                capabilities=capabilities,
                 policies=[policy.allow_all()],
                 workspaces=[str(config.BASE_DIR)]
             )

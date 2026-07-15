@@ -7,6 +7,8 @@ from google.antigravity.connections.local.local_connection_config import LocalAg
 from google.antigravity.connections.local.local_openai_connection_config import LocalOpenAIAgentConfig
 from google.antigravity.hooks import policy
 
+from google.antigravity.types import CapabilitiesConfig
+
 logger = logging.getLogger(__name__)
 
 class ContentWriter:
@@ -24,9 +26,12 @@ class ContentWriter:
             "Produce structured Markdown with clear headings (H2, H3), bullet points, and clean syntax."
         )
 
+        capabilities = CapabilitiesConfig(enabled_tools=[])
+
         if self.backend == "gemini":
             return LocalAgentConfig(
                 system_instructions=system_instructions,
+                capabilities=capabilities,
                 policies=[policy.allow_all()],
                 workspaces=[str(config.BASE_DIR)],
                 model="gemini-3.1-flash-lite"
@@ -36,6 +41,7 @@ class ContentWriter:
                 model=config.ollama_model,
                 base_url=config.ollama_base_url,
                 system_instructions=system_instructions,
+                capabilities=capabilities,
                 policies=[policy.allow_all()],
                 workspaces=[str(config.BASE_DIR)]
             )
