@@ -446,6 +446,8 @@ def publish_all():
         
     tools = []
     articles = []
+    seen_tools = set()
+    seen_articles = set()
     
     for entry in history:
         if entry.get("status") != "completed":
@@ -456,10 +458,12 @@ def publish_all():
         # 1. Gather tools
         tool_path = entry.get("tool_path")
         if tool_path and os.path.exists(BASE_DIR / tool_path):
-            tools.append({
-                "name": topic,
-                "path": tool_path
-            })
+            if tool_path not in seen_tools:
+                seen_tools.add(tool_path)
+                tools.append({
+                    "name": topic,
+                    "path": tool_path
+                })
             
         # 2. Gather & compile articles
         article_text = entry.get("article")
@@ -469,17 +473,19 @@ def publish_all():
             article_rel_path = f"static/articles/{article_file_name}"
             article_abs_path = ARTICLES_DIR / article_file_name
             
-            # Convert and save
-            html_content = simple_markdown_to_html(article_text)
-            full_html = generate_article_page(topic, html_content, article_rel_path)
-            
-            with open(article_abs_path, "w", encoding="utf-8") as art_f:
-                art_f.write(full_html)
+            if article_rel_path not in seen_articles:
+                seen_articles.add(article_rel_path)
+                # Convert and save
+                html_content = simple_markdown_to_html(article_text)
+                full_html = generate_article_page(topic, html_content, article_rel_path)
                 
-            articles.append({
-                "title": f"Essential tools for {topic}",
-                "path": article_rel_path
-            })
+                with open(article_abs_path, "w", encoding="utf-8") as art_f:
+                    art_f.write(full_html)
+                    
+                articles.append({
+                    "title": f"Essential tools for {topic}",
+                    "path": article_rel_path
+                })
 
     # 3. Create root landing page
     index_html = generate_index_page(tools, articles)
