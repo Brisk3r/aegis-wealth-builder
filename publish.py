@@ -487,6 +487,102 @@ def generate_index_page(tools, articles) -> str:
 </html>
 """
 
+def post_process_tool(tool_abs_path: Path, topic: str):
+    if not tool_abs_path.exists():
+        return
+        
+    try:
+        with open(tool_abs_path, "r", encoding="utf-8") as f:
+            html = f.read()
+    except Exception as e:
+        print(f"Error reading tool file {tool_abs_path}: {e}")
+        return
+        
+    # Check if already processed
+    if "Aegis Hub Logo" in html:
+        return
+        
+    # 1. Inject Outfit Font & CSS variables in Head
+    font_link = '<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">'
+    if "</head>" in html:
+        custom_styles = f"""
+    {font_link}
+    <style>
+        :root {{
+            --bg-color: #0b0f19;
+            --card-bg: rgba(255, 255, 255, 0.03);
+            --border-color: rgba(255, 255, 255, 0.08);
+            --primary-accent: #3b82f6;
+            --secondary-accent: #60a5fa;
+            --text-main: #f3f4f6;
+            --text-muted: #9ca3af;
+        }}
+        body {{
+            background-color: var(--bg-color) !important;
+            color: var(--text-main) !important;
+            font-family: 'Outfit', sans-serif !important;
+        }}
+    </style>
+</head>
+"""
+        html = html.replace("</head>", custom_styles, 1)
+        
+    # 2. Inject Navbar right after <body>
+    navbar_html = """
+    <div class="navbar" style="display: flex; justify-content: space-between; align-items: center; padding: 20px 40px; border-bottom: 1px solid rgba(255,255,255,0.08); background: rgba(11, 15, 25, 0.7); backdrop-filter: blur(12px); position: sticky; top: 0; z-index: 100; font-family: 'Outfit', sans-serif;">
+        <a href="/" style="display: flex; align-items: center; gap: 10px; color: #f3f4f6; text-decoration: none; font-weight: 600;">
+            <img src="/static/logo.png" alt="Aegis Hub Logo" style="height: 30px;">
+            <span>Aegis Developer Hub</span>
+        </a>
+        <a href="/" style="color: #60a5fa; text-decoration: none; font-size: 0.95rem;">&larr; Back to Hub</a>
+    </div>
+    """
+    
+    if "<body>" in html:
+        html = html.replace("<body>", f"<body>\n{navbar_html}", 1)
+    elif "<body" in html:
+        # handle attributes
+        match = re.search(r"<body[^>]*>", html)
+        if match:
+            body_tag = match.group(0)
+            html = html.replace(body_tag, f"{body_tag}\n{navbar_html}", 1)
+            
+    # 3. Inject Lemon Squeezy payment checkout and scripts
+    checkout_url = "https://aegisdev.lemonsqueezy.com/checkout/buy/premium-pdf-pack"
+    product_name = "Premium PDF Pack"
+    price = "$4.99"
+    desc = "Get our comprehensive visual cheat sheet pack + clean layout templates."
+    
+    if "productivity" in topic.lower():
+        checkout_url = "https://aegisdev.lemonsqueezy.com/checkout/buy/flowstate-pro"
+        product_name = "FlowState Pro Toolkit"
+        price = "$9.99"
+        desc = "Unlock Git automation hooks, commit integration scripts, and markdown summary exporters."
+    elif "tools" in topic.lower():
+        checkout_url = "https://aegisdev.lemonsqueezy.com/checkout/buy/saas-boilerplate"
+        product_name = "SaaS Boilerplate"
+        price = "$29.00"
+        desc = "Launch in 24h with a pre-configured Next.js, Tailwind, and Supabase starter kit."
+        
+    checkout_box = f"""
+    <div class="sponsored-box" style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.05), transparent); border: 1px solid rgba(59, 130, 246, 0.15); border-radius: 12px; padding: 25px; margin: 40px auto; max-width: 600px; text-align: center; font-family: 'Outfit', sans-serif;">
+        <h3 style="margin-top: 0; color: #60a5fa; font-size: 1.3rem;">{product_name}</h3>
+        <p style="font-size: 0.9rem; color: #9ca3af; margin-bottom: 15px;">{desc}</p>
+        <a href="{checkout_url}" class="lemonsqueezy-button" style="display: inline-block; background: #3b82f6; color: white; text-decoration: none; padding: 10px 20px; border-radius: 8px; font-weight: bold; font-size: 0.9rem; transition: background 0.2s;">Get Offer ({price})</a>
+    </div>
+    <script src="https://assets.lemonsqueezy.com/lemon.js" defer></script>
+    """
+    
+    # Inject before </body>
+    if "</body>" in html:
+        html = html.replace("</body>", f"{checkout_box}\n</body>", 1)
+        
+    try:
+        with open(tool_abs_path, "w", encoding="utf-8") as f:
+            f.write(html)
+    except Exception as e:
+        print(f"Error writing tool file {tool_abs_path}: {e}")
+
 def publish_all():
     ensure_dirs()
     if not HISTORY_FILE.exists():
@@ -513,6 +609,7 @@ def publish_all():
             if tool_path not in seen_tools:
                 seen_tools.add(tool_path)
                 desc = TOOL_DESCRIPTIONS.get(topic, "Interactive utility built to optimize frontend workflows and layouts.")
+                post_process_tool(BASE_DIR / tool_path, topic)
                 tools.append({
                     "name": topic,
                     "path": tool_path,

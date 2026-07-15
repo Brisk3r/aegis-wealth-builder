@@ -3,7 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DevTools Ideation Hub - Aegis Hub</title>
+    <title>DevTool Niche Ideator</title>
+    <style>
+        :root { --bg: #0f172a; --card: #1e293b; --text: #f1f5f9; --accent: #38bdf8; }
+        body { font-family: 'Inter', system-ui, sans-serif; background: var(--bg); color: var(--text); padding: 2rem; display: flex; justify-content: center; }
+        .container { max-width: 600px; width: 100%; }
+        .card { background: var(--card); padding: 2rem; border-radius: 1rem; box-shadow: 0 10px 25px rgba(0,0,0,0.3); border: 1px solid #334155; }
+        h1 { margin-top: 0; color: var(--accent); }
+        .niche { margin: 1.5rem 0; padding: 1rem; border-left: 4px solid var(--accent); background: rgba(255,255,255,0.03); cursor: pointer; transition: 0.2s; }
+        .niche:hover { background: rgba(255,255,255,0.08); }
+        .details { display: none; margin-top: 1rem; font-size: 0.9rem; color: #94a3b8; }
+    </style>
+
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -16,150 +27,55 @@
             --text-muted: #9ca3af;
         }
         body {
-            background-color: var(--bg-color);
-            color: var(--text-main);
-            font-family: 'Outfit', sans-serif;
-            margin: 0;
-            padding: 0;
-            line-height: 1.6;
-        }
-        .navbar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 20px 40px;
-            border-bottom: 1px solid var(--border-color);
-            background: rgba(11, 15, 25, 0.7);
-            backdrop-filter: blur(12px);
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-        .navbar a {
-            color: var(--text-main);
-            text-decoration: none;
-            font-weight: 600;
-        }
-        .back-link {
-            color: var(--secondary-accent) !important;
-            font-size: 0.95rem;
-        }
-        .container {
-            max-width: 650px;
-            margin: 60px auto;
-            padding: 0 20px;
-        }
-        .card {
-            background: var(--card-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 16px;
-            padding: 40px;
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
-            backdrop-filter: blur(8px);
-            margin-bottom: 30px;
-        }
-        h1 {
-            color: var(--secondary-accent);
-            font-size: 2.2rem;
-            font-weight: 800;
-            margin-top: 0;
-            margin-bottom: 15px;
-            text-align: center;
-        }
-        p {
-            color: var(--text-muted);
-            margin-bottom: 25px;
-        }
-        .option {
-            background: rgba(255, 255, 255, 0.02);
-            border: 1px solid var(--border-color);
-            padding: 18px;
-            border-radius: 8px;
-            margin-bottom: 12px;
-            cursor: pointer;
-            font-size: 1.05rem;
-            transition: all 0.2s;
-        }
-        .option:hover {
-            border-color: var(--secondary-accent);
-            background: rgba(59, 130, 246, 0.05);
-        }
-        #output {
-            margin-top: 25px;
-            padding: 20px;
-            border-left: 4px solid var(--primary-accent);
-            background: rgba(0, 0, 0, 0.3);
-            border-radius: 4px;
-            display: none;
-            line-height: 1.7;
-        }
-        .sponsored-box {
-            background: linear-gradient(135deg, rgba(59, 130, 246, 0.05), transparent);
-            border: 1px solid rgba(59, 130, 246, 0.15);
-            border-radius: 12px;
-            padding: 25px;
-            margin-top: 30px;
-            text-align: center;
-        }
-        .sponsored-box h3 {
-            margin-top: 0;
-            color: var(--secondary-accent);
-        }
-        .btn-buy {
-            display: inline-block;
-            background: var(--primary-accent);
-            color: white;
-            text-decoration: none;
-            padding: 10px 20px;
-            border-radius: 8px;
-            font-weight: bold;
-            font-size: 0.9rem;
-            margin-top: 10px;
-            transition: background 0.2s;
-        }
-        .btn-buy:hover {
-            background: #2563eb;
+            background-color: var(--bg-color) !important;
+            color: var(--text-main) !important;
+            font-family: 'Outfit', sans-serif !important;
         }
     </style>
 </head>
+
 <body>
-    <div class="navbar">
-        <a href="/" style="display: flex; align-items: center; gap: 10px;">
+
+    <div class="navbar" style="display: flex; justify-content: space-between; align-items: center; padding: 20px 40px; border-bottom: 1px solid rgba(255,255,255,0.08); background: rgba(11, 15, 25, 0.7); backdrop-filter: blur(12px); position: sticky; top: 0; z-index: 100; font-family: 'Outfit', sans-serif;">
+        <a href="/" style="display: flex; align-items: center; gap: 10px; color: #f3f4f6; text-decoration: none; font-weight: 600;">
             <img src="/static/logo.png" alt="Aegis Hub Logo" style="height: 30px;">
             <span>Aegis Developer Hub</span>
         </a>
-        <a href="/" class="back-link">&larr; Back to Hub</a>
-    </div>
-    <div class="container">
-        <div class="card">
-            <h1>DevTools Ideation Hub</h1>
-            <p style="text-align: center;">Brainstorm and validate profitable SaaS concepts instantly. Select an emerging developer stack niche to reveal visual models:</p>
-            <div class="option" onclick="select('Observability')">Observability & Microservices Monitoring</div>
-            <div class="option" onclick="select('Documentation')">AI-Ready Context Documentation Syncing</div>
-            <div class="option" onclick="select('Orchestration')">Local Infrastructure Environment Orchestration</div>
-            
-            <div id="output"></div>
-            
-            <div class="sponsored-box">
-                <h3>Developer SaaS Boilerplate</h3>
-                <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 15px;">Launch your micro-SaaS in 24 hours. Get our fully configured Next.js, Tailwind, and Supabase starter templates.</p>
-                <a href="https://aegisdev.lemonsqueezy.com/checkout/buy/saas-boilerplate" class="lemonsqueezy-button btn-buy">Get Boilerplate ($29.00)</a>
-            </div>
-        </div>
+        <a href="/" style="color: #60a5fa; text-decoration: none; font-size: 0.95rem;">&larr; Back to Hub</a>
     </div>
     
-    <script src="https://assets.lemonsqueezy.com/lemon.js" defer></script>
+    <div class="container">
+        <div class="card">
+            <h1>Dev Niche Ideator</h1>
+            <p>Select a sub-niche to view monetization potential & strategy:</p>
+            <div id="niches"></div>
+        </div>
+    </div>
     <script>
-        const ideas = {
-            'Observability': '<strong>Local-first Build Drift Analyzer:</strong> A CLI plugin that automatically intercepts pre-push Git hooks, analyzing dependencies delta against active registries to flag build runtime degradation before merging code.',
-            'Documentation': '<strong>Vector-Sync Daemon:</strong> A lightweight background service scanning code directories and local Markdown notes, auto-indexing structured schemas to compile private vector context DBs for developer IDE copilots.',
-            'Orchestration': '<strong>Config-CLI Schema Wrapper:</strong> An automated compiler parser that ingests complex local YAML/JSON environment configurations to output optimized terminal CLI flags, eliminating bash boilerplate.'
-        };
-        function select(niche) {
-            const out = document.getElementById('output');
-            out.innerHTML = `<strong>${niche} Micro-SaaS Blueprint:</strong><br><br>${ideas[niche]}`;
-            out.style.display = 'block';
-        }
+        const data = [
+            { title: "AI Documentation Maintenance", desc: "Syncs README/Swagger with Git diffs.", strat: "Target: SaaS teams with frequent releases. Monetization: Monthly subscription." },
+            { title: "Dev Environment Syncing", desc: "Unified Docker/DevContainer standards.", strat: "Target: CTOs/Lead Engineers. Monetization: Team-based licensing." },
+            { title: "Niche API Monitoring", desc: "Specialized tests for Stripe/Shopify.", strat: "Target: E-commerce devs. Monetization: Tiered API call limits." }
+        ];
+        const container = document.getElementById('niches');
+        data.forEach((item, i) => {
+            const el = document.createElement('div');
+            el.className = 'niche';
+            el.innerHTML = `<strong>${item.title}</strong><div class="details" id="d-${i}">${item.desc}<br><br><em>Strategy: ${item.strat}</em></div>`;
+            el.onclick = () => {
+                const d = document.getElementById(`d-${i}`);
+                d.style.display = d.style.display === 'block' ? 'none' : 'block';
+            };
+            container.appendChild(el);
+        });
     </script>
+
+    <div class="sponsored-box" style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.05), transparent); border: 1px solid rgba(59, 130, 246, 0.15); border-radius: 12px; padding: 25px; margin: 40px auto; max-width: 600px; text-align: center; font-family: 'Outfit', sans-serif;">
+        <h3 style="margin-top: 0; color: #60a5fa; font-size: 1.3rem;">SaaS Boilerplate</h3>
+        <p style="font-size: 0.9rem; color: #9ca3af; margin-bottom: 15px;">Launch in 24h with a pre-configured Next.js, Tailwind, and Supabase starter kit.</p>
+        <a href="https://aegisdev.lemonsqueezy.com/checkout/buy/saas-boilerplate" class="lemonsqueezy-button" style="display: inline-block; background: #3b82f6; color: white; text-decoration: none; padding: 10px 20px; border-radius: 8px; font-weight: bold; font-size: 0.9rem; transition: background 0.2s;">Get Offer ($29.00)</a>
+    </div>
+    <script src="https://assets.lemonsqueezy.com/lemon.js" defer></script>
+    
 </body>
 </html>
