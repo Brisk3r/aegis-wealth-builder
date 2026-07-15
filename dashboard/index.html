@@ -548,9 +548,10 @@
                 const res = await fetch('/api/config');
                 const data = await res.json();
                 
-                document.getElementById('backendStatus').innerText = data.has_gemini_key ? 'Gemini API Engine Active' : 'Ollama Engine Active';
+                const isGemini = data.model_backend === 'gemini';
+                document.getElementById('backendStatus').innerText = isGemini ? 'Gemini API Engine Active' : 'Ollama Engine Active';
                 document.getElementById('cfgBackend').innerText = data.model_backend.toUpperCase();
-                document.getElementById('cfgModel').innerText = data.has_gemini_key ? 'gemini-2.5-flash' : data.ollama_model;
+                document.getElementById('cfgModel').innerText = isGemini ? data.gemini_model : data.ollama_model;
                 document.getElementById('cfgNiche').innerText = data.niche;
                 
                 // Financials
@@ -589,7 +590,7 @@
                         </div>
                         <div class="history-meta">
                             <span>🕒 Started: ${metaDate}</span>
-                            ${item.tool_path ? `<span>🛠️ Tool: <a href="/static/tools/${item.tool_path.split('/').pop()}" target="_blank" style="color: var(--accent-primary)">View App</a></span>` : ''}
+                            ${item.tool_path ? `<span>🛠️ Tool: <a href="/static/tools/${item.tool_path.replace(/\\\\/g, '/').split('/').pop()}" target="_blank" style="color: var(--accent-primary)">View App</a></span>` : ''}
                         </div>
                         
                         <div class="tab-container">

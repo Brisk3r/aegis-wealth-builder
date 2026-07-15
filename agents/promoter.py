@@ -35,7 +35,7 @@ class ContentPromoter:
                 capabilities=capabilities,
                 policies=[policy.allow_all()],
                 workspaces=[str(config.BASE_DIR)],
-                model="gemini-3.1-flash-lite"
+                model=config.gemini_model
             )
         else:
             return LocalOpenAIAgentConfig(

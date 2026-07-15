@@ -25,6 +25,7 @@ class SystemConfig(BaseModel):
     
     # API credentials
     gemini_api_key: str | None = Field(default_factory=lambda: os.environ.get("GEMINI_API_KEY"))
+    gemini_model: str = Field(default_factory=lambda: os.environ.get("GEMINI_MODEL", "gemini-2.5-flash"))
     
     # Ollama settings
     ollama_base_url: str = Field(default="http://localhost:11434")

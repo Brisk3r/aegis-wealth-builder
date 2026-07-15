@@ -57,6 +57,7 @@ def get_config():
         "budget_spent": config.budget_spent,
         "remaining_budget": config.remaining_budget,
         "ollama_model": config.ollama_model,
+        "gemini_model": config.gemini_model,
         "active_domains": config.active_domains,
         "has_gemini_key": bool(config.gemini_api_key)
     }

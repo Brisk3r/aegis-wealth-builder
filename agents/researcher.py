@@ -41,7 +41,7 @@ class NicheResearcher:
                 capabilities=capabilities,
                 policies=[policy.allow_all()],  # Allow search_web and other read tools
                 workspaces=[str(config.BASE_DIR)],
-                model="gemini-3.1-flash-lite"
+                model=config.gemini_model
             )
         else:
             # Local Ollama connection
