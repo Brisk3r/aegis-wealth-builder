@@ -241,7 +241,7 @@ def generate_article_page(title: str, content_html: str, article_rel_path: str) 
         </article>
     </div>
     <footer>
-        &copy; 2026 Aegis autonomous platform. All rights reserved.<br>
+        &copy; 2026 Aegis Developer Hub. All rights reserved.<br>
         <a href="/static/privacy.html" style="color: var(--text-muted); text-decoration: underline; margin-right: 15px;">Privacy Policy</a>
         <a href="/static/terms.html" style="color: var(--text-muted); text-decoration: underline;">Terms of Service & Disclaimer</a>
     </footer>
@@ -446,7 +446,7 @@ def generate_index_page(tools, articles) -> str:
     <div class="hero">
         <img src="/static/logo.png" alt="Aegis Hub Logo" style="height: 70px; margin-bottom: 25px; filter: drop-shadow(0 0 10px rgba(59, 130, 246, 0.4));">
         <h1>Aegis Developer Hub</h1>
-        <p>An autonomous sandbox creating high-utility tools, interactive components, and premium developer guides.</p>
+        <p>A curated sandbox of high-utility web tools, interactive components, and premium developer guides.</p>
         {ads_html}
     </div>
     <div class="container">
