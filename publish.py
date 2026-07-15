@@ -107,13 +107,17 @@ def generate_article_page(title: str, content_html: str, article_rel_path: str) 
             affiliate_sidebar_html += f'<li style="margin-bottom:8px;"><a href="{link}" target="_blank" rel="noopener sponsored" style="color: var(--secondary-accent); font-weight:600; text-decoration: underline;">{partner_title}</a> - Premium platform services, cloud deployment credit, and elite design resources.</li>'
         affiliate_sidebar_html += '</ul></div>'
 
+    adsense_tag = ""
+    if config.google_adsense_client:
+        adsense_tag = f'\n    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client={config.google_adsense_client}" crossorigin="anonymous"></script>'
+
     return f"""<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{title} - Aegis Developer Hub</title>
-    <link rel="canonical" href="https://{DOMAIN}/{article_rel_path}">
+    <link rel="canonical" href="https://{DOMAIN}/{article_rel_path}">{adsense_tag}
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
     <style>
         :root {{
@@ -310,13 +314,17 @@ def generate_index_page(tools, articles) -> str:
             """
         affiliate_html += '</div>'
 
+    adsense_tag = ""
+    if config.google_adsense_client:
+        adsense_tag = f'\n    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client={config.google_adsense_client}" crossorigin="anonymous"></script>'
+
     return f"""<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Aegis Developer Hub</title>
-    <link rel="canonical" href="https://{DOMAIN}/">
+    <link rel="canonical" href="https://{DOMAIN}/">{adsense_tag}
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
     <style>
         :root {{
@@ -493,9 +501,13 @@ def post_process_tool(tool_abs_path: Path, topic: str):
         
     # 1. Inject Outfit Font & CSS variables in Head
     font_link = '<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">'
+    adsense_tag = ""
+    if config.google_adsense_client:
+        adsense_tag = f'\n    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client={config.google_adsense_client}" crossorigin="anonymous"></script>'
+
     if "</head>" in html:
         custom_styles = f"""
-    {font_link}
+    {font_link}{adsense_tag}
     <style>
         :root {{
             --bg-color: #0b0f19;

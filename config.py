@@ -48,6 +48,7 @@ class SystemConfig(BaseModel):
     # Custom Domain & Monetization configs
     custom_domain: str | None = Field(default_factory=lambda: os.environ.get("AEGIS_CUSTOM_DOMAIN"))
     carbon_ads_src: str | None = Field(default_factory=lambda: os.environ.get("CARBON_ADS_SRC"))
+    google_adsense_client: str | None = Field(default_factory=lambda: os.environ.get("GOOGLE_ADSENSE_CLIENT"))
     affiliate_links_json: str | None = Field(default_factory=lambda: os.environ.get("AFFILIATE_LINKS_JSON"))
 
     @property
