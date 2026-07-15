@@ -86,26 +86,20 @@ def generate_article_page(title: str, content_html: str, article_rel_path: str) 
             <script async type="text/javascript" src="{config.carbon_ads_src}" id="_carbonads_js"></script>
         </div>
         """
-    else:
-        ads_html = """
-        <div class="card" style="margin: 0 0 30px 0; padding: 15px 25px; border-color: rgba(59, 130, 246, 0.2); background: rgba(59, 130, 246, 0.02); display: flex; align-items: center; justify-content: space-between; gap: 15px; border-radius: 8px;">
-            <div style="text-align: left;">
-                <span style="font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--secondary-accent); font-weight: 800; display: block; margin-bottom: 2px;">Sponsored</span>
-                <strong style="font-size: 0.95rem; color: var(--text-main); display: block;">Hostinger High-Speed Hosting</strong>
-                <span style="font-size: 0.8rem; color: var(--text-muted);">Get 60% off and a free domain for your portfolio or startup.</span>
-            </div>
-            <a href="https://hostinger.com?referral=aegis" target="_blank" rel="noopener sponsored" class="btn" style="padding: 8px 14px; font-size: 0.85rem; flex-shrink: 0; background: var(--primary-accent); border-radius: 6px; text-decoration: none; color: white; font-weight: 600;">Claim Offer &rarr;</a>
+    elif config.google_adsense_client:
+        ads_html = f"""
+        <div style="margin-bottom: 30px; text-align: center;">
+            <ins class="adsbygoogle"
+                 style="display:block"
+                 data-ad-client="{config.google_adsense_client}"
+                 data-ad-slot="auto"
+                 data-ad-format="auto"
+                 data-full-width-responsive="true"></ins>
+            <script>(adsbygoogle = window.adsbygoogle || []).push({{}});</script>
         </div>
         """
-        
+
     affiliate_sidebar_html = ""
-    if config.affiliate_links:
-        affiliate_sidebar_html = '<div class="sponsored-links-box" style="margin: 30px 0; padding: 20px; background: rgba(59, 130, 246, 0.03); border: 1px solid var(--border-color); border-radius: 12px;">'
-        affiliate_sidebar_html += '<h4 style="margin-top:0; color: var(--secondary-accent); font-size: 1.1rem; font-weight:600; margin-bottom:12px;">Sponsored Developer Resources</h4><ul style="margin:0; padding-left:20px; font-size: 0.95rem; line-height: 1.6;">'
-        for partner, link in config.affiliate_links.items():
-            partner_title = partner.title()
-            affiliate_sidebar_html += f'<li style="margin-bottom:8px;"><a href="{link}" target="_blank" rel="noopener sponsored" style="color: var(--secondary-accent); font-weight:600; text-decoration: underline;">{partner_title}</a> - Premium platform services, cloud deployment credit, and elite design resources.</li>'
-        affiliate_sidebar_html += '</ul></div>'
 
     adsense_tag = ""
     if config.google_adsense_client:
@@ -233,11 +227,7 @@ def generate_article_page(title: str, content_html: str, article_rel_path: str) 
     </div>
     <div class="container">
         <article>
-            <div class="disclosure">
-                <strong>Affiliate Disclosure:</strong> Some links on this site may be affiliate links. We may earn a commission if you make a purchase through them at no additional cost to you.
-            </div>
             {ads_html}
-            {affiliate_sidebar_html}
             {content_html}
             <div style="margin-top: 40px; padding-top: 20px; border-top: 1px dashed var(--border-color); font-size: 0.85rem; color: var(--text-muted);">
                 <strong>Disclaimer:</strong> The tools and content provided on this website are for educational and informational purposes only and do not constitute financial, investment, legal, or professional advice.
@@ -287,32 +277,20 @@ def generate_index_page(tools, articles) -> str:
             <script async type="text/javascript" src="{config.carbon_ads_src}" id="_carbonads_js"></script>
         </div>
         """
-    else:
-        ads_html = """
-        <div class="card" style="margin: 30px auto 0 auto; max-width: 450px; padding: 15px 25px; border-color: rgba(59, 130, 246, 0.2); background: rgba(59, 130, 246, 0.02); display: flex; align-items: center; justify-content: space-between; gap: 15px; border-radius: 8px;">
-            <div style="text-align: left;">
-                <span style="font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--secondary-accent); font-weight: 800; display: block; margin-bottom: 2px;">Sponsored</span>
-                <strong style="font-size: 0.95rem; color: var(--text-main); display: block;">High-Performance Cloud Hosting</strong>
-                <span style="font-size: 0.8rem; color: var(--text-muted);">Get $200 free credit to deploy your next application on DigitalOcean.</span>
-            </div>
-            <a href="https://m.do.co/c/your-tag" target="_blank" rel="noopener sponsored" class="btn" style="padding: 8px 14px; font-size: 0.85rem; flex-shrink: 0; background: var(--primary-accent); border-radius: 6px; text-decoration: none; color: white; font-weight: 600;">Claim Credit &rarr;</a>
+    elif config.google_adsense_client:
+        ads_html = f"""
+        <div style="margin: 30px auto 0 auto; max-width: 728px; text-align: center;">
+            <ins class="adsbygoogle"
+                 style="display:block"
+                 data-ad-client="{config.google_adsense_client}"
+                 data-ad-slot="auto"
+                 data-ad-format="auto"
+                 data-full-width-responsive="true"></ins>
+            <script>(adsbygoogle = window.adsbygoogle || []).push({{}});</script>
         </div>
         """
-        
+
     affiliate_html = ""
-    if config.affiliate_links:
-        affiliate_html = '<div class="section-title">Sponsored Developer Resources</div><div class="grid">'
-        for partner, link in config.affiliate_links.items():
-            partner_title = partner.title()
-            partner_desc = AFFILIATE_DESCRIPTIONS.get(partner.lower(), "Curated platform resource or exclusive developer deal.")
-            affiliate_html += f"""
-            <div class="card" style="border-color: rgba(59, 130, 246, 0.15); background: linear-gradient(135deg, rgba(59, 130, 246, 0.05), transparent);">
-                <h3>{partner_title}</h3>
-                <p>{partner_desc}</p>
-                <a href="{link}" target="_blank" rel="noopener sponsored" class="btn sec">Get Offer &rarr;</a>
-            </div>
-            """
-        affiliate_html += '</div>'
 
     adsense_tag = ""
     if config.google_adsense_client:
@@ -468,7 +446,7 @@ def generate_index_page(tools, articles) -> str:
             {articles_list_html}
         </div>
 
-        {affiliate_html}
+
     </div>
     <footer>
         <p>&copy; 2026 Aegis Developer Hub. All rights reserved.</p>
@@ -548,35 +526,7 @@ def post_process_tool(tool_abs_path: Path, topic: str):
             body_tag = match.group(0)
             html = html.replace(body_tag, f"{body_tag}\n{navbar_html}", 1)
             
-    # 3. Inject Lemon Squeezy payment checkout and scripts
-    checkout_url = "https://aegisdev.lemonsqueezy.com/checkout/buy/premium-pdf-pack"
-    product_name = "Premium PDF Pack"
-    price = "$4.99"
-    desc = "Get our comprehensive visual cheat sheet pack + clean layout templates."
-    
-    if "productivity" in topic.lower():
-        checkout_url = "https://aegisdev.lemonsqueezy.com/checkout/buy/flowstate-pro"
-        product_name = "FlowState Pro Toolkit"
-        price = "$9.99"
-        desc = "Unlock Git automation hooks, commit integration scripts, and markdown summary exporters."
-    elif "tools" in topic.lower():
-        checkout_url = "https://aegisdev.lemonsqueezy.com/checkout/buy/saas-boilerplate"
-        product_name = "SaaS Boilerplate"
-        price = "$29.00"
-        desc = "Launch in 24h with a pre-configured Next.js, Tailwind, and Supabase starter kit."
-        
-    checkout_box = f"""
-    <div class="sponsored-box" style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.05), transparent); border: 1px solid rgba(59, 130, 246, 0.15); border-radius: 12px; padding: 25px; margin: 40px auto; max-width: 600px; text-align: center; font-family: 'Outfit', sans-serif;">
-        <h3 style="margin-top: 0; color: #60a5fa; font-size: 1.3rem;">{product_name}</h3>
-        <p style="font-size: 0.9rem; color: #9ca3af; margin-bottom: 15px;">{desc}</p>
-        <a href="{checkout_url}" class="lemonsqueezy-button" style="display: inline-block; background: #3b82f6; color: white; text-decoration: none; padding: 10px 20px; border-radius: 8px; font-weight: bold; font-size: 0.9rem; transition: background 0.2s;">Get Offer ({price})</a>
-    </div>
-    <script src="https://assets.lemonsqueezy.com/lemon.js" defer></script>
-    """
-    
-    # Inject before </body>
-    if "</body>" in html:
-        html = html.replace("</body>", f"{checkout_box}\n</body>", 1)
+    # Lemon Squeezy product checkout injection removed until products are properly configured.
         
     try:
         with open(tool_abs_path, "w", encoding="utf-8") as f:
