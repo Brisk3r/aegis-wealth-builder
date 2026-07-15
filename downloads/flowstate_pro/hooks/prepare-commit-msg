@@ -1,0 +1,18 @@
+#!/bin/sh
+# FlowState Pro Git Hook: Auto-appends active focus state to commit messages.
+# Copy this file to .git/hooks/prepare-commit-msg in your repository.
+
+COMMIT_MSG_FILE=$1
+COMMIT_SOURCE=$2
+SHA1=$3
+
+# Read active context log from local focus state file if it exists
+FOCUS_STATE_FILE="$HOME/.flowstate_active"
+
+if [ -f "$FOCUS_STATE_FILE" ]; then
+    FOCUS_TEXT=$(cat "$FOCUS_STATE_FILE")
+    if [ -n "$FOCUS_TEXT" ]; then
+        echo "\n\nFlowState Context: $FOCUS_TEXT" >> "$COMMIT_MSG_FILE"
+        echo "[FlowState Hook] Injected active branch focus context into commit message."
+    fi
+fi

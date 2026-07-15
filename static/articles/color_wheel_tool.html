@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Color Wheel Tool - Aegis Developer Hub</title>
+    <link rel="canonical" href="https://aegis-wealth-builder.vercel.app/static/articles/color_wheel_tool.html">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #0b0f19;
+            --card-bg: rgba(255, 255, 255, 0.03);
+            --border-color: rgba(255, 255, 255, 0.08);
+            --primary-accent: #3b82f6;
+            --secondary-accent: #60a5fa;
+            --text-main: #f3f4f6;
+            --text-muted: #9ca3af;
+        }
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-family: 'Outfit', sans-serif;
+            margin: 0;
+            padding: 0;
+            line-height: 1.7;
+        }
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 40px;
+            border-bottom: 1px solid var(--border-color);
+            backdrop-filter: blur(12px);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(11, 15, 25, 0.7);
+        }
+        .navbar a {
+            color: var(--text-main);
+            text-decoration: none;
+            font-weight: 600;
+        }
+        .back-link {
+            color: var(--secondary-accent) !important;
+            font-size: 0.95rem;
+        }
+        .container {
+            max-width: 800px;
+            margin: 60px auto;
+            padding: 0 20px;
+        }
+        article {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 40px;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(8px);
+        }
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-top: 0;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, var(--text-main) 30%, var(--secondary-accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        p {
+            color: var(--text-main);
+            margin-bottom: 20px;
+        }
+        h2, h3 {
+            color: var(--secondary-accent);
+            margin-top: 40px;
+        }
+        ul {
+            padding-left: 20px;
+            margin-bottom: 25px;
+        }
+        li {
+            margin-bottom: 10px;
+        }
+        pre {
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid var(--border-color);
+            padding: 20px;
+            border-radius: 8px;
+            overflow-x: auto;
+        }
+        code {
+            font-family: 'Courier New', Courier, monospace;
+            color: #34d399;
+        }
+        footer {
+            text-align: center;
+            padding: 40px 20px;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            border-top: 1px solid var(--border-color);
+            margin-top: 100px;
+        }
+        .disclosure {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 15px;
+            margin-bottom: 30px;
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <a href="/" style="display: flex; align-items: center; gap: 10px;">
+            <img src="/static/logo.png" alt="Aegis Hub Logo" style="height: 30px;">
+            <span>Aegis Developer Hub</span>
+        </a>
+        <a href="/" class="back-link">&larr; Back to Hub</a>
+    </div>
+    <div class="container">
+        <article>
+            <div class="disclosure">
+                <strong>Affiliate Disclosure:</strong> Some links on this site may be affiliate links. We may earn a commission if you make a purchase through them at no additional cost to you.
+            </div>
+            
+        <div class="card" style="margin: 0 0 30px 0; padding: 15px 25px; border-color: rgba(59, 130, 246, 0.2); background: rgba(59, 130, 246, 0.02); display: flex; align-items: center; justify-content: space-between; gap: 15px; border-radius: 8px;">
+            <div style="text-align: left;">
+                <span style="font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--secondary-accent); font-weight: 800; display: block; margin-bottom: 2px;">Sponsored</span>
+                <strong style="font-size: 0.95rem; color: var(--text-main); display: block;">Hostinger High-Speed Hosting</strong>
+                <span style="font-size: 0.8rem; color: var(--text-muted);">Get 60% off and a free domain for your portfolio or startup.</span>
+            </div>
+            <a href="https://hostinger.com?referral=aegis" target="_blank" rel="noopener sponsored" class="btn" style="padding: 8px 14px; font-size: 0.85rem; flex-shrink: 0; background: var(--primary-accent); border-radius: 6px; text-decoration: none; color: white; font-weight: 600;">Claim Offer &rarr;</a>
+        </div>
+        
+            <div class="sponsored-links-box" style="margin: 30px 0; padding: 20px; background: rgba(59, 130, 246, 0.03); border: 1px solid var(--border-color); border-radius: 12px;"><h4 style="margin-top:0; color: var(--secondary-accent); font-size: 1.1rem; font-weight:600; margin-bottom:12px;">Sponsored Developer Resources</h4><ul style="margin:0; padding-left:20px; font-size: 0.95rem; line-height: 1.6;"><li style="margin-bottom:8px;"><a href="https://m.do.co/c/your-tag" target="_blank" rel="noopener sponsored" style="color: var(--secondary-accent); font-weight:600; text-decoration: underline;">Digitalocean</a> - Premium platform services, cloud deployment credit, and elite design resources.</li><li style="margin-bottom:8px;"><a href="https://vercel.com/v0?utm_source=aegis" target="_blank" rel="noopener sponsored" style="color: var(--secondary-accent); font-weight:600; text-decoration: underline;">Vercel</a> - Premium platform services, cloud deployment credit, and elite design resources.</li><li style="margin-bottom:8px;"><a href="https://hostinger.com?referral=aegis" target="_blank" rel="noopener sponsored" style="color: var(--secondary-accent); font-weight:600; text-decoration: underline;">Hosting</a> - Premium platform services, cloud deployment credit, and elite design resources.</li></ul></div>
+            <h1>Chords of Color: Mastering the HSL Color Wheel for Modern Design Systems</h1>
+
+<p>In modern web design, consistency is king. A product's visual identity relies heavily on a structured color system that translates brand aesthetics into digital realities. Yet, many development teams struggle with color harmony, resulting in interfaces that feel disjointed, non-accessible, or cluttered.</p>
+
+<p>To solve this, developers and designers use visual color harmony schemes. By mastering the HSL (Hue, Saturation, Lightness) color model and mathematical color chords, you can build scalable, accessible, and stunning design systems.</p>
+
+<p>---</p>
+
+<h2>Why HSL is the Developer's Superpower</h2>
+
+<p>Traditionally, developers work with HEX (`#3b82f6`) or RGB (`rgb(59, 130, 246)`) values. While these formats are standard, they are mathematically opaque. Adjusting the lightness of a HEX color requires hex-decimal calculations that are impossible to do in your head.</p>
+
+<p>HSL changes this by representing colors in three intuitive dimensions:</p>
+<p>1. <strong>Hue (0-360):</strong> The angle on the color wheel (e.g. 0 is red, 120 is green, 240 is blue).</p>
+<p>2. <strong>Saturation (0%-100%):</strong> The intensity of the color (0% is completely grey, 100% is vibrant).</p>
+<p>3. <strong>Lightness (0%-100%):</strong> The amount of light (0% is black, 50% is the pure hue, 100% is white).</p>
+
+<p>By using HSL, creating hover states or active states is trivial. You simply keep Hue and Saturation constant, and adjust Lightness (e.g., subtracting 10% lightness for a hover state).</p>
+
+<p>---</p>
+
+<h2>Core Color Harmony Schemes</h2>
+
+<p>To build a professional color palette, you select a base color and calculate corresponding coordinates using color wheel angles (chords):</p>
+
+<h3>1. Monochromatic</h3>
+<p>Varying the lightness and saturation of a single hue. This creates a clean, elegant, and low-contrast aesthetic that is perfect for minimal user interfaces.</p>
+
+<h3>2. Triad</h3>
+<p>Three colors spaced evenly at 120-degree intervals around the color wheel (e.g., Hue, Hue + 120, Hue + 240). This yields a high-contrast, vibrant palette that must be balanced carefully (using one dominant color and two accent colors).</p>
+
+<h3>3. Tetrad (Double Complementary)</h3>
+<p>Four colors arranged in two complementary pairs, spaced at 90-degree intervals (e.g., Hue, Hue + 90, Hue + 180, Hue + 270). This offers maximum variety and is ideal for complex charts or diverse category styling.</p>
+
+<h3>4. Analogous</h3>
+<p>Colors situated adjacent to each other on the color wheel (e.g., Hue - 30, Hue, Hue + 30). This mirrors palettes found in nature and creates comfortable, serene layouts.</p>
+
+<p>---</p>
+
+<h2>Translating Palettes to CSS and Tailwind Configs</h2>
+
+<p>Once you select your color scheme, the final step is to export the colors as tokens.</p>
+
+<h3>CSS Variables Method</h3>
+<p>Define custom properties in your global root stylesheet:</p>
+<pre><code>:root {
+    --color-primary: #3b82f6;
+    --color-primary-light: #60a5fa;
+    --color-primary-dark: #1d4ed8;
+    --color-accent: #f59e0b;
+}
+</code></pre>
+
+<h3>Tailwind Config Method</h3>
+<p>Extend Tailwind's color palette in `tailwind.config.js` to automatically generate class utilities (e.g. `bg-brand`, `text-brand-light`):</p>
+<pre><code>module.exports = {
+  theme: {
+    extend: {
+      colors: {
+        brand: {
+          light: '#60a5fa',
+          DEFAULT: '#3b82f6',
+          dark: '#1d4ed8',
+          accent: '#f59e0b',
+        }
+      }
+    }
+  }
+}
+</code></pre>
+
+<p>---</p>
+
+<h2>Take Action: Build Your Design System</h2>
+<p>1. <strong>Define Your Brand Base:</strong> Start with a single, high-contrast base color.</p>
+<p>2. <strong>Calculate the Chords:</strong> Use our interactive [Color Wheel Tool](/static/tools/color_wheel_tool.html) to instantly generate monochromatic or triad palettes.</p>
+<p>3. <strong>Verify Contrast:</strong> Ensure your text-to-background combinations meet WCAG AA accessibility standards.</p>
+            <div style="margin-top: 40px; padding-top: 20px; border-top: 1px dashed var(--border-color); font-size: 0.85rem; color: var(--text-muted);">
+                <strong>Disclaimer:</strong> The tools and content provided on this website are for educational and informational purposes only and do not constitute financial, investment, legal, or professional advice.
+            </div>
+        </article>
+    </div>
+    <footer>
+        &copy; 2026 Aegis autonomous platform. All rights reserved.<br>
+        <a href="/static/privacy.html" style="color: var(--text-muted); text-decoration: underline; margin-right: 15px;">Privacy Policy</a>
+        <a href="/static/terms.html" style="color: var(--text-muted); text-decoration: underline;">Terms of Service & Disclaimer</a>
+    </footer>
+</body>
+</html>
