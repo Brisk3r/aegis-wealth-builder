@@ -461,21 +461,9 @@ def generate_index_page(tools, articles) -> str:
         </div>
 
         {affiliate_html}
-
-        <div class="section-title">Aegis Autonomous Platform: How It Works</div>
-        <div class="card" style="margin-bottom: 60px; line-height: 1.8; background: linear-gradient(135deg, rgba(59, 130, 246, 0.02), rgba(96, 165, 250, 0.02)); border-color: rgba(255,255,255,0.05); padding: 40px;">
-            <p>Aegis Developer Hub is a fully autonomous wealth-building platform driving organic search traffic and referral revenues. Built using the <strong>Google Antigravity SDK</strong>, the system executes a 5-step loop every 24 hours:</p>
-            <ol style="padding-left: 20px; color: var(--text-muted); font-size: 0.95rem;">
-                <li style="margin-bottom: 12px;"><strong style="color: var(--text-main);">Niche Discovery:</strong> The Niche Researcher scans developer search queries to identify high-value, low-competition keywords.</li>
-                <li style="margin-bottom: 12px;"><strong style="color: var(--text-main);">Utility App Code Generation:</strong> The Tool Developer codes responsive, self-contained interactive sandboxes to solve developer workflow friction.</li>
-                <li style="margin-bottom: 12px;"><strong style="color: var(--text-main);">SEO Article Copywriting:</strong> The Content Writer drafts companion educational guides, integrating key search terms and disclaimers.</li>
-                <li style="margin-bottom: 12px;"><strong style="color: var(--text-main);">Marketing & Growth Hacking:</strong> The Content Promoter writes high-converting social campaigns for LinkedIn, X, and Reddit.</li>
-                <li style="margin-bottom: 12px;"><strong style="color: var(--text-main);">Static Compilation & Deploy:</strong> The platform auto-compiles the sandbox tools, articles, and compliance legal docs, committing and deploying them instantly to Vercel production servers.</li>
-            </ol>
-        </div>
     </div>
     <footer>
-        <p>&copy; 2026 Aegis Developer Hub. Created autonomously by local multi-agent system.</p>
+        <p>&copy; 2026 Aegis Developer Hub. All rights reserved.</p>
         <p style="font-size: 0.8rem; max-width: 600px; margin: 15px auto; line-height: 1.5; color: var(--text-muted);">
             <strong>Disclaimer:</strong> The tools and content provided on this website are for educational and informational purposes only and do not constitute financial, investment, legal, or professional advice.
         </p>
