@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LegalRedact.io | Secure PII Redaction</title>
+    <style>
+        :root { --bg: #0f172a; --card: #1e293b; --text: #f8fafc; --accent: #38bdf8; }
+        body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); margin: 0; display: flex; justify-content: center; align-items: center; min-height: 100vh; }
+        .container { background: var(--card); padding: 2rem; border-radius: 1rem; width: 90%; max-width: 500px; box-shadow: 0 10px 25px -5px rgba(0,0,0,0.3); text-align: center; }
+        h1 { margin-top: 0; color: var(--accent); }
+        .drop-zone { border: 2px dashed #475569; padding: 2rem; border-radius: 0.5rem; transition: 0.3s; cursor: pointer; margin: 1.5rem 0; }
+        .drop-zone:hover { border-color: var(--accent); }
+        button { background: var(--accent); color: var(--bg); border: none; padding: 0.75rem 1.5rem; border-radius: 0.3rem; font-weight: 600; cursor: pointer; transition: 0.2s; }
+        button:disabled { opacity: 0.5; cursor: not-allowed; }
+        #status { margin-top: 1rem; font-size: 0.9rem; color: #94a3b8; }
+    </style>
+
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #0b0f19;
+            --card-bg: rgba(255, 255, 255, 0.03);
+            --border-color: rgba(255, 255, 255, 0.08);
+            --primary-accent: #3b82f6;
+            --secondary-accent: #60a5fa;
+            --text-main: #f3f4f6;
+            --text-muted: #9ca3af;
+        }
+        body {
+            background-color: var(--bg-color) !important;
+            color: var(--text-main) !important;
+            font-family: 'Outfit', sans-serif !important;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="navbar" style="display: flex; justify-content: space-between; align-items: center; padding: 20px 40px; border-bottom: 1px solid rgba(255,255,255,0.08); background: rgba(11, 15, 25, 0.7); backdrop-filter: blur(12px); position: sticky; top: 0; z-index: 100; font-family: 'Outfit', sans-serif;">
+        <a href="/" style="display: flex; align-items: center; gap: 10px; color: #f3f4f6; text-decoration: none; font-weight: 600;">
+            <img src="/static/logo.png" alt="Aegis Hub Logo" style="height: 30px;">
+            <span>Aegis Developer Hub</span>
+        </a>
+        <a href="/" style="color: #60a5fa; text-decoration: none; font-size: 0.95rem;">&larr; Back to Hub</a>
+    </div>
+    
+    <div class="container">
+        <h1>LegalRedact.io</h1>
+        <p>Auto-redact PII from your legal PDFs locally and securely.</p>
+        <div class="drop-zone" id="dropZone">Drop PDF Contract Here</div>
+        <input type="file" id="fileInput" hidden accept=".pdf">
+        <button id="redactBtn" disabled>Redact & Download</button>
+        <div id="status">No file selected.</div>
+    </div>
+    <script>
+        const zone = document.getElementById('dropZone');
+        const input = document.getElementById('fileInput');
+        const btn = document.getElementById('redactBtn');
+        const status = document.getElementById('status');
+
+        zone.onclick = () => input.click();
+        input.onchange = (e) => {
+            if(e.target.files.length) {
+                status.textContent = `Ready: ${e.target.files[0].name}`;
+                btn.disabled = false;
+            }
+        };
+
+        btn.onclick = () => {
+            btn.disabled = true;
+            status.textContent = "Processing... Applying AI redaction nodes.";
+            setTimeout(() => {
+                status.textContent = "Success! Redacted file prepared.";
+                const blob = new Blob(["Simulated Redacted PDF Content"], {type: 'application/pdf'});
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = "Redacted_Contract.pdf";
+                a.click();
+            }, 2000);
+        };
+
+        ['dragover', 'dragleave', 'drop'].forEach(evt => zone.addEventListener(evt, e => e.preventDefault()));
+        zone.ondrop = (e) => {
+            if(e.dataTransfer.files.length) {
+                input.files = e.dataTransfer.files;
+                input.onchange({target: input});
+            }
+        };
+    </script>
+
+    <div class="sponsored-box" style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.05), transparent); border: 1px solid rgba(59, 130, 246, 0.15); border-radius: 12px; padding: 25px; margin: 40px auto; max-width: 600px; text-align: center; font-family: 'Outfit', sans-serif;">
+        <h3 style="margin-top: 0; color: #60a5fa; font-size: 1.3rem;">Premium PDF Pack</h3>
+        <p style="font-size: 0.9rem; color: #9ca3af; margin-bottom: 15px;">Get our comprehensive visual cheat sheet pack + clean layout templates.</p>
+        <a href="https://aegisdev.lemonsqueezy.com/checkout/buy/premium-pdf-pack" class="lemonsqueezy-button" style="display: inline-block; background: #3b82f6; color: white; text-decoration: none; padding: 10px 20px; border-radius: 8px; font-weight: bold; font-size: 0.9rem; transition: background 0.2s;">Get Offer ($4.99)</a>
+    </div>
+    <script src="https://assets.lemonsqueezy.com/lemon.js" defer></script>
+    
+</body>
+</html>
