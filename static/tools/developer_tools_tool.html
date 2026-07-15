@@ -250,8 +250,30 @@
                             </div>
                         </div>
 
+                        <!-- Boilerplate Code Template Section -->
+                        <div id="boilerplate-section" class="space-y-3 hidden border-t border-white/5 pt-6">
+                            <div class="flex justify-between items-center">
+                                <h4 class="text-xs font-bold uppercase tracking-wider text-gray-400">Boilerplate Code Template</h4>
+                                <button onclick="copyBoilerplate()" class="text-xs text-blue-400 hover:text-blue-300 transition-colors font-medium flex items-center gap-1">
+                                    <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2" />
+                                    </svg>
+                                    <span id="btn-copy-bp-text">Copy Code</span>
+                                </button>
+                            </div>
+                            <div class="relative rounded-xl border border-white/10 bg-slate-950 overflow-hidden">
+                                <pre class="p-4 overflow-x-auto max-h-[300px] text-xs font-mono text-emerald-400 leading-relaxed text-left"><code id="boilerplate-code-block"></code></pre>
+                            </div>
+                        </div>
+
                         <!-- Action Controls -->
                         <div class="flex flex-wrap gap-4 pt-6 border-t border-white/5">
+                            <button id="btn-gen-boilerplate" onclick="revealBoilerplate()" class="flex-1 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white font-semibold py-3 px-4 rounded-xl transition-all duration-200 text-xs md:text-sm flex items-center justify-center gap-2">
+                                <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
+                                </svg>
+                                <span>Generate Boilerplate Code</span>
+                            </button>
                             <button onclick="copyReport()" class="flex-1 bg-white/5 hover:bg-white/10 border border-white/10 text-white font-semibold py-3 px-4 rounded-xl transition-all duration-200 text-xs md:text-sm flex items-center justify-center gap-2">
                                 <svg class="w-4 h-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                                     <path stroke-linecap="round" stroke-linejoin="round" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3" />
@@ -590,6 +612,305 @@
             { name: "High", desc: "Advanced System", icon: `<svg class="w-5 h-5 text-purple-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 9.172V5L8 4z" /></svg>` }
         ];
 
+        // Boilerplate code templates matching each developer stack
+        const BOILERPLATES = {
+            "Next.js": `import { useState, useEffect } from 'react';
+
+// Aegis Premium Next.js Feature Monitor Component
+export default function FeatureMonitor() {
+  const [flags, setFlags] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [filter, setFilter] = useState('all');
+
+  useEffect(() => {
+    async function scanFlags() {
+      try {
+        const res = await fetch('/api/flags/scan');
+        const data = await res.json();
+        setFlags(data.flags || []);
+      } catch (err) {
+        console.error('Scan failed:', err);
+      } finally {
+        setLoading(false);
+      }
+    }
+    scanFlags();
+  }, []);
+
+  const filtered = flags.filter(f => {
+    if (filter === 'active') return f.isActive;
+    if (filter === 'stale') return !f.isActive && f.daysUnused > 30;
+    return true;
+  });
+
+  return (
+    <div className="p-6 max-w-4xl mx-auto bg-slate-900 border border-slate-800 rounded-2xl shadow-xl">
+      <div className="flex justify-between items-center mb-6">
+        <div>
+          <h2 className="text-xl font-bold text-slate-100">Next.js Feature Flag Audit</h2>
+          <p className="text-xs text-slate-400">Scans and reports dead features on branch: <span className="font-mono text-sky-400">main</span></p>
+        </div>
+        <div className="flex gap-2">
+          {['all', 'active', 'stale'].map(t => (
+            <button
+              key={t}
+              onClick={() => setFilter(t)}
+              className={\`px-3 py-1.5 rounded-lg text-xs font-semibold capitalize transition \\\${
+                filter === t ? 'bg-sky-500 text-slate-950 font-bold' : 'bg-slate-800 hover:bg-slate-700 text-slate-300'
+              }\`}
+            >
+              {t}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {loading ? (
+        <div className="py-12 text-center text-slate-500 animate-pulse">Scanning AST files...</div>
+      ) : (
+        <div className="divide-y divide-slate-800">
+          {filtered.map(flag => (
+            <div key={flag.name} className="py-3 flex justify-between items-center">
+              <div>
+                <span className="font-mono text-sm text-slate-200">{flag.name}</span>
+                <p className="text-[10px] text-slate-500">Declared in {flag.file} • Unused for {flag.daysUnused} days</p>
+              </div>
+              <span className={\`px-2 py-0.5 rounded text-[10px] font-bold uppercase \\\${
+                flag.isActive ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20' : 'bg-rose-500/10 text-rose-400 border border-rose-500/20'
+              }\`}>
+                {flag.isActive ? 'Active' : 'Stale'}
+              </span>
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}`,
+            "CLI": `#!/usr/bin/env node
+
+/**
+ * Aegis CLI Tool Template
+ * Run: node cli.js --help
+ */
+
+const fs = require('fs');
+const path = require('path');
+
+const args = process.argv.slice(2);
+const command = args[0];
+
+if (!command || command === '--help' || command === '-h') {
+  console.log(\`
+  \\\\x1b[36mAegis Developer CLI Workspace Tools\\\\x1b[0m
+  
+  \\\\x1b[1mUsage:\\\\x1b[0m
+    aegis-cli <command> [options]
+
+  \\\\x1b[1mCommands:\\\\x1b[0m
+    scan       Scan local workspace for configuration warnings
+    validate   Check git logs and format conventional commit rules
+    version    Print CLI engine version
+
+  \\\\x1b[1mOptions:\\\\x1b[0m
+    -h, --help    Show this dashboard info
+    -f, --force   Force execution without validation checks
+  \`);
+  process.exit(0);
+}
+
+switch (command) {
+  case 'scan':
+    console.log('\\\\x1b[33mScanning local repository context...\\\\x1b[0m');
+    const files = fs.readdirSync(process.cwd());
+    const hasGit = files.includes('.git');
+    console.log(\`Repository found: \${hasGit ? '\\\\x1b[32mYes\\\\x1b[0m' : '\\\\x1b[31mNo\\\\x1b[0m'}\`);
+    // Custom analysis logic
+    break;
+
+  case 'validate':
+    console.log('\\\\x1b[33mValidating latest commits...\\\\x1b[0m');
+    // Implement Conventional Commits AST logic
+    break;
+
+  case 'version':
+    console.log('Aegis CLI Engine v1.0.0');
+    break;
+
+  default:
+    console.error(\`\\\\x1b[31mError: Unknown command "\${command}"\\\\x1b[0m\`);
+    process.exit(1);
+}
+`,
+            "Chrome Extension": `// manifest.json
+{
+  "manifest_version": 3,
+  "name": "Aegis Visual Inspector Pro",
+  "version": "1.0.0",
+  "description": "Inspect layouts, check accessibility ratios, and preview Tailwind classes in real-time.",
+  "permissions": ["activeTab", "scripting", "storage"],
+  "action": {
+    "default_popup": "popup.html",
+    "default_icon": "icon.png"
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["content.js"]
+    }
+  ]
+}
+
+// content.js - Interactive Hover Element Auditor
+let lastHovered = null;
+
+document.addEventListener('mouseover', (e) => {
+  if (e.target) {
+    if (lastHovered) {
+      lastHovered.style.outline = '';
+    }
+    lastHovered = e.target;
+    // Highlight hovered developer workspace node
+    lastHovered.style.outline = '2px dashed #0ea5e9';
+    lastHovered.style.cursor = 'pointer';
+  }
+});
+
+document.addEventListener('click', (e) => {
+  if (lastHovered) {
+    e.preventDefault();
+    e.stopPropagation();
+    
+    // Read properties and generate Tailwind layout representation
+    const classes = Array.from(lastHovered.classList).join(' ');
+    console.log('--- Aegis Developer Audit ---');
+    console.log('Tag:', lastHovered.tagName);
+    console.log('Active Classes:', classes);
+    
+    // Broadcast data packet to extension popup
+    chrome.runtime.sendMessage({
+      action: "elementSelected",
+      tag: lastHovered.tagName,
+      classes: classes
+    });
+  }
+});
+`,
+            "API": `/**
+ * Cloudflare Worker / Vercel Serverless Function Endpoint
+ * Secure Cryptographic Webhook Router
+ */
+
+addEventListener('fetch', event => {
+  event.respondWith(handleRequest(event.request))
+});
+
+async function handleRequest(request) {
+  if (request.method !== 'POST') {
+    return new Response('Method Not Allowed', { status: 405 });
+  }
+
+  try {
+    const signature = request.headers.get('X-Signature');
+    const rawBody = await request.text();
+
+    // Verify cryptographic integrity
+    const isValid = await verifyHMAC(rawBody, signature, "YOUR_WEBHOOK_SECRET");
+    if (!isValid) {
+      return new Response('Invalid Signature', { status: 401 });
+    }
+
+    const payload = JSON.parse(rawBody);
+    console.log('Received valid telemetry event:', payload.event);
+
+    // Forward event with secure schema parsing
+    await fetch('https://analytics.yourplatform.com/events', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        source: 'aegis-webhook-router',
+        event_type: payload.event,
+        data: payload.data,
+        timestamp: new Date().toISOString()
+      })
+    });
+
+    return new Response(JSON.stringify({ success: true, message: 'Dispatched' }), {
+      status: 200,
+      headers: { 'Content-Type': 'application/json' }
+    });
+
+  } catch (err) {
+    return new Response(JSON.stringify({ error: err.message }), { status: 500 });
+  }
+}
+
+async function verifyHMAC(data, signature, secret) {
+  const encoder = new TextEncoder();
+  const key = await crypto.subtle.importKey(
+    'raw', encoder.encode(secret),
+    { name: 'HMAC', hash: 'SHA-256' }, false, ['verify']
+  );
+  
+  const sigBuf = byteStringToUint8Array(atob(signature));
+  const dataBuf = encoder.encode(data);
+  return await crypto.subtle.verify('HMAC', key, sigBuf, dataBuf);
+}
+`,
+            "Python": `# FastAPI Mocking Test Server
+from fastapi import FastAPI, Depends, HTTPException, status
+from pydantic import BaseModel
+from typing import List, Optional
+import time
+
+app = FastAPI(
+    title="Aegis Mock Test Server",
+    description="Instantly mock database structures and simulate latency.",
+    version="1.0.0"
+)
+
+class ItemSchema(BaseModel):
+    id: int
+    title: str
+    description: Optional[str] = None
+    is_active: bool = True
+
+@app.middleware("http")
+async def add_latency_middleware(request, call_next):
+    # Simulate API latency controls dynamically
+    delay = float(request.headers.get("x-mock-delay", 0.0))
+    if delay > 0:
+        time.sleep(delay)
+    response = await call_next(request)
+    return response
+
+@app.get("/api/v1/mock-data", response_model=List[ItemSchema])
+def get_mock_data(limit: int = 10):
+    """
+    Returns synthetic dataset structure matching custom Pydantic schemas.
+    """
+    mock_items = [
+        ItemSchema(
+            id=i,
+            title=f"Synthetic Record #{i}",
+            description=f"Generated database mock record for fast local testing integrations.",
+            is_active=(i % 2 == 0)
+        )
+        for i in range(1, limit + 1)
+    ]
+    return mock_items
+
+@app.post("/api/v1/validate-schema", status_code=status.HTTP_201_CREATED)
+def validate_payload(item: ItemSchema):
+    if not item.title:
+        raise HTTPException(
+            status_code=400,
+            detail="Title is required in telemetry body"
+        )
+    return {"status": "validated", "payload": item}
+`
+        };
+
         let currentStack = STACKS[0].name;
         let currentAudience = AUDIENCES[1].name;
         let currentComplexity = COMPLEXITIES[1].name;
@@ -837,6 +1158,9 @@
                 barProfitability.style.width = concept.profitability + '%';
             }, 50);
             
+            document.getElementById('boilerplate-section').classList.add('hidden');
+            document.getElementById('boilerplate-code-block').textContent = '';
+
             // Build interactive Checklist spec
             const mvpList = document.getElementById('result-mvp');
             mvpList.innerHTML = '';
@@ -952,6 +1276,39 @@ ${activeConcept.monetization}
             }).catch(err => {
                 console.error('Failed to copy report: ', err);
                 showToast("Failed to copy. Please select and copy manually.");
+            });
+        }
+
+        function revealBoilerplate() {
+            if (!activeConcept) return;
+            const stack = activeConcept.stack;
+            const code = BOILERPLATES[stack] || BOILERPLATES["Next.js"];
+            
+            const block = document.getElementById('boilerplate-code-block');
+            block.textContent = code;
+            
+            const section = document.getElementById('boilerplate-section');
+            section.classList.remove('hidden');
+            
+            // Smoothly scroll to the boilerplate section
+            section.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            showToast("Boilerplate code generated below!");
+        }
+
+        function copyBoilerplate() {
+            const block = document.getElementById('boilerplate-code-block');
+            if (!block.textContent) return;
+            
+            navigator.clipboard.writeText(block.textContent).then(() => {
+                const btnText = document.getElementById('btn-copy-bp-text');
+                btnText.textContent = "Copied!";
+                showToast("Boilerplate code copied to clipboard!");
+                setTimeout(() => {
+                    btnText.textContent = "Copy Code";
+                }, 2000);
+            }).catch(err => {
+                console.error('Failed to copy code: ', err);
+                showToast("Failed to copy code.");
             });
         }
 

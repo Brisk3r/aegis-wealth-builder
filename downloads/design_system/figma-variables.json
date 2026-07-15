@@ -1,0 +1,120 @@
+{
+  "version": "1.0",
+  "collections": [
+    {
+      "name": "Design Tokens",
+      "modes": ["Dark", "Light"],
+      "types": ["color", "float"],
+      "tokens": [
+        {
+          "name": "color/bg/base",
+          "type": "color",
+          "values": {
+            "Dark": "#0b0f19",
+            "Light": "#f8fafc"
+          },
+          "description": "Primary background color of the canvas"
+        },
+        {
+          "name": "color/bg/surface",
+          "type": "color",
+          "values": {
+            "Dark": "#131a26",
+            "Light": "#ffffff"
+          },
+          "description": "Background color for cards, dialogs, and secondary layouts"
+        },
+        {
+          "name": "color/primary/default",
+          "type": "color",
+          "values": {
+            "Dark": "#0ea5e9",
+            "Light": "#0284c7"
+          },
+          "description": "Accent and primary action highlight color"
+        },
+        {
+          "name": "color/text/primary",
+          "type": "color",
+          "values": {
+            "Dark": "#f8fafc",
+            "Light": "#0f172a"
+          },
+          "description": "Primary typography readable color"
+        },
+        {
+          "name": "color/text/secondary",
+          "type": "color",
+          "values": {
+            "Dark": "#94a3b8",
+            "Light": "#475569"
+          },
+          "description": "Secondary typography or sub-heading color"
+        },
+        {
+          "name": "spacing/xs",
+          "type": "float",
+          "values": {
+            "Dark": 4.0,
+            "Light": 4.0
+          },
+          "description": "Extra small spacing unit"
+        },
+        {
+          "name": "spacing/sm",
+          "type": "float",
+          "values": {
+            "Dark": 8.0,
+            "Light": 8.0
+          },
+          "description": "Small spacing unit"
+        },
+        {
+          "name": "spacing/md",
+          "type": "float",
+          "values": {
+            "Dark": 16.0,
+            "Light": 16.0
+          },
+          "description": "Medium/Base spacing unit"
+        },
+        {
+          "name": "spacing/lg",
+          "type": "float",
+          "values": {
+            "Dark": 24.0,
+            "Light": 24.0
+          },
+          "description": "Large spacing unit"
+        },
+        {
+          "name": "radius/sm",
+          "type": "float",
+          "values": {
+            "Dark": 6.0,
+            "Light": 6.0
+          },
+          "description": "Small border radius for badges and inputs"
+        },
+        {
+          "name": "radius/md",
+          "type": "float",
+          "values": {
+            "Dark": 8.0,
+            "Light": 8.0
+          },
+          "description": "Medium border radius for small cards"
+        },
+        {
+          "name": "radius/lg",
+          "type": "float",
+          "values": {
+            "Dark": 12.0,
+            "Light": 12.0
+          },
+          "description": "Large border radius for standard cards"
+        }
+      ]
+    }
+  ]
+}
