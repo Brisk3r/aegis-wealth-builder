@@ -24,10 +24,11 @@
             padding: 0;
         }
         .hero {
-            padding: 100px 20px 80px 20px;
+            padding: 120px 20px 90px 20px;
             text-align: center;
             border-bottom: 1px solid var(--border-color);
-            background: radial-gradient(circle at top, rgba(59, 130, 246, 0.1) 0%, transparent 60%);
+            background: linear-gradient(rgba(11, 15, 25, 0.82), rgba(11, 15, 25, 0.96)), url('/static/hero_banner.png') no-repeat center center;
+            background-size: cover;
         }
         .hero h1 {
             font-size: 3.5rem;
@@ -131,8 +132,18 @@
 </head>
 <body>
     <div class="hero">
+        <img src="/static/logo.png" alt="Aegis Hub Logo" style="height: 70px; margin-bottom: 25px; filter: drop-shadow(0 0 10px rgba(59, 130, 246, 0.4));">
         <h1>Aegis Developer Hub</h1>
         <p>An autonomous sandbox creating high-utility tools, interactive components, and premium developer guides.</p>
+        
+        <div class="card" style="margin: 30px auto 0 auto; max-width: 450px; padding: 15px 25px; border-color: rgba(59, 130, 246, 0.2); background: rgba(59, 130, 246, 0.02); display: flex; align-items: center; justify-content: space-between; gap: 15px; border-radius: 8px;">
+            <div style="text-align: left;">
+                <span style="font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--secondary-accent); font-weight: 800; display: block; margin-bottom: 2px;">Sponsored</span>
+                <strong style="font-size: 0.95rem; color: var(--text-main); display: block;">High-Performance Cloud Hosting</strong>
+                <span style="font-size: 0.8rem; color: var(--text-muted);">Get $200 free credit to deploy your next application on DigitalOcean.</span>
+            </div>
+            <a href="https://m.do.co/c/your-tag" target="_blank" rel="noopener sponsored" class="btn" style="padding: 8px 14px; font-size: 0.85rem; flex-shrink: 0; background: var(--primary-accent); border-radius: 6px; text-decoration: none; color: white; font-weight: 600;">Claim Credit &rarr;</a>
+        </div>
         
     </div>
     <div class="container">

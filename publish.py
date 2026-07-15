@@ -85,6 +85,17 @@ def generate_article_page(title: str, content_html: str, article_rel_path: str) 
             <script async type="text/javascript" src="{config.carbon_ads_src}" id="_carbonads_js"></script>
         </div>
         """
+    else:
+        ads_html = """
+        <div class="card" style="margin: 0 0 30px 0; padding: 15px 25px; border-color: rgba(59, 130, 246, 0.2); background: rgba(59, 130, 246, 0.02); display: flex; align-items: center; justify-content: space-between; gap: 15px; border-radius: 8px;">
+            <div style="text-align: left;">
+                <span style="font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--secondary-accent); font-weight: 800; display: block; margin-bottom: 2px;">Sponsored</span>
+                <strong style="font-size: 0.95rem; color: var(--text-main); display: block;">Hostinger High-Speed Hosting</strong>
+                <span style="font-size: 0.8rem; color: var(--text-muted);">Get 60% off and a free domain for your portfolio or startup.</span>
+            </div>
+            <a href="https://hostinger.com?referral=aegis" target="_blank" rel="noopener sponsored" class="btn" style="padding: 8px 14px; font-size: 0.85rem; flex-shrink: 0; background: var(--primary-accent); border-radius: 6px; text-decoration: none; color: white; font-weight: 600;">Claim Offer &rarr;</a>
+        </div>
+        """
         
     affiliate_sidebar_html = ""
     if config.affiliate_links:
@@ -209,7 +220,10 @@ def generate_article_page(title: str, content_html: str, article_rel_path: str) 
 </head>
 <body>
     <div class="navbar">
-        <a href="/">Aegis Developer Hub</a>
+        <a href="/" style="display: flex; align-items: center; gap: 10px;">
+            <img src="/static/logo.png" alt="Aegis Hub Logo" style="height: 30px;">
+            <span>Aegis Developer Hub</span>
+        </a>
         <a href="/" class="back-link">&larr; Back to Hub</a>
     </div>
     <div class="container">
@@ -268,6 +282,17 @@ def generate_index_page(tools, articles) -> str:
             <script async type="text/javascript" src="{config.carbon_ads_src}" id="_carbonads_js"></script>
         </div>
         """
+    else:
+        ads_html = """
+        <div class="card" style="margin: 30px auto 0 auto; max-width: 450px; padding: 15px 25px; border-color: rgba(59, 130, 246, 0.2); background: rgba(59, 130, 246, 0.02); display: flex; align-items: center; justify-content: space-between; gap: 15px; border-radius: 8px;">
+            <div style="text-align: left;">
+                <span style="font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--secondary-accent); font-weight: 800; display: block; margin-bottom: 2px;">Sponsored</span>
+                <strong style="font-size: 0.95rem; color: var(--text-main); display: block;">High-Performance Cloud Hosting</strong>
+                <span style="font-size: 0.8rem; color: var(--text-muted);">Get $200 free credit to deploy your next application on DigitalOcean.</span>
+            </div>
+            <a href="https://m.do.co/c/your-tag" target="_blank" rel="noopener sponsored" class="btn" style="padding: 8px 14px; font-size: 0.85rem; flex-shrink: 0; background: var(--primary-accent); border-radius: 6px; text-decoration: none; color: white; font-weight: 600;">Claim Credit &rarr;</a>
+        </div>
+        """
         
     affiliate_html = ""
     if config.affiliate_links:
@@ -310,10 +335,11 @@ def generate_index_page(tools, articles) -> str:
             padding: 0;
         }}
         .hero {{
-            padding: 100px 20px 80px 20px;
+            padding: 120px 20px 90px 20px;
             text-align: center;
             border-bottom: 1px solid var(--border-color);
-            background: radial-gradient(circle at top, rgba(59, 130, 246, 0.1) 0%, transparent 60%);
+            background: linear-gradient(rgba(11, 15, 25, 0.82), rgba(11, 15, 25, 0.96)), url('/static/hero_banner.png') no-repeat center center;
+            background-size: cover;
         }}
         .hero h1 {{
             font-size: 3.5rem;
@@ -417,6 +443,7 @@ def generate_index_page(tools, articles) -> str:
 </head>
 <body>
     <div class="hero">
+        <img src="/static/logo.png" alt="Aegis Hub Logo" style="height: 70px; margin-bottom: 25px; filter: drop-shadow(0 0 10px rgba(59, 130, 246, 0.4));">
         <h1>Aegis Developer Hub</h1>
         <p>An autonomous sandbox creating high-utility tools, interactive components, and premium developer guides.</p>
         {ads_html}
