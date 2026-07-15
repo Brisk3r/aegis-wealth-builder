@@ -1,0 +1,9 @@
+{
+  "name": "aegis-wealth-builder",
+  "version": "1.0.0",
+  "description": "Aegis Developer Hub - A curated sandbox of high-utility web tools",
+  "private": true,
+  "dependencies": {
+    "@vercel/analytics": "^1.3.1"
+  }
+}
