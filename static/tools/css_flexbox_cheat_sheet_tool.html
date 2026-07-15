@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSS Flexbox Cheat Sheet</title>
+    <style>
+        body { font-family: 'Arial', sans-serif; margin: 20px; padding: 0; background-color: #f4f4f9; color: #333; }
+        h1 { text-align: center; color: #55acee; }
+        .container { display: flex; flex-wrap: wrap; gap: 20px; justify-content: center; }
+        .item { background-color: #fff; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); padding: 20px; width: calc(33.33% - 20px); text-align: center; transition: transform 0.2s; }
+        .item:hover { transform: scale(1.05); }
+        .property { font-weight: bold; margin-bottom: 8px; color: #ff6b6b; }
+        .value { color: #4caf50; }
+    </style>
+</head>
+<body>
+    <h1>CSS Flexbox Cheat Sheet</h1>
+    <div class="container">
+        <div class="item">
+            <div class="property">display:</div>
+            <div class="value">flex | inline-flex</div>
+        </div>
+        <div class="item">
+            <div class="property">justify-content:</div>
+            <div class="value">flex-start | flex-end | center | space-between | space-around | space-evenly</div>
+        </div>
+        <div class="item">
+            <div class="property">align-items:</div>
+            <div class="value">stretch | flex-start | flex-end | center | baseline</div>
+        </div>
+        <div class="item">
+            <div class="property">flex-direction:</div>
+            <div class="value">row | row-reverse | column | column-reverse</div>
+        </div>
+        <div class="item">
+            <div class="property">align-content:</div>
+            <div class="value">stretch | flex-start | flex-end | center | space-between | space-around | space-evenly</div>
+        </div>
+        <div class="item">
+            <div class="property">flex-wrap:</div>
+            <div class="value">nowrap | wrap | wrap-reverse</div>
+        </div>
+    </div>
+    <script>
+        // Interactive features can be added here if needed
+    </script>
+</body>
+</html>
