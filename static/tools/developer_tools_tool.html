@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DevTools Ideation Hub</title>
+    <style>
+        :root { --bg: #0f172a; --card: #1e293b; --text: #f8fafc; --accent: #38bdf8; }
+        body { font-family: 'Inter', system-ui, sans-serif; background: var(--bg); color: var(--text); display: flex; justify-content: center; padding: 2rem; margin: 0; }
+        .container { max-width: 600px; width: 100%; }
+        h1 { color: var(--accent); text-align: center; }
+        .card { background: var(--card); padding: 1.5rem; border-radius: 12px; margin-bottom: 2rem; box-shadow: 0 4px 6px -1px #0004; }
+        .option { padding: 1rem; margin: 0.5rem 0; border: 1px solid #334155; border-radius: 8px; cursor: pointer; transition: 0.2s; }
+        .option:hover { border-color: var(--accent); background: #334155; }
+        .btn { background: var(--accent); color: var(--bg); border: none; padding: 0.75rem 1.5rem; border-radius: 6px; font-weight: bold; cursor: pointer; width: 100%; }
+        #output { margin-top: 1rem; padding: 1rem; border-left: 4px solid var(--accent); background: #1e293b; display: none; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>DevTools Ideation Hub</h1>
+        <div class="card">
+            <p>Select a DevTools niche to generate a Micro-SaaS concept:</p>
+            <div class="option" onclick="select('Observability')">Observability & Monitoring</div>
+            <div class="option" onclick="select('Documentation')">AI-Aided Documentation</div>
+            <div class="option" onclick="select('Orchestration')">Local Environment Orchestration</div>
+        </div>
+        <div id="output"></div>
+    </div>
+    <script>
+        const ideas = {
+            'Observability': 'Local-first build drift analyzer: A CLI tool to catch dependency conflicts before CI.',
+            'Documentation': 'Vector-Sync: Automatically index local Markdown/Code into optimized RAG chunks for local LLMs.',
+            'Orchestration': 'Config-CLI: Automatically generate shell wrappers from your project config files.'
+        };
+        function select(niche) {
+            const out = document.getElementById('output');
+            out.innerHTML = `<strong>${niche} Concept:</strong><br>${ideas[niche]}`;
+            out.style.display = 'block';
+        }
+    </script>
+</body>
+</html>
