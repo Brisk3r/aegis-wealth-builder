@@ -28,7 +28,8 @@ class ContentWriter:
             return LocalAgentConfig(
                 system_instructions=system_instructions,
                 policies=[policy.allow_all()],
-                workspaces=[str(config.BASE_DIR)]
+                workspaces=[str(config.BASE_DIR)],
+                model="gemini-3.1-flash-lite"
             )
         else:
             return LocalOpenAIAgentConfig(

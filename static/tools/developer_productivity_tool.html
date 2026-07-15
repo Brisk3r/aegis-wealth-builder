@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DevProductivity Hub</title>
+    <style>
+        :root { --bg: #0f172a; --card: #1e293b; --text: #f8fafc; --accent: #38bdf8; }
+        body { font-family: 'Inter', system-ui, sans-serif; background: var(--bg); color: var(--text); padding: 2rem; }
+        .container { max-width: 800px; margin: 0 auto; }
+        h1 { color: var(--accent); }
+        .card { background: var(--card); padding: 1.5rem; border-radius: 12px; margin-bottom: 1.5rem; box-shadow: 0 4px 6px rgba(0,0,0,0.3); }
+        .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+        button { background: var(--accent); color: var(--bg); border: none; padding: 0.8rem 1.5rem; border-radius: 6px; cursor: pointer; font-weight: bold; }
+        input, textarea { width: 100%; padding: 0.8rem; margin: 0.5rem 0; border-radius: 6px; border: 1px solid #334155; background: #0f172a; color: white; }
+        #log { font-family: monospace; font-size: 0.9rem; color: #94a3b8; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>DevProductivity Hub</h1>
+        <div class="card">
+            <h3>Deep Work Timer</h3>
+            <p>Enforce a 20-min sprint to reduce context switching.</p>
+            <button onclick="startTimer()">Start 20m Focus Session</button>
+            <h2 id="timerDisplay">20:00</h2>
+        </div>
+        <div class="card">
+            <h3>Stand-up Sync Generator</h3>
+            <textarea id="commits" placeholder="Paste GitHub/Jira activity..."></textarea>
+            <button onclick="generateReport()">Generate Daily Snippet</button>
+            <div id="reportResult" style="margin-top:1rem; border-left: 3px solid var(--accent); padding-left:1rem;"></div>
+        </div>
+    </div>
+    <script>
+        let timeLeft = 1200;
+        function updateTimer() {
+            let m = Math.floor(timeLeft/60), s = timeLeft%60;
+            document.getElementById('timerDisplay').innerText = `${m}:${s.toString().padStart(2,'0')}`;
+            if(timeLeft > 0) { timeLeft--; setTimeout(updateTimer, 1000); }
+        }
+        function startTimer() { timeLeft = 1200; updateTimer(); }
+        function generateReport() {
+            const input = document.getElementById('commits').value;
+            const report = `Today, I completed: ${input.length > 20 ? input.substring(0, 50) + '...' : input}. Focus was on reducing friction. Blockers: None.`;
+            document.getElementById('reportResult').innerText = report;
+        }
+    </script>
+</body>
+</html>

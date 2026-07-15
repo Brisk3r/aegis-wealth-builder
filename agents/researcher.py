@@ -33,7 +33,8 @@ class NicheResearcher:
             return LocalAgentConfig(
                 system_instructions=system_instructions,
                 policies=[policy.allow_all()],  # Allow search_web and other read tools
-                workspaces=[str(config.BASE_DIR)]
+                workspaces=[str(config.BASE_DIR)],
+                model="gemini-3.1-flash-lite"
             )
         else:
             # Local Ollama connection
