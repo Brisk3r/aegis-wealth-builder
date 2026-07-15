@@ -3,39 +3,211 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FlowState: Developer Productivity</title>
+    <title>FlowState Journal - Aegis Hub</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
     <style>
-        :root { --bg: #0f172a; --card: #1e293b; --text: #f8fafc; --accent: #38bdf8; }
-        body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); display: flex; justify-content: center; padding: 20px; line-height: 1.6; }
-        .container { width: 100%; max-width: 600px; }
-        .card { background: var(--card); padding: 2rem; border-radius: 12px; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.3); }
-        h1 { color: var(--accent); margin-top: 0; }
-        .btn { background: var(--accent); color: #000; border: none; padding: 10px 20px; border-radius: 6px; cursor: pointer; font-weight: bold; margin: 5px; }
-        #journal { width: 100%; height: 100px; background: #0f172a; color: #fff; border: 1px solid #334155; padding: 10px; border-radius: 6px; margin: 10px 0; box-sizing: border-box; }
-        .log { margin-top: 20px; border-top: 1px solid #334155; padding-top: 10px; font-size: 0.9rem; }
+        :root {
+            --bg-color: #0b0f19;
+            --card-bg: rgba(255, 255, 255, 0.03);
+            --border-color: rgba(255, 255, 255, 0.08);
+            --primary-accent: #3b82f6;
+            --secondary-accent: #60a5fa;
+            --text-main: #f3f4f6;
+            --text-muted: #9ca3af;
+        }
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-family: 'Outfit', sans-serif;
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+        }
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 40px;
+            border-bottom: 1px solid var(--border-color);
+            background: rgba(11, 15, 25, 0.7);
+            backdrop-filter: blur(12px);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .navbar a {
+            color: var(--text-main);
+            text-decoration: none;
+            font-weight: 600;
+        }
+        .back-link {
+            color: var(--secondary-accent) !important;
+            font-size: 0.95rem;
+        }
+        .container {
+            max-width: 650px;
+            margin: 60px auto;
+            padding: 0 20px;
+        }
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 40px;
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(8px);
+        }
+        h1 {
+            color: var(--secondary-accent);
+            font-size: 2.2rem;
+            font-weight: 800;
+            margin-top: 0;
+            margin-bottom: 15px;
+        }
+        p {
+            color: var(--text-muted);
+            margin-bottom: 25px;
+        }
+        textarea {
+            width: 100%;
+            height: 120px;
+            background: rgba(0, 0, 0, 0.4);
+            color: var(--text-main);
+            border: 1px solid var(--border-color);
+            padding: 15px;
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 1rem;
+            margin-bottom: 20px;
+            box-sizing: border-box;
+            resize: none;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+        textarea:focus {
+            border-color: var(--secondary-accent);
+        }
+        .btn {
+            background: var(--primary-accent);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .btn:hover {
+            background: #2563eb;
+        }
+        .log-section {
+            margin-top: 40px;
+            border-top: 1px dashed var(--border-color);
+            padding-top: 30px;
+        }
+        .log-section h3 {
+            margin-top: 0;
+            color: var(--secondary-accent);
+            font-size: 1.25rem;
+        }
+        .log-item {
+            background: rgba(0,0,0,0.2);
+            border: 1px solid var(--border-color);
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 12px;
+            font-size: 0.95rem;
+        }
+        .log-time {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            margin-bottom: 5px;
+            font-weight: 600;
+        }
+        .sponsored-box {
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.05), transparent);
+            border: 1px solid rgba(59, 130, 246, 0.15);
+            border-radius: 12px;
+            padding: 25px;
+            margin-top: 30px;
+            text-align: center;
+        }
+        .sponsored-box h3 {
+            margin-top: 0;
+            color: var(--secondary-accent);
+        }
+        .btn-buy {
+            display: inline-block;
+            background: var(--primary-accent);
+            color: white;
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-weight: bold;
+            font-size: 0.9rem;
+            margin-top: 10px;
+            transition: background 0.2s;
+        }
+        .btn-buy:hover {
+            background: #2563eb;
+        }
     </style>
 </head>
 <body>
-    <div class="container card">
-        <h1>FlowState Journal</h1>
-        <p>Before switching branches or contexts, document your current focus to minimize cognitive load.</p>
-        <textarea id="journal" placeholder="What are you working on? Write one sentence to resume later..."></textarea>
-        <button class="btn" onclick="saveLog()">Save Context</button>
-        <div id="logArea" class="log"></div>
+    <div class="navbar">
+        <a href="/">Aegis Developer Hub</a>
+        <a href="/" class="back-link">&larr; Back to Hub</a>
     </div>
+    <div class="container">
+        <div class="card">
+            <h1>FlowState Journal</h1>
+            <p>Minimize team context-switching toil. Before switching branches or tasks, document your current focus state to ramp back up 3x faster tomorrow.</p>
+            <textarea id="journal" placeholder="What are you currently implementing? Write a single sentence with context tags..."></textarea>
+            <button class="btn" onclick="saveLog()">Save Flow Context</button>
+            
+            <div id="logSection" class="log-section" style="display: none;">
+                <h3>Saved Focus Logs</h3>
+                <div id="logArea"></div>
+            </div>
+            
+            <div class="sponsored-box">
+                <h3>FlowState Pro Toolkit</h3>
+                <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 15px;">Unlock CLI hooks auto-generating journal logs on git branch changes, plus Markdown summaries exporters.</p>
+                <a href="https://aegisdev.lemonsqueezy.com/checkout/buy/flowstate-pro" class="lemonsqueezy-button btn-buy">Get Pro Toolkit ($9.99)</a>
+            </div>
+        </div>
+    </div>
+    
+    <script src="https://assets.lemonsqueezy.com/lemon.js" defer></script>
     <script>
         const logs = JSON.parse(localStorage.getItem('flow_logs') || '[]');
+        
         function render() {
-            document.getElementById('logArea').innerHTML = logs.map(l => `<div><strong>${l.time}:</strong> ${l.text}</div>`).join('');
+            if (logs.length > 0) {
+                document.getElementById('logSection').style.display = 'block';
+                document.getElementById('logArea').innerHTML = logs.map(l => `
+                    <div class="log-item">
+                        <div class="log-time">${l.time}</div>
+                        <div>${l.text}</div>
+                    </div>
+                `).join('');
+            } else {
+                document.getElementById('logSection').style.display = 'none';
+            }
         }
+        
         function saveLog() {
-            const txt = document.getElementById('journal').value;
+            const txt = document.getElementById('journal').value.trim();
             if(!txt) return;
-            logs.unshift({time: new Date().toLocaleTimeString(), text: txt});
+            
+            const timestamp = new Date().toLocaleString();
+            logs.unshift({time: timestamp, text: txt});
             localStorage.setItem('flow_logs', JSON.stringify(logs.slice(0, 5)));
             document.getElementById('journal').value = '';
             render();
         }
+        
         render();
     </script>
 </body>
