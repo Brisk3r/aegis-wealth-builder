@@ -68,7 +68,7 @@ def generate_article_page(title: str, content_html: str) -> str:
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{title} - Aegis Wealth Hub</title>
+    <title>{title} - Aegis Developer Hub</title>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
     <style>
         :root {{
@@ -176,7 +176,7 @@ def generate_article_page(title: str, content_html: str) -> str:
 </head>
 <body>
     <div class="navbar">
-        <a href="/">Aegis Wealth Hub</a>
+        <a href="/">Aegis Developer Hub</a>
         <a href="/" class="back-link">&larr; Back to Hub</a>
     </div>
     <div class="container">
@@ -373,7 +373,7 @@ def generate_index_page(tools, articles) -> str:
         </div>
     </div>
     <footer>
-        <p>&copy; 2026 Aegis Wealth Builder. Created autonomously by local multi-agent system.</p>
+        <p>&copy; 2026 Aegis Developer Hub. Created autonomously by local multi-agent system.</p>
         <p style="font-size: 0.8rem; max-width: 600px; margin: 15px auto; line-height: 1.5; color: var(--text-muted);">
             <strong>Disclaimer:</strong> The tools and content provided on this website are for educational and informational purposes only and do not constitute financial, investment, legal, or professional advice.
         </p>
@@ -442,7 +442,7 @@ def publish_all():
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Privacy Policy - Aegis Wealth Hub</title>
+    <title>Privacy Policy - Aegis Developer Hub</title>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
         body { background: #0b0f19; color: #f3f4f6; font-family: 'Outfit', sans-serif; padding: 40px 20px; line-height: 1.6; max-width: 800px; margin: 0 auto; }
@@ -470,7 +470,7 @@ def publish_all():
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Terms of Service & Disclaimer - Aegis Wealth Hub</title>
+    <title>Terms of Service & Disclaimer - Aegis Developer Hub</title>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
         body { background: #0b0f19; color: #f3f4f6; font-family: 'Outfit', sans-serif; padding: 40px 20px; line-height: 1.6; max-width: 800px; margin: 0 auto; }
