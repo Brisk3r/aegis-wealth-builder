@@ -112,6 +112,7 @@ def generate_article_page(title: str, content_html: str, article_rel_path: str) 
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{title} - Aegis Developer Hub</title>
     <link rel="canonical" href="https://{DOMAIN}/{article_rel_path}">{adsense_tag}
+    <script defer src="/_vercel/insights/script.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
     <style>
         :root {{
@@ -303,6 +304,7 @@ def generate_index_page(tools, articles) -> str:
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Aegis Developer Hub</title>
     <link rel="canonical" href="https://{DOMAIN}/">{adsense_tag}
+    <script defer src="/_vercel/insights/script.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
     <style>
         :root {{
@@ -505,6 +507,11 @@ def post_process_tool(tool_abs_path: Path, topic: str):
 </head>
 """
         html = html.replace("</head>", custom_styles, 1)
+        
+    # 1.5 Inject Vercel Analytics script
+    analytics_tag = '\n    <script defer src="/_vercel/insights/script.js"></script>'
+    if '/_vercel/insights/script.js' not in html and '</head>' in html:
+        html = html.replace('</head>', f'{analytics_tag}\n</head>', 1)
         
     # 2. Inject Navbar right after <body>
     navbar_html = """
