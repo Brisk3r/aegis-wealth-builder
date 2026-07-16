@@ -585,19 +585,61 @@ def post_process_tool(tool_abs_path: Path, topic: str):
         print(f"Error reading tool file {tool_abs_path}: {e}")
         return
         
-    # Check if already processed
-    if "Aegis Hub Logo" in html:
-        return
-        
-    # 1. Inject Outfit Font & CSS variables in Head
-    font_link = '<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">'
-    adsense_tag = ""
-    if config.google_adsense_client:
-        adsense_tag = f'\n    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client={config.google_adsense_client}" crossorigin="anonymous"></script>'
+    modified = False
 
-    if "</head>" in html:
-        custom_styles = f"""
-    {font_link}{adsense_tag}
+    # 1. Google AdSense client script injection
+    if config.google_adsense_client:
+        adsense_tag = f'<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client={config.google_adsense_client}" crossorigin="anonymous"></script>'
+        if "pagead2.googlesyndication.com/pagead/js/adsbygoogle.js" not in html and "</head>" in html:
+            html = html.replace("</head>", f"    {adsense_tag}\n</head>", 1)
+            modified = True
+            
+    # 1.5 Inject Vercel Analytics script
+    analytics_tag = '\n    <script defer src="/_vercel/insights/script.js"></script>'
+    if '/_vercel/insights/script.js' not in html and '</head>' in html:
+        html = html.replace('</head>', f'{analytics_tag}\n</head>', 1)
+        modified = True
+        
+    # 1.7 Inject Google Analytics script
+    if config.google_analytics_id and f'googletagmanager.com/gtag/js?id={config.google_analytics_id}' not in html and '</head>' in html:
+        ga_tag = get_analytics_tag(indent=4)
+        html = html.replace('head>', f'head>\n{ga_tag}', 1)
+        modified = True
+
+    # 1.9 Inject Lemon Squeezy script in head if not present
+    ls_script = '\n    <script src="https://lmsqueezy.com/assets/embed.js" defer></script>'
+    if 'lmsqueezy.com/assets/embed.js' not in html and '</head>' in html:
+        html = html.replace('head>', f'head>\n{ls_script}', 1)
+        modified = True
+
+    # 2. Inject Navbar right after <body> if NOT already present
+    if "Aegis Hub Logo" not in html and "navbar" not in html:
+        navbar_html = """
+    <div class="navbar" style="display: flex; justify-content: space-between; align-items: center; padding: 20px 40px; border-bottom: 1px solid rgba(255,255,255,0.08); background: rgba(11, 15, 25, 0.7); backdrop-filter: blur(12px); position: sticky; top: 0; z-index: 100; font-family: 'Outfit', sans-serif;">
+        <a href="/" style="display: flex; align-items: center; gap: 10px; color: #f3f4f6; text-decoration: none; font-weight: 600;">
+            <img src="/static/logo.png" alt="Aegis Hub Logo" style="height: 30px;">
+            <span>Aegis Developer Hub</span>
+        </a>
+        <a href="/" style="color: #60a5fa; text-decoration: none; font-size: 0.95rem;">&larr; Back to Hub</a>
+    </div>
+    """
+        if "<body>" in html:
+            html = html.replace("<body>", f"<body>\n{navbar_html}", 1)
+            modified = True
+        elif "<body" in html:
+            # handle attributes
+            match = re.search(r"<body[^>]*>", html)
+            if match:
+                body_tag = match.group(0)
+                html = html.replace(body_tag, f"{body_tag}\n{navbar_html}", 1)
+                modified = True
+
+    # 3. Inject default Outfit Font & basic styles only if the tool has no built-in styling system
+    if "Aegis Hub Logo" not in html and "fonts.googleapis.com/css2?family=Outfit" not in html and "</head>" in html:
+        if "tailwindcss" not in html and "tailwind.config" not in html:
+            font_link = '<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">'
+            custom_styles = f"""
+    {font_link}
     <style>
         :root {{
             --bg-color: #0b0f19;
@@ -614,65 +656,34 @@ def post_process_tool(tool_abs_path: Path, topic: str):
             font-family: 'Outfit', sans-serif !important;
         }}
     </style>
-</head>
 """
-        html = html.replace("</head>", custom_styles, 1)
-        
-    # 1.5 Inject Vercel Analytics script
-    analytics_tag = '\n    <script defer src="/_vercel/insights/script.js"></script>'
-    if '/_vercel/insights/script.js' not in html and '</head>' in html:
-        html = html.replace('</head>', f'{analytics_tag}\n</head>', 1)
-        
-    # 1.7 Inject Google Analytics script
-    if config.google_analytics_id and f'googletagmanager.com/gtag/js?id={config.google_analytics_id}' not in html and '</head>' in html:
-        ga_tag = get_analytics_tag(indent=4)
-        html = html.replace('</head>', f'{ga_tag}\n</head>', 1)
-        
-    # 2. Inject Navbar right after <body>
-    navbar_html = """
-    <div class="navbar" style="display: flex; justify-content: space-between; align-items: center; padding: 20px 40px; border-bottom: 1px solid rgba(255,255,255,0.08); background: rgba(11, 15, 25, 0.7); backdrop-filter: blur(12px); position: sticky; top: 0; z-index: 100; font-family: 'Outfit', sans-serif;">
-        <a href="/" style="display: flex; align-items: center; gap: 10px; color: #f3f4f6; text-decoration: none; font-weight: 600;">
-            <img src="/static/logo.png" alt="Aegis Hub Logo" style="height: 30px;">
-            <span>Aegis Developer Hub</span>
-        </a>
-        <a href="/" style="color: #60a5fa; text-decoration: none; font-size: 0.95rem;">&larr; Back to Hub</a>
-    </div>
-    """
-    
-    if "<body>" in html:
-        html = html.replace("<body>", f"<body>\n{navbar_html}", 1)
-    elif "<body" in html:
-        # handle attributes
-        match = re.search(r"<body[^>]*>", html)
-        if match:
-            body_tag = match.group(0)
-            html = html.replace(body_tag, f"{body_tag}\n{navbar_html}", 1)
-            
-    # Lemon Squeezy product checkout injection
+            html = html.replace("</head>", f"{custom_styles}\n</head>", 1)
+            modified = True
+
+    # 4. Lemon Squeezy product checkout injections (placeholders replacement)
     checkout_premium = "https://aegishub.lemonsqueezy.com/checkout/buy/22815780-b4e8-466d-a4eb-5bd71d121707?embed=1"
     checkout_kit = "https://aegishub.lemonsqueezy.com/checkout/buy/0f7285e8-f8d2-4d19-8856-1e6d08ef423f?embed=1"
 
-    # Inject LS script in head if not present
-    ls_script = '\n    <script src="https://lmsqueezy.com/assets/embed.js" defer></script>'
-    if 'lmsqueezy.com/assets/embed.js' not in html and '</head>' in html:
-        html = html.replace('</head>', f'{ls_script}\n</head>', 1)
-
-    # Replace placeholders with checkout buttons
-    html = html.replace(
-        '<span class="text-[10px] text-gray-500">Secure checkout handled by Lemon Squeezy</span>',
-        f'<a href="{checkout_kit}" class="lemonsqueezy-button bg-blue-600 hover:bg-blue-500 text-white font-semibold py-2.5 px-6 rounded-xl transition-all duration-200 text-xs md:text-sm text-center w-full" data-cb-type="checkout" data-cb-embed="1">Get Starter Kit - $29</a>\n                    <span class="text-[10px] text-gray-500">Secure checkout handled by Lemon Squeezy</span>'
-    )
-    
-    html = html.replace(
-        '<p class="text-[10px] text-gray-500 text-center">Checkout powered secure by Lemon Squeezy</p>',
-        f'<a href="{checkout_premium}" class="lemonsqueezy-button block text-center bg-blue-600/30 hover:bg-blue-600/50 border border-blue-500/50 text-blue-300 font-semibold py-2 px-4 rounded-lg text-xs transition-all duration-200" data-cb-type="checkout" data-cb-embed="1">Get Premium Spec - $4.99</a>\n                                        <p class="text-[10px] text-gray-500 text-center">Checkout powered secure by Lemon Squeezy</p>'
-    )
+    if '<span class="text-[10px] text-gray-500">Secure checkout handled by Lemon Squeezy</span>' in html:
+        html = html.replace(
+            '<span class="text-[10px] text-gray-500">Secure checkout handled by Lemon Squeezy</span>',
+            f'<a href="{checkout_kit}" class="lemonsqueezy-button bg-blue-600 hover:bg-blue-500 text-white font-semibold py-2.5 px-6 rounded-xl transition-all duration-200 text-xs md:text-sm text-center w-full" data-cb-type="checkout" data-cb-embed="1">Get Starter Kit - $29</a>\n                    <span class="text-[10px] text-gray-500">Secure checkout handled by Lemon Squeezy</span>'
+        )
+        modified = True
         
-    try:
-        with open(tool_abs_path, "w", encoding="utf-8") as f:
-            f.write(html)
-    except Exception as e:
-        print(f"Error writing tool file {tool_abs_path}: {e}")
+    if '<p class="text-[10px] text-gray-500 text-center">Checkout powered secure by Lemon Squeezy</p>' in html:
+        html = html.replace(
+            '<p class="text-[10px] text-gray-500 text-center">Checkout powered secure by Lemon Squeezy</p>',
+            f'<a href="{checkout_premium}" class="lemonsqueezy-button block text-center bg-blue-600/30 hover:bg-blue-600/50 border border-blue-500/50 text-blue-300 font-semibold py-2 px-4 rounded-lg text-xs transition-all duration-200" data-cb-type="checkout" data-cb-embed="1">Get Premium Spec - $4.99</a>\n                                        <p class="text-[10px] text-gray-500 text-center">Checkout powered secure by Lemon Squeezy</p>'
+        )
+        modified = True
+        
+    if modified:
+        try:
+            with open(tool_abs_path, "w", encoding="utf-8") as f:
+                f.write(html)
+        except Exception as e:
+            print(f"Error writing tool file {tool_abs_path}: {e}")
 
 def generate_sitemap(tools, articles):
     import datetime
