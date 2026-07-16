@@ -49,6 +49,7 @@ class SystemConfig(BaseModel):
     custom_domain: str | None = Field(default_factory=lambda: os.environ.get("AEGIS_CUSTOM_DOMAIN"))
     carbon_ads_src: str | None = Field(default_factory=lambda: os.environ.get("CARBON_ADS_SRC"))
     google_adsense_client: str | None = Field(default_factory=lambda: os.environ.get("GOOGLE_ADSENSE_CLIENT"))
+    google_adsense_slot: str | None = Field(default_factory=lambda: os.environ.get("GOOGLE_ADSENSE_SLOT"))
     google_analytics_id: str | None = Field(default_factory=lambda: os.environ.get("GOOGLE_ANALYTICS_ID"))
     affiliate_links_json: str | None = Field(default_factory=lambda: os.environ.get("AFFILIATE_LINKS_JSON"))
     lemonsqueezy_store_url: str | None = Field(default_factory=lambda: os.environ.get("LEMONSQUEEZY_STORE_URL"))

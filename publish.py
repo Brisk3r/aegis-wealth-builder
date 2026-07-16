@@ -102,13 +102,13 @@ def generate_article_page(title: str, content_html: str, article_rel_path: str) 
             <script async type="text/javascript" src="{config.carbon_ads_src}" id="_carbonads_js"></script>
         </div>
         """
-    elif config.google_adsense_client:
+    elif config.google_adsense_client and config.google_adsense_slot:
         ads_html = f"""
         <div style="margin-bottom: 30px; text-align: center;">
             <ins class="adsbygoogle"
                  style="display:block"
                  data-ad-client="{config.google_adsense_client}"
-                 data-ad-slot="auto"
+                 data-ad-slot="{config.google_adsense_slot}"
                  data-ad-format="auto"
                  data-full-width-responsive="true"></ins>
             <script>(adsbygoogle = window.adsbygoogle || []).push({{}});</script>
@@ -329,13 +329,13 @@ def generate_index_page(tools, articles) -> str:
             <script async type="text/javascript" src="{config.carbon_ads_src}" id="_carbonads_js"></script>
         </div>
         """
-    elif config.google_adsense_client:
+    elif config.google_adsense_client and config.google_adsense_slot:
         ads_html = f"""
         <div style="margin: 30px auto 0 auto; max-width: 728px; text-align: center;">
             <ins class="adsbygoogle"
                  style="display:block"
                  data-ad-client="{config.google_adsense_client}"
-                 data-ad-slot="auto"
+                 data-ad-slot="{config.google_adsense_slot}"
                  data-ad-format="auto"
                  data-full-width-responsive="true"></ins>
             <script>(adsbygoogle = window.adsbygoogle || []).push({{}});</script>
