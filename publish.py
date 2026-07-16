@@ -99,8 +99,6 @@ def generate_article_page(title: str, content_html: str, article_rel_path: str) 
         </div>
         """
 
-    affiliate_sidebar_html = ""
-
     adsense_tag = ""
     if config.google_adsense_client:
         adsense_tag = f'\n    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client={config.google_adsense_client}" crossorigin="anonymous"></script>'
@@ -113,16 +111,16 @@ def generate_article_page(title: str, content_html: str, article_rel_path: str) 
     <title>{title} - Aegis Developer Hub</title>
     <link rel="canonical" href="https://{DOMAIN}/{article_rel_path}">{adsense_tag}
     <script defer src="/_vercel/insights/script.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;800&display=swap" rel="stylesheet">
     <style>
         :root {{
-            --bg-color: #0b0f19;
-            --card-bg: rgba(255, 255, 255, 0.03);
-            --border-color: rgba(255, 255, 255, 0.08);
+            --bg-color: #080b11;
+            --card-bg: rgba(17, 24, 39, 0.55);
+            --border-color: rgba(255, 255, 255, 0.05);
             --primary-accent: #3b82f6;
             --secondary-accent: #60a5fa;
-            --text-main: #f3f4f6;
-            --text-muted: #9ca3af;
+            --text-main: #f1f5f9;
+            --text-muted: #94a3b8;
         }}
         body {{
             background-color: var(--bg-color);
@@ -131,27 +129,39 @@ def generate_article_page(title: str, content_html: str, article_rel_path: str) 
             margin: 0;
             padding: 0;
             line-height: 1.7;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(59, 130, 246, 0.04) 0%, transparent 40%),
+                radial-gradient(circle at 90% 80%, rgba(99, 102, 241, 0.03) 0%, transparent 40%);
+            background-attachment: fixed;
         }}
         .navbar {{
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 20px 40px;
+            padding: 18px 40px;
             border-bottom: 1px solid var(--border-color);
             backdrop-filter: blur(12px);
             position: sticky;
             top: 0;
             z-index: 100;
-            background: rgba(11, 15, 25, 0.7);
+            background: rgba(8, 11, 17, 0.85);
         }}
         .navbar a {{
             color: var(--text-main);
             text-decoration: none;
             font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: opacity 0.2s;
+        }}
+        .navbar a:hover {{
+            opacity: 0.9;
         }}
         .back-link {{
             color: var(--secondary-accent) !important;
             font-size: 0.95rem;
+            font-weight: 500;
         }}
         .container {{
             max-width: 800px;
@@ -161,53 +171,68 @@ def generate_article_page(title: str, content_html: str, article_rel_path: str) 
         article {{
             background: var(--card-bg);
             border: 1px solid var(--border-color);
-            border-radius: 16px;
-            padding: 40px;
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
-            backdrop-filter: blur(8px);
+            border-radius: 20px;
+            padding: 45px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(16px);
         }}
         h1 {{
-            font-size: 2.5rem;
+            font-size: 2.8rem;
             font-weight: 800;
             margin-top: 0;
-            margin-bottom: 20px;
+            margin-bottom: 25px;
             background: linear-gradient(135deg, var(--text-main) 30%, var(--secondary-accent));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+            line-height: 1.25;
         }}
         p {{
             color: var(--text-main);
-            margin-bottom: 20px;
+            margin-bottom: 25px;
+            font-size: 1.05rem;
         }}
         h2, h3 {{
             color: var(--secondary-accent);
             margin-top: 40px;
+            font-weight: 600;
         }}
-        ul {{
-            padding-left: 20px;
-            margin-bottom: 25px;
+        h2 {{
+            font-size: 1.8rem;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 8px;
+        }}
+        h3 {{
+            font-size: 1.4rem;
+        }}
+        ul, ol {{
+            padding-left: 24px;
+            margin-bottom: 30px;
         }}
         li {{
-            margin-bottom: 10px;
+            margin-bottom: 12px;
+            font-size: 1.05rem;
         }}
         pre {{
-            background: rgba(0, 0, 0, 0.4);
+            background: rgba(0, 0, 0, 0.45);
             border: 1px solid var(--border-color);
-            padding: 20px;
-            border-radius: 8px;
+            padding: 22px;
+            border-radius: 12px;
             overflow-x: auto;
+            margin: 25px 0;
         }}
         code {{
             font-family: 'Courier New', Courier, monospace;
             color: #34d399;
+            font-size: 0.95rem;
         }}
         footer {{
             text-align: center;
-            padding: 40px 20px;
+            padding: 60px 20px;
             color: var(--text-muted);
-            font-size: 0.9rem;
+            font-size: 0.95rem;
             border-top: 1px solid var(--border-color);
             margin-top: 100px;
+            background: rgba(8, 11, 17, 0.4);
         }}
         .disclosure {{
             font-size: 0.85rem;
@@ -220,7 +245,7 @@ def generate_article_page(title: str, content_html: str, article_rel_path: str) 
 </head>
 <body>
     <div class="navbar">
-        <a href="/" style="display: flex; align-items: center; gap: 10px;">
+        <a href="/">
             <img src="/static/logo.png" alt="Aegis Hub Logo" style="height: 30px;">
             <span>Aegis Developer Hub</span>
         </a>
@@ -236,19 +261,25 @@ def generate_article_page(title: str, content_html: str, article_rel_path: str) 
         </article>
     </div>
     <footer>
-        &copy; 2026 Aegis Developer Hub. All rights reserved.<br>
-        <a href="/static/privacy.html" style="color: var(--text-muted); text-decoration: underline; margin-right: 15px;">Privacy Policy</a>
-        <a href="/static/terms.html" style="color: var(--text-muted); text-decoration: underline;">Terms of Service & Disclaimer</a>
+        <p>&copy; 2026 Aegis Developer Hub. All rights reserved.</p>
+        <p style="margin-top: 15px;">
+            <a href="/static/privacy.html" style="color: var(--text-muted); text-decoration: underline; margin-right: 15px;">Privacy Policy</a>
+            <a href="/static/terms.html" style="color: var(--text-muted); text-decoration: underline;">Terms of Service & Disclaimer</a>
+        </p>
     </footer>
 </body>
 </html>
 """
+
 
 def generate_index_page(tools, articles) -> str:
     tools_list_html = ""
     for tool in tools:
         tools_list_html += f"""
         <div class="card">
+            <div class="card-header">
+                <span class="badge badge-tool">Interactive Tool</span>
+            </div>
             <h3>{tool['name']}</h3>
             <p>{tool['description']}</p>
             <a href="/{tool['path'].replace(chr(92), '/')}" class="btn">Launch Tool &rarr;</a>
@@ -262,6 +293,9 @@ def generate_index_page(tools, articles) -> str:
     for art in articles:
         articles_list_html += f"""
         <div class="card">
+            <div class="card-header">
+                <span class="badge badge-article">Companion Guide</span>
+            </div>
             <h3>{art['title']}</h3>
             <p>{art['description']}</p>
             <a href="/{art['path'].replace(chr(92), '/')}" class="btn sec">Read Article &rarr;</a>
@@ -291,8 +325,6 @@ def generate_index_page(tools, articles) -> str:
         </div>
         """
 
-    affiliate_html = ""
-
     adsense_tag = ""
     if config.google_adsense_client:
         adsense_tag = f'\n    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client={config.google_adsense_client}" crossorigin="anonymous"></script>'
@@ -305,16 +337,16 @@ def generate_index_page(tools, articles) -> str:
     <title>Aegis Developer Hub</title>
     <link rel="canonical" href="https://{DOMAIN}/">{adsense_tag}
     <script defer src="/_vercel/insights/script.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;800&display=swap" rel="stylesheet">
     <style>
         :root {{
-            --bg-color: #0b0f19;
-            --card-bg: rgba(255, 255, 255, 0.03);
-            --border-color: rgba(255, 255, 255, 0.08);
+            --bg-color: #080b11;
+            --card-bg: rgba(17, 24, 39, 0.55);
+            --border-color: rgba(255, 255, 255, 0.05);
             --primary-accent: #3b82f6;
             --secondary-accent: #60a5fa;
-            --text-main: #f3f4f6;
-            --text-muted: #9ca3af;
+            --text-main: #f1f5f9;
+            --text-muted: #94a3b8;
         }}
         body {{
             background-color: var(--bg-color);
@@ -322,28 +354,44 @@ def generate_index_page(tools, articles) -> str:
             font-family: 'Outfit', sans-serif;
             margin: 0;
             padding: 0;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(59, 130, 246, 0.04) 0%, transparent 40%),
+                radial-gradient(circle at 90% 80%, rgba(99, 102, 241, 0.03) 0%, transparent 40%);
+            background-attachment: fixed;
         }}
         .hero {{
             padding: 120px 20px 90px 20px;
             text-align: center;
             border-bottom: 1px solid var(--border-color);
-            background: linear-gradient(rgba(11, 15, 25, 0.82), rgba(11, 15, 25, 0.96)), url('/static/hero_banner.png') no-repeat center center;
+            background: linear-gradient(rgba(8, 11, 17, 0.8), rgba(8, 11, 17, 0.95)), url('/static/hero_banner.png') no-repeat center center;
             background-size: cover;
+            position: relative;
+        }}
+        .hero::after {{
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(59, 130, 246, 0.3), transparent);
         }}
         .hero h1 {{
-            font-size: 3.5rem;
+            font-size: 3.8rem;
             font-weight: 800;
             margin: 0 0 20px 0;
             background: linear-gradient(135deg, var(--text-main) 30%, var(--secondary-accent));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+            letter-spacing: -1px;
         }}
         .hero p {{
             color: var(--text-muted);
-            font-size: 1.25rem;
-            max-width: 600px;
+            font-size: 1.3rem;
+            max-width: 650px;
             margin: 0 auto;
             line-height: 1.6;
+            font-weight: 300;
         }}
         .container {{
             max-width: 1200px;
@@ -351,42 +399,85 @@ def generate_index_page(tools, articles) -> str:
             padding: 0 20px;
         }}
         .section-title {{
-            font-size: 1.75rem;
-            font-weight: 700;
+            font-size: 1.8rem;
+            font-weight: 800;
             margin-bottom: 30px;
             border-left: 4px solid var(--primary-accent);
-            padding-left: 12px;
+            padding-left: 15px;
+            letter-spacing: -0.5px;
         }}
         .grid {{
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-            gap: 25px;
-            margin-bottom: 60px;
+            grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+            gap: 30px;
+            margin-bottom: 70px;
         }}
         .card {{
             background: var(--card-bg);
             border: 1px solid var(--border-color);
-            border-radius: 16px;
-            padding: 30px;
+            border-radius: 20px;
+            padding: 35px;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            transition: transform 0.2s, border-color 0.2s;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            backdrop-filter: blur(12px);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.15);
+            position: relative;
+            overflow: hidden;
+        }}
+        .card::before {{
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, rgba(59, 130, 246, 0.2), transparent);
+            opacity: 0;
+            transition: opacity 0.3s;
         }}
         .card:hover {{
-            transform: translateY(-4px);
-            border-color: rgba(59, 130, 246, 0.3);
+            transform: translateY(-6px) scale(1.01);
+            border-color: rgba(59, 130, 246, 0.25);
+            box-shadow: 0 12px 40px rgba(59, 130, 246, 0.15);
+        }}
+        .card:hover::before {{
+            opacity: 1;
+        }}
+        .card-header {{
+            margin-bottom: 15px;
+        }}
+        .badge {{
+            display: inline-block;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            padding: 4px 10px;
+            border-radius: 99px;
+            letter-spacing: 0.5px;
+        }}
+        .badge-tool {{
+            background: rgba(59, 130, 246, 0.1);
+            color: var(--secondary-accent);
+            border: 1px solid rgba(59, 130, 246, 0.15);
+        }}
+        .badge-article {{
+            background: rgba(139, 92, 246, 0.1);
+            color: #a78bfa;
+            border: 1px solid rgba(139, 92, 246, 0.15);
         }}
         .card h3 {{
             margin-top: 0;
-            font-size: 1.35rem;
-            font-weight: 600;
+            font-size: 1.45rem;
+            font-weight: 700;
+            line-height: 1.3;
         }}
         .card p {{
             color: var(--text-muted);
-            font-size: 0.95rem;
+            font-size: 1rem;
             line-height: 1.6;
-            margin: 15px 0 25px 0;
+            margin: 15px 0 30px 0;
             flex-grow: 1;
         }}
         .btn {{
@@ -395,22 +486,26 @@ def generate_index_page(tools, articles) -> str:
             background: var(--primary-accent);
             color: #ffffff;
             text-decoration: none;
-            padding: 12px 20px;
-            border-radius: 8px;
+            padding: 12px 24px;
+            border-radius: 10px;
             font-weight: 600;
             font-size: 0.95rem;
-            transition: background 0.2s;
+            transition: all 0.2s;
+            border: 1px solid transparent;
         }}
         .btn:hover {{
             background: #2563eb;
+            box-shadow: 0 4px 15px rgba(37, 99, 235, 0.4);
         }}
         .btn.sec {{
             background: transparent;
-            border: 1px solid var(--primary-accent);
+            border: 1px solid rgba(59, 130, 246, 0.4);
             color: var(--secondary-accent);
         }}
         .btn.sec:hover {{
             background: rgba(59, 130, 246, 0.1);
+            border-color: var(--primary-accent);
+            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.1);
         }}
         .empty {{
             color: var(--text-muted);
@@ -419,7 +514,7 @@ def generate_index_page(tools, articles) -> str:
             padding: 40px;
             background: var(--card-bg);
             border: 1px dashed var(--border-color);
-            border-radius: 16px;
+            border-radius: 20px;
         }}
         footer {{
             text-align: center;
@@ -427,12 +522,13 @@ def generate_index_page(tools, articles) -> str:
             color: var(--text-muted);
             border-top: 1px solid var(--border-color);
             font-size: 0.95rem;
+            background: rgba(8, 11, 17, 0.4);
         }}
     </style>
 </head>
 <body>
     <div class="hero">
-        <img src="/static/logo.png" alt="Aegis Hub Logo" style="height: 70px; margin-bottom: 25px; filter: drop-shadow(0 0 10px rgba(59, 130, 246, 0.4));">
+        <img src="/static/logo.png" alt="Aegis Hub Logo" style="height: 80px; margin-bottom: 25px; filter: drop-shadow(0 0 15px rgba(59, 130, 246, 0.55));">
         <h1>Aegis Developer Hub</h1>
         <p>A curated sandbox of high-utility web tools, interactive components, and premium developer guides.</p>
         {ads_html}
@@ -447,15 +543,13 @@ def generate_index_page(tools, articles) -> str:
         <div class="grid">
             {articles_list_html}
         </div>
-
-
     </div>
     <footer>
         <p>&copy; 2026 Aegis Developer Hub. All rights reserved.</p>
-        <p style="font-size: 0.8rem; max-width: 600px; margin: 15px auto; line-height: 1.5; color: var(--text-muted);">
+        <p style="font-size: 0.85rem; max-width: 600px; margin: 15px auto; line-height: 1.5; color: var(--text-muted);">
             <strong>Disclaimer:</strong> The tools and content provided on this website are for educational and informational purposes only and do not constitute financial, investment, legal, or professional advice.
         </p>
-        <p style="margin-top: 15px;">
+        <p style="margin-top: 20px;">
             <a href="/static/privacy.html" style="color: var(--text-muted); text-decoration: underline; margin-right: 15px;">Privacy Policy</a>
             <a href="/static/terms.html" style="color: var(--text-muted); text-decoration: underline;">Terms of Service & Disclaimer</a>
         </p>

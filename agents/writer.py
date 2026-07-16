@@ -47,31 +47,99 @@ class ContentWriter:
             )
 
     async def write_article(self, topic: str, keywords: list[str], research_data: str) -> str:
-        """Generates an SEO-optimized article based on a topic, keywords, and research data."""
-        agent_config = self._get_agent_config()
-        async with Agent(agent_config) as agent:
-            prompt = (
-                f"Write a comprehensive, SEO-optimized blog article (minimum 1000 words) on the topic: '{topic}'.\n"
-                f"Keywords to integrate: {', '.join(keywords)}.\n"
-                f"Here is the market research data for reference:\n{research_data}\n\n"
-                "Provide the complete article in formatted Markdown."
-            )
-            logger.info("Generating article for topic: %s", topic)
-            response = await agent.chat(prompt)
-            return await response.text()
+        """Generates an SEO-optimized article based on a topic, keywords, and research data, with robust fallbacks."""
+        prompt = (
+            f"Write a comprehensive, SEO-optimized blog article (minimum 1000 words) on the topic: '{topic}'.\n"
+            f"Keywords to integrate: {', '.join(keywords)}.\n"
+            f"Here is the market research data for reference:\n{research_data}\n\n"
+            "Provide the complete article in formatted Markdown."
+        )
+
+        try:
+            agent_config = self._get_agent_config()
+            logger.info("Generating article for topic: %s using backend: %s", topic, self.backend)
+            async with Agent(agent_config) as agent:
+                response = await agent.chat(prompt)
+                return await response.text()
+        except Exception as e:
+            logger.warning("ContentWriter failed on primary backend: %s. Falling back to local Ollama (gemma4:latest)...", e)
+            if self.backend == "gemini":
+                fallback_config = LocalOpenAIAgentConfig(
+                    model="gemma4:latest",
+                    base_url=config.ollama_base_url,
+                    system_instructions=(
+                        "You are an elite copywriter and SEO blog author. Write engaging, informative, and "
+                        "deeply researched articles. Integrate specified keywords naturally. Write high-value educational content."
+                    ),
+                    capabilities=CapabilitiesConfig(enabled_tools=[]),
+                    policies=[policy.allow_all()],
+                    workspaces=[str(config.BASE_DIR)]
+                )
+                try:
+                    async with Agent(fallback_config) as agent:
+                        response = await agent.chat(prompt)
+                        return await response.text()
+                except Exception as fe:
+                    logger.error("Ollama fallback content writing failed: %s. Falling back to Qwen...", fe)
+                    # Try Qwen as ultimate fallback
+                    qwen_config = LocalOpenAIAgentConfig(
+                        model=config.ollama_model,
+                        base_url=config.ollama_base_url,
+                        system_instructions="You are an elite copywriter and SEO blog author.",
+                        capabilities=CapabilitiesConfig(enabled_tools=[]),
+                        policies=[policy.allow_all()],
+                        workspaces=[str(config.BASE_DIR)]
+                    )
+                    async with Agent(qwen_config) as agent:
+                        response = await agent.chat(prompt)
+                        return await response.text()
+            else:
+                raise
 
     async def write_newsletter(self, topic: str, product_name: str, cta_link: str) -> str:
-        """Generates an engaging email newsletter draft with a clear CTA."""
-        agent_config = self._get_agent_config()
-        async with Agent(agent_config) as agent:
-            prompt = (
-                f"Draft an engaging email newsletter for our subscribers. The topic is '{topic}'.\n"
-                f"We are promoting a product/tool named '{product_name}' which they can check out here: {cta_link}.\n"
-                "The email should have a catchy subject line, clear value proposition, and a strong, clickable call to action."
-            )
-            logger.info("Generating newsletter for topic: %s", topic)
-            response = await agent.chat(prompt)
-            return await response.text()
+        """Generates an engaging email newsletter draft with a clear CTA, with robust fallbacks."""
+        prompt = (
+            f"Draft an engaging email newsletter for our subscribers. The topic is '{topic}'.\n"
+            f"We are promoting a product/tool named '{product_name}' which they can check out here: {cta_link}.\n"
+            "The email should have a catchy subject line, clear value proposition, and a strong, clickable call to action."
+        )
+
+        try:
+            agent_config = self._get_agent_config()
+            logger.info("Generating newsletter for topic: %s using backend: %s", topic, self.backend)
+            async with Agent(agent_config) as agent:
+                response = await agent.chat(prompt)
+                return await response.text()
+        except Exception as e:
+            logger.warning("ContentWriter newsletter failed: %s. Falling back to local Ollama (gemma4:latest)...", e)
+            if self.backend == "gemini":
+                fallback_config = LocalOpenAIAgentConfig(
+                    model="gemma4:latest",
+                    base_url=config.ollama_base_url,
+                    system_instructions="You are an elite copywriter and email marketer.",
+                    capabilities=CapabilitiesConfig(enabled_tools=[]),
+                    policies=[policy.allow_all()],
+                    workspaces=[str(config.BASE_DIR)]
+                )
+                try:
+                    async with Agent(fallback_config) as agent:
+                        response = await agent.chat(prompt)
+                        return await response.text()
+                except Exception as fe:
+                    logger.error("Ollama fallback newsletter failed: %s. Trying Qwen...", fe)
+                    qwen_config = LocalOpenAIAgentConfig(
+                        model=config.ollama_model,
+                        base_url=config.ollama_base_url,
+                        system_instructions="You are an elite copywriter.",
+                        capabilities=CapabilitiesConfig(enabled_tools=[]),
+                        policies=[policy.allow_all()],
+                        workspaces=[str(config.BASE_DIR)]
+                    )
+                    async with Agent(qwen_config) as agent:
+                        response = await agent.chat(prompt)
+                        return await response.text()
+            else:
+                raise
 
 if __name__ == "__main__":
     logging.basicConfig(level=logging.INFO)

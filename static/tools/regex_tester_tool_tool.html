@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RegEx Tester Tool</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Outfit', sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #1A202C;
+            color: #fff;
+        }
+        .container {
+            width: 90%;
+            max-width: 600px;
+            padding: 20px;
+            background-color: rgba(34, 43, 52, 0.8);
+            border-radius: 12px;
+            backdrop-filter: blur(10px);
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #A0AEC0;
+        }
+        textarea {
+            width: 100%;
+            height: 100px;
+            padding: 10px;
+            font-size: 16px;
+            border-radius: 4px;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            background-color: #2D3748;
+            color: #fff;
+            outline: none;
+            resize: vertical;
+            margin-bottom: 10px;
+        }
+        input {
+            width: calc(100% - 22px);
+            padding: 10px;
+            font-size: 16px;
+            border-radius: 4px;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            background-color: #2D3748;
+            color: #fff;
+            outline: none;
+            margin-right: 10px;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #6FCDFF;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+        button:hover {
+            background-color: #3A738D;
+        }
+        .results {
+            margin-top: 20px;
+            width: 100%;
+            max-height: 300px;
+            overflow-y: auto;
+            border-radius: 4px;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            background-color: #2D3748;
+            padding: 10px;
+            color: #fff;
+        }
+    </style>
+
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4750454395006570" crossorigin="anonymous"></script>
+    <style>
+        :root {
+            --bg-color: #0b0f19;
+            --card-bg: rgba(255, 255, 255, 0.03);
+            --border-color: rgba(255, 255, 255, 0.08);
+            --primary-accent: #3b82f6;
+            --secondary-accent: #60a5fa;
+            --text-main: #f3f4f6;
+            --text-muted: #9ca3af;
+        }
+        body {
+            background-color: var(--bg-color) !important;
+            color: var(--text-main) !important;
+            font-family: 'Outfit', sans-serif !important;
+        }
+    </style>
+
+    <script defer src="/_vercel/insights/script.js"></script>
+</head>
+
+<body>
+
+    <div class="navbar" style="display: flex; justify-content: space-between; align-items: center; padding: 20px 40px; border-bottom: 1px solid rgba(255,255,255,0.08); background: rgba(11, 15, 25, 0.7); backdrop-filter: blur(12px); position: sticky; top: 0; z-index: 100; font-family: 'Outfit', sans-serif;">
+        <a href="/" style="display: flex; align-items: center; gap: 10px; color: #f3f4f6; text-decoration: none; font-weight: 600;">
+            <img src="/static/logo.png" alt="Aegis Hub Logo" style="height: 30px;">
+            <span>Aegis Developer Hub</span>
+        </a>
+        <a href="/" style="color: #60a5fa; text-decoration: none; font-size: 0.95rem;">&larr; Back to Hub</a>
+    </div>
+    
+    <div class="container">
+        <h1>RegEx Tester Tool</h1>
+        <textarea id="regex-pattern" placeholder="Enter your regex pattern here"></textarea>
+        <input type="text" id="test-string" placeholder="Enter the test string">
+        <button onclick="testRegex()">Test Regex</button>
+        <div class="results" id="results-container"></div>
+    </div>
+
+    <script>
+        function testRegex() {
+            const regexPattern = document.getElementById('regex-pattern').value;
+            const testString = document.getElementById('test-string').value;
+
+            let resultsContainer = document.getElementById('results-container');
+            resultsContainer.innerHTML = '';
+
+            try {
+                const regex = new RegExp(regexPattern);
+                let match = regex.exec(testString);
+
+                if (match) {
+                    resultsContainer.innerHTML += `<p>Match found: ${match[0]}</p>`;
+                    if (match.length > 1) {
+                        for (let i = 1; i < match.length; i++) {
+                            resultsContainer.innerHTML += `<p>Capturing group ${i}: ${match[i]}</p>`;
+                        }
+                    }
+                } else {
+                    resultsContainer.innerHTML += '<p>No match found</p>';
+                }
+
+            } catch (error) {
+                resultsContainer.innerHTML = `<p>Error in regex: ${error.message}</p>`;
+            }
+        }
+    </script>
+</body>
+</html>

@@ -48,22 +48,57 @@ class ContentPromoter:
             )
 
     async def generate_campaign(self, product_name: str, description: str, keywords: list[str]) -> str:
-        """Generates a complete multi-platform social media campaign draft."""
-        agent_config = self._get_agent_config()
-        async with Agent(agent_config) as agent:
-            prompt = (
-                f"Draft a social media marketing campaign for: '{product_name}'.\n"
-                f"Product/Tool Description: {description}.\n"
-                f"Target Keywords: {', '.join(keywords)}.\n\n"
-                "Please generate:\n"
-                "1. Three alternative X/Twitter threads/posts (with hooks and formatting).\n"
-                "2. One detailed, educational Reddit post suitable for relevant subreddits.\n"
-                "3. One professional LinkedIn story post explaining the 'why' behind building this tool.\n"
-                "4. Pin titles and descriptions for Pinterest."
-            )
-            logger.info("Generating promotional campaign for: %s", product_name)
-            response = await agent.chat(prompt)
-            return await response.text()
+        """Generates a complete multi-platform social media campaign draft, with robust fallbacks."""
+        prompt = (
+            f"Draft a social media marketing campaign for: '{product_name}'.\n"
+            f"Product/Tool Description: {description}.\n"
+            f"Target Keywords: {', '.join(keywords)}.\n\n"
+            "Please generate:\n"
+            "1. Three alternative X/Twitter threads/posts (with hooks and formatting).\n"
+            "2. One detailed, educational Reddit post suitable for relevant subreddits.\n"
+            "3. One professional LinkedIn story post explaining the 'why' behind building this tool.\n"
+            "4. Pin titles and descriptions for Pinterest."
+        )
+
+        try:
+            agent_config = self._get_agent_config()
+            logger.info("Generating promotional campaign for: %s using backend: %s", product_name, self.backend)
+            async with Agent(agent_config) as agent:
+                response = await agent.chat(prompt)
+                return await response.text()
+        except Exception as e:
+            logger.warning("ContentPromoter failed: %s. Falling back to local Ollama (gemma4:latest)...", e)
+            if self.backend == "gemini":
+                fallback_config = LocalOpenAIAgentConfig(
+                    model="gemma4:latest",
+                    base_url=config.ollama_base_url,
+                    system_instructions=(
+                        "You are a growth hacker and social media manager. Your goal is to draft compelling, high-converting "
+                        "promotional posts for social media platforms (X/Twitter, Reddit, LinkedIn, Pinterest) to drive organic traffic."
+                    ),
+                    capabilities=CapabilitiesConfig(enabled_tools=[]),
+                    policies=[policy.allow_all()],
+                    workspaces=[str(config.BASE_DIR)]
+                )
+                try:
+                    async with Agent(fallback_config) as agent:
+                        response = await agent.chat(prompt)
+                        return await response.text()
+                except Exception as fe:
+                    logger.error("Ollama fallback promotion failed: %s. Trying Qwen...", fe)
+                    qwen_config = LocalOpenAIAgentConfig(
+                        model=config.ollama_model,
+                        base_url=config.ollama_base_url,
+                        system_instructions="You are a social media copywriter.",
+                        capabilities=CapabilitiesConfig(enabled_tools=[]),
+                        policies=[policy.allow_all()],
+                        workspaces=[str(config.BASE_DIR)]
+                    )
+                    async with Agent(qwen_config) as agent:
+                        response = await agent.chat(prompt)
+                        return await response.text()
+            else:
+                raise
 
 if __name__ == "__main__":
     logging.basicConfig(level=logging.INFO)
