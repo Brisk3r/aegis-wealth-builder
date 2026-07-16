@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <script src="https://lmsqueezy.com/assets/embed.js" defer></script>
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-BZVWXPPG06"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-BZVWXPPG06');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive SVG Path Editor</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f4f4f9;
+        }
+        .container {
+            width: 80%;
+            max-width: 800px;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+        .toolbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .toolbar button {
+            padding: 10px 15px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .toolbar button:hover {
+            background-color: #0056b3;
+        }
+        svg {
+            width: 100%;
+            height: auto;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+    </style>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4750454395006570" crossorigin="anonymous"></script>
+
+    <script defer src="/_vercel/insights/script.js"></script>
+
+    <link rel="icon" type="image/png" href="/static/logo.png">
+</head>
+<body>
+
+    <div class="navbar" style="display: flex; justify-content: space-between; align-items: center; padding: 20px 40px; border-bottom: 1px solid rgba(255,255,255,0.08); background: rgba(11, 15, 25, 0.7); backdrop-filter: blur(12px); position: sticky; top: 0; z-index: 100; font-family: 'Outfit', sans-serif;">
+        <a href="/" style="display: flex; align-items: center; gap: 10px; color: #f3f4f6; text-decoration: none; font-weight: 600;">
+            <img src="/static/logo.png" alt="Aegis Hub Logo" style="height: 30px;">
+            <span>Aegis Developer Hub</span>
+        </a>
+        <a href="/" style="color: #60a5fa; text-decoration: none; font-size: 0.95rem;">&larr; Back to Hub</a>
+    </div>
+    
+    <div class="container">
+        <h1>Interactive SVG Path Editor</h1>
+        <div class="toolbar">
+            <button onclick="addPath()">Add Path</button>
+            <button onclick="clearCanvas()">Clear Canvas</button>
+        </div>
+        <svg id="editor" viewBox="0 0 800 600"></svg>
+    </div>
+
+    <script>
+        const editor = document.getElementById('editor');
+        let isDrawing = false;
+        let pathData = '';
+
+        function addPath() {
+            const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+            path.setAttribute('fill', 'none');
+            path.setAttribute('stroke', '#000');
+            path.setAttribute('stroke-width', 2);
+            editor.appendChild(path);
+
+            let points = [];
+            let startPoint;
+
+            path.addEventListener('mousedown', (e) => {
+                isDrawing = true;
+                const rect = editor.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                startPoint = { x, y };
+                points.push(`M${x},${y}`);
+            });
+
+            path.addEventListener('mousemove', (e) => {
+                if (!isDrawing) return;
+                const rect = editor.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                points.push(`L${x},${y}`);
+                path.setAttribute('d', points.join(' '));
+            });
+
+            path.addEventListener('mouseup', () => {
+                isDrawing = false;
+                if (points.length > 1) {
+                    points.push(`Z`);
+                    path.setAttribute('d', points.join(' '));
+                }
+            });
+        }
+
+        function clearCanvas() {
+            editor.innerHTML = '';
+        }
+    </script>
+</body>
+</html>
