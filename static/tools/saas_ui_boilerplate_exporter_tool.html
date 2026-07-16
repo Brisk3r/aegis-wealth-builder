@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SaaS UI Boilerplate Exporter</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f4f4f9;
+        }
+        .container {
+            width: 85%;
+            max-width: 600px;
+            padding: 20px;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .tasks-list {
+            list-style-type: none;
+            padding: 0;
+        }
+        .task-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #ddd;
+            padding: 10px 0;
+        }
+        .task-name {
+            margin: 0;
+        }
+        .task-actions {
+            display: flex;
+            gap: 5px;
+        }
+        button {
+            padding: 5px 10px;
+            border: none;
+            border-radius: 3px;
+            background-color: #007bff;
+            color: white;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4750454395006570" crossorigin="anonymous"></script>
+    <style>
+        :root {
+            --bg-color: #0b0f19;
+            --card-bg: rgba(255, 255, 255, 0.03);
+            --border-color: rgba(255, 255, 255, 0.08);
+            --primary-accent: #3b82f6;
+            --secondary-accent: #60a5fa;
+            --text-main: #f3f4f6;
+            --text-muted: #9ca3af;
+        }
+        body {
+            background-color: var(--bg-color) !important;
+            color: var(--text-main) !important;
+            font-family: 'Outfit', sans-serif !important;
+        }
+    </style>
+
+    <script defer src="/_vercel/insights/script.js"></script>
+</head>
+
+<body>
+
+    <div class="navbar" style="display: flex; justify-content: space-between; align-items: center; padding: 20px 40px; border-bottom: 1px solid rgba(255,255,255,0.08); background: rgba(11, 15, 25, 0.7); backdrop-filter: blur(12px); position: sticky; top: 0; z-index: 100; font-family: 'Outfit', sans-serif;">
+        <a href="/" style="display: flex; align-items: center; gap: 10px; color: #f3f4f6; text-decoration: none; font-weight: 600;">
+            <img src="/static/logo.png" alt="Aegis Hub Logo" style="height: 30px;">
+            <span>Aegis Developer Hub</span>
+        </a>
+        <a href="/" style="color: #60a5fa; text-decoration: none; font-size: 0.95rem;">&larr; Back to Hub</a>
+    </div>
+    
+    <div class="container">
+        <h1>SaaS UI Boilerplate Exporter</h1>
+        <ul id="tasks-list" class="tasks-list"></ul>
+        <!-- Add more interactive elements and buttons as needed -->
+    </div>
+
+    <script>
+        // Function to fetch and display tasks
+        async function fetchTasks() {
+            const response = await fetch('/manage_task', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    "name": "manage_task",
+                    "arguments": {
+                        "Action": "list"
+                    }
+                })
+            });
+
+            if (response.ok) {
+                const tasks = await response.json();
+                displayTasks(tasks);
+            } else {
+                console.error('Failed to fetch tasks');
+            }
+        }
+
+        // Function to display tasks on the UI
+        function displayTasks(tasks) {
+            const taskList = document.getElementById('tasks-list');
+            taskList.innerHTML = '';
+            tasks.forEach(task => {
+                const listItem = document.createElement('li');
+                listItem.className = 'task-item';
+                listItem.innerHTML = `
+                    <span class="task-name">${task.name}</span>
+                    <div class="task-actions">
+                        <button onclick="killTask('${task.id}')">Kill</button>
+                        <button onclick="checkStatus('${task.id}')">Check Status</button>
+                    </div>
+                `;
+                taskList.appendChild(listItem);
+            });
+        }
+
+        // Function to kill a specific task
+        async function killTask(taskId) {
+            const response = await fetch('/manage_task', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    "name": "manage_task",
+                    "arguments": {
+                        "Action": "kill",
+                        "TaskId": taskId
+                    }
+                })
+            });
+
+            if (response.ok) {
+                console.log('Task killed successfully');
+                fetchTasks(); // Refresh the task list
+            } else {
+                console.error('Failed to kill task');
+            }
+        }
+
+        // Function to check status of a specific task
+        async function checkStatus(taskId) {
+            const response = await fetch('/manage_task', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    "name": "manage_task",
+                    "arguments": {
+                        "Action": "status",
+                        "TaskId": taskId
+                    }
+                })
+            });
+
+            if (response.ok) {
+                const status = await response.json();
+                alert(`Status for task ${taskId}: ${status.status}\nLog URI: ${status.logUri}`);
+            } else {
+                console.error('Failed to get task status');
+            }
+        }
+
+        // Initial fetch
+        fetchTasks();
+    </script>
+</body>
+</html>
