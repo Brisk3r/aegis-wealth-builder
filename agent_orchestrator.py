@@ -87,7 +87,11 @@ class AegisOrchestrator:
             # 2. Develop Micro-SaaS Tool
             logger.info("[Step 2/4] Starting Micro-SaaS Tool Development...")
             developer = ToolDeveloper()
-            tool_name = seed_topic.lower().replace(" ", "_") + "_tool.html"
+            slug = seed_topic.lower().replace(" ", "_")
+            if slug.endswith("_tool"):
+                tool_name = slug + ".html"
+            else:
+                tool_name = slug + "_tool.html"
             tool_description = f"A single-page utility tool for {seed_topic} based on this report:\n{report}"
             tool_path = await run_with_retry(developer.develop_tool, tool_description, tool_name)
             iteration_data["tool_path"] = str(tool_path.relative_to(config.BASE_DIR))

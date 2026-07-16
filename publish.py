@@ -673,6 +673,8 @@ def publish_all():
         article_text = entry.get("article")
         if article_text:
             topic_slug = topic.lower().replace(" ", "_")
+            if topic_slug.endswith("_tool"):
+                topic_slug = topic_slug[:-5]
             article_file_name = f"{topic_slug}.html"
             article_rel_path = f"static/articles/{article_file_name}"
             article_abs_path = ARTICLES_DIR / article_file_name
