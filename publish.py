@@ -125,6 +125,7 @@ def generate_article_page(title: str, content_html: str, article_rel_path: str) 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{title} - Aegis Developer Hub</title>
+    <link rel="icon" type="image/png" href="/static/logo.png">
     <link rel="canonical" href="https://{DOMAIN}/{article_rel_path}">{adsense_tag}
     <script defer src="/_vercel/insights/script.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;800&display=swap" rel="stylesheet">
@@ -351,6 +352,7 @@ def generate_index_page(tools, articles) -> str:
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Aegis Developer Hub</title>
+    <link rel="icon" type="image/png" href="/static/logo.png">
     <link rel="canonical" href="https://{DOMAIN}/">{adsense_tag}
     <script defer src="/_vercel/insights/script.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;800&display=swap" rel="stylesheet">
@@ -599,6 +601,12 @@ def post_process_tool(tool_abs_path: Path, topic: str):
     if '/_vercel/insights/script.js' not in html and '</head>' in html:
         html = html.replace('</head>', f'{analytics_tag}\n</head>', 1)
         modified = True
+
+    # 1.6 Inject Favicon Link tag
+    if 'rel="icon"' not in html and "rel='icon'" not in html and '</head>' in html:
+        favicon_tag = '\n    <link rel="icon" type="image/png" href="/static/logo.png">'
+        html = html.replace('</head>', f'{favicon_tag}\n</head>', 1)
+        modified = True
         
     # 1.7 Inject Google Analytics script
     if config.google_analytics_id and f'googletagmanager.com/gtag/js?id={config.google_analytics_id}' not in html and '</head>' in html:
@@ -831,6 +839,7 @@ def publish_all():
 <head>
     <meta charset="UTF-8">
     <title>Privacy Policy - Aegis Developer Hub</title>
+    <link rel="icon" type="image/png" href="/static/logo.png">
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
         body { background: #0b0f19; color: #f3f4f6; font-family: 'Outfit', sans-serif; padding: 40px 20px; line-height: 1.6; max-width: 800px; margin: 0 auto; }
@@ -859,6 +868,7 @@ def publish_all():
 <head>
     <meta charset="UTF-8">
     <title>Terms of Service & Disclaimer - Aegis Developer Hub</title>
+    <link rel="icon" type="image/png" href="/static/logo.png">
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
         body { background: #0b0f19; color: #f3f4f6; font-family: 'Outfit', sans-serif; padding: 40px 20px; line-height: 1.6; max-width: 800px; margin: 0 auto; }
