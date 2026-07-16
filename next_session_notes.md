@@ -15,7 +15,7 @@ python run.py --seed "Your Target Topic" --ollama
 ```
 
 ## 2. Active Model Profile & Configuration
-*   **Gemini (Cloud):** The API key is active but may return quota limits or 404s for `gemini-2.5-flash`.
+*   **Gemini (Cloud):** The API key is active. Note that `gemini-2.5-flash` returns 404, and `gemini-2.0-flash` has a 0 request quota on this project (Savanah Grace). The model is configured to use `gemini-3.1-flash-lite` in `.env` as it has a high free-tier quota of 500 RPD (Requests Per Day) and 15 RPM (Requests Per Minute).
 *   **Ollama (Local):** Ollama is running at `http://localhost:11434` with:
     *   `qwen2.5-coder:14b` (specialized coding model, used by `developer.py` as default/fallback)
     *   `gemma4:latest` (specialized content model, used by `writer.py`, `promoter.py`, and `researcher.py` as local fallback)
