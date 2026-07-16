@@ -649,9 +649,8 @@ def post_process_tool(tool_abs_path: Path, topic: str):
             html = html.replace(body_tag, f"{body_tag}\n{navbar_html}", 1)
             
     # Lemon Squeezy product checkout injection
-    store_url = config.lemonsqueezy_store_url or "https://aegis.lemonsqueezy.com"
-    checkout_premium = f"{store_url}/checkout/buy/premium-spec?embed=1"
-    checkout_kit = f"{store_url}/checkout/buy/starter-kit?embed=1"
+    checkout_premium = "https://aegishub.lemonsqueezy.com/checkout/buy/22815780-b4e8-466d-a4eb-5bd71d121707?embed=1"
+    checkout_kit = "https://aegishub.lemonsqueezy.com/checkout/buy/0f7285e8-f8d2-4d19-8856-1e6d08ef423f?embed=1"
 
     # Inject LS script in head if not present
     ls_script = '\n    <script src="https://lmsqueezy.com/assets/embed.js" defer></script>'
