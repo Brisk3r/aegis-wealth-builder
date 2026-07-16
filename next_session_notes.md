@@ -29,7 +29,7 @@ The developer agent utilizes a multi-turn feedback loop. When generating a tool:
 ## 4. Completed Assets
 *   **PDF Redactor:** Fully functional client-side redaction utility at [pdf_editor_tool.html](file:///c:/Users/avram/Documents/antigravity/joyful-bell/static/tools/pdf_editor_tool.html).
 *   **FlowState Productivity Logger:** Context logging & Pomodoro focus dashboard at [developer_productivity_tool.html](file:///c:/Users/avram/Documents/antigravity/joyful-bell/static/tools/developer_productivity_tool.html).
-*   **RegEx Tester Tool:** Automatically generated, compiled, and published at [regex_tester_tool_tool.html](file:///c:/Users/avram/Documents/antigravity/joyful-bell/static/tools/regex_tester_tool_tool.html).
+*   **RegEx Tester Tool:** Automatically generated, compiled, and published at [regex_tester_tool.html](file:///c:/Users/avram/Documents/antigravity/joyful-bell/static/tools/regex_tester_tool.html).
 
 ## 5. Strategic Roadmap: Financial Freedom Mandate
 Based on the validated concept dataset within `developer_tools_tool.html`, here are the top 3 highest-leverage paths forward to achieve rapid profitability and financial freedom:

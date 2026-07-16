@@ -636,6 +636,59 @@ def post_process_tool(tool_abs_path: Path, topic: str):
     except Exception as e:
         print(f"Error writing tool file {tool_abs_path}: {e}")
 
+def generate_sitemap(tools, articles):
+    import datetime
+    now_str = datetime.date.today().isoformat()
+    
+    sitemap_xml = f"""<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+    <url>
+        <loc>https://{DOMAIN}/</loc>
+        <lastmod>{now_str}</lastmod>
+        <changefreq>daily</changefreq>
+        <priority>1.0</priority>
+    </url>
+    <url>
+        <loc>https://{DOMAIN}/static/privacy.html</loc>
+        <lastmod>{now_str}</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.3</priority>
+    </url>
+    <url>
+        <loc>https://{DOMAIN}/static/terms.html</loc>
+        <lastmod>{now_str}</lastmod>
+        <changefreq>monthly</changefreq>
+        <priority>0.3</priority>
+    </url>
+"""
+    
+    for tool in tools:
+        path = tool['path'].replace('\\', '/')
+        sitemap_xml += f"""    <url>
+        <loc>https://{DOMAIN}/{path}</loc>
+        <lastmod>{now_str}</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+"""
+        
+    for art in articles:
+        path = art['path'].replace('\\', '/')
+        sitemap_xml += f"""    <url>
+        <loc>https://{DOMAIN}/{path}</loc>
+        <lastmod>{now_str}</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.7</priority>
+    </url>
+"""
+        
+    sitemap_xml += "</urlset>\n"
+    
+    sitemap_path = BASE_DIR / "sitemap.xml"
+    with open(sitemap_path, "w", encoding="utf-8") as f:
+        f.write(sitemap_xml)
+    print(f"Sitemap written successfully to {sitemap_path}")
+
 def publish_all():
     ensure_dirs()
     if not HISTORY_FILE.exists():
@@ -716,6 +769,12 @@ def publish_all():
     index_html = generate_index_page(tools, articles)
     with open(BASE_DIR / "index.html", "w", encoding="utf-8") as f:
         f.write(index_html)
+
+    # 3.25 Generate Sitemap
+    try:
+        generate_sitemap(tools, articles)
+    except Exception as se:
+        print(f"Failed to generate sitemap: {se}")
 
     # 3.5 Generate Privacy and Terms pages
     privacy_html = """<!DOCTYPE html>

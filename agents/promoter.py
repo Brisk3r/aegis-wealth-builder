@@ -60,7 +60,39 @@ class ContentPromoter:
             "4. Pin titles and descriptions for Pinterest."
         )
 
+        async def run_promote_ollama(model_name, sys_instr, prompt_text):
+            import httpx
+            url = f"{config.ollama_base_url}/api/chat"
+            payload = {
+                "model": model_name,
+                "messages": [
+                    {"role": "system", "content": sys_instr},
+                    {"role": "user", "content": prompt_text}
+                ],
+                "stream": False,
+                "options": {
+                    "num_predict": 4096,
+                    "temperature": 0.5
+                }
+            }
+            logger.info("Starting local Ollama promotion request (direct) for %s...", model_name)
+            async with httpx.AsyncClient(timeout=180.0) as client:
+                res = await client.post(url, json=payload)
+                res.raise_for_status()
+                return res.json()["message"]["content"]
+
         try:
+            if self.backend == "ollama":
+                sys_inst = (
+                    "You are a growth hacker and social media manager. Your goal is to draft compelling, high-converting "
+                    "promotional posts for social media platforms (X/Twitter, Reddit, LinkedIn, Pinterest) to drive organic "
+                    "traffic to a blog post, newsletter subscription, or micro-SaaS tool.\n"
+                    "Tailor the style to each platform: hook-driven for X, value-first and community-appropriate for Reddit, "
+                    "professional and story-driven for LinkedIn, and visually evocative for Pinterest.\n"
+                    "Always include placeholders for links (e.g. [Link]) and appropriate hashtags."
+                )
+                return await run_promote_ollama("gemma4:latest", sys_inst, prompt)
+
             agent_config = self._get_agent_config()
             logger.info("Generating promotional campaign for: %s using backend: %s", product_name, self.backend)
             async with Agent(agent_config) as agent:
@@ -69,34 +101,20 @@ class ContentPromoter:
         except Exception as e:
             logger.warning("ContentPromoter failed: %s. Falling back to local Ollama (gemma4:latest)...", e)
             if self.backend == "gemini":
-                fallback_config = LocalOpenAIAgentConfig(
-                    model="gemma4:latest",
-                    base_url=config.ollama_base_url,
-                    system_instructions=(
-                        "You are a growth hacker and social media manager. Your goal is to draft compelling, high-converting "
-                        "promotional posts for social media platforms (X/Twitter, Reddit, LinkedIn, Pinterest) to drive organic traffic."
-                    ),
-                    capabilities=CapabilitiesConfig(enabled_tools=[]),
-                    policies=[policy.allow_all()],
-                    workspaces=[str(config.BASE_DIR)]
+                sys_inst = (
+                    "You are a growth hacker and social media manager. Your goal is to draft compelling, high-converting "
+                    "promotional posts for social media platforms (X/Twitter, Reddit, LinkedIn, Pinterest) to drive organic traffic."
                 )
                 try:
-                    async with Agent(fallback_config) as agent:
-                        response = await agent.chat(prompt)
-                        return await response.text()
+                    return await run_promote_ollama("gemma4:latest", sys_inst, prompt)
                 except Exception as fe:
                     logger.error("Ollama fallback promotion failed: %s. Trying Qwen...", fe)
-                    qwen_config = LocalOpenAIAgentConfig(
-                        model=config.ollama_model,
-                        base_url=config.ollama_base_url,
-                        system_instructions="You are a social media copywriter.",
-                        capabilities=CapabilitiesConfig(enabled_tools=[]),
-                        policies=[policy.allow_all()],
-                        workspaces=[str(config.BASE_DIR)]
-                    )
-                    async with Agent(qwen_config) as agent:
-                        response = await agent.chat(prompt)
-                        return await response.text()
+                    sys_inst_qwen = "You are a social media copywriter."
+                    try:
+                        return await run_promote_ollama(config.ollama_model, sys_inst_qwen, prompt)
+                    except Exception as qe:
+                        logger.error("Ollama ultimate fallback promotion failed: %s", qe)
+                        raise
             else:
                 raise
 

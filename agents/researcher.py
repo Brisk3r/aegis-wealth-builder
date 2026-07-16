@@ -56,7 +56,40 @@ class NicheResearcher:
 
     async def research_topic(self, seed_topic: str) -> str:
         """Runs the agent to perform market research on a seed topic, with robust rate-limit and API error fallbacks."""
+        async def run_research_ollama(sys_instr, prompt_text):
+            import httpx
+            url = f"{config.ollama_base_url}/api/chat"
+            payload = {
+                "model": config.ollama_model,
+                "messages": [
+                    {"role": "system", "content": sys_instr},
+                    {"role": "user", "content": prompt_text}
+                ],
+                "stream": False,
+                "options": {
+                    "num_predict": 8192,
+                    "temperature": 0.3
+                }
+            }
+            logger.info("Starting local Ollama research request (direct)...")
+            async with httpx.AsyncClient(timeout=180.0) as client:
+                res = await client.post(url, json=payload)
+                res.raise_for_status()
+                return res.json()["message"]["content"]
+
         try:
+            if self.backend == "ollama":
+                system_instructions = (
+                    "You are an expert market researcher and SEO specialist. Use your extensive internal "
+                    "knowledge to perform market research on the seed topic. Compile your findings into a clean, markdown-formatted report containing:\n"
+                    "1. Recommended Niche with justification.\n"
+                    "2. Top 5 low-difficulty SEO keywords with estimated volume.\n"
+                    "3. Top 3 affiliate programs or monetization methods for this niche.\n"
+                    "4. Suggested 3 micro-SaaS tool ideas that could capture traffic in this niche."
+                )
+                prompt = f"Perform deep market research on the seed topic: '{seed_topic}'. Use your own internal knowledge. Do not use external search."
+                return await run_research_ollama(system_instructions, prompt)
+
             agent_config = self._get_agent_config()
             async with Agent(agent_config) as agent:
                 prompt = f"Perform deep market research on the seed topic: '{seed_topic}'. Analyze keywords, affiliate programs, and potential SaaS tools."
@@ -77,20 +110,9 @@ class NicheResearcher:
                     "3. Top 3 affiliate programs or monetization methods for this niche.\n"
                     "4. Suggested 3 micro-SaaS tool ideas that could capture traffic in this niche."
                 )
-                fallback_config = LocalOpenAIAgentConfig(
-                    model=config.ollama_model,
-                    base_url=config.ollama_base_url,
-                    system_instructions=system_instructions,
-                    capabilities=CapabilitiesConfig(enabled_tools=[]), # Disable tools to avoid errors
-                    policies=[policy.allow_all()],
-                    workspaces=[str(config.BASE_DIR)]
-                )
                 try:
-                    async with Agent(fallback_config) as agent:
-                        prompt = f"Perform deep market research on the seed topic: '{seed_topic}'. Use your own internal knowledge. Do not use external search."
-                        logger.info("Starting research fallback chat using Ollama...")
-                        response = await agent.chat(prompt)
-                        return await response.text()
+                    prompt = f"Perform deep market research on the seed topic: '{seed_topic}'. Use your own internal knowledge. Do not use external search."
+                    return await run_research_ollama(system_instructions, prompt)
                 except Exception as fe:
                     logger.error("Ollama fallback research failed: %s", fe)
             

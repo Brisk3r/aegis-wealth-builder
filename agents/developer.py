@@ -108,17 +108,89 @@ class ToolDeveloper:
                         code = cleaned_audit
                 return code
 
+        async def run_dev_loop_ollama(system_instructions):
+            import httpx
+            url = f"{config.ollama_base_url}/api/chat"
+            prompt = (
+                f"Develop a complete, fully functional interactive web utility tool based on this description:\n"
+                f"'{tool_description}'\n\n"
+                "Remember to write all CSS and JS inline. Make it highly interactive, beautiful, and "
+                "responsive. Ensure there are NO mock or simulated behaviors. Output only the raw HTML code without markdown code blocks."
+            )
+            messages = [
+                {"role": "system", "content": system_instructions},
+                {"role": "user", "content": prompt}
+            ]
+            payload = {
+                "model": config.ollama_model,
+                "messages": messages,
+                "stream": False,
+                "options": {
+                    "num_predict": 16384,
+                    "temperature": 0.2
+                }
+            }
+            logger.info("Starting local Ollama development request (direct)...")
+            async with httpx.AsyncClient(timeout=300.0) as client:
+                res = await client.post(url, json=payload)
+                res.raise_for_status()
+                code = res.json()["message"]["content"]
+                code = clean_code(code)
+
+                # Self-correction loop
+                for iteration in range(1, 3):
+                    logger.info("Triggering local Ollama self-correction iteration %d...", iteration)
+                    audit_prompt = (
+                        "Please audit the code you just generated for any flaws, specifically checking for:\n"
+                        "1. Mock, simulated, or placeholder logic (e.g. fake setTimeout loaders instead of real operations, download functions that just download a dummy string, TODO comments).\n"
+                        "2. Layout & Theme compatibility: Does it use a premium glassmorphic dark-mode design that matches our Outfit font and navbar?\n"
+                        "3. Any missing script references or broken tags.\n\n"
+                        "If the code has ANY issues, write the complete, updated HTML file fixing all issues. "
+                        "If the code is already 100% complete, fully functional, and visually stunning, simply output 'APPROVED'."
+                    )
+                    messages.append({"role": "assistant", "content": code})
+                    messages.append({"role": "user", "content": audit_prompt})
+                    payload["messages"] = messages
+                    
+                    res = await client.post(url, json=payload)
+                    res.raise_for_status()
+                    audit_text = res.json()["message"]["content"]
+                    cleaned_audit = clean_code(audit_text)
+
+                    if cleaned_audit == "APPROVED" or "APPROVED" in cleaned_audit.upper() and len(cleaned_audit) < 50:
+                        logger.info("Code self-audit APPROVED by local Ollama.")
+                        break
+                    else:
+                        logger.info("Local Ollama updated the code with corrections.")
+                        code = cleaned_audit
+                return code
+
         # Attempt to run with primary config
         try:
-            agent_config = self._get_agent_config()
-            logger.info("Developing micro-SaaS tool: %s using backend: %s", output_filename, self.backend)
-            code = await run_dev_loop(agent_config)
+            if self.backend == "ollama":
+                # Run direct Ollama
+                system_instructions = (
+                    "You are an expert lead front-end software engineer. Your goal is to write clean, self-contained, "
+                    "responsive, and visually stunning web tools using HTML, CSS (Vanilla), and JavaScript.\n"
+                    "The tools should be 100% fully functional in a single HTML file (with embedded CSS and JS), "
+                    "mobile-friendly, and follow high-end design principles: elegant typography (e.g. Outfit, Inter), "
+                    "dark mode styling, glassmorphism card layouts, smooth transitions, and intuitive interfaces.\n"
+                    "CRITICAL: Do not write mock, simulated, or placeholder logic. All actions MUST be fully functional "
+                    "and run locally in the browser. You may import third-party libraries from CDN.\n"
+                    "Return ONLY the complete HTML file content, starting with <!DOCTYPE html> and ending with </html>. "
+                    "Do not include any markdown formatting, backticks, or explanations outside the HTML code."
+                )
+                code = await run_dev_loop_ollama(system_instructions)
+            else:
+                agent_config = self._get_agent_config()
+                logger.info("Developing micro-SaaS tool: %s using backend: %s", output_filename, self.backend)
+                code = await run_dev_loop(agent_config)
         except Exception as e:
             logger.warning("ToolDeveloper failed on primary backend: %s. Attempting fallback...", e)
             
             # Fallback to local Ollama (free/unlimited) if Gemini failed
             if self.backend == "gemini":
-                logger.info("Falling back to local Qwen 2.5 Coder via Ollama...")
+                logger.info("Falling back to local Qwen 2.5 Coder via Ollama (direct)...")
                 system_instructions = (
                     "You are an expert lead front-end software engineer. Your goal is to write clean, self-contained, "
                     "responsive, and visually stunning web tools using HTML, CSS (Vanilla), and JavaScript.\n"
@@ -127,16 +199,8 @@ class ToolDeveloper:
                     "All actions MUST be fully functional and run locally in the browser. You may import CDN libraries. "
                     "Return ONLY the complete HTML file content, starting with <!DOCTYPE html> and ending with </html>."
                 )
-                fallback_config = LocalOpenAIAgentConfig(
-                    model="qwen2.5-coder:14b",
-                    base_url=config.ollama_base_url,
-                    system_instructions=system_instructions,
-                    capabilities=CapabilitiesConfig(enabled_tools=[]),
-                    policies=[policy.allow_all()],
-                    workspaces=[str(config.BASE_DIR)]
-                )
                 try:
-                    code = await run_dev_loop(fallback_config)
+                    code = await run_dev_loop_ollama(system_instructions)
                 except Exception as fe:
                     logger.error("Ollama fallback development failed: %s", fe)
                     raise
