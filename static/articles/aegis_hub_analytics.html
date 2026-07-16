@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Color Wheel Tool - Aegis Developer Hub</title>
-    <link rel="canonical" href="https://aegishub.dev/static/articles/color_wheel.html">
+    <title>Aegis Hub Analytics - Aegis Developer Hub</title>
+    <link rel="canonical" href="https://aegishub.dev/static/articles/aegis_hub_analytics.html">
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4750454395006570" crossorigin="anonymous"></script>
     <script defer src="/_vercel/insights/script.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;800&display=swap" rel="stylesheet">
@@ -168,83 +168,9 @@
             <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
         </div>
         
-            <h1>Chords of Color: Mastering the HSL Color Wheel for Modern Design Systems</h1>
+            <h1>Visualizing Growth: The Aegis Developer Hub Analytics Guide</h1>
 
-<p>In modern web design, consistency is king. A product's visual identity relies heavily on a structured color system that translates brand aesthetics into digital realities. Yet, many development teams struggle with color harmony, resulting in interfaces that feel disjointed, non-accessible, or cluttered.</p>
-
-<p>To solve this, developers and designers use visual color harmony schemes. By mastering the HSL (Hue, Saturation, Lightness) color model and mathematical color chords, you can build scalable, accessible, and stunning design systems.</p>
-
-<p>---</p>
-
-<h2>Why HSL is the Developer's Superpower</h2>
-
-<p>Traditionally, developers work with HEX (`#3b82f6`) or RGB (`rgb(59, 130, 246)`) values. While these formats are standard, they are mathematically opaque. Adjusting the lightness of a HEX color requires hex-decimal calculations that are impossible to do in your head.</p>
-
-<p>HSL changes this by representing colors in three intuitive dimensions:</p>
-<p>1. <strong>Hue (0-360):</strong> The angle on the color wheel (e.g. 0 is red, 120 is green, 240 is blue).</p>
-<p>2. <strong>Saturation (0%-100%):</strong> The intensity of the color (0% is completely grey, 100% is vibrant).</p>
-<p>3. <strong>Lightness (0%-100%):</strong> The amount of light (0% is black, 50% is the pure hue, 100% is white).</p>
-
-<p>By using HSL, creating hover states or active states is trivial. You simply keep Hue and Saturation constant, and adjust Lightness (e.g., subtracting 10% lightness for a hover state).</p>
-
-<p>---</p>
-
-<h2>Core Color Harmony Schemes</h2>
-
-<p>To build a professional color palette, you select a base color and calculate corresponding coordinates using color wheel angles (chords):</p>
-
-<h3>1. Monochromatic</h3>
-<p>Varying the lightness and saturation of a single hue. This creates a clean, elegant, and low-contrast aesthetic that is perfect for minimal user interfaces.</p>
-
-<h3>2. Triad</h3>
-<p>Three colors spaced evenly at 120-degree intervals around the color wheel (e.g., Hue, Hue + 120, Hue + 240). This yields a high-contrast, vibrant palette that must be balanced carefully (using one dominant color and two accent colors).</p>
-
-<h3>3. Tetrad (Double Complementary)</h3>
-<p>Four colors arranged in two complementary pairs, spaced at 90-degree intervals (e.g., Hue, Hue + 90, Hue + 180, Hue + 270). This offers maximum variety and is ideal for complex charts or diverse category styling.</p>
-
-<h3>4. Analogous</h3>
-<p>Colors situated adjacent to each other on the color wheel (e.g., Hue - 30, Hue, Hue + 30). This mirrors palettes found in nature and creates comfortable, serene layouts.</p>
-
-<p>---</p>
-
-<h2>Translating Palettes to CSS and Tailwind Configs</h2>
-
-<p>Once you select your color scheme, the final step is to export the colors as tokens.</p>
-
-<h3>CSS Variables Method</h3>
-<p>Define custom properties in your global root stylesheet:</p>
-<pre><code>:root {
-    --color-primary: #3b82f6;
-    --color-primary-light: #60a5fa;
-    --color-primary-dark: #1d4ed8;
-    --color-accent: #f59e0b;
-}
-</code></pre>
-
-<h3>Tailwind Config Method</h3>
-<p>Extend Tailwind's color palette in `tailwind.config.js` to automatically generate class utilities (e.g. `bg-brand`, `text-brand-light`):</p>
-<pre><code>module.exports = {
-  theme: {
-    extend: {
-      colors: {
-        brand: {
-          light: '#60a5fa',
-          DEFAULT: '#3b82f6',
-          dark: '#1d4ed8',
-          accent: '#f59e0b',
-        }
-      }
-    }
-  }
-}
-</code></pre>
-
-<p>---</p>
-
-<h2>Take Action: Build Your Design System</h2>
-<p>1. <strong>Define Your Brand Base:</strong> Start with a single, high-contrast base color.</p>
-<p>2. <strong>Calculate the Chords:</strong> Use our interactive [Color Wheel Tool](/static/tools/color_wheel_tool.html) to instantly generate monochromatic or triad palettes.</p>
-<p>3. <strong>Verify Contrast:</strong> Ensure your text-to-background combinations meet WCAG AA accessibility standards.</p>
+<p>To build a highly profitable developer micro-SaaS, you must track traffic channels, affiliate conversion rates, and gross digital goods sales. This guide breaks down the essential telemetry and reporting tools used to capture growth metrics on aegishub.dev.</p>
             <div style="margin-top: 40px; padding-top: 20px; border-top: 1px dashed var(--border-color); font-size: 0.85rem; color: var(--text-muted);">
                 <strong>Disclaimer:</strong> The tools and content provided on this website are for educational and informational purposes only and do not constitute financial, investment, legal, or professional advice.
             </div>

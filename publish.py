@@ -18,7 +18,8 @@ TOOL_DESCRIPTIONS = {
     "Developer Productivity": "FlowState Journal: Document current branch contexts before switching to minimize team context-switching toil.",
     "Developer Tools": "DevTools Ideation Hub: Instantly brainstorm and prototype developer micro-SaaS concepts for targeted niches.",
     "Color Wheel Tool": "Paletton-inspired visual HSL color wheel and harmony palette generator with CSS variables and Tailwind config exporter.",
-    "SaaS UI Boilerplate Exporter": "Interactive boilerplate configuration sandbox with live file explorer and dynamic browser-side ZIP exporter."
+    "SaaS UI Boilerplate Exporter": "Interactive boilerplate configuration sandbox with live file explorer and dynamic browser-side ZIP exporter.",
+    "Aegis Hub Analytics": "Google Analytics clone featuring interactive timeframes, traffic channels breakdown, and live conversion funnel tracking."
 }
 
 AFFILIATE_DESCRIPTIONS = {
@@ -26,6 +27,20 @@ AFFILIATE_DESCRIPTIONS = {
     "vercel": "Instantly deploy static frontends and serverless API endpoints. The default home of React & Next.js.",
     "hosting": "Get high-performance web hosting, free custom domains, and automated sitemaps for your portfolio or blogs.",
 }
+
+def get_analytics_tag(indent=4) -> str:
+    if not config.google_analytics_id:
+        return ""
+    spaces = " " * indent
+    return f"""
+{spaces}<!-- Google tag (gtag.js) -->
+{spaces}<script async src="https://www.googletagmanager.com/gtag/js?id={config.google_analytics_id}"></script>
+{spaces}<script>
+{spaces}  window.dataLayer = window.dataLayer || [];
+{spaces}  function gtag(){{dataLayer.push(arguments);}}
+{spaces}  gtag('js', new Date());
+{spaces}  gtag('config', '{config.google_analytics_id}');
+{spaces}</script>"""
 
 def ensure_dirs():
     STATIC_DIR.mkdir(exist_ok=True)
@@ -242,7 +257,7 @@ def generate_article_page(title: str, content_html: str, article_rel_path: str) 
             padding-bottom: 15px;
             margin-bottom: 30px;
         }}
-    </style>
+    </style>{get_analytics_tag(indent=4)}
 </head>
 <body>
     <div class="navbar">
@@ -525,7 +540,7 @@ def generate_index_page(tools, articles) -> str:
             font-size: 0.95rem;
             background: rgba(8, 11, 17, 0.4);
         }}
-    </style>
+    </style>{get_analytics_tag(indent=4)}
 </head>
 <body>
     <div class="hero">
@@ -608,6 +623,11 @@ def post_process_tool(tool_abs_path: Path, topic: str):
     if '/_vercel/insights/script.js' not in html and '</head>' in html:
         html = html.replace('</head>', f'{analytics_tag}\n</head>', 1)
         
+    # 1.7 Inject Google Analytics script
+    if config.google_analytics_id and f'googletagmanager.com/gtag/js?id={config.google_analytics_id}' not in html and '</head>' in html:
+        ga_tag = get_analytics_tag(indent=4)
+        html = html.replace('</head>', f'{ga_tag}\n</head>', 1)
+        
     # 2. Inject Navbar right after <body>
     navbar_html = """
     <div class="navbar" style="display: flex; justify-content: space-between; align-items: center; padding: 20px 40px; border-bottom: 1px solid rgba(255,255,255,0.08); background: rgba(11, 15, 25, 0.7); backdrop-filter: blur(12px); position: sticky; top: 0; z-index: 100; font-family: 'Outfit', sans-serif;">
@@ -628,7 +648,26 @@ def post_process_tool(tool_abs_path: Path, topic: str):
             body_tag = match.group(0)
             html = html.replace(body_tag, f"{body_tag}\n{navbar_html}", 1)
             
-    # Lemon Squeezy product checkout injection removed until products are properly configured.
+    # Lemon Squeezy product checkout injection
+    store_url = config.lemonsqueezy_store_url or "https://aegis.lemonsqueezy.com"
+    checkout_premium = f"{store_url}/checkout/buy/premium-spec?embed=1"
+    checkout_kit = f"{store_url}/checkout/buy/starter-kit?embed=1"
+
+    # Inject LS script in head if not present
+    ls_script = '\n    <script src="https://lmsqueezy.com/assets/embed.js" defer></script>'
+    if 'lmsqueezy.com/assets/embed.js' not in html and '</head>' in html:
+        html = html.replace('</head>', f'{ls_script}\n</head>', 1)
+
+    # Replace placeholders with checkout buttons
+    html = html.replace(
+        '<span class="text-[10px] text-gray-500">Secure checkout handled by Lemon Squeezy</span>',
+        f'<a href="{checkout_kit}" class="lemonsqueezy-button bg-blue-600 hover:bg-blue-500 text-white font-semibold py-2.5 px-6 rounded-xl transition-all duration-200 text-xs md:text-sm text-center w-full" data-cb-type="checkout" data-cb-embed="1">Get Starter Kit - $29</a>\n                    <span class="text-[10px] text-gray-500">Secure checkout handled by Lemon Squeezy</span>'
+    )
+    
+    html = html.replace(
+        '<p class="text-[10px] text-gray-500 text-center">Checkout powered secure by Lemon Squeezy</p>',
+        f'<a href="{checkout_premium}" class="lemonsqueezy-button block text-center bg-blue-600/30 hover:bg-blue-600/50 border border-blue-500/50 text-blue-300 font-semibold py-2 px-4 rounded-lg text-xs transition-all duration-200" data-cb-type="checkout" data-cb-embed="1">Get Premium Spec - $4.99</a>\n                                        <p class="text-[10px] text-gray-500 text-center">Checkout powered secure by Lemon Squeezy</p>'
+    )
         
     try:
         with open(tool_abs_path, "w", encoding="utf-8") as f:
@@ -833,6 +872,9 @@ def publish_all():
     <p><a href="/">&larr; Back to Hub</a></p>
 </body>
 </html>"""
+
+    privacy_html = privacy_html.replace("</head>", f"{get_analytics_tag(indent=4)}\n</head>", 1)
+    terms_html = terms_html.replace("</head>", f"{get_analytics_tag(indent=4)}\n</head>", 1)
 
     with open(STATIC_DIR / "privacy.html", "w", encoding="utf-8") as f:
         f.write(privacy_html)
