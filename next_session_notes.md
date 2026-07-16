@@ -54,3 +54,12 @@ Based on the validated concept dataset within `developer_tools_tool.html`, here 
 5.  **LLM Guardrails & Prompt Injection Sandbox API (Python/Security)**
     *   *Metrics:* Demand: 96%, Profitability: 98%, Complexity: High.
     *   *Strategic Path:* Security compliance filters for enterprise LLM apps. Monetize via high-tier corporate licenses starting at $499/mo.
+
+## 6. Next Session Focus: Complete Hub Monetization
+To complete the financial freedom mandate, the immediate priority for the next session is to fully launch the monetization layers on the Hub:
+1.  **Ad Networks Integration:**
+    *   Inject active script structures for **Carbon Ads** (targeted display ads for devs) and **Google AdSense** based on the environment configurations inside `config.py`.
+2.  **Affiliate Systems Routing:**
+    *   Parse the `AFFILIATE_LINKS_JSON` key to inject contextual referral links for recommended hosting providers (e.g. Vercel, DigitalOcean) and developer products into blog post footers and tool sidebars.
+3.  **Payment Gateway Hookups:**
+    *   Integrate a Lemon Squeezy overlay or checkout widgets on custom tool features (like downloading advanced components or exporting bulk reports) to capture first-time sales.
