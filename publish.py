@@ -19,7 +19,7 @@ TOOL_DESCRIPTIONS = {
     "Developer Tools": "DevTools Ideation Hub: Instantly brainstorm and prototype developer micro-SaaS concepts for targeted niches.",
     "Color Wheel Tool": "Paletton-inspired visual HSL color wheel and harmony palette generator with CSS variables and Tailwind config exporter.",
     "SaaS UI Boilerplate Exporter": "Interactive boilerplate configuration sandbox with live file explorer and dynamic browser-side ZIP exporter.",
-    "Aegis Hub Analytics": "Google Analytics clone featuring interactive timeframes, traffic channels breakdown, and live conversion funnel tracking."
+    "Analytics Card Builder": "Interactive utility to customize and export pixel-perfect, glassmorphic analytics KPI cards in Tailwind CSS or Vanilla CSS."
 }
 
 AFFILIATE_DESCRIPTIONS = {

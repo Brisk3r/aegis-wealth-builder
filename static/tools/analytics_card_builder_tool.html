@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analytics Card Builder - Aegis Dev Hub</title>
+    <!-- Fonts & Libraries -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Outfit', 'sans-serif'],
+                    },
+                    colors: {
+                        brandDark: '#080b11',
+                        cardBg: 'rgba(17, 24, 39, 0.55)',
+                        borderLight: 'rgba(255, 255, 255, 0.05)',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #080b11;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(59, 130, 246, 0.04) 0%, transparent 40%),
+                radial-gradient(circle at 90% 80%, rgba(99, 102, 241, 0.03) 0%, transparent 40%);
+            background-attachment: fixed;
+            min-height: 100vh;
+        }
+        .glass-card {
+            background: rgba(17, 24, 39, 0.55);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.2);
+        }
+        .scrollbar-custom::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        .scrollbar-custom::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.02);
+        }
+        .scrollbar-custom::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 3px;
+        }
+        .scrollbar-custom::-webkit-scrollbar-thumb:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+    </style>
+    <script defer src="/_vercel/insights/script.js"></script>
+</head>
+<body class="font-sans text-gray-200 min-h-screen flex flex-col justify-between">
+    <!-- Navbar -->
+    <header class="border-b border-white/5 bg-[#080b11]/85 backdrop-blur-md sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+            <a href="/" class="flex items-center gap-3 text-white font-semibold text-lg tracking-wide hover:opacity-90 transition-opacity">
+                <img src="/static/logo.png" alt="Aegis Hub Logo" class="h-8">
+                <span>Aegis Developer Hub</span>
+            </a>
+            <a href="/" class="text-blue-400 hover:text-blue-300 transition-colors text-sm font-medium flex items-center gap-1">
+                &larr; Back to Hub
+            </a>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="flex-grow max-w-7xl w-full mx-auto px-6 py-8">
+        <!-- Title Section -->
+        <div class="text-center mb-8">
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-blue-500/10 text-blue-400 border border-blue-500/20 uppercase tracking-wide mb-3">
+                <i data-lucide="layout" class="w-3.5 h-3.5"></i>
+                Dashboard Component Sandbox
+            </div>
+            <h1 class="text-4xl md:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-indigo-200 to-blue-500 mb-3 tracking-tight">
+                Analytics Card Builder
+            </h1>
+            <p class="text-gray-400 text-base md:text-lg max-w-3xl mx-auto leading-relaxed">
+                Design beautiful, glassmorphic dashboard KPI cards, adjust accents and layouts interactively, and export clean, copy-pasteable HTML and CSS components.
+            </p>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+            <!-- Left Side: Customization Options (5 Columns) -->
+            <div class="lg:col-span-5 space-y-6">
+                <!-- Card Data Customization -->
+                <div class="glass-card rounded-2xl p-6">
+                    <h2 class="text-lg font-bold text-white mb-4 flex items-center gap-2">
+                        <i data-lucide="edit-3" class="text-blue-400 w-5 h-5"></i>
+                        1. Configure KPI Metrics
+                    </h2>
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2">Card Title</label>
+                            <input type="text" id="kpi-title" value="Monthly Recurring Revenue" oninput="updatePreview()" class="w-full bg-[#0d131f] border border-white/10 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-blue-500">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2">Metric Value</label>
+                            <input type="text" id="kpi-value" value="$14,892.50" oninput="updatePreview()" class="w-full bg-[#0d131f] border border-white/10 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-blue-500">
+                        </div>
+                        <div class="grid grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2">Trend Value</label>
+                                <input type="text" id="kpi-trend" value="+12.4%" oninput="updatePreview()" class="w-full bg-[#0d131f] border border-white/10 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-blue-500">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2">Trend Style</label>
+                                <select id="kpi-trend-dir" onchange="updatePreview()" class="w-full bg-[#0d131f] border border-white/10 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-blue-500">
+                                    <option value="up">Growth (Green)</option>
+                                    <option value="down">Decline (Red)</option>
+                                    <option value="neutral">Neutral (Gray)</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2">Card Icon</label>
+                                <select id="kpi-icon" onchange="updatePreview()" class="w-full bg-[#0d131f] border border-white/10 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-blue-500">
+                                    <option value="dollar-sign">Currency ($)</option>
+                                    <option value="users">Users / Visitors</option>
+                                    <option value="eye">Page Views</option>
+                                    <option value="shopping-cart">Sales / Checkout</option>
+                                    <option value="trending-up">Growth Chart</option>
+                                    <option value="clock">Average Duration</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="block text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2">Layout Grid</label>
+                                <select id="kpi-layout" onchange="updatePreview()" class="w-full bg-[#0d131f] border border-white/10 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-blue-500">
+                                    <option value="1">Single Card Preview</option>
+                                    <option value="3">3-Column Dashboard Grid</option>
+                                    <option value="4">4-Column Dashboard Grid</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Styling Settings -->
+                <div class="glass-card rounded-2xl p-6">
+                    <h2 class="text-lg font-bold text-white mb-4 flex items-center gap-2">
+                        <i data-lucide="sliders" class="text-blue-400 w-5 h-5"></i>
+                        2. Aesthetic Customization
+                    </h2>
+                    <div class="space-y-4">
+                        <!-- Theme Colors -->
+                        <div>
+                            <label class="block text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2">Accent Color Theme</label>
+                            <div class="grid grid-cols-5 gap-2">
+                                <button onclick="setThemeColor('blue')" id="theme-blue" class="px-2 py-1.5 text-xs font-semibold rounded-lg bg-blue-500 text-white transition-all active-color">Blue</button>
+                                <button onclick="setThemeColor('emerald')" id="theme-emerald" class="px-2 py-1.5 text-xs font-semibold rounded-lg bg-white/5 border border-white/10 text-gray-300 hover:bg-white/10 transition-all">Green</button>
+                                <button onclick="setThemeColor('violet')" id="theme-violet" class="px-2 py-1.5 text-xs font-semibold rounded-lg bg-white/5 border border-white/10 text-gray-300 hover:bg-white/10 transition-all">Purple</button>
+                                <button onclick="setThemeColor('rose')" id="theme-rose" class="px-2 py-1.5 text-xs font-semibold rounded-lg bg-white/5 border border-white/10 text-gray-300 hover:bg-white/10 transition-all">Rose</button>
+                                <button onclick="setThemeColor('amber')" id="theme-amber" class="px-2 py-1.5 text-xs font-semibold rounded-lg bg-white/5 border border-white/10 text-gray-300 hover:bg-white/10 transition-all">Amber</button>
+                            </div>
+                        </div>
+
+                        <!-- Card Style Checkboxes -->
+                        <div>
+                            <label class="block text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2">Card Features</label>
+                            <div class="space-y-2.5">
+                                <label class="flex items-center gap-3 cursor-pointer group">
+                                    <input type="checkbox" id="style-glow" checked onchange="updatePreview()" class="rounded border-white/10 bg-white/5 text-blue-500 focus:ring-blue-500 focus:ring-offset-[#0b0f19] w-4 h-4">
+                                    <span class="text-sm text-gray-300 group-hover:text-white transition-colors">Neon Accent Glow (Hover Lift)</span>
+                                </label>
+                                <label class="flex items-center gap-3 cursor-pointer group">
+                                    <input type="checkbox" id="style-stripe" checked onchange="updatePreview()" class="rounded border-white/10 bg-white/5 text-blue-500 focus:ring-blue-500 focus:ring-offset-[#0b0f19] w-4 h-4">
+                                    <span class="text-sm text-gray-300 group-hover:text-white transition-colors">Top Gradient Border Stripe</span>
+                                </label>
+                                <label class="flex items-center gap-3 cursor-pointer group">
+                                    <input type="checkbox" id="style-glass" checked onchange="updatePreview()" class="rounded border-white/10 bg-white/5 text-blue-500 focus:ring-blue-500 focus:ring-offset-[#0b0f19] w-4 h-4">
+                                    <span class="text-sm text-gray-300 group-hover:text-white transition-colors">Enable Backdrop Blur (Glassmorphism)</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Side: Live Preview & Code Generator (7 Columns) -->
+            <div class="lg:col-span-7 space-y-6">
+                <!-- Visual Sandbox Card View -->
+                <div class="glass-card rounded-2xl p-6 min-h-[220px] flex flex-col justify-center bg-black/30 border border-white/10">
+                    <div class="text-[10px] font-bold text-gray-500 uppercase tracking-wider mb-4">Interactive Live Component Preview</div>
+                    <div id="preview-grid-wrapper" class="grid gap-4 w-full">
+                        <!-- Cards will render dynamically here -->
+                    </div>
+                </div>
+
+                <!-- Export Code Editor -->
+                <div class="glass-card rounded-2xl overflow-hidden border border-white/10 flex flex-col h-[400px]">
+                    <div class="border-b border-white/10 bg-black/30 px-6 py-3 flex justify-between items-center">
+                        <div class="flex gap-2">
+                            <button onclick="setTab('tailwind')" id="tab-tailwind" class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-blue-500 text-white transition-all">Tailwind HTML</button>
+                            <button onclick="setTab('vanilla')" id="tab-vanilla" class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-white/5 text-gray-400 hover:text-white transition-all">HTML & CSS</button>
+                            <button onclick="setTab('config')" id="tab-config" class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-white/5 text-gray-400 hover:text-white transition-all">Tailwind Config</button>
+                        </div>
+                        <button onclick="copyCode()" class="p-2 rounded-lg bg-white/5 border border-white/10 text-gray-400 hover:text-white hover:bg-white/10 transition-all" title="Copy code">
+                            <i data-lucide="copy" class="w-4 h-4"></i>
+                        </button>
+                    </div>
+
+                    <div class="flex-grow bg-[#05080f]/90 relative overflow-auto scrollbar-custom p-6">
+                        <pre class="text-xs font-mono text-emerald-400/90 leading-relaxed text-left selection:bg-blue-500/20 selection:text-blue-200" style="white-space: pre-wrap;"><code id="code-box"></code></pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Toast Notifications -->
+    <div id="toast-container" class="fixed bottom-6 right-6 z-50 flex flex-col gap-2 pointer-events-none"></div>
+
+    <!-- Footer -->
+    <footer class="border-t border-white/5 bg-[#080b11]/85 py-6 px-6 text-center text-xs text-gray-500">
+        <p>&copy; 2026 Aegis Developer Hub. Component exporter system operates locally.</p>
+    </footer>
+
+    <script>
+        let currentThemeColor = 'blue';
+        let currentTab = 'tailwind';
+
+        // Color Maps
+        const COLOR_MAP = {
+            blue: { tailwind: 'blue-500', hex: '#3b82f6', hexGlow: 'rgba(59, 130, 246, 0.15)', name: 'Blue' },
+            emerald: { tailwind: 'emerald-500', hex: '#10b981', hexGlow: 'rgba(16, 185, 129, 0.15)', name: 'Emerald' },
+            violet: { tailwind: 'violet-500', hex: '#8b5cf6', hexGlow: 'rgba(139, 92, 246, 0.15)', name: 'Violet' },
+            rose: { tailwind: 'rose-500', hex: '#f43f5e', hexGlow: 'rgba(244, 63, 94, 0.15)', name: 'Rose' },
+            amber: { tailwind: 'amber-500', hex: '#f59e0b', hexGlow: 'rgba(245, 158, 11, 0.15)', name: 'Amber' }
+        };
+
+        const ICON_MAP = {
+            'dollar-sign': '<i data-lucide="dollar-sign" class="w-5 h-5"></i>',
+            'users': '<i data-lucide="users" class="w-5 h-5"></i>',
+            'eye': '<i data-lucide="eye" class="w-5 h-5"></i>',
+            'shopping-cart': '<i data-lucide="shopping-cart" class="w-5 h-5"></i>',
+            'trending-up': '<i data-lucide="trending-up" class="w-5 h-5"></i>',
+            'clock': '<i data-lucide="clock" class="w-5 h-5"></i>'
+        };
+
+        const TREND_MAP = {
+            up: { text: 'text-emerald-400', icon: '<i data-lucide="arrow-up-right" class="w-3.5 h-3.5 inline"></i>', bg: 'bg-emerald-500/10 border-emerald-500/20' },
+            down: { text: 'text-rose-400', icon: '<i data-lucide="arrow-down-right" class="w-3.5 h-3.5 inline"></i>', bg: 'bg-rose-500/10 border-rose-500/20' },
+            neutral: { text: 'text-gray-400', icon: '<i data-lucide="minus" class="w-3.5 h-3.5 inline"></i>', bg: 'bg-gray-500/10 border-gray-500/20' }
+        };
+
+        const MOCK_CARDS = [
+            { title: "Monthly Recurring Revenue", value: "$14,892.50", trend: "+12.4%", trendDir: "up", icon: "dollar-sign" },
+            { title: "Total Site Visitors", value: "32,951", trend: "+8.2%", trendDir: "up", icon: "users" },
+            { title: "Page Views", value: "148,095", trend: "-2.5%", trendDir: "down", icon: "eye" },
+            { title: "Boilerplate Sales", value: "258", trend: "+15.3%", trendDir: "up", icon: "shopping-cart" }
+        ];
+
+        // Trigger updates on settings change
+        function setThemeColor(color) {
+            document.querySelectorAll('[id^="theme-"]').forEach(btn => {
+                btn.classList.remove('bg-' + btn.id.split('-')[1] + '-500', 'text-white');
+                btn.classList.add('bg-white/5', 'text-gray-300');
+            });
+            const activeBtn = document.getElementById(`theme-${color}`);
+            activeBtn.classList.remove('bg-white/5', 'text-gray-300');
+            activeBtn.classList.add('bg-' + color + '-500', 'text-white');
+
+            currentThemeColor = color;
+            updatePreview();
+            showToast(`Theme changed to ${COLOR_MAP[color].name}`);
+        }
+
+        function setTab(tab) {
+            document.querySelectorAll('[id^="tab-"]').forEach(btn => {
+                btn.classList.remove('bg-blue-500', 'text-white');
+                btn.classList.add('bg-white/5', 'text-gray-400');
+            });
+            const activeBtn = document.getElementById(`tab-${tab}`);
+            activeBtn.classList.remove('bg-white/5', 'text-gray-400');
+            activeBtn.classList.add('bg-blue-500', 'text-white');
+
+            currentTab = tab;
+            updateCodeExport();
+        }
+
+        // Draw preview grid dynamically
+        function updatePreview() {
+            const gridWrapper = document.getElementById('preview-grid-wrapper');
+            const layoutCols = document.getElementById('kpi-layout').value;
+            
+            // Set grid columns class
+            gridWrapper.className = `grid gap-4 w-full grid-cols-1`;
+            if (layoutCols === '3') {
+                gridWrapper.classList.add('md:grid-cols-3');
+            } else if (layoutCols === '4') {
+                gridWrapper.classList.add('md:grid-cols-2', 'lg:grid-cols-4');
+            }
+
+            // Read settings
+            const isGlow = document.getElementById('style-glow').checked;
+            const isStripe = document.getElementById('style-stripe').checked;
+            const isGlass = document.getElementById('style-glass').checked;
+            
+            const kpiTitle = document.getElementById('kpi-title').value;
+            const kpiValue = document.getElementById('kpi-value').value;
+            const kpiTrend = document.getElementById('kpi-trend').value;
+            const kpiTrendDir = document.getElementById('kpi-trend-dir').value;
+            const kpiIcon = document.getElementById('kpi-icon').value;
+
+            // Generate content
+            let htmlContent = '';
+            const count = parseInt(layoutCols);
+
+            for (let i = 0; i < count; i++) {
+                const title = i === 0 ? kpiTitle : MOCK_CARDS[i % MOCK_CARDS.length].title;
+                const val = i === 0 ? kpiValue : MOCK_CARDS[i % MOCK_CARDS.length].value;
+                const trend = i === 0 ? kpiTrend : MOCK_CARDS[i % MOCK_CARDS.length].trend;
+                const dir = i === 0 ? kpiTrendDir : MOCK_CARDS[i % MOCK_CARDS.length].trendDir;
+                const icon = i === 0 ? kpiIcon : MOCK_CARDS[i % MOCK_CARDS.length].icon;
+
+                const colorConfig = COLOR_MAP[currentThemeColor];
+                const trendConfig = TREND_MAP[dir];
+
+                // CSS styling mapping for preview live
+                const borderAccent = `rgba(255, 255, 255, 0.05)`;
+                const hoverStyle = isGlow ? `hover:border-${colorConfig.tailwind}/35 hover:shadow-lg hover:shadow-${colorConfig.tailwind}/5` : '';
+                const blurStyle = isGlass ? 'backdrop-blur-md' : '';
+                const backgroundStyle = `rgba(17, 24, 39, 0.6)`;
+                
+                htmlContent += `
+                <div class="relative rounded-2xl border border-white/5 overflow-hidden transition-all duration-300 p-6 flex flex-col justify-between ${hoverStyle} ${blurStyle}" style="background-color: ${backgroundStyle};">
+                    ${isStripe ? `<div class="absolute top-0 left-0 right-0 h-[3px] bg-gradient-to-r from-${colorConfig.tailwind} to-indigo-500 opacity-70"></div>` : ''}
+                    
+                    <div class="flex justify-between items-center mb-3">
+                        <span class="text-xs font-semibold text-gray-400 uppercase tracking-wider">${title}</span>
+                        <div class="p-2 rounded-xl bg-${colorConfig.tailwind}/10 text-${colorConfig.tailwind}">
+                            ${ICON_MAP[icon]}
+                        </div>
+                    </div>
+
+                    <div class="flex items-end justify-between mt-2">
+                        <span class="text-2xl font-bold text-white tracking-tight">${val}</span>
+                        <span class="text-xs px-2.5 py-1 rounded-full border ${trendConfig.bg} ${trendConfig.text} font-medium flex items-center gap-0.5">
+                            ${trendConfig.icon} ${trend}
+                        </span>
+                    </div>
+                </div>`;
+            }
+
+            gridWrapper.innerHTML = htmlContent;
+            lucide.createIcons();
+            
+            updateCodeExport();
+        }
+
+        // Export copy-pasteable HTML/CSS code
+        function updateCodeExport() {
+            const codeBox = document.getElementById('code-box');
+            
+            const isGlow = document.getElementById('style-glow').checked;
+            const isStripe = document.getElementById('style-stripe').checked;
+            const isGlass = document.getElementById('style-glass').checked;
+            
+            const kpiTitle = document.getElementById('kpi-title').value;
+            const kpiValue = document.getElementById('kpi-value').value;
+            const kpiTrend = document.getElementById('kpi-trend').value;
+            const kpiTrendDir = document.getElementById('kpi-trend-dir').value;
+            const kpiIcon = document.getElementById('kpi-icon').value;
+
+            const colorConfig = COLOR_MAP[currentThemeColor];
+            const trendConfig = TREND_MAP[kpiTrendDir];
+
+            let code = '';
+
+            if (currentTab === 'tailwind') {
+                code = `<!-- KPI Analytics Card -->
+<div class="relative rounded-2xl border border-white/5 overflow-hidden p-6 flex flex-col justify-between transition-all duration-300 bg-gray-900/60 ${isGlass ? 'backdrop-blur-md' : ''} ${isGlow ? `hover:border-${colorConfig.tailwind}/30 hover:shadow-lg hover:shadow-${colorConfig.tailwind}/5` : ''}">
+  ${isStripe ? `<!-- Accent stripe -->
+  <div class="absolute top-0 left-0 right-0 h-[3px] bg-gradient-to-r from-${colorConfig.tailwind} to-indigo-500 opacity-70"></div>\n` : ''}
+  <!-- Card Header -->
+  <div class="flex justify-between items-center mb-3">
+    <span class="text-xs font-semibold text-gray-400 uppercase tracking-wider">${kpiTitle}</span>
+    <div class="p-2 rounded-xl bg-${colorConfig.tailwind}/10 text-${colorConfig.tailwind}">
+      <!-- Lucide ${kpiIcon} Icon -->
+      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-5 h-5"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+    </div>
+  </div>
+
+  <!-- Card Body -->
+  <div class="flex items-end justify-between mt-2">
+    <span class="text-2xl font-bold text-white tracking-tight">${kpiValue}</span>
+    <span class="text-xs px-2.5 py-1 rounded-full border ${trendConfig.bg} ${trendConfig.text} font-medium flex items-center gap-0.5">
+      ${kpiTrend}
+    </span>
+  </div>
+</div>`;
+            } else if (currentTab === 'vanilla') {
+                code = `<!-- HTML structure -->
+<div class="analytics-card">
+  ${isStripe ? '<div class="card-stripe"></div>' : ''}
+  <div class="card-header">
+    <span class="card-title">${kpiTitle}</span>
+    <div class="card-icon">
+      <!-- Icon goes here -->
+    </div>
+  </div>
+  <div class="card-body">
+    <span class="card-value">${kpiValue}</span>
+    <span class="card-trend trend-${kpiTrendDir}">${kpiTrend}</span>
+  </div>
+</div>
+
+/* CSS stylesheet */
+:root {
+  --accent-color: ${colorConfig.hex};
+  --accent-glow: ${colorConfig.hexGlow};
+  --card-bg: rgba(17, 24, 39, 0.55);
+  --card-border: rgba(255, 255, 255, 0.05);
+}
+
+.analytics-card {
+  position: relative;
+  border-radius: 16px;
+  border: 1px solid var(--card-border);
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background-color: var(--card-bg);
+  ${isGlass ? 'backdrop-filter: blur(16px);' : ''}
+  transition: all 0.3s ease;
+}
+
+${isGlow ? `.analytics-card:hover {
+  border-color: rgba(59, 130, 246, 0.3);
+  box-shadow: 0 8px 32px 0 var(--accent-glow);
+  transform: translateY(-2px);
+}` : ''}
+
+${isStripe ? `.card-stripe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--accent-color), #6366f1);
+  opacity: 0.7;
+}` : ''}`;
+            } else {
+                code = `// tailwind.config.js - Extend properties
+module.exports = {
+  theme: {
+    extend: {
+      colors: {
+        brand: {
+          accent: '${colorConfig.hex}',
+          glow: '${colorConfig.hexGlow}',
+        }
+      },
+      boxShadow: {
+        'glow-accent': '0 8px 32px 0 rgba(59, 130, 246, 0.15)',
+      }
+    }
+  }
+}`;
+            }
+
+            codeBox.textContent = code;
+        }
+
+        // Copy Code Clipboard
+        function copyCode() {
+            const codeBox = document.getElementById('code-box');
+            navigator.clipboard.writeText(codeBox.textContent).then(() => {
+                showToast("Code copied to clipboard!");
+                confetti({
+                    particleCount: 50,
+                    spread: 40,
+                    origin: { y: 0.8 },
+                    colors: [COLOR_MAP[currentThemeColor].hex, '#ffffff']
+                });
+            });
+        }
+
+        // Toast Alert Trigger
+        function showToast(message) {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            toast.className = "flex items-center gap-2.5 py-3 px-4 rounded-xl border border-white/10 bg-gray-900/90 text-white text-xs font-medium shadow-2xl pointer-events-auto transition-all duration-300 opacity-0 translate-y-2";
+            toast.innerHTML = `
+                <i data-lucide="check-circle" class="w-4 h-4 text-emerald-400"></i>
+                <span>${message}</span>
+            `;
+            container.appendChild(toast);
+            lucide.createIcons();
+            
+            setTimeout(() => {
+                toast.classList.remove('opacity-0', 'translate-y-2');
+            }, 10);
+            
+            setTimeout(() => {
+                toast.classList.add('opacity-0', 'translate-y-2');
+                setTimeout(() => {
+                    toast.remove();
+                }, 300);
+            }, 3000);
+        }
+
+        // Run
+        window.addEventListener('DOMContentLoaded', () => {
+            updatePreview();
+            lucide.createIcons();
+        });
+    </script>
+</body>
+</html>

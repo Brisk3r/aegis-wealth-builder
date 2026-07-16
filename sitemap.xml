@@ -61,7 +61,7 @@
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://aegishub.dev/static/tools/analytics_dashboard_tool.html</loc>
+        <loc>https://aegishub.dev/static/tools/analytics_card_builder_tool.html</loc>
         <lastmod>2026-07-17</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.8</priority>
@@ -109,7 +109,7 @@
         <priority>0.7</priority>
     </url>
     <url>
-        <loc>https://aegishub.dev/static/articles/aegis_hub_analytics.html</loc>
+        <loc>https://aegishub.dev/static/articles/analytics_card_builder.html</loc>
         <lastmod>2026-07-17</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.7</priority>
