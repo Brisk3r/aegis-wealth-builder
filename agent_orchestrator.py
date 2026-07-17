@@ -131,13 +131,8 @@ class AegisOrchestrator:
             self._save_history()
             
             # 5. Compile and Publish/Deploy
-            logger.info("[Step 5/5] Compiling pages and auto-publishing...")
-            try:
-                import subprocess
-                subprocess.run(["python", "publish.py"], check=True)
-                logger.info("Auto-publish completed successfully.")
-            except Exception as pe:
-                logger.error("Auto-publish failed: %s", pe)
+            # NOTE: publish_all() is called by run.py after this method returns.
+            # Do NOT call publish.py here to avoid double publishing.
                 
             logger.info("Successfully completed Aegis-100K iteration for: '%s'", seed_topic)
             return iteration_data

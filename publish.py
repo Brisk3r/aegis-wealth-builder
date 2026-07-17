@@ -1,6 +1,7 @@
 import os
 import json
 import re
+import html as html_module
 import subprocess
 from pathlib import Path
 from config import config
@@ -19,7 +20,10 @@ TOOL_DESCRIPTIONS = {
     "Developer Tools": "DevTools Ideation Hub: Instantly brainstorm and prototype developer micro-SaaS concepts for targeted niches.",
     "Color Wheel Tool": "Paletton-inspired visual HSL color wheel and harmony palette generator with CSS variables and Tailwind config exporter.",
     "SaaS UI Boilerplate Exporter": "Interactive boilerplate configuration sandbox with live file explorer and dynamic browser-side ZIP exporter.",
-    "Analytics Card Builder": "Interactive utility to customize and export pixel-perfect, glassmorphic analytics KPI cards in Tailwind CSS or Vanilla CSS."
+    "Analytics Card Builder": "Interactive utility to customize and export pixel-perfect, glassmorphic analytics KPI cards in Tailwind CSS or Vanilla CSS.",
+    "PDF Editor": "Client-side PDF redaction and annotation utility with page-level editing, text overlay, and secure local-only processing.",
+    "RegEx Tester Tool": "Live regular expression testing sandbox with real-time match highlighting, capture group inspection, and common pattern library.",
+    "SVG Path Editor": "Visual SVG path authoring tool with interactive Bézier curve handles, live preview, and optimized path data export."
 }
 
 AFFILIATE_DESCRIPTIONS = {
@@ -52,8 +56,8 @@ def simple_markdown_to_html(md_text: str) -> str:
     if not md_text:
         return ""
     
-    # Escape HTML to prevent injection issues, then parse basics
-    html = md_text
+    # Escape HTML to prevent injection issues
+    html = html_module.escape(md_text)
     
     # Code blocks
     html = re.sub(r"```(.*?)\n(.*?)```", r"<pre><code>\2</code></pre>", html, flags=re.DOTALL)
@@ -352,6 +356,14 @@ def generate_index_page(tools, articles) -> str:
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Aegis Developer Hub</title>
+    <meta name="description" content="A curated sandbox of high-utility interactive developer tools, SaaS UI components, and premium coding guides. Free browser-based utilities for frontend engineers.">
+    <meta property="og:title" content="Aegis Developer Hub">
+    <meta property="og:description" content="Free interactive developer tools, SaaS UI components, and premium coding guides for frontend engineers.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://{DOMAIN}/">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Aegis Developer Hub">
+    <meta name="twitter:description" content="Free interactive developer tools, SaaS UI components, and premium coding guides.">
     <link rel="icon" type="image/png" href="/static/logo.png">
     <link rel="canonical" href="https://{DOMAIN}/">{adsense_tag}
     <script defer src="/_vercel/insights/script.js"></script>
@@ -611,13 +623,13 @@ def post_process_tool(tool_abs_path: Path, topic: str):
     # 1.7 Inject Google Analytics script
     if config.google_analytics_id and f'googletagmanager.com/gtag/js?id={config.google_analytics_id}' not in html and '</head>' in html:
         ga_tag = get_analytics_tag(indent=4)
-        html = html.replace('head>', f'head>\n{ga_tag}', 1)
+        html = html.replace('</head>', f'{ga_tag}\n</head>', 1)
         modified = True
 
     # 1.9 Inject Lemon Squeezy script in head if not present
-    ls_script = '\n    <script src="https://lmsqueezy.com/assets/embed.js" defer></script>'
-    if 'lmsqueezy.com/assets/embed.js' not in html and '</head>' in html:
-        html = html.replace('head>', f'head>\n{ls_script}', 1)
+    ls_script = '\n    <script src="https://assets.lemonsqueezy.com/lemon.js" defer></script>'
+    if 'lemonsqueezy.com' not in html and 'lemon.js' not in html and '</head>' in html:
+        html = html.replace('</head>', f'{ls_script}\n</head>', 1)
         modified = True
 
     # 2. Inject Navbar right after <body> if NOT already present
@@ -672,14 +684,14 @@ def post_process_tool(tool_abs_path: Path, topic: str):
     checkout_premium = "https://aegishub.lemonsqueezy.com/checkout/buy/22815780-b4e8-466d-a4eb-5bd71d121707?embed=1"
     checkout_kit = "https://aegishub.lemonsqueezy.com/checkout/buy/0f7285e8-f8d2-4d19-8856-1e6d08ef423f?embed=1"
 
-    if '<span class="text-[10px] text-gray-500">Secure checkout handled by Lemon Squeezy</span>' in html:
+    if '<span class="text-[10px] text-gray-500">Secure checkout handled by Lemon Squeezy</span>' in html and checkout_kit not in html:
         html = html.replace(
             '<span class="text-[10px] text-gray-500">Secure checkout handled by Lemon Squeezy</span>',
             f'<a href="{checkout_kit}" class="lemonsqueezy-button bg-blue-600 hover:bg-blue-500 text-white font-semibold py-2.5 px-6 rounded-xl transition-all duration-200 text-xs md:text-sm text-center w-full" data-cb-type="checkout" data-cb-embed="1">Get Starter Kit - $29</a>\n                    <span class="text-[10px] text-gray-500">Secure checkout handled by Lemon Squeezy</span>'
         )
         modified = True
         
-    if '<p class="text-[10px] text-gray-500 text-center">Checkout powered secure by Lemon Squeezy</p>' in html:
+    if '<p class="text-[10px] text-gray-500 text-center">Checkout powered secure by Lemon Squeezy</p>' in html and checkout_premium not in html:
         html = html.replace(
             '<p class="text-[10px] text-gray-500 text-center">Checkout powered secure by Lemon Squeezy</p>',
             f'<a href="{checkout_premium}" class="lemonsqueezy-button block text-center bg-blue-600/30 hover:bg-blue-600/50 border border-blue-500/50 text-blue-300 font-semibold py-2 px-4 rounded-lg text-xs transition-all duration-200" data-cb-type="checkout" data-cb-embed="1">Get Premium Spec - $4.99</a>\n                                        <p class="text-[10px] text-gray-500 text-center">Checkout powered secure by Lemon Squeezy</p>'

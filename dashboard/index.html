@@ -585,6 +585,14 @@
                 }
                 
                 container.innerHTML = '';
+                
+                // Sanitize helper to prevent XSS
+                function esc(str) {
+                    const div = document.createElement('div');
+                    div.textContent = str || '';
+                    return div.innerHTML;
+                }
+                
                 history.reverse().forEach((item, index) => {
                     const card = document.createElement('div');
                     card.className = 'history-card';
@@ -594,12 +602,12 @@
                     
                     card.innerHTML = `
                         <div class="history-card-header">
-                            <div class="history-topic">${item.seed_topic}</div>
-                            <span class="history-status-badge ${statusClass}">${item.status}</span>
+                            <div class="history-topic">${esc(item.seed_topic)}</div>
+                            <span class="history-status-badge ${statusClass}">${esc(item.status)}</span>
                         </div>
                         <div class="history-meta">
-                            <span>🕒 Started: ${metaDate}</span>
-                            ${item.tool_path ? `<span>🛠️ Tool: <a href="/static/tools/${item.tool_path.replace(/\\\\/g, '/').split('/').pop()}" target="_blank" style="color: var(--accent-primary)">View App</a></span>` : ''}
+                            <span>🕒 Started: ${esc(metaDate)}</span>
+                            ${item.tool_path ? `<span>🛠️ Tool: <a href="/static/tools/${esc(item.tool_path.replace(/\\\\/g, '/').split('/').pop())}" target="_blank" style="color: var(--accent-primary)">View App</a></span>` : ''}
                         </div>
                         
                         <div class="tab-container">
@@ -608,9 +616,9 @@
                             <button class="tab-btn" onclick="switchTab(this, 'campaign_${index}')">Promo Campaign</button>
                         </div>
                         
-                        <div class="tab-content" id="research_${index}">${item.research_report || 'Research in progress...'}</div>
-                        <div class="tab-content" id="article_${index}" style="display:none;">${item.article || 'Article in progress...'}</div>
-                        <div class="tab-content" id="campaign_${index}" style="display:none;">${item.campaign || 'Campaign in progress...'}</div>
+                        <div class="tab-content" id="research_${index}">${esc(item.research_report || 'Research in progress...')}</div>
+                        <div class="tab-content" id="article_${index}" style="display:none;">${esc(item.article || 'Article in progress...')}</div>
+                        <div class="tab-content" id="campaign_${index}" style="display:none;">${esc(item.campaign || 'Campaign in progress...')}</div>
                     `;
                     container.appendChild(card);
                 });

@@ -100,7 +100,7 @@ class ToolDeveloper:
                     audit_text = await audit_response.text()
                     cleaned_audit = clean_code(audit_text)
                     
-                    if cleaned_audit == "APPROVED" or "APPROVED" in cleaned_audit.upper() and len(cleaned_audit) < 50:
+                    if cleaned_audit == "APPROVED" or ("APPROVED" in cleaned_audit.upper() and len(cleaned_audit) < 50):
                         logger.info("Code self-audit APPROVED by developer agent.")
                         break
                     else:
@@ -157,7 +157,7 @@ class ToolDeveloper:
                     audit_text = res.json()["message"]["content"]
                     cleaned_audit = clean_code(audit_text)
 
-                    if cleaned_audit == "APPROVED" or "APPROVED" in cleaned_audit.upper() and len(cleaned_audit) < 50:
+                    if cleaned_audit == "APPROVED" or ("APPROVED" in cleaned_audit.upper() and len(cleaned_audit) < 50):
                         logger.info("Code self-audit APPROVED by local Ollama.")
                         break
                     else:
