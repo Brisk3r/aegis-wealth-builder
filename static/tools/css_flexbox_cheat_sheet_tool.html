@@ -1,21 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
-    <script src="https://lmsqueezy.com/assets/embed.js" defer></script>
-
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-BZVWXPPG06"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'G-BZVWXPPG06');
-    </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Visual CSS Flexbox Playground - Aegis Hub</title>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <title>Advanced Flexbox Playground - Aegis Hub</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
     <style>
         :root {
             --bg-color: #0b0f19;
@@ -26,306 +16,181 @@
             --text-main: #f3f4f6;
             --text-muted: #9ca3af;
         }
-        body {
-            background-color: var(--bg-color);
-            color: var(--text-main);
-            font-family: 'Outfit', sans-serif;
-            margin: 0;
-            padding: 0;
-            line-height: 1.6;
+        body { 
+            background-color: var(--bg-color); 
+            color: var(--text-main); 
+            font-family: 'Inter', sans-serif; 
         }
-        .navbar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 20px 40px;
-            border-bottom: 1px solid var(--border-color);
-            background: rgba(11, 15, 25, 0.7);
-            backdrop-filter: blur(12px);
-            position: sticky;
-            top: 0;
-            z-index: 100;
+        .glass { 
+            background: var(--card-bg); 
+            border: 1px solid var(--border-color); 
+            backdrop-filter: blur(12px); 
         }
-        .navbar a {
-            color: var(--text-main);
-            text-decoration: none;
-            font-weight: 600;
+        .btn-option { 
+            transition: all 0.2s; 
+            border: 1px solid var(--border-color); 
         }
-        .back-link {
-            color: var(--secondary-accent) !important;
-            font-size: 0.95rem;
+        .btn-option.active { 
+            background: var(--primary-accent); 
+            border-color: var(--primary-accent); 
+            color: white; 
         }
-        .container {
-            max-width: 1200px;
-            margin: 40px auto;
-            padding: 0 20px;
-            display: grid;
-            grid-template-columns: 350px 1fr;
-            gap: 30px;
-        }
-        @media (max-width: 900px) {
-            .container {
-                grid-template-columns: 1fr;
-            }
-        }
-        .panel {
-            background: var(--card-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 16px;
-            padding: 25px;
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
-            backdrop-filter: blur(8px);
-        }
-        .panel h2 {
-            margin-top: 0;
-            font-size: 1.4rem;
-            color: var(--secondary-accent);
-            border-bottom: 1px solid var(--border-color);
-            padding-bottom: 10px;
-            margin-bottom: 20px;
-        }
-        .control-group {
-            margin-bottom: 20px;
-        }
-        .control-group label {
-            display: block;
-            font-size: 0.9rem;
-            color: var(--text-muted);
-            margin-bottom: 8px;
-            font-weight: 600;
-        }
-        .btn-group {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-        }
-        .btn-option {
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid var(--border-color);
-            color: var(--text-main);
-            padding: 6px 12px;
-            border-radius: 6px;
-            font-size: 0.85rem;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-        .btn-option:hover {
-            border-color: var(--secondary-accent);
-            background: rgba(59, 130, 246, 0.1);
-        }
-        .btn-option.active {
-            background: var(--primary-accent);
-            border-color: var(--primary-accent);
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            padding: 12px 24px;
+            background: #10b981;
             color: white;
-        }
-        .sandbox-area {
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-        }
-        .flex-sandbox {
-            background: rgba(0,0,0,0.4);
-            border: 1px solid var(--border-color);
-            border-radius: 16px;
-            min-height: 350px;
-            display: flex;
-            padding: 20px;
-            transition: all 0.3s;
-        }
-        .flex-box {
-            background: linear-gradient(135deg, var(--primary-accent), var(--secondary-accent));
             border-radius: 8px;
-            min-width: 80px;
-            min-height: 80px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 800;
-            color: white;
-            font-size: 1.2rem;
-            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
-            transition: all 0.2s;
-        }
-        .css-output {
-            background: rgba(0,0,0,0.6);
-            border: 1px solid var(--border-color);
-            padding: 20px;
-            border-radius: 12px;
-            font-family: 'Courier New', Courier, monospace;
-            font-size: 0.9rem;
-            color: #34d399;
-            overflow-x: auto;
-            position: relative;
-        }
-        .copy-btn {
-            position: absolute;
-            top: 15px;
-            right: 15px;
-            background: rgba(255,255,255,0.05);
-            border: 1px solid var(--border-color);
-            color: var(--text-main);
-            padding: 4px 8px;
-            border-radius: 4px;
-            font-size: 0.75rem;
-            cursor: pointer;
-        }
-        .sponsored-box {
-            background: linear-gradient(135deg, rgba(59, 130, 246, 0.05), transparent);
-            border: 1px solid rgba(59, 130, 246, 0.15);
-            border-radius: 12px;
-            padding: 20px;
-            margin-top: 30px;
-            text-align: center;
-        }
-        .sponsored-box h3 {
-            margin-top: 0;
-            color: var(--secondary-accent);
-        }
-        .btn-buy {
-            display: inline-block;
-            background: var(--primary-accent);
-            color: white;
-            text-decoration: none;
-            padding: 10px 20px;
-            border-radius: 8px;
-            font-weight: bold;
-            font-size: 0.9rem;
-            margin-top: 10px;
-            transition: background 0.2s;
-        }
-        .btn-buy:hover {
-            background: #2563eb;
+            transform: translateY(100px);
+            transition: transform 0.3s;
+            z-index: 1000;
         }
     </style>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4750454395006570" crossorigin="anonymous"></script>
 
     <script defer src="/_vercel/insights/script.js"></script>
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4750454395006570" crossorigin="anonymous"></script>
 
     <link rel="icon" type="image/png" href="/static/logo.png">
 
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-BZVWXPPG06"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-BZVWXPPG06');
+    </script>
+
     <script src="https://assets.lemonsqueezy.com/lemon.js" defer></script>
 </head>
-<body>
-    <div class="navbar">
-        <a href="/" style="display: flex; align-items: center; gap: 10px;">
+<body class="min-h-screen py-8">
+
+    <div class="navbar" style="display: flex; justify-content: space-between; align-items: center; padding: 20px 40px; border-bottom: 1px solid rgba(255,255,255,0.08); background: rgba(11, 15, 25, 0.7); backdrop-filter: blur(12px); position: sticky; top: 0; z-index: 100; font-family: 'Outfit', sans-serif;">
+        <a href="/" style="display: flex; align-items: center; gap: 10px; color: #f3f4f6; text-decoration: none; font-weight: 600;">
             <img src="/static/logo.png" alt="Aegis Hub Logo" style="height: 30px;">
             <span>Aegis Developer Hub</span>
         </a>
-        <a href="/" class="back-link">&larr; Back to Hub</a>
+        <a href="/" style="color: #60a5fa; text-decoration: none; font-size: 0.95rem;">&larr; Back to Hub</a>
     </div>
-    <div class="container">
-        <div class="panel">
-            <h2>Controls</h2>
-            <div class="control-group">
-                <label>flex-direction</label>
-                <div class="btn-group" id="dir-group">
-                    <button class="btn-option active" onclick="setFlex('flex-direction', 'row', this)">row</button>
-                    <button class="btn-option" onclick="setFlex('flex-direction', 'column', this)">column</button>
-                    <button class="btn-option" onclick="setFlex('flex-direction', 'row-reverse', this)">row-reverse</button>
-                    <button class="btn-option" onclick="setFlex('flex-direction', 'column-reverse', this)">column-reverse</button>
-                </div>
-            </div>
-            
-            <div class="control-group">
-                <label>justify-content</label>
-                <div class="btn-group" id="justify-group">
-                    <button class="btn-option active" onclick="setFlex('justify-content', 'flex-start', this)">flex-start</button>
-                    <button class="btn-option" onclick="setFlex('justify-content', 'flex-end', this)">flex-end</button>
-                    <button class="btn-option" onclick="setFlex('justify-content', 'center', this)">center</button>
-                    <button class="btn-option" onclick="setFlex('justify-content', 'space-between', this)">space-between</button>
-                    <button class="btn-option" onclick="setFlex('justify-content', 'space-around', this)">space-around</button>
-                    <button class="btn-option" onclick="setFlex('justify-content', 'space-evenly', this)">space-evenly</button>
+    
+
+    <div class="max-w-6xl mx-auto px-6">
+        <header class="flex justify-between items-center mb-10">
+            <h1 class="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-blue-600">Flexbox Visualizer</h1>
+            <a href="/" class="text-sm font-semibold text-gray-400 hover:text-white transition">← Back to Hub</a>
+        </header>
+
+        <div class="grid lg:grid-cols-[380px,1fr] gap-8">
+            <div class="glass p-6 rounded-2xl h-fit border transition hover:border-blue-500/30">
+                <h2 class="text-lg font-semibold text-blue-400 mb-6 border-b border-white/5 pb-2">Properties</h2>
+                
+                <div class="space-y-6">
+                    <div>
+                        <label class="block text-[0.8rem] text-gray-400 font-bold uppercase tracking-wider mb-3">flex-direction</label>
+                        <div class="grid grid-cols-2 gap-2" id="dir-group">
+                            <button class="btn-option text-[0.8rem] rounded-lg p-2 active" onclick="setFlex('flex-direction', 'row', this)">row</button>
+                            <button class="btn-option text-[0.8rem] rounded-lg p-2" onclick="setFlex('flex-direction', 'column', this)">column</button>
+                            <button class="btn-option text-[0.8rem] rounded-lg p-2" onclick="setFlex('flex-direction', 'row-reverse', this)">row-rev</button>
+                            <button class="btn-option text-[0.8rem] rounded-lg p-2" onclick="setFlex('flex-direction', 'column-reverse', this)">col-rev</button>
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <label class="block text-[0.8rem] text-gray-400 font-bold uppercase tracking-wider mb-3">justify-content</label>
+                        <div class="grid grid-cols-2 gap-2" id="justify-group">
+                            <button class="btn-option text-[0.8rem] rounded-lg p-2 active" onclick="setFlex('justify-content', 'flex-start', this)">flex-start</button>
+                            <button class="btn-option text-[0.8rem] rounded-lg p-2" onclick="setFlex('justify-content', 'flex-end', this)">flex-end</button>
+                            <button class="btn-option text-[0.8rem] rounded-lg p-2" onclick="setFlex('justify-content', 'center', this)">center</button>
+                            <button class="btn-option text-[0.8rem] rounded-lg p-2" onclick="setFlex('justify-content', 'space-between', this)">space-between</button>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-[0.8rem] text-gray-400 font-bold uppercase tracking-wider mb-3">align-items</label>
+                        <div class="grid grid-cols-2 gap-2" id="align-group">
+                            <button class="btn-option text-[0.8rem] rounded-lg p-2 active" onclick="setFlex('align-items', 'stretch', this)">stretch</button>
+                            <button class="btn-option text-[0.8rem] rounded-lg p-2" onclick="setFlex('align-items', 'center', this)">center</button>
+                            <button class="btn-option text-[0.8rem] rounded-lg p-2" onclick="setFlex('align-items', 'flex-start', this)">flex-start</button>
+                            <button class="btn-option text-[0.8rem] rounded-lg p-2" onclick="setFlex('align-items', 'flex-end', this)">flex-end</button>
+                        </div>
+                    </div>
+                    
+                    <div class="pt-4 border-t border-white/5">
+                        <label class="block text-[0.8rem] text-gray-400 font-bold uppercase tracking-wider mb-3">Item Count</label>
+                        <input type="range" min="1" max="8" value="4" class="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer" oninput="updateItems(this.value)">
+                    </div>
                 </div>
             </div>
 
-            <div class="control-group">
-                <label>align-items</label>
-                <div class="btn-group" id="align-group">
-                    <button class="btn-option active" onclick="setFlex('align-items', 'stretch', this)">stretch</button>
-                    <button class="btn-option" onclick="setFlex('align-items', 'flex-start', this)">flex-start</button>
-                    <button class="btn-option" onclick="setFlex('align-items', 'flex-end', this)">flex-end</button>
-                    <button class="btn-option" onclick="setFlex('align-items', 'center', this)">center</button>
-                    <button class="btn-option" onclick="setFlex('align-items', 'baseline', this)">baseline</button>
+            <div class="space-y-6">
+                <div class="glass min-h-[400px] p-6 rounded-2xl flex border relative overflow-hidden" id="sandbox">
+                    <div class="w-20 h-20 bg-blue-500 rounded-lg flex items-center justify-center font-bold shadow-lg shadow-blue-500/20">1</div>
+                    <div class="w-20 h-24 bg-blue-600 rounded-lg flex items-center justify-center font-bold shadow-lg shadow-blue-600/20">2</div>
+                    <div class="w-20 h-16 bg-blue-400 rounded-lg flex items-center justify-center font-bold shadow-lg shadow-blue-400/20">3</div>
+                    <div class="w-20 h-20 bg-blue-700 rounded-lg flex items-center justify-center font-bold shadow-lg shadow-blue-700/20">4</div>
                 </div>
-            </div>
 
-            <div class="control-group">
-                <label>flex-wrap</label>
-                <div class="btn-group" id="wrap-group">
-                    <button class="btn-option active" onclick="setFlex('flex-wrap', 'nowrap', this)">nowrap</button>
-                    <button class="btn-option" onclick="setFlex('flex-wrap', 'wrap', this)">wrap</button>
-                    <button class="btn-option" onclick="setFlex('flex-wrap', 'wrap-reverse', this)">wrap-reverse</button>
-                </div>
-            </div>
-        </div>
-        
-        <div class="sandbox-area">
-            <div class="panel" style="flex-grow: 1; display: flex; flex-direction: column;">
-                <h2>Interactive Sandbox</h2>
-                <div class="flex-sandbox" id="sandbox">
-                    <div class="flex-box">1</div>
-                    <div class="flex-box" style="min-height: 120px; min-width: 90px;">2</div>
-                    <div class="flex-box" style="min-height: 60px;">3</div>
-                    <div class="flex-box">4</div>
-                </div>
-            </div>
-            
-            <div class="css-output">
-                <button class="copy-btn" onclick="copyCSS()">Copy CSS</button>
-                <pre id="css-text">.container {
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-start;
-    align-items: stretch;
-    flex-wrap: nowrap;
+                <div class="glass p-6 rounded-2xl relative">
+                    <pre class="text-emerald-400 font-mono text-sm overflow-x-auto mb-4" id="css-text">.container {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: stretch;
 }</pre>
+                    <div class="flex gap-3">
+                        <button onclick="copyCSS()" class="bg-white/5 hover:bg-white/10 px-4 py-2 rounded-lg text-sm transition">Copy CSS</button>
+                        <button onclick="downloadCSS()" class="bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-lg text-sm transition font-semibold">Download .css</button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-<script>
-        const state = {
-            'display': 'flex',
-            'flex-direction': 'row',
-            'justify-content': 'flex-start',
-            'align-items': 'stretch',
-            'flex-wrap': 'nowrap'
-        };
+
+    <div id="toast" class="toast">Copied to clipboard!</div>
+
+    <script>
+        const state = { 'flex-direction': 'row', 'justify-content': 'flex-start', 'align-items': 'stretch' };
         
         function setFlex(prop, val, btn) {
-            // Update active state in UI
-            const siblings = btn.parentElement.children;
-            for(let sib of siblings) {
-                sib.classList.remove('active');
-            }
+            Array.from(btn.parentElement.children).forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
-            
-            // Update sandbox
             state[prop] = val;
             const sandbox = document.getElementById('sandbox');
             sandbox.style[prop] = val;
-            
-            // Update output
             updateCSS();
         }
-        
-        function updateCSS() {
-            const out = document.getElementById('css-text');
-            out.textContent = `.container {
-    display: flex;
-    flex-direction: ${state['flex-direction']};
-    justify-content: ${state['justify-content']};
-    align-items: ${state['align-items']};
-    flex-wrap: ${state['flex-wrap']};
-}`;
+
+        function updateItems(num) {
+            const sandbox = document.getElementById('sandbox');
+            sandbox.innerHTML = '';
+            for(let i=1; i<=num; i++) {
+                const div = document.createElement('div');
+                div.className = 'w-20 bg-blue-' + (500 + (i%3)*100) + ' rounded-lg flex items-center justify-center font-bold';
+                div.style.minHeight = (60 + (i*10)%80) + 'px';
+                div.textContent = i;
+                sandbox.appendChild(div);
+            }
         }
-        
+
+        function updateCSS() {
+            document.getElementById('css-text').textContent = `.container {\n  display: flex;\n  flex-direction: ${state['flex-direction']};\n  justify-content: ${state['justify-content']};\n  align-items: ${state['align-items']};\n}`;
+        }
+
         function copyCSS() {
-            const text = document.getElementById('css-text').textContent;
-            navigator.clipboard.writeText(text).then(() => {
-                const btn = document.querySelector('.copy-btn');
-                btn.textContent = 'Copied!';
-                setTimeout(() => btn.textContent = 'Copy CSS', 1500);
-            });
+            navigator.clipboard.writeText(document.getElementById('css-text').textContent);
+            const toast = document.getElementById('toast');
+            toast.style.transform = 'translateY(0)';
+            setTimeout(() => toast.style.transform = 'translateY(100px)', 2000);
+        }
+
+        function downloadCSS() {
+            const blob = new Blob([document.getElementById('css-text').textContent], {type: 'text/css'});
+            const a = document.createElement('a');
+            a.href = URL.createObjectURL(blob);
+            a.download = 'styles.css';
+            a.click();
         }
     </script>
 </body>

@@ -213,6 +213,93 @@ class ToolDeveloper:
         logger.info("Successfully wrote tool to: %s", target_path)
         return target_path
 
+    async def improve_tool(self, tool_path: Path, improvement_instruction: str = "") -> Path:
+        """Improves an existing HTML tool file in-place, adding features and fixing bugs."""
+        if not tool_path.exists():
+            raise FileNotFoundError(f"Tool path {tool_path} does not exist.")
+            
+        with open(tool_path, "r", encoding="utf-8") as f:
+            current_code = f.read()
+
+        def clean_code(c: str) -> str:
+            c = c.strip()
+            if c.startswith("```html"):
+                c = c[7:]
+            elif c.startswith("```"):
+                c = c[3:]
+            if c.endswith("```"):
+                c = c[:-3]
+            return c.strip()
+
+        prompt = (
+            f"You are tasked with reviewing and improving this existing HTML web utility tool file.\n"
+            f"Here is the current implementation code:\n"
+            f"--- START CODE ---\n{current_code}\n--- END CODE ---\n\n"
+            f"Goal: Improve this tool code. Additional focus areas: {improvement_instruction}\n"
+            f"Specifically:\n"
+            f"1. Fix any bugs, UI glitches, or raw/basic design elements. Bring it up to a premium dark-mode glassmorphic theme matching our design rules.\n"
+            f"2. Add a useful new feature to make it a fully-featured product.\n"
+            f"3. Make sure copy to clipboard features use visual toast/notifications (no default alerts) and file downloads work in-browser.\n"
+            f"4. Keep all existing features intact.\n\n"
+            f"Output only the full, updated HTML code starting with <!DOCTYPE html> and ending with </html>. Do not wrap in markdown code blocks."
+        )
+
+        async def run_dev_loop(agent_config):
+            async with Agent(agent_config) as agent:
+                logger.info("Starting tool improvement chat...")
+                response = await agent.chat(prompt)
+                code = await response.text()
+                code = clean_code(code)
+                return code
+
+        async def run_dev_loop_ollama(system_instructions):
+            import httpx
+            url = f"{config.ollama_base_url}/api/chat"
+            messages = [
+                {"role": "system", "content": system_instructions},
+                {"role": "user", "content": prompt}
+            ]
+            payload = {
+                "model": config.ollama_model,
+                "messages": messages,
+                "stream": False,
+                "options": {
+                    "num_predict": 16384,
+                    "temperature": 0.2
+                }
+            }
+            logger.info("Starting local Ollama tool improvement request...")
+            async with httpx.AsyncClient(timeout=300.0) as client:
+                res = await client.post(url, json=payload)
+                res.raise_for_status()
+                code = res.json()["message"]["content"]
+                return clean_code(code)
+
+        try:
+            if self.backend == "ollama":
+                system_instructions = "You are an expert lead front-end software engineer specializing in UI/UX improvements. Output only the complete improved HTML code."
+                code = await run_dev_loop_ollama(system_instructions)
+            else:
+                agent_config = self._get_agent_config()
+                code = await run_dev_loop(agent_config)
+        except Exception as e:
+            logger.warning("ToolDeveloper improve_tool failed on primary backend: %s. Falling back to Ollama...", e)
+            if self.backend == "gemini":
+                system_instructions = "You are an expert lead front-end software engineer specializing in UI/UX improvements. Output only the complete improved HTML code."
+                try:
+                    code = await run_dev_loop_ollama(system_instructions)
+                except Exception as fe:
+                    logger.error("Ollama fallback improvement failed: %s", fe)
+                    raise
+            else:
+                raise
+
+        with open(tool_path, "w", encoding="utf-8") as f:
+            f.write(code)
+            
+        logger.info("Successfully updated and improved tool file: %s", tool_path)
+        return tool_path
+
 if __name__ == "__main__":
     logging.basicConfig(level=logging.INFO)
     async def test():
