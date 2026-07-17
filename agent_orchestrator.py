@@ -81,8 +81,7 @@ class AegisOrchestrator:
             self._save_history()
             
             # Rate limit guard sleep
-            logger.info("Sleeping to respect rate limits...")
-            await asyncio.sleep(15)
+            logger.info("Moving to next step...")
             
             # 2. Develop Micro-SaaS Tool
             logger.info("[Step 2/4] Starting Micro-SaaS Tool Development...")
@@ -98,8 +97,7 @@ class AegisOrchestrator:
             self._save_history()
             
             # Rate limit guard sleep
-            logger.info("Sleeping to respect rate limits...")
-            await asyncio.sleep(15)
+            logger.info("Moving to next step...")
             
             # 3. Write SEO Blog Post / Article
             logger.info("[Step 3/4] Starting Content Writing...")
@@ -114,8 +112,7 @@ class AegisOrchestrator:
             self._save_history()
             
             # Rate limit guard sleep
-            logger.info("Sleeping to respect rate limits...")
-            await asyncio.sleep(15)
+            logger.info("Moving to next step...")
             
             # 4. Generate Promotion Campaign
             logger.info("[Step 4/4] Generating Social Media Campaign...")
