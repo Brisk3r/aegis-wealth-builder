@@ -99,24 +99,7 @@ class NicheResearcher:
         except Exception as e:
             logger.warning("Researcher agent failed or hit rate limits: %s. Attempting fallback...", e)
             
-            # Fallback strategy 1: If using Gemini, try local Ollama backend (unlimited, no quota)
-            if self.backend == "gemini":
-                logger.info("Falling back to local Ollama backend...")
-                system_instructions = (
-                    "You are an expert market researcher and SEO specialist. Use your extensive internal "
-                    "knowledge to perform market research on the seed topic. Compile your findings into a clean, markdown-formatted report containing:\n"
-                    "1. Recommended Niche with justification.\n"
-                    "2. Top 5 low-difficulty SEO keywords with estimated volume.\n"
-                    "3. Top 3 affiliate programs or monetization methods for this niche.\n"
-                    "4. Suggested 3 micro-SaaS tool ideas that could capture traffic in this niche."
-                )
-                try:
-                    prompt = f"Perform deep market research on the seed topic: '{seed_topic}'. Use your own internal knowledge. Do not use external search."
-                    return await run_research_ollama(system_instructions, prompt)
-                except Exception as fe:
-                    logger.error("Ollama fallback research failed: %s", fe)
-            
-            # Fallback strategy 2: Try Gemini but with NO tools (avoids search_web rate limits/errors)
+            # Fallback strategy 1: Try Gemini but with NO tools (avoids search_web rate limits/errors)
             if self.backend == "gemini":
                 logger.info("Falling back to Gemini with tools disabled...")
                 system_instructions = (
@@ -142,6 +125,25 @@ class NicheResearcher:
                         return await response.text()
                 except Exception as fe:
                     logger.error("Gemini (no tools) fallback research failed: %s", fe)
+            
+            # Fallback strategy 2: If using Gemini, try local Ollama backend (unlimited, no quota)
+            if self.backend == "gemini" and config.is_ollama_running:
+                logger.info("Falling back to local Ollama backend...")
+                system_instructions = (
+                    "You are an expert market researcher and SEO specialist. Use your extensive internal "
+                    "knowledge to perform market research on the seed topic. Compile your findings into a clean, markdown-formatted report containing:\n"
+                    "1. Recommended Niche with justification.\n"
+                    "2. Top 5 low-difficulty SEO keywords with estimated volume.\n"
+                    "3. Top 3 affiliate programs or monetization methods for this niche.\n"
+                    "4. Suggested 3 micro-SaaS tool ideas that could capture traffic in this niche."
+                )
+                try:
+                    prompt = f"Perform deep market research on the seed topic: '{seed_topic}'. Use your own internal knowledge. Do not use external search."
+                    return await run_research_ollama(system_instructions, prompt)
+                except Exception as fe:
+                    logger.error("Ollama fallback research failed: %s", fe)
+            elif self.backend == "gemini":
+                logger.info("Local Ollama is offline. Skipping local fallback.")
             
             # If all else fails, return a high-quality static template based on the topic
             logger.error("All fallback research strategies failed. Generating standard developer tools research template.")

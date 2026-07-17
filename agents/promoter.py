@@ -100,7 +100,7 @@ class ContentPromoter:
                 return await response.text()
         except Exception as e:
             logger.warning("ContentPromoter failed: %s. Falling back to local Ollama (gemma4:latest)...", e)
-            if self.backend == "gemini":
+            if self.backend == "gemini" and config.is_ollama_running:
                 sys_inst = (
                     "You are a growth hacker and social media manager. Your goal is to draft compelling, high-converting "
                     "promotional posts for social media platforms (X/Twitter, Reddit, LinkedIn, Pinterest) to drive organic traffic."
@@ -114,7 +114,10 @@ class ContentPromoter:
                         return await run_promote_ollama(config.ollama_model, sys_inst_qwen, prompt)
                     except Exception as qe:
                         logger.error("Ollama ultimate fallback promotion failed: %s", qe)
-                        raise
+                        raise e
+            elif self.backend == "gemini":
+                logger.warning("Local Ollama is offline. Propagating primary Gemini error to the orchestrator.")
+                raise e
             else:
                 raise
 

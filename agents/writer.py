@@ -96,7 +96,7 @@ class ContentWriter:
                 return await response.text()
         except Exception as e:
             logger.warning("ContentWriter failed on primary backend: %s. Falling back to local Ollama (gemma4:latest)...", e)
-            if self.backend == "gemini":
+            if self.backend == "gemini" and config.is_ollama_running:
                 sys_inst = (
                     "You are an elite copywriter and SEO blog author. Write engaging, informative, and "
                     "deeply researched articles. Integrate specified keywords naturally. Write high-value educational content."
@@ -111,7 +111,10 @@ class ContentWriter:
                         return await run_write_ollama(config.ollama_model, sys_inst_qwen, prompt)
                     except Exception as qe:
                         logger.error("Ollama ultimate fallback writing failed: %s", qe)
-                        raise
+                        raise e
+            elif self.backend == "gemini":
+                logger.warning("Local Ollama is offline. Propagating primary Gemini error to the orchestrator.")
+                raise e
             else:
                 raise
 
@@ -155,7 +158,7 @@ class ContentWriter:
                 return await response.text()
         except Exception as e:
             logger.warning("ContentWriter newsletter failed: %s. Falling back to local Ollama (gemma4:latest)...", e)
-            if self.backend == "gemini":
+            if self.backend == "gemini" and config.is_ollama_running:
                 sys_inst = "You are an elite copywriter and email marketer."
                 try:
                     return await run_write_ollama("gemma4:latest", sys_inst, prompt)
@@ -166,7 +169,10 @@ class ContentWriter:
                         return await run_write_ollama(config.ollama_model, sys_inst_qwen, prompt)
                     except Exception as qe:
                         logger.error("Ollama ultimate fallback newsletter failed: %s", qe)
-                        raise
+                        raise e
+            elif self.backend == "gemini":
+                logger.warning("Local Ollama is offline. Propagating primary Gemini error to the orchestrator.")
+                raise e
             else:
                 raise
 

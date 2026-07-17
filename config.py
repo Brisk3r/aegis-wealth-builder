@@ -70,6 +70,15 @@ class SystemConfig(BaseModel):
                 logging.getLogger(__name__).error("Failed to parse AFFILIATE_LINKS_JSON: %s", e)
         return {}
 
+    @property
+    def is_ollama_running(self) -> bool:
+        import socket
+        try:
+            with socket.create_connection(("127.0.0.1", 11434), timeout=1.0):
+                return True
+        except Exception:
+            return False
+
     def model_post_init(self, __context):
         # Dynamically set domains if custom domain configured
         if self.custom_domain and self.custom_domain not in self.active_domains:

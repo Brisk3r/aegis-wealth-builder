@@ -188,8 +188,8 @@ class ToolDeveloper:
         except Exception as e:
             logger.warning("ToolDeveloper failed on primary backend: %s. Attempting fallback...", e)
             
-            # Fallback to local Ollama (free/unlimited) if Gemini failed
-            if self.backend == "gemini":
+            # Fallback to local Ollama (free/unlimited) if Gemini failed and Ollama is active
+            if self.backend == "gemini" and config.is_ollama_running:
                 logger.info("Falling back to local Qwen 2.5 Coder via Ollama (direct)...")
                 system_instructions = (
                     "You are an expert lead front-end software engineer. Your goal is to write clean, self-contained, "
@@ -204,6 +204,9 @@ class ToolDeveloper:
                 except Exception as fe:
                     logger.error("Ollama fallback development failed: %s", fe)
                     raise
+            elif self.backend == "gemini":
+                logger.warning("Local Ollama is offline. Propagating primary Gemini error to the orchestrator.")
+                raise e
             else:
                 raise
 
