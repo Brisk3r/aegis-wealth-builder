@@ -2,151 +2,151 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
         <loc>https://aegishub.dev/</loc>
-        <lastmod>2026-07-17</lastmod>
+        <lastmod>2026-07-18</lastmod>
         <changefreq>daily</changefreq>
         <priority>1.0</priority>
     </url>
     <url>
         <loc>https://aegishub.dev/static/privacy.html</loc>
-        <lastmod>2026-07-17</lastmod>
+        <lastmod>2026-07-18</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.3</priority>
     </url>
     <url>
         <loc>https://aegishub.dev/static/terms.html</loc>
-        <lastmod>2026-07-17</lastmod>
+        <lastmod>2026-07-18</lastmod>
         <changefreq>monthly</changefreq>
         <priority>0.3</priority>
     </url>
     <url>
         <loc>https://aegishub.dev/static/tools/css_flexbox_cheat_sheet_tool.html</loc>
-        <lastmod>2026-07-17</lastmod>
+        <lastmod>2026-07-18</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
         <loc>https://aegishub.dev/static/tools/developer_productivity_tool.html</loc>
-        <lastmod>2026-07-17</lastmod>
+        <lastmod>2026-07-18</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
         <loc>https://aegishub.dev/static/tools/developer_tools_tool.html</loc>
-        <lastmod>2026-07-17</lastmod>
+        <lastmod>2026-07-18</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
         <loc>https://aegishub.dev/static/tools/color_wheel_tool.html</loc>
-        <lastmod>2026-07-17</lastmod>
+        <lastmod>2026-07-18</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
         <loc>https://aegishub.dev/static/tools/pdf_editor_tool.html</loc>
-        <lastmod>2026-07-17</lastmod>
+        <lastmod>2026-07-18</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
         <loc>https://aegishub.dev/static/tools/regex_tester_tool.html</loc>
-        <lastmod>2026-07-17</lastmod>
+        <lastmod>2026-07-18</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
         <loc>https://aegishub.dev/static/tools/saas_ui_boilerplate_exporter_tool.html</loc>
-        <lastmod>2026-07-17</lastmod>
+        <lastmod>2026-07-18</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
         <loc>https://aegishub.dev/static/tools/analytics_card_builder_tool.html</loc>
-        <lastmod>2026-07-17</lastmod>
+        <lastmod>2026-07-18</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
         <loc>https://aegishub.dev/static/tools/svg_path_editor_tool.html</loc>
-        <lastmod>2026-07-17</lastmod>
+        <lastmod>2026-07-18</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
         <loc>https://aegishub.dev/static/tools/json_formatter_and_validator_tool.html</loc>
-        <lastmod>2026-07-17</lastmod>
+        <lastmod>2026-07-18</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
         <loc>https://aegishub.dev/static/tools/sql_query_formatter_tool.html</loc>
-        <lastmod>2026-07-17</lastmod>
+        <lastmod>2026-07-18</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
         <loc>https://aegishub.dev/static/articles/css_flexbox_cheat_sheet.html</loc>
-        <lastmod>2026-07-17</lastmod>
+        <lastmod>2026-07-18</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.7</priority>
     </url>
     <url>
         <loc>https://aegishub.dev/static/articles/developer_productivity.html</loc>
-        <lastmod>2026-07-17</lastmod>
+        <lastmod>2026-07-18</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.7</priority>
     </url>
     <url>
         <loc>https://aegishub.dev/static/articles/developer_tools.html</loc>
-        <lastmod>2026-07-17</lastmod>
+        <lastmod>2026-07-18</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.7</priority>
     </url>
     <url>
         <loc>https://aegishub.dev/static/articles/color_wheel.html</loc>
-        <lastmod>2026-07-17</lastmod>
+        <lastmod>2026-07-18</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.7</priority>
     </url>
     <url>
         <loc>https://aegishub.dev/static/articles/pdf_editor.html</loc>
-        <lastmod>2026-07-17</lastmod>
+        <lastmod>2026-07-18</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.7</priority>
     </url>
     <url>
         <loc>https://aegishub.dev/static/articles/regex_tester.html</loc>
-        <lastmod>2026-07-17</lastmod>
+        <lastmod>2026-07-18</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.7</priority>
     </url>
     <url>
         <loc>https://aegishub.dev/static/articles/saas_ui_boilerplate_exporter.html</loc>
-        <lastmod>2026-07-17</lastmod>
+        <lastmod>2026-07-18</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.7</priority>
     </url>
     <url>
         <loc>https://aegishub.dev/static/articles/analytics_card_builder.html</loc>
-        <lastmod>2026-07-17</lastmod>
+        <lastmod>2026-07-18</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.7</priority>
     </url>
     <url>
         <loc>https://aegishub.dev/static/articles/svg_path_editor.html</loc>
-        <lastmod>2026-07-17</lastmod>
+        <lastmod>2026-07-18</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.7</priority>
     </url>
     <url>
         <loc>https://aegishub.dev/static/articles/json_formatter_and_validator.html</loc>
-        <lastmod>2026-07-17</lastmod>
+        <lastmod>2026-07-18</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.7</priority>
     </url>
     <url>
         <loc>https://aegishub.dev/static/articles/sql_query_formatter.html</loc>
-        <lastmod>2026-07-17</lastmod>
+        <lastmod>2026-07-18</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.7</priority>
     </url>

@@ -438,7 +438,7 @@ def generate_index_page(tools, articles) -> str:
         }}
         .grid {{
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(min(100%, 320px), 1fr));
             gap: 30px;
             margin-bottom: 70px;
         }}
@@ -924,7 +924,7 @@ def publish_all():
             # Check if there are changes to commit
             status = subprocess.check_output(["git", "status", "--porcelain"]).decode().strip()
             if status:
-                subprocess.run(["git", "commit", "-m", "Auto-publish new tools and articles"], check=True)
+                subprocess.run(["git", "commit", "-m", "deploy: compile landing page, sitemaps, and optimized tool iterations"], check=True)
                 # Get current branch name
                 branch = subprocess.check_output(["git", "rev-parse", "--abbrev-ref", "HEAD"]).decode().strip()
                 subprocess.run(["git", "push", "origin", branch], check=True)
