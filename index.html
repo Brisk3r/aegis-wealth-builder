@@ -37,6 +37,10 @@
                 radial-gradient(circle at 10% 20%, rgba(59, 130, 246, 0.04) 0%, transparent 40%),
                 radial-gradient(circle at 90% 80%, rgba(99, 102, 241, 0.03) 0%, transparent 40%);
             background-attachment: fixed;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
         }
         .hero {
             padding: 120px 20px 90px 20px;
@@ -72,24 +76,123 @@
             line-height: 1.6;
             font-weight: 300;
         }
+        .controls-panel {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            margin: 40px auto 10px auto;
+            max-width: 1200px;
+            padding: 0 20px;
+            width: calc(100% - 40px);
+            box-sizing: border-box;
+        }
+        @media (min-width: 768px) {
+            .controls-panel {
+                flex-direction: row;
+                justify-content: space-between;
+                align-items: center;
+            }
+        }
+        .search-wrapper {
+            position: relative;
+            flex-grow: 1;
+            max-width: 500px;
+            width: 100%;
+        }
+        .search-icon {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 20px;
+            height: 20px;
+            stroke: var(--text-muted);
+            pointer-events: none;
+        }
+        #search-input {
+            width: 100%;
+            box-sizing: border-box;
+            background: rgba(17, 24, 39, 0.45);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 12px 16px 12px 48px;
+            color: var(--text-main);
+            font-family: 'Outfit', sans-serif;
+            font-size: 1rem;
+            transition: all 0.3s;
+            backdrop-filter: blur(8px);
+        }
+        #search-input:focus {
+            outline: none;
+            border-color: rgba(59, 130, 246, 0.5);
+            background: rgba(17, 24, 39, 0.6);
+            box-shadow: 0 0 15px rgba(59, 130, 246, 0.15);
+        }
+        .filter-tabs {
+            display: flex;
+            gap: 10px;
+            overflow-x: auto;
+            padding-bottom: 5px;
+            scrollbar-width: none;
+            width: 100%;
+        }
+        @media (min-width: 768px) {
+            .filter-tabs {
+                width: auto;
+            }
+        }
+        .filter-tabs::-webkit-scrollbar {
+            display: none;
+        }
+        .filter-btn {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--border-color);
+            color: var(--text-muted);
+            padding: 10px 20px;
+            border-radius: 12px;
+            font-family: 'Outfit', sans-serif;
+            font-weight: 500;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: all 0.25s;
+            white-space: nowrap;
+            backdrop-filter: blur(8px);
+        }
+        .filter-btn:hover {
+            color: var(--text-main);
+            background: rgba(255, 255, 255, 0.05);
+            border-color: rgba(255, 255, 255, 0.15);
+        }
+        .filter-btn.active {
+            color: #ffffff;
+            background: linear-gradient(135deg, var(--primary-accent), #4f46e5);
+            border-color: transparent;
+            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.35);
+        }
         .container {
             max-width: 1200px;
-            margin: 60px auto;
+            margin: 20px auto 60px auto;
             padding: 0 20px;
+            flex-grow: 1;
+            width: calc(100% - 40px);
+            box-sizing: border-box;
         }
         .section-title {
             font-size: 1.8rem;
             font-weight: 800;
-            margin-bottom: 30px;
+            margin-top: 40px;
+            margin-bottom: 25px;
             border-left: 4px solid var(--primary-accent);
             padding-left: 15px;
             letter-spacing: -0.5px;
+            transition: opacity 0.3s;
         }
         .grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(min(100%, 320px), 1fr));
             gap: 30px;
             margin-bottom: 70px;
+            transition: opacity 0.3s;
         }
         .card {
             background: var(--card-bg);
@@ -194,6 +297,7 @@
             background: var(--card-bg);
             border: 1px dashed var(--border-color);
             border-radius: 20px;
+            backdrop-filter: blur(12px);
         }
         footer {
             text-align: center;
@@ -202,6 +306,7 @@
             border-top: 1px solid var(--border-color);
             font-size: 0.95rem;
             background: rgba(8, 11, 17, 0.4);
+            margin-top: auto;
         }
     </style>
     <!-- Google tag (gtag.js) -->
@@ -220,11 +325,27 @@
         <p>A curated sandbox of high-utility web tools, interactive components, and premium developer guides.</p>
         
     </div>
+    
+    <div class="controls-panel">
+        <div class="search-wrapper">
+            <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+            </svg>
+            <input type="text" id="search-input" placeholder="Search sandbox utilities, guides, and articles..." autocomplete="off">
+        </div>
+        <div class="filter-tabs">
+            <button class="filter-btn active" data-filter="all">All Utilities</button>
+            <button class="filter-btn" data-filter="ui">Layout & UI</button>
+            <button class="filter-btn" data-filter="code">Code Utilities</button>
+            <button class="filter-btn" data-filter="productivity">Productivity & Docs</button>
+        </div>
+    </div>
+
     <div class="container">
-        <div class="section-title">Interactive SaaS Utilities</div>
-        <div class="grid">
+        <div class="section-title" id="tools-title">Interactive SaaS Utilities</div>
+        <div class="grid" id="tools-grid">
             
-        <div class="card">
+        <div class="card" data-category="ui">
             <div class="card-header">
                 <span class="badge badge-tool">Interactive Tool</span>
             </div>
@@ -233,7 +354,7 @@
             <a href="/static/tools/css_flexbox_cheat_sheet_tool.html" class="btn">Launch Tool &rarr;</a>
         </div>
         
-        <div class="card">
+        <div class="card" data-category="productivity">
             <div class="card-header">
                 <span class="badge badge-tool">Interactive Tool</span>
             </div>
@@ -242,7 +363,7 @@
             <a href="/static/tools/developer_productivity_tool.html" class="btn">Launch Tool &rarr;</a>
         </div>
         
-        <div class="card">
+        <div class="card" data-category="productivity">
             <div class="card-header">
                 <span class="badge badge-tool">Interactive Tool</span>
             </div>
@@ -251,7 +372,7 @@
             <a href="/static/tools/developer_tools_tool.html" class="btn">Launch Tool &rarr;</a>
         </div>
         
-        <div class="card">
+        <div class="card" data-category="ui">
             <div class="card-header">
                 <span class="badge badge-tool">Interactive Tool</span>
             </div>
@@ -260,7 +381,7 @@
             <a href="/static/tools/color_wheel_tool.html" class="btn">Launch Tool &rarr;</a>
         </div>
         
-        <div class="card">
+        <div class="card" data-category="productivity">
             <div class="card-header">
                 <span class="badge badge-tool">Interactive Tool</span>
             </div>
@@ -269,7 +390,7 @@
             <a href="/static/tools/pdf_editor_tool.html" class="btn">Launch Tool &rarr;</a>
         </div>
         
-        <div class="card">
+        <div class="card" data-category="code">
             <div class="card-header">
                 <span class="badge badge-tool">Interactive Tool</span>
             </div>
@@ -278,7 +399,7 @@
             <a href="/static/tools/regex_tester_tool.html" class="btn">Launch Tool &rarr;</a>
         </div>
         
-        <div class="card">
+        <div class="card" data-category="code">
             <div class="card-header">
                 <span class="badge badge-tool">Interactive Tool</span>
             </div>
@@ -287,7 +408,7 @@
             <a href="/static/tools/saas_ui_boilerplate_exporter_tool.html" class="btn">Launch Tool &rarr;</a>
         </div>
         
-        <div class="card">
+        <div class="card" data-category="ui">
             <div class="card-header">
                 <span class="badge badge-tool">Interactive Tool</span>
             </div>
@@ -296,7 +417,7 @@
             <a href="/static/tools/analytics_card_builder_tool.html" class="btn">Launch Tool &rarr;</a>
         </div>
         
-        <div class="card">
+        <div class="card" data-category="ui">
             <div class="card-header">
                 <span class="badge badge-tool">Interactive Tool</span>
             </div>
@@ -305,39 +426,48 @@
             <a href="/static/tools/svg_path_editor_tool.html" class="btn">Launch Tool &rarr;</a>
         </div>
         
-        <div class="card">
+        <div class="card" data-category="code">
             <div class="card-header">
                 <span class="badge badge-tool">Interactive Tool</span>
             </div>
             <h3>JSON Formatter and Validator</h3>
-            <p>Interactive utility built to optimize frontend workflows and layouts.</p>
+            <p>Interactive utility to validate, parse, format, and export structured JSON data with real-time syntax checking.</p>
             <a href="/static/tools/json_formatter_and_validator_tool.html" class="btn">Launch Tool &rarr;</a>
         </div>
         
-        <div class="card">
+        <div class="card" data-category="code">
             <div class="card-header">
                 <span class="badge badge-tool">Interactive Tool</span>
             </div>
             <h3>SQL Query Formatter</h3>
-            <p>Interactive utility built to optimize frontend workflows and layouts.</p>
+            <p>Client-side SQL formatting sandbox to clean, optimize, and beautify queries with custom indentation settings.</p>
             <a href="/static/tools/sql_query_formatter_tool.html" class="btn">Launch Tool &rarr;</a>
         </div>
         
-        <div class="card">
+        <div class="card" data-category="productivity">
+            <div class="card-header">
+                <span class="badge badge-tool">Interactive Tool</span>
+            </div>
+            <h3>Markdown Editor</h3>
+            <p>Compliance-ready Markdown editor (AuditTrailMD) featuring paragraph-level change history tracking and PDF export.</p>
+            <a href="/static/tools/markdown_editor_tool.html" class="btn">Launch Tool &rarr;</a>
+        </div>
+        
+        <div class="card" data-category="code">
             <div class="card-header">
                 <span class="badge badge-tool">Interactive Tool</span>
             </div>
             <h3>Base64 Encoder Decoder</h3>
-            <p>Interactive utility built to optimize frontend workflows and layouts.</p>
+            <p>Real-time client-side Base64 converter supporting text-to-base64, image-to-base64, and binary data translations.</p>
             <a href="/static/tools/base64_encoder_decoder_tool.html" class="btn">Launch Tool &rarr;</a>
         </div>
         
         </div>
         
-        <div class="section-title">Guides & Insights</div>
-        <div class="grid">
+        <div class="section-title" id="articles-title">Guides & Insights</div>
+        <div class="grid" id="articles-grid">
             
-        <div class="card">
+        <div class="card" data-category="ui">
             <div class="card-header">
                 <span class="badge badge-article">Companion Guide</span>
             </div>
@@ -346,7 +476,7 @@
             <a href="/static/articles/css_flexbox_cheat_sheet.html" class="btn sec">Read Article &rarr;</a>
         </div>
         
-        <div class="card">
+        <div class="card" data-category="code">
             <div class="card-header">
                 <span class="badge badge-article">Companion Guide</span>
             </div>
@@ -355,7 +485,7 @@
             <a href="/static/articles/developer_productivity.html" class="btn sec">Read Article &rarr;</a>
         </div>
         
-        <div class="card">
+        <div class="card" data-category="productivity">
             <div class="card-header">
                 <span class="badge badge-article">Companion Guide</span>
             </div>
@@ -364,7 +494,7 @@
             <a href="/static/articles/developer_tools.html" class="btn sec">Read Article &rarr;</a>
         </div>
         
-        <div class="card">
+        <div class="card" data-category="ui">
             <div class="card-header">
                 <span class="badge badge-article">Companion Guide</span>
             </div>
@@ -373,7 +503,7 @@
             <a href="/static/articles/color_wheel.html" class="btn sec">Read Article &rarr;</a>
         </div>
         
-        <div class="card">
+        <div class="card" data-category="productivity">
             <div class="card-header">
                 <span class="badge badge-article">Companion Guide</span>
             </div>
@@ -382,7 +512,7 @@
             <a href="/static/articles/pdf_editor.html" class="btn sec">Read Article &rarr;</a>
         </div>
         
-        <div class="card">
+        <div class="card" data-category="ui">
             <div class="card-header">
                 <span class="badge badge-article">Companion Guide</span>
             </div>
@@ -391,7 +521,7 @@
             <a href="/static/articles/regex_tester.html" class="btn sec">Read Article &rarr;</a>
         </div>
         
-        <div class="card">
+        <div class="card" data-category="code">
             <div class="card-header">
                 <span class="badge badge-article">Companion Guide</span>
             </div>
@@ -400,7 +530,7 @@
             <a href="/static/articles/saas_ui_boilerplate_exporter.html" class="btn sec">Read Article &rarr;</a>
         </div>
         
-        <div class="card">
+        <div class="card" data-category="ui">
             <div class="card-header">
                 <span class="badge badge-article">Companion Guide</span>
             </div>
@@ -409,7 +539,7 @@
             <a href="/static/articles/analytics_card_builder.html" class="btn sec">Read Article &rarr;</a>
         </div>
         
-        <div class="card">
+        <div class="card" data-category="ui">
             <div class="card-header">
                 <span class="badge badge-article">Companion Guide</span>
             </div>
@@ -418,7 +548,7 @@
             <a href="/static/articles/svg_path_editor.html" class="btn sec">Read Article &rarr;</a>
         </div>
         
-        <div class="card">
+        <div class="card" data-category="code">
             <div class="card-header">
                 <span class="badge badge-article">Companion Guide</span>
             </div>
@@ -427,7 +557,7 @@
             <a href="/static/articles/json_formatter_and_validator.html" class="btn sec">Read Article &rarr;</a>
         </div>
         
-        <div class="card">
+        <div class="card" data-category="code">
             <div class="card-header">
                 <span class="badge badge-article">Companion Guide</span>
             </div>
@@ -436,7 +566,16 @@
             <a href="/static/articles/sql_query_formatter.html" class="btn sec">Read Article &rarr;</a>
         </div>
         
-        <div class="card">
+        <div class="card" data-category="productivity">
+            <div class="card-header">
+                <span class="badge badge-article">Companion Guide</span>
+            </div>
+            <h3>Choosing the Right Markdown Editor for Compliance-Ready Documentation: Moving Beyond General Productivity Apps</h3>
+            <p>In the rapidly evolving landscape of technical documentation, the humble Markdown file has become the industry standard for clarity and version control. Howe...</p>
+            <a href="/static/articles/markdown_editor.html" class="btn sec">Read Article &rarr;</a>
+        </div>
+        
+        <div class="card" data-category="code">
             <div class="card-header">
                 <span class="badge badge-article">Companion Guide</span>
             </div>
@@ -447,6 +586,7 @@
         
         </div>
     </div>
+    
     <footer>
         <p>&copy; 2026 Aegis Developer Hub. All rights reserved.</p>
         <p style="font-size: 0.85rem; max-width: 600px; margin: 15px auto; line-height: 1.5; color: var(--text-muted);">
@@ -457,5 +597,94 @@
             <a href="/static/terms.html" style="color: var(--text-muted); text-decoration: underline;">Terms of Service & Disclaimer</a>
         </p>
     </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const searchInput = document.getElementById('search-input');
+            const filterBtns = document.querySelectorAll('.filter-btn');
+            const cards = document.querySelectorAll('.card');
+            
+            const toolsTitle = document.getElementById('tools-title');
+            const toolsGrid = document.getElementById('tools-grid');
+            const articlesTitle = document.getElementById('articles-title');
+            const articlesGrid = document.getElementById('articles-grid');
+            
+            // Create empty state elements dynamically if they do not exist
+            let emptyTools = document.getElementById('empty-tools-msg');
+            if (!emptyTools) {
+                emptyTools = document.createElement('div');
+                emptyTools.id = 'empty-tools-msg';
+                emptyTools.className = 'empty';
+                emptyTools.style.display = 'none';
+                emptyTools.textContent = 'No matching tools found.';
+                toolsGrid.appendChild(emptyTools);
+            }
+            
+            let emptyArticles = document.getElementById('empty-articles-msg');
+            if (!emptyArticles) {
+                emptyArticles = document.createElement('div');
+                emptyArticles.id = 'empty-articles-msg';
+                emptyArticles.className = 'empty';
+                emptyArticles.style.display = 'none';
+                emptyArticles.textContent = 'No matching guides found.';
+                articlesGrid.appendChild(emptyArticles);
+            }
+            
+            let activeFilter = 'all';
+            let searchQuery = '';
+            
+            function filterItems() {
+                let visibleTools = 0;
+                let visibleArticles = 0;
+                
+                cards.forEach(card => {
+                    const title = card.querySelector('h3').textContent.toLowerCase();
+                    const desc = card.querySelector('p').textContent.toLowerCase();
+                    const cat = card.getAttribute('data-category');
+                    
+                    const matchesSearch = title.includes(searchQuery) || desc.includes(searchQuery);
+                    const matchesCategory = activeFilter === 'all' || cat === activeFilter;
+                    
+                    const isTool = card.querySelector('.badge-tool') !== null;
+                    
+                    if (matchesSearch && matchesCategory) {
+                        card.style.display = 'flex';
+                        setTimeout(() => {
+                            card.style.opacity = '1';
+                            card.style.transform = 'scale(1)';
+                        }, 10);
+                        if (isTool) visibleTools++;
+                        else visibleArticles++;
+                    } else {
+                        card.style.display = 'none';
+                        card.style.opacity = '0';
+                        card.style.transform = 'scale(0.95)';
+                    }
+                });
+                
+                // Hide/show headers if no elements fit
+                toolsTitle.style.display = (visibleTools === 0 && searchQuery !== '') ? 'none' : 'block';
+                articlesTitle.style.display = (visibleArticles === 0 && searchQuery !== '') ? 'none' : 'block';
+                
+                // Show empty states if filtered grid is completely empty
+                emptyTools.style.display = (visibleTools === 0) ? 'block' : 'none';
+                emptyArticles.style.display = (visibleArticles === 0) ? 'block' : 'none';
+            }
+            
+            searchInput.addEventListener('input', (e) => {
+                searchQuery = e.target.value.toLowerCase().trim();
+                filterItems();
+            });
+            
+            filterBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    filterBtns.forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    activeFilter = btn.getAttribute('data-filter');
+                    filterItems();
+                });
+            });
+        });
+    </script>
 </body>
 </html>

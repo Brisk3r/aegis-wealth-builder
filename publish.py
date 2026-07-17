@@ -23,7 +23,11 @@ TOOL_DESCRIPTIONS = {
     "Analytics Card Builder": "Interactive utility to customize and export pixel-perfect, glassmorphic analytics KPI cards in Tailwind CSS or Vanilla CSS.",
     "PDF Editor": "Client-side PDF redaction and annotation utility with page-level editing, text overlay, and secure local-only processing.",
     "RegEx Tester Tool": "Live regular expression testing sandbox with real-time match highlighting, capture group inspection, and common pattern library.",
-    "SVG Path Editor": "Visual SVG path authoring tool with interactive Bézier curve handles, live preview, and optimized path data export."
+    "SVG Path Editor": "Visual SVG path authoring tool with interactive Bézier curve handles, live preview, and optimized path data export.",
+    "JSON Formatter and Validator": "Interactive utility to validate, parse, format, and export structured JSON data with real-time syntax checking.",
+    "SQL Query Formatter": "Client-side SQL formatting sandbox to clean, optimize, and beautify queries with custom indentation settings.",
+    "Base64 Encoder Decoder": "Real-time client-side Base64 converter supporting text-to-base64, image-to-base64, and binary data translations.",
+    "Markdown Editor": "Compliance-ready Markdown editor (AuditTrailMD) featuring paragraph-level change history tracking and PDF export."
 }
 
 AFFILIATE_DESCRIPTIONS = {
@@ -293,11 +297,32 @@ def generate_article_page(title: str, content_html: str, article_rel_path: str) 
 """
 
 
+def get_category_for_tool(topic: str) -> str:
+    topic_lower = topic.lower()
+    if any(x in topic_lower for x in ["flex", "color", "wheel", "card", "svg", "pattern"]):
+        return "ui"
+    elif any(x in topic_lower for x in ["boilerplate", "regex", "json", "base64", "sql"]):
+        return "code"
+    elif any(x in topic_lower for x in ["productivity", "tools", "pdf", "editor", "markdown"]):
+        return "productivity"
+    return "code"
+
+def get_category_for_article(title: str) -> str:
+    title_lower = title.lower()
+    if any(x in title_lower for x in ["flexbox", "color", "wheel", "card", "svg", "pattern"]):
+        return "ui"
+    elif any(x in title_lower for x in ["boilerplate", "regex", "json", "base64", "sql"]):
+        return "code"
+    elif any(x in title_lower for x in ["productivity", "tools", "pdf", "editor", "markdown"]):
+        return "productivity"
+    return "code"
+
 def generate_index_page(tools, articles) -> str:
     tools_list_html = ""
     for tool in tools:
+        cat = get_category_for_tool(tool['name'])
         tools_list_html += f"""
-        <div class="card">
+        <div class="card" data-category="{cat}">
             <div class="card-header">
                 <span class="badge badge-tool">Interactive Tool</span>
             </div>
@@ -312,8 +337,9 @@ def generate_index_page(tools, articles) -> str:
 
     articles_list_html = ""
     for art in articles:
+        cat = get_category_for_article(art['title'])
         articles_list_html += f"""
-        <div class="card">
+        <div class="card" data-category="{cat}">
             <div class="card-header">
                 <span class="badge badge-article">Companion Guide</span>
             </div>
@@ -388,6 +414,10 @@ def generate_index_page(tools, articles) -> str:
                 radial-gradient(circle at 10% 20%, rgba(59, 130, 246, 0.04) 0%, transparent 40%),
                 radial-gradient(circle at 90% 80%, rgba(99, 102, 241, 0.03) 0%, transparent 40%);
             background-attachment: fixed;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
         }}
         .hero {{
             padding: 120px 20px 90px 20px;
@@ -423,24 +453,123 @@ def generate_index_page(tools, articles) -> str:
             line-height: 1.6;
             font-weight: 300;
         }}
+        .controls-panel {{
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            margin: 40px auto 10px auto;
+            max-width: 1200px;
+            padding: 0 20px;
+            width: calc(100% - 40px);
+            box-sizing: border-box;
+        }}
+        @media (min-width: 768px) {{
+            .controls-panel {{
+                flex-direction: row;
+                justify-content: space-between;
+                align-items: center;
+            }}
+        }}
+        .search-wrapper {{
+            position: relative;
+            flex-grow: 1;
+            max-width: 500px;
+            width: 100%;
+        }}
+        .search-icon {{
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 20px;
+            height: 20px;
+            stroke: var(--text-muted);
+            pointer-events: none;
+        }}
+        #search-input {{
+            width: 100%;
+            box-sizing: border-box;
+            background: rgba(17, 24, 39, 0.45);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 12px 16px 12px 48px;
+            color: var(--text-main);
+            font-family: 'Outfit', sans-serif;
+            font-size: 1rem;
+            transition: all 0.3s;
+            backdrop-filter: blur(8px);
+        }}
+        #search-input:focus {{
+            outline: none;
+            border-color: rgba(59, 130, 246, 0.5);
+            background: rgba(17, 24, 39, 0.6);
+            box-shadow: 0 0 15px rgba(59, 130, 246, 0.15);
+        }}
+        .filter-tabs {{
+            display: flex;
+            gap: 10px;
+            overflow-x: auto;
+            padding-bottom: 5px;
+            scrollbar-width: none;
+            width: 100%;
+        }}
+        @media (min-width: 768px) {{
+            .filter-tabs {{
+                width: auto;
+            }}
+        }}
+        .filter-tabs::-webkit-scrollbar {{
+            display: none;
+        }}
+        .filter-btn {{
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--border-color);
+            color: var(--text-muted);
+            padding: 10px 20px;
+            border-radius: 12px;
+            font-family: 'Outfit', sans-serif;
+            font-weight: 500;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: all 0.25s;
+            white-space: nowrap;
+            backdrop-filter: blur(8px);
+        }}
+        .filter-btn:hover {{
+            color: var(--text-main);
+            background: rgba(255, 255, 255, 0.05);
+            border-color: rgba(255, 255, 255, 0.15);
+        }}
+        .filter-btn.active {{
+            color: #ffffff;
+            background: linear-gradient(135deg, var(--primary-accent), #4f46e5);
+            border-color: transparent;
+            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.35);
+        }}
         .container {{
             max-width: 1200px;
-            margin: 60px auto;
+            margin: 20px auto 60px auto;
             padding: 0 20px;
+            flex-grow: 1;
+            width: calc(100% - 40px);
+            box-sizing: border-box;
         }}
         .section-title {{
             font-size: 1.8rem;
             font-weight: 800;
-            margin-bottom: 30px;
+            margin-top: 40px;
+            margin-bottom: 25px;
             border-left: 4px solid var(--primary-accent);
             padding-left: 15px;
             letter-spacing: -0.5px;
+            transition: opacity 0.3s;
         }}
         .grid {{
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(min(100%, 320px), 1fr));
             gap: 30px;
             margin-bottom: 70px;
+            transition: opacity 0.3s;
         }}
         .card {{
             background: var(--card-bg);
@@ -545,6 +674,7 @@ def generate_index_page(tools, articles) -> str:
             background: var(--card-bg);
             border: 1px dashed var(--border-color);
             border-radius: 20px;
+            backdrop-filter: blur(12px);
         }}
         footer {{
             text-align: center;
@@ -553,6 +683,7 @@ def generate_index_page(tools, articles) -> str:
             border-top: 1px solid var(--border-color);
             font-size: 0.95rem;
             background: rgba(8, 11, 17, 0.4);
+            margin-top: auto;
         }}
     </style>{get_analytics_tag(indent=4)}
 </head>
@@ -563,17 +694,34 @@ def generate_index_page(tools, articles) -> str:
         <p>A curated sandbox of high-utility web tools, interactive components, and premium developer guides.</p>
         {ads_html}
     </div>
+    
+    <div class="controls-panel">
+        <div class="search-wrapper">
+            <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+            </svg>
+            <input type="text" id="search-input" placeholder="Search sandbox utilities, guides, and articles..." autocomplete="off">
+        </div>
+        <div class="filter-tabs">
+            <button class="filter-btn active" data-filter="all">All Utilities</button>
+            <button class="filter-btn" data-filter="ui">Layout & UI</button>
+            <button class="filter-btn" data-filter="code">Code Utilities</button>
+            <button class="filter-btn" data-filter="productivity">Productivity & Docs</button>
+        </div>
+    </div>
+
     <div class="container">
-        <div class="section-title">Interactive SaaS Utilities</div>
-        <div class="grid">
+        <div class="section-title" id="tools-title">Interactive SaaS Utilities</div>
+        <div class="grid" id="tools-grid">
             {tools_list_html}
         </div>
         
-        <div class="section-title">Guides & Insights</div>
-        <div class="grid">
+        <div class="section-title" id="articles-title">Guides & Insights</div>
+        <div class="grid" id="articles-grid">
             {articles_list_html}
         </div>
     </div>
+    
     <footer>
         <p>&copy; 2026 Aegis Developer Hub. All rights reserved.</p>
         <p style="font-size: 0.85rem; max-width: 600px; margin: 15px auto; line-height: 1.5; color: var(--text-muted);">
@@ -584,6 +732,95 @@ def generate_index_page(tools, articles) -> str:
             <a href="/static/terms.html" style="color: var(--text-muted); text-decoration: underline;">Terms of Service & Disclaimer</a>
         </p>
     </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {{
+            const searchInput = document.getElementById('search-input');
+            const filterBtns = document.querySelectorAll('.filter-btn');
+            const cards = document.querySelectorAll('.card');
+            
+            const toolsTitle = document.getElementById('tools-title');
+            const toolsGrid = document.getElementById('tools-grid');
+            const articlesTitle = document.getElementById('articles-title');
+            const articlesGrid = document.getElementById('articles-grid');
+            
+            // Create empty state elements dynamically if they do not exist
+            let emptyTools = document.getElementById('empty-tools-msg');
+            if (!emptyTools) {{
+                emptyTools = document.createElement('div');
+                emptyTools.id = 'empty-tools-msg';
+                emptyTools.className = 'empty';
+                emptyTools.style.display = 'none';
+                emptyTools.textContent = 'No matching tools found.';
+                toolsGrid.appendChild(emptyTools);
+            }}
+            
+            let emptyArticles = document.getElementById('empty-articles-msg');
+            if (!emptyArticles) {{
+                emptyArticles = document.createElement('div');
+                emptyArticles.id = 'empty-articles-msg';
+                emptyArticles.className = 'empty';
+                emptyArticles.style.display = 'none';
+                emptyArticles.textContent = 'No matching guides found.';
+                articlesGrid.appendChild(emptyArticles);
+            }}
+            
+            let activeFilter = 'all';
+            let searchQuery = '';
+            
+            function filterItems() {{
+                let visibleTools = 0;
+                let visibleArticles = 0;
+                
+                cards.forEach(card => {{
+                    const title = card.querySelector('h3').textContent.toLowerCase();
+                    const desc = card.querySelector('p').textContent.toLowerCase();
+                    const cat = card.getAttribute('data-category');
+                    
+                    const matchesSearch = title.includes(searchQuery) || desc.includes(searchQuery);
+                    const matchesCategory = activeFilter === 'all' || cat === activeFilter;
+                    
+                    const isTool = card.querySelector('.badge-tool') !== null;
+                    
+                    if (matchesSearch && matchesCategory) {{
+                        card.style.display = 'flex';
+                        setTimeout(() => {{
+                            card.style.opacity = '1';
+                            card.style.transform = 'scale(1)';
+                        }}, 10);
+                        if (isTool) visibleTools++;
+                        else visibleArticles++;
+                    }} else {{
+                        card.style.display = 'none';
+                        card.style.opacity = '0';
+                        card.style.transform = 'scale(0.95)';
+                    }}
+                }});
+                
+                // Hide/show headers if no elements fit
+                toolsTitle.style.display = (visibleTools === 0 && searchQuery !== '') ? 'none' : 'block';
+                articlesTitle.style.display = (visibleArticles === 0 && searchQuery !== '') ? 'none' : 'block';
+                
+                // Show empty states if filtered grid is completely empty
+                emptyTools.style.display = (visibleTools === 0) ? 'block' : 'none';
+                emptyArticles.style.display = (visibleArticles === 0) ? 'block' : 'none';
+            }}
+            
+            searchInput.addEventListener('input', (e) => {{
+                searchQuery = e.target.value.toLowerCase().trim();
+                filterItems();
+            }});
+            
+            filterBtns.forEach(btn => {{
+                btn.addEventListener('click', () => {{
+                    filterBtns.forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    activeFilter = btn.getAttribute('data-filter');
+                    filterItems();
+                }});
+            }});
+        }});
+    </script>
 </body>
 </html>
 """
