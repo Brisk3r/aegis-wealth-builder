@@ -63,3 +63,21 @@ To complete the financial freedom mandate, the immediate priority for the next s
     *   Parse the `AFFILIATE_LINKS_JSON` key to inject contextual referral links for recommended hosting providers (e.g. Vercel, DigitalOcean) and developer products into blog post footers and tool sidebars.
 3.  **Payment Gateway Hookups:**
     *   Integrate a Lemon Squeezy overlay or checkout widgets on custom tool features (like downloading advanced components or exporting bulk reports) to capture first-time sales.
+
+## 7. Comms Hub (Gen Web) Repurposing Roadmap
+Taking inspiration from the streamlined `sharp-borg` (Gen Web / Comms Hub) layout, we have planned a roadmap to clean up and port its high-utility business/marketing utilities into the Aegis Developer Hub to make it a more cohesive and comprehensive platform for developer-founders:
+
+1.  **UTM Campaign Parameter Builder (`utm_parameter_builder_tool.html`):**
+    *   *Niche Category:* Code Utilities / Marketing Analytics.
+    *   *Strategic Purpose:* Allows developer-founders to quickly generate clean, standardized tracking URLs for launch campaigns (Reddit, X/Twitter, ProductHunt) to avoid dark social misattribution.
+    *   *Repurposing Actions:* Port the core parameter building logic from `sharp-borg`, apply the CSS Outfit typography design system, add a visual history log of generated URLs, and add a single-click copy-to-clipboard hook.
+
+2.  **ROAS Break-Even Calculator (`roas_calculator_tool.html`):**
+    *   *Niche Category:* Productivity & Finance.
+    *   *Strategic Purpose:* Calculates minimum ad spend efficiency targets before running paid traffic acquisition for developer micro-SaaS projects.
+    *   *Repurposing Actions:* Port the break-even math engine, embed HSL customized graphics showing margin-to-ROAS curves, and add JSON download reports.
+
+3.  **Daily Marketing Consistency Timer (`marketing_sprint_timer_tool.html`):**
+    *   *Niche Category:* Focus & Productivity.
+    *   *Strategic Purpose:* Pomodoro focal workflow calibrated for daily non-coding execution sprints (writing content, outreach, SEO passes).
+    *   *Repurposing Actions:* Port the stateful stopwatch, integrate browser alert notifications on completion, and embed affiliate tags for productivity newsletters.
