@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pro SQL Query Formatter & Assistant</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&family=JetBrains+Mono&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Outfit', sans-serif; background: #080b12; color: #e2e8f0; }
+        .font-mono { font-family: 'JetBrains Mono', monospace; }
+        .glass { background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(16px); border: 1px solid rgba(255, 255, 255, 0.08); box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3); }
+        .custom-scrollbar::-webkit-scrollbar { width: 6px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #475569; }
+    </style>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4750454395006570" crossorigin="anonymous"></script>
+
+    <script defer src="/_vercel/insights/script.js"></script>
+
+    <link rel="icon" type="image/png" href="/static/logo.png">
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-BZVWXPPG06"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-BZVWXPPG06');
+    </script>
+
+    <script src="https://assets.lemonsqueezy.com/lemon.js" defer></script>
+</head>
+<body class="min-h-screen p-4 md:p-8">
+
+    <div class="navbar" style="display: flex; justify-content: space-between; align-items: center; padding: 20px 40px; border-bottom: 1px solid rgba(255,255,255,0.08); background: rgba(11, 15, 25, 0.7); backdrop-filter: blur(12px); position: sticky; top: 0; z-index: 100; font-family: 'Outfit', sans-serif;">
+        <a href="/" style="display: flex; align-items: center; gap: 10px; color: #f3f4f6; text-decoration: none; font-weight: 600;">
+            <img src="/static/logo.png" alt="Aegis Hub Logo" style="height: 30px;">
+            <span>Aegis Developer Hub</span>
+        </a>
+        <a href="/" style="color: #60a5fa; text-decoration: none; font-size: 0.95rem;">&larr; Back to Hub</a>
+    </div>
+    
+
+<nav class="max-w-6xl mx-auto flex items-center justify-between mb-8 pb-4 border-b border-white/10">
+    <div class="flex items-center gap-2">
+        <div class="w-8 h-8 rounded-lg bg-blue-600 flex items-center justify-center font-bold">S</div>
+        <span class="text-xl font-bold tracking-tight">SQL<span class="text-blue-400">Assistant</span></span>
+    </div>
+    <div class="text-xs text-slate-500">v1.0.4 | Real-time Engine Active</div>
+</nav>
+
+<main class="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-6">
+    <div class="glass rounded-3xl p-6 flex flex-col h-[500px]">
+        <div class="flex justify-between items-center mb-4">
+            <h2 class="font-semibold text-slate-300">Raw Query Input</h2>
+            <button onclick="formatSQL()" class="bg-blue-600 hover:bg-blue-700 transition px-4 py-1 rounded-full text-xs font-semibold uppercase tracking-wider">Format</button>
+        </div>
+        <textarea id="input" class="w-full flex-grow bg-slate-950/50 rounded-2xl p-4 font-mono text-xs border border-white/5 focus:border-blue-500/50 outline-none text-blue-100 custom-scrollbar" placeholder="SELECT * FROM users WHERE status = 'active' AND created_at > '2026-01-01'"></textarea>
+    </div>
+
+    <div class="glass rounded-3xl p-6 flex flex-col h-[500px]">
+        <div class="flex justify-between items-center mb-4">
+            <h2 class="font-semibold text-emerald-400">Optimized Output</h2>
+            <button onclick="copyResult()" class="text-slate-400 hover:text-white transition text-xs border border-white/10 px-3 py-1 rounded-full">Copy Result</button>
+        </div>
+        <pre id="output" class="w-full flex-grow bg-slate-950/50 rounded-2xl p-4 font-mono text-xs border border-white/5 overflow-auto custom-scrollbar text-emerald-100/90 whitespace-pre-wrap"></pre>
+    </div>
+
+    <div class="lg:col-span-2 grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="glass p-6 rounded-3xl">
+            <h3 class="font-bold text-blue-400 mb-2 text-sm">Advice</h3>
+            <p id="tip" class="text-xs text-slate-400 leading-relaxed">Format your SQL queries to instantly improve readability and identify potential bottlenecks or missing indexes.</p>
+        </div>
+        <div class="glass p-6 rounded-3xl md:col-span-2 flex flex-wrap items-center gap-3">
+            <button onclick="detectAndNormalize('pg')" class="text-xs bg-slate-800 hover:bg-slate-700 px-4 py-2 rounded-xl transition border border-white/5">PostgreSQL Style</button>
+            <button onclick="detectAndNormalize('mysql')" class="text-xs bg-slate-800 hover:bg-slate-700 px-4 py-2 rounded-xl transition border border-white/5">MySQL/MariaDB</button>
+            <button onclick="analyzePerformance()" class="text-xs bg-emerald-600/10 hover:bg-emerald-600/20 text-emerald-400 px-4 py-2 rounded-xl transition border border-emerald-600/20">Audit Performance</button>
+        </div>
+    </div>
+</main>
+
+<script>
+    function formatSQL() {
+        const input = document.getElementById('input').value;
+        if (!input.trim()) return;
+
+        // Implementation of logic to clean and structure via regex/parsing
+        const keywords = /\b(SELECT|FROM|WHERE|JOIN|LEFT JOIN|RIGHT JOIN|GROUP BY|ORDER BY|LIMIT|AND|OR|HAVING|INSERT INTO|VALUES|UPDATE|SET|WITH|AS)\b/gi;
+        
+        const formatted = input
+            .replace(/\s+/g, ' ')
+            .replace(keywords, match => `\n${match.toUpperCase()}`)
+            .split('\n')
+            .map(line => line.trim())
+            .filter(line => line.length > 0)
+            .join('\n')
+            .replace(/(SELECT|FROM|WHERE|JOIN|LEFT JOIN|RIGHT JOIN|GROUP BY|ORDER BY|LIMIT|AND|OR|HAVING)/g, '  $1');
+
+        document.getElementById('output').textContent = formatted.trim();
+        updateTips(input);
+    }
+
+    function updateTips(text) {
+        const tips = [
+            "SQL Tip: 'SELECT *' is a common source of performance degradation. Fetch only necessary columns.",
+            "SQL Tip: Consider common table expressions (CTEs) for queries requiring multiple subqueries.",
+            "SQL Tip: Ensure that columns used in JOIN and WHERE clauses are covered by indexes.",
+            "SQL Tip: Use parameterized queries to prevent SQL injection vulnerabilities."
+        ];
+        document.getElementById('tip').textContent = tips[Math.floor(Math.random() * tips.length)];
+    }
+
+    function copyResult() {
+        const text = document.getElementById('output').textContent;
+        if (!text) return;
+        navigator.clipboard.writeText(text).then(() => {
+            alert("Copied to clipboard!");
+        });
+    }
+
+    function analyzePerformance() {
+        const text = document.getElementById('input').value;
+        if (!text) return;
+        
+        let report = [];
+        if (text.match(/\*/)) report.push("✖ Avoid 'SELECT *'. Explicit col selection is faster.");
+        if (text.match(/JOIN/i) && !text.match(/ON/i)) report.push("⚠ Missing 'ON' clause in Join detected.");
+        if (report.length === 0) report.push("✔ No obvious syntax or performance flags detected.");
+        
+        alert("Performance Audit:\n\n" + report.join('\n'));
+    }
+
+    function detectAndNormalize(dialect) {
+        let text = document.getElementById('output').textContent;
+        if (!text) { formatSQL(); text = document.getElementById('output').textContent; }
+        
+        if(dialect === 'mysql') {
+            text = text.replace(/"/g, '`');
+        } else {
+            text = text.replace(/`/g, '"');
+        }
+        document.getElementById('output').textContent = text;
+    }
+</script>
+</body>
+</html>

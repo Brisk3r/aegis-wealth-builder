@@ -79,6 +79,12 @@
         <priority>0.8</priority>
     </url>
     <url>
+        <loc>https://aegishub.dev/static/tools/sql_query_formatter_tool.html</loc>
+        <lastmod>2026-07-17</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
         <loc>https://aegishub.dev/static/articles/css_flexbox_cheat_sheet.html</loc>
         <lastmod>2026-07-17</lastmod>
         <changefreq>weekly</changefreq>
@@ -134,6 +140,12 @@
     </url>
     <url>
         <loc>https://aegishub.dev/static/articles/json_formatter_and_validator.html</loc>
+        <lastmod>2026-07-17</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.7</priority>
+    </url>
+    <url>
+        <loc>https://aegishub.dev/static/articles/sql_query_formatter.html</loc>
         <lastmod>2026-07-17</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.7</priority>

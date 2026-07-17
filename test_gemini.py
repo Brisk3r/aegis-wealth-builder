@@ -18,7 +18,7 @@ async def main():
     print(f"Gemini API key preset: {bool(config.gemini_api_key)}")
     print(f"Model: {config.gemini_model}")
     
-    models = ["gemini-1.5-flash", "gemini-2.0-flash", "gemini-2.5-flash", "gemini-2.5-pro"]
+    models = ["gemini-3.1-flash-lite", "gemini-1.5-flash-latest", "gemini-1.5-flash", "gemini-2.0-flash", "gemini-2.5-flash", "gemini-2.5-pro"]
     for model in models:
         print(f"\n--- Testing model: {model} ---")
         agent_config = LocalAgentConfig(
