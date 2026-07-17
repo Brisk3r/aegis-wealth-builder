@@ -98,15 +98,15 @@ async def run_midday_improvement():
     except Exception as e:
         logger.exception("Error running midday improvement pass: %s", e)
 
-async def run_midnight_research():
-    """Triggered at midnight. Researches a new topic, develops the tool, writes article, and pushes."""
+async def run_morning_research():
+    """Triggered in the morning. Researches a new topic, develops the tool, writes article, and pushes."""
     logger.info("=========================================")
-    logger.info("MIDNIGHT: Initiating New Tool Research & Push")
+    logger.info("9:00 AM: Initiating New Tool Research & Push")
     logger.info("=========================================")
     
     load_env()
     topic = get_next_new_topic()
-    logger.info("Selected new topic for midnight run: %s", topic)
+    logger.info("Selected new topic for morning run: %s", topic)
     
     orchestrator = AegisOrchestrator()
     try:
@@ -114,11 +114,11 @@ async def run_midnight_research():
         await orchestrator.run_iteration(topic)
         
         # Publish and push sitemap and pages
-        logger.info("Running static compiler compilation after midnight generation...")
+        logger.info("Running static compiler compilation after morning generation...")
         publish_all()
-        logger.info("Midnight research, creation, and Vercel push completed successfully!")
+        logger.info("Morning research, creation, and Vercel push completed successfully!")
     except Exception as e:
-        logger.exception("Error running midnight research pass: %s", e)
+        logger.exception("Error running morning research pass: %s", e)
 
 async def start_scheduler():
     logger.info("Aegis-100K Dual-Clock Scheduler Initialized.")
@@ -131,18 +131,18 @@ async def start_scheduler():
             # Sleep for a minute to avoid double triggering within the same minute
             await asyncio.sleep(60)
 
-    async def midnight_loop():
+    async def morning_loop():
         while True:
-            # Sleep until 12:00 AM (Midnight)
-            await wait_until(0, 0, "Midnight New Tool Research & Push")
-            await run_midnight_research()
+            # Sleep until 9:00 AM (Morning)
+            await wait_until(9, 0, "Morning New Tool Research & Push")
+            await run_morning_research()
             # Sleep for a minute to avoid double triggering
             await asyncio.sleep(60)
 
     # Run loops concurrently
     await asyncio.gather(
         midday_loop(),
-        midnight_loop()
+        morning_loop()
     )
 
 if __name__ == "__main__":
@@ -157,16 +157,16 @@ if __name__ == "__main__":
     
     parser = argparse.ArgumentParser(description="Aegis-100K Background Dual Scheduler")
     parser.add_argument("--test-midday", action="store_true", help="Manually trigger a midday improvement pass test run")
-    parser.add_argument("--test-midnight", action="store_true", help="Manually trigger a midnight research pass test run")
+    parser.add_argument("--test-morning", action="store_true", help="Manually trigger a morning research pass test run")
     
     args = parser.parse_args()
     
     if args.test_midday:
         logger.info("Manually triggering Midday Improvement Pass...")
         asyncio.run(run_midday_improvement())
-    elif args.test_midnight:
-        logger.info("Manually triggering Midnight Research Pass...")
-        asyncio.run(run_midnight_research())
+    elif args.test_morning:
+        logger.info("Manually triggering Morning Research Pass...")
+        asyncio.run(run_morning_research())
     else:
         try:
             asyncio.run(start_scheduler())
