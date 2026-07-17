@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Base64 Studio | Pro Utility</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Outfit', sans-serif; background-color: #030712; color: #f8fafc; }
+        .glass { background: rgba(17, 24, 39, 0.7); backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.08); }
+        textarea { resize: vertical; min-height: 200px; background: rgba(0,0,0,0.2); }
+        .btn-primary { background: linear-gradient(135deg, #3b82f6 0%, #6366f1 100%); transition: all 0.3s ease; }
+        .btn-primary:active { transform: translateY(2px); }
+        .btn-secondary { background: rgba(55, 65, 81, 0.5); border: 1px solid rgba(255,255,255,0.1); transition: all 0.3s ease; }
+        .btn-secondary:hover { background: rgba(75, 85, 99, 0.8); }
+        .gradient-text { -webkit-background-clip: text; background-clip: text; color: transparent; }
+    </style>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4750454395006570" crossorigin="anonymous"></script>
+
+    <script defer src="/_vercel/insights/script.js"></script>
+
+    <link rel="icon" type="image/png" href="/static/logo.png">
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-BZVWXPPG06"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-BZVWXPPG06');
+    </script>
+
+    <script src="https://assets.lemonsqueezy.com/lemon.js" defer></script>
+</head>
+<body class="min-h-screen p-4 md:p-12 flex flex-col items-center">
+
+    <div class="navbar" style="display: flex; justify-content: space-between; align-items: center; padding: 20px 40px; border-bottom: 1px solid rgba(255,255,255,0.08); background: rgba(11, 15, 25, 0.7); backdrop-filter: blur(12px); position: sticky; top: 0; z-index: 100; font-family: 'Outfit', sans-serif;">
+        <a href="/" style="display: flex; align-items: center; gap: 10px; color: #f3f4f6; text-decoration: none; font-weight: 600;">
+            <img src="/static/logo.png" alt="Aegis Hub Logo" style="height: 30px;">
+            <span>Aegis Developer Hub</span>
+        </a>
+        <a href="/" style="color: #60a5fa; text-decoration: none; font-size: 0.95rem;">&larr; Back to Hub</a>
+    </div>
+    
+
+    <nav class="w-full max-w-5xl mb-12 flex items-center justify-between glass px-8 py-4 rounded-2xl">
+        <div class="text-xl font-semibold tracking-tight gradient-text bg-gradient-to-r from-blue-400 to-indigo-400">Base64 Studio</div>
+        <div class="text-sm text-slate-400 font-light">Pro Developer Utility</div>
+    </nav>
+
+    <main class="w-full max-w-5xl glass rounded-3xl p-8 md:p-12 shadow-2xl">
+        <div class="grid md:grid-cols-2 gap-8">
+            <div class="space-y-4">
+                <label class="block text-sm font-medium text-slate-300 uppercase tracking-wider">Input Payload</label>
+                <textarea id="input" class="w-full border border-slate-700 rounded-2xl p-6 text-slate-100 focus:ring-2 focus:ring-blue-500 outline-none transition" placeholder="Paste data here..."></textarea>
+            </div>
+            
+            <div class="space-y-4">
+                <label class="block text-sm font-medium text-slate-300 uppercase tracking-wider">Processed Output</label>
+                <textarea id="output" class="w-full border border-slate-700 rounded-2xl p-6 text-blue-300 font-mono" readonly placeholder="Result will appear here..."></textarea>
+            </div>
+        </div>
+
+        <div class="flex flex-wrap gap-4 mt-10 justify-center">
+            <button onclick="process('encode')" class="btn-primary px-8 py-3 rounded-xl font-semibold shadow-lg shadow-blue-500/20">Encode Base64</button>
+            <button onclick="process('decode')" class="btn-secondary px-8 py-3 rounded-xl font-semibold">Decode Base64</button>
+            <button onclick="copyToClipboard()" class="bg-transparent border border-slate-700 hover:border-slate-500 px-6 py-3 rounded-xl font-semibold transition">Copy Result</button>
+            <button onclick="clearFields()" class="text-slate-500 hover:text-slate-300 px-6 py-3 font-medium transition">Clear</button>
+        </div>
+    </main>
+
+    <script>
+        const input = document.getElementById('input');
+        const output = document.getElementById('output');
+
+        function process(mode) {
+            const val = input.value;
+            if (!val) return;
+            try {
+                if (mode === 'encode') {
+                    output.value = btoa(unescape(encodeURIComponent(val)));
+                } else {
+                    output.value = decodeURIComponent(escape(atob(val)));
+                }
+            } catch (e) {
+                alert('Processing Error: ' + e.message);
+                output.value = "";
+            }
+        }
+
+        async function copyToClipboard() {
+            if (!output.value) return;
+            await navigator.clipboard.writeText(output.value);
+            alert("Copied to clipboard!");
+        }
+
+        function clearFields() {
+            input.value = '';
+            output.value = '';
+        }
+    </script>
+</body>
+</html>
