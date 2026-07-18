@@ -38,8 +38,8 @@ TOOL_DESCRIPTIONS = {
     "JSON to TypeScript Converter": "Convert raw JSON objects into TypeScript types, interfaces, or Zod validation schemas with a single click and clipboard export.",
     "Code Screenshot Generator": "Paste code, select a syntax theme and gradient background, and download a beautiful padded snippet image for social sharing.",
     "Code Snippet Generator": "Create and export syntax-highlighted code snippets with customizable themes, padding, and watermark-free image downloads.",
-    "DNS Record & SSL Certificate Inspector": "Look up DNS records (A, AAAA, MX, TXT, CNAME) and inspect SSL certificate details for any domain directly in-browser.",
-    "UUID, NanoID, and Snowflake String Generator": "Generate UUID v4, NanoID, and Snowflake IDs with configurable lengths, bulk generation, and one-click copy to clipboard."
+    "DNS Record and SSL Certificate Inspector": "Look up DNS records (A, AAAA, MX, TXT, CNAME) and inspect SSL certificate details for any domain directly in-browser.",
+    "UUID NanoID and Snowflake Generator": "Generate UUID v4, NanoID, and Snowflake IDs with configurable lengths, bulk generation, and one-click copy to clipboard."
 }
 
 AFFILIATE_DESCRIPTIONS = {
@@ -981,7 +981,7 @@ def generate_sitemap(tools, articles):
 """
     
     for tool in tools:
-        path = tool['path'].replace('\\', '/')
+        path = html_module.escape(tool['path'].replace('\\', '/'))
         sitemap_xml += f"""    <url>
         <loc>https://{DOMAIN}/{path}</loc>
         <lastmod>{now_str}</lastmod>
@@ -991,7 +991,7 @@ def generate_sitemap(tools, articles):
 """
         
     for art in articles:
-        path = art['path'].replace('\\', '/')
+        path = html_module.escape(art['path'].replace('\\', '/'))
         sitemap_xml += f"""    <url>
         <loc>https://{DOMAIN}/{path}</loc>
         <lastmod>{now_str}</lastmod>

@@ -57,8 +57,8 @@ TOPIC_REGISTRY = {
     "JSON to TypeScript Converter": "json_to_typescript_converter_tool.html",
     "Code Screenshot Generator": "code_screenshot_generator_tool.html",
     "Code Snippet Generator": "code_snippet_generator_tool.html",
-    "DNS Record and SSL Certificate Inspector": "dns_record_and_ssl_certificate_inspector_tool.html",
-    "UUID NanoID and Snowflake Generator": "uuid,_nanoid,_and_snowflake_string_generator_tool.html",
+    "DNS Record and SSL Certificate Inspector": "dns_record_ssl_certificate_inspector_tool.html",
+    "UUID NanoID and Snowflake Generator": "uuid_nanoid_snowflake_generator_tool.html",
     # --- New topics to build (gap targets) ---
     "HTML Entity Encoder Decoder": "html_entity_encoder_decoder_tool.html",
     "HTTP Header Inspector": "http_header_inspector_tool.html",

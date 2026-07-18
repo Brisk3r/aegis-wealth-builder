@@ -151,13 +151,13 @@
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://aegishub.dev/static/tools/dns_record_&_ssl_certificate_inspector_tool.html</loc>
+        <loc>https://aegishub.dev/static/tools/dns_record_ssl_certificate_inspector_tool.html</loc>
         <lastmod>2026-07-19</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://aegishub.dev/static/tools/uuid,_nanoid,_and_snowflake_string_generator_tool.html</loc>
+        <loc>https://aegishub.dev/static/tools/uuid_nanoid_snowflake_generator_tool.html</loc>
         <lastmod>2026-07-19</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.8</priority>
@@ -295,13 +295,13 @@
         <priority>0.7</priority>
     </url>
     <url>
-        <loc>https://aegishub.dev/static/articles/dns_record_&_ssl_certificate_inspector.html</loc>
+        <loc>https://aegishub.dev/static/articles/dns_record_and_ssl_certificate_inspector.html</loc>
         <lastmod>2026-07-19</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.7</priority>
     </url>
     <url>
-        <loc>https://aegishub.dev/static/articles/uuid,_nanoid,_and_snowflake_string_generator.html</loc>
+        <loc>https://aegishub.dev/static/articles/uuid_nanoid_and_snowflake_generator.html</loc>
         <lastmod>2026-07-19</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.7</priority>
