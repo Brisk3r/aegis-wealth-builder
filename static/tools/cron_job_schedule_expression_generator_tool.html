@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CronPro | Advanced Cron Generator</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Outfit', sans-serif; background: #0f172a; color: #f8fafc; }
+        .glass { 
+            background: rgba(30, 41, 59, 0.7); 
+            backdrop-filter: blur(12px); 
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        .input-field { 
+            background: #0f172a !important; 
+            border: 1px solid #334155 !important; 
+            color: #38bdf8 !important;
+            transition: all 0.3s ease;
+        }
+        .input-field:focus { outline: none; border-color: #38bdf8 !important; box-shadow: 0 0 0 2px rgba(56, 189, 248, 0.2); }
+        .nav-link { transition: color 0.2s; }
+        .nav-link:hover { color: #38bdf8; }
+    </style>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4750454395006570" crossorigin="anonymous"></script>
+
+    <script defer src="/_vercel/insights/script.js"></script>
+
+    <link rel="icon" type="image/png" href="/static/logo.png">
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-BZVWXPPG06"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-BZVWXPPG06');
+    </script>
+
+    <script src="https://assets.lemonsqueezy.com/lemon.js" defer></script>
+</head>
+<body class="min-h-screen text-slate-200">
+
+    <div class="navbar" style="display: flex; justify-content: space-between; align-items: center; padding: 20px 40px; border-bottom: 1px solid rgba(255,255,255,0.08); background: rgba(11, 15, 25, 0.7); backdrop-filter: blur(12px); position: sticky; top: 0; z-index: 100; font-family: 'Outfit', sans-serif;">
+        <a href="/" style="display: flex; align-items: center; gap: 10px; color: #f3f4f6; text-decoration: none; font-weight: 600;">
+            <img src="/static/logo.png" alt="Aegis Hub Logo" style="height: 30px;">
+            <span>Aegis Developer Hub</span>
+        </a>
+        <a href="/" style="color: #60a5fa; text-decoration: none; font-size: 0.95rem;">&larr; Back to Hub</a>
+    </div>
+    
+    <!-- Navbar -->
+    <nav class="max-w-4xl mx-auto flex justify-between items-center py-6 px-4">
+        <div class="text-xl font-bold tracking-tight text-white italic">CronPro<span class="text-blue-500">.</span></div>
+        <div class="flex gap-6 text-sm font-medium text-slate-400">
+            <a href="#" class="nav-link">Generator</a>
+            <a href="#" class="nav-link">Validator</a>
+            <a href="#" class="nav-link">Cheatsheet</a>
+        </div>
+    </nav>
+
+    <main class="max-w-4xl mx-auto p-4 md:p-8">
+        <header class="mb-10">
+            <h1 class="text-5xl font-bold text-white mb-4">Cron Expression Generator</h1>
+            <p class="text-slate-400 text-lg">Generate reliable, production-ready cron schedules with live validation.</p>
+        </header>
+
+        <section class="glass p-8 rounded-3xl shadow-2xl">
+            <div class="grid grid-cols-2 md:grid-cols-5 gap-6 mb-10">
+                <div>
+                    <label class="block text-xs uppercase tracking-widest text-slate-500 mb-2 font-semibold">Minute</label>
+                    <input type="text" id="minute" value="*" class="w-full p-3 rounded-xl input-field text-center text-xl font-bold">
+                </div>
+                <div>
+                    <label class="block text-xs uppercase tracking-widest text-slate-500 mb-2 font-semibold">Hour</label>
+                    <input type="text" id="hour" value="*" class="w-full p-3 rounded-xl input-field text-center text-xl font-bold">
+                </div>
+                <div>
+                    <label class="block text-xs uppercase tracking-widest text-slate-500 mb-2 font-semibold">Day</label>
+                    <input type="text" id="dom" value="*" class="w-full p-3 rounded-xl input-field text-center text-xl font-bold">
+                </div>
+                <div>
+                    <label class="block text-xs uppercase tracking-widest text-slate-500 mb-2 font-semibold">Month</label>
+                    <input type="text" id="month" value="*" class="w-full p-3 rounded-xl input-field text-center text-xl font-bold">
+                </div>
+                <div>
+                    <label class="block text-xs uppercase tracking-widest text-slate-500 mb-2 font-semibold">Week</label>
+                    <input type="text" id="dow" value="*" class="w-full p-3 rounded-xl input-field text-center text-xl font-bold">
+                </div>
+            </div>
+
+            <div class="bg-slate-950/50 p-6 rounded-2xl border border-slate-800">
+                <div class="flex justify-between items-center mb-4">
+                    <span class="text-xs uppercase tracking-widest text-blue-400 font-bold">Result</span>
+                    <button onclick="copyToClipboard()" class="text-xs bg-slate-800 hover:bg-slate-700 text-white px-4 py-2 rounded-lg transition font-semibold">Copy</button>
+                </div>
+                <div id="display" class="text-4xl font-mono text-white tracking-widest py-2 break-all text-center md:text-left"> * * * * * </div>
+            </div>
+
+            <div id="explanation" class="mt-8 p-6 bg-blue-900/10 rounded-2xl border border-blue-900/30 text-blue-200">
+                This job will run every minute of every hour, every day of the month, every month, and every day of the week.
+            </div>
+        </section>
+    </main>
+
+    <script>
+        const inputs = ['minute', 'hour', 'dom', 'month', 'dow'];
+        
+        function update() {
+            const vals = inputs.map(id => document.getElementById(id).value.trim() || '*');
+            const expr = vals.join(' ');
+            document.getElementById('display').innerText = expr;
+            explain(vals);
+        }
+
+        function explain(v) {
+            const m = v[0] === '*' ? 'every minute' : `at minute ${v[0]}`;
+            const h = v[1] === '*' ? 'of every hour' : `at hour ${v[1]}`;
+            const dom = v[2] === '*' ? 'every day' : `on day ${v[2]}`;
+            const mon = v[3] === '*' ? 'of every month' : `in month ${v[3]}`;
+            const dow = v[4] === '*' ? 'every day of the week' : `on day ${v[4]} of the week`;
+
+            document.getElementById('explanation').innerHTML = 
+                `<span class="font-bold text-blue-300">Schedule Details:</span> This job will execute ${m} ${h}, ${dom} ${mon}, and ${dow}.`;
+        }
+
+        function copyToClipboard() {
+            const expr = document.getElementById('display').innerText;
+            navigator.clipboard.writeText(expr).then(() => {
+                const btn = document.querySelector('button');
+                const originalText = btn.innerText;
+                btn.innerText = 'Copied!';
+                setTimeout(() => btn.innerText = originalText, 2000);
+            });
+        }
+
+        inputs.forEach(id => document.getElementById(id).addEventListener('input', update));
+    </script>
+</body>
+</html>
