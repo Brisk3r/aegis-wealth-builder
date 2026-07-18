@@ -121,6 +121,12 @@
         <priority>0.8</priority>
     </url>
     <url>
+        <loc>https://aegishub.dev/static/tools/users_paste_a_raw_json_or_yaml_openapi_specification_string,_and_the_browser_compiles_it_into_a_beautiful,_expandable,_interactive_api_documentation_dashboard._tool.html</loc>
+        <lastmod>2026-07-18</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
         <loc>https://aegishub.dev/static/articles/css_flexbox_cheat_sheet.html</loc>
         <lastmod>2026-07-18</lastmod>
         <changefreq>weekly</changefreq>
@@ -218,6 +224,12 @@
     </url>
     <url>
         <loc>https://aegishub.dev/static/articles/diff_checker_side-by-side_comparison.html</loc>
+        <lastmod>2026-07-18</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.7</priority>
+    </url>
+    <url>
+        <loc>https://aegishub.dev/static/articles/users_paste_a_raw_json_or_yaml_openapi_specification_string,_and_the_browser_compiles_it_into_a_beautiful,_expandable,_interactive_api_documentation_dashboard..html</loc>
         <lastmod>2026-07-18</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.7</priority>

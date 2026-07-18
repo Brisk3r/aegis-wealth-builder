@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DocuPaste | Professional OpenAPI Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/swagger-ui-dist@4.15.5/swagger-ui-bundle.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/swagger-ui-dist@4.15.5/swagger-ui.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/js-yaml/4.1.0/js-yaml.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        :root { --bg-color: #0f172a; }
+        body { font-family: 'Outfit', sans-serif; background-color: var(--bg-color); color: #e2e8f0; }
+        .glass { background: rgba(30, 41, 59, 0.4); backdrop-filter: blur(16px); border: 1px solid rgba(255,255,255,0.08); box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37); transition: all 0.3s ease; }
+        
+        /* Swagger Overrides for Dark Mode Theme */
+        .swagger-ui .topbar { display: none; }
+        .swagger-ui { background: transparent !important; }
+        .swagger-ui .info .title, .swagger-ui .info li, .swagger-ui .info p, .swagger-ui .info table, .swagger-ui .info a { color: #f8fafc !important; }
+        .swagger-ui .opblock .opblock-summary-path { font-weight: 600; color: #fff; }
+        .swagger-ui .opblock.opblock-get { background: rgba(56, 189, 248, 0.1); border-color: rgba(56, 189, 248, 0.2); }
+        .swagger-ui .opblock.opblock-post { background: rgba(74, 222, 128, 0.1); border-color: rgba(74, 222, 128, 0.2); }
+        .swagger-ui .btn { border-color: #475569 !important; background: #1e293b !important; color: #cbd5e1 !important; }
+
+        #spec-input::placeholder { color: #64748b; }
+        .custom-scrollbar::-webkit-scrollbar { width: 8px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: #0f172a; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
+    </style>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4750454395006570" crossorigin="anonymous"></script>
+
+    <script defer src="/_vercel/insights/script.js"></script>
+
+    <link rel="icon" type="image/png" href="/static/logo.png">
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-BZVWXPPG06"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-BZVWXPPG06');
+    </script>
+
+    <script src="https://assets.lemonsqueezy.com/lemon.js" defer></script>
+</head>
+<body class="min-h-screen p-4 md:p-10">
+
+    <div class="navbar" style="display: flex; justify-content: space-between; align-items: center; padding: 20px 40px; border-bottom: 1px solid rgba(255,255,255,0.08); background: rgba(11, 15, 25, 0.7); backdrop-filter: blur(12px); position: sticky; top: 0; z-index: 100; font-family: 'Outfit', sans-serif;">
+        <a href="/" style="display: flex; align-items: center; gap: 10px; color: #f3f4f6; text-decoration: none; font-weight: 600;">
+            <img src="/static/logo.png" alt="Aegis Hub Logo" style="height: 30px;">
+            <span>Aegis Developer Hub</span>
+        </a>
+        <a href="/" style="color: #60a5fa; text-decoration: none; font-size: 0.95rem;">&larr; Back to Hub</a>
+    </div>
+    
+
+    <div class="max-w-7xl mx-auto">
+        <header class="mb-10 flex flex-col md:flex-row md:items-center justify-between gap-4">
+            <div>
+                <h1 class="text-3xl font-semibold bg-gradient-to-r from-blue-400 to-cyan-300 bg-clip-text text-transparent">DocuPaste</h1>
+                <p class="text-slate-400">Professional-grade OpenAPI/Swagger documentation generator</p>
+            </div>
+            <div class="flex items-center gap-2">
+                <span class="px-3 py-1 rounded-full glass text-xs text-blue-300 border border-blue-900/50">Ready</span>
+            </div>
+        </header>
+
+        <div class="grid lg:grid-cols-2 gap-8">
+            <section class="glass p-6 rounded-3xl flex flex-col h-[70vh]">
+                <h2 class="text-sm font-semibold mb-4 uppercase tracking-widest text-slate-500">Source Specification</h2>
+                <textarea id="spec-input" class="w-full flex-grow bg-slate-950/50 border border-slate-700/50 rounded-2xl p-6 text-sm font-mono text-cyan-100 focus:ring-2 focus:ring-blue-500/50 outline-none resize-none custom-scrollbar" placeholder="Paste JSON or YAML here..."></textarea>
+                <button id="render-btn" class="mt-6 w-full bg-blue-600 hover:bg-blue-500 active:scale-[0.99] transform text-white font-semibold py-4 rounded-2xl transition-all shadow-lg shadow-blue-900/20">Render Documentation</button>
+            </section>
+
+            <section class="glass p-6 rounded-3xl h-[70vh] overflow-y-auto custom-scrollbar" id="output-container">
+                <h2 class="text-sm font-semibold mb-6 uppercase tracking-widest text-slate-500">Live Preview</h2>
+                <div id="render-area" class="h-full">
+                    <div class="h-full flex flex-col items-center justify-center text-slate-600 opacity-60">
+                        <svg class="w-16 h-16 mb-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                        <p class="text-lg">Waiting for input...</p>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <script>
+        const input = document.getElementById('spec-input');
+        const btn = document.getElementById('render-btn');
+        const renderArea = document.getElementById('render-area');
+
+        btn.addEventListener('click', () => {
+            const raw = input.value.trim();
+            if(!raw) {
+                alert("Please provide an OpenAPI specification.");
+                return;
+            }
+
+            let specParsed;
+            try {
+                try {
+                    specParsed = typeof raw === 'string' && (raw.startsWith('{') || raw.startsWith('[')) 
+                        ? JSON.parse(raw) 
+                        : jsyaml.load(raw);
+                } catch (e) {
+                    throw new Error("Unable to parse. Please check if your JSON/YAML is valid.");
+                }
+
+                renderArea.innerHTML = '<div id="swagger-ui"></div>';
+                
+                SwaggerUIBundle({
+                    spec: specParsed,
+                    dom_id: '#swagger-ui',
+                    deepLinking: true,
+                    presets: [
+                        SwaggerUIBundle.presets.apis,
+                        SwaggerUIBundle.SwaggerUIStandalonePreset
+                    ],
+                    layout: "BaseLayout",
+                    docExpansion: "list"
+                });
+            } catch (err) {
+                renderArea.innerHTML = `
+                    <div class="h-full flex flex-col items-center justify-center text-red-400 p-8 text-center bg-red-950/20 rounded-2xl border border-red-900/30">
+                        <p class="font-bold mb-2">Error Parsing Specification</p>
+                        <p class="text-sm">${err.message}</p>
+                    </div>
+                `;
+            }
+        });
+    </script>
+</body>
+</html>
