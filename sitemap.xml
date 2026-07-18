@@ -145,6 +145,12 @@
         <priority>0.8</priority>
     </url>
     <url>
+        <loc>https://aegishub.dev/static/tools/code_snippet_generator_tool.html</loc>
+        <lastmod>2026-07-18</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
         <loc>https://aegishub.dev/static/articles/css_flexbox_cheat_sheet.html</loc>
         <lastmod>2026-07-18</lastmod>
         <changefreq>weekly</changefreq>
@@ -266,6 +272,12 @@
     </url>
     <url>
         <loc>https://aegishub.dev/static/articles/a_micro-canvas_where_developers_paste_their_code,_select_a_language_syntax_theme,_and_download_a_beautiful,_padded_snippet_image_with_a_customizable_gradient_background..html</loc>
+        <lastmod>2026-07-18</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.7</priority>
+    </url>
+    <url>
+        <loc>https://aegishub.dev/static/articles/code_snippet_generator.html</loc>
         <lastmod>2026-07-18</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.7</priority>
