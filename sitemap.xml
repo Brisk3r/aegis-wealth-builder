@@ -31,12 +31,6 @@
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://aegishub.dev/static/tools/developer_tools_tool.html</loc>
-        <lastmod>2026-07-18</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    <url>
         <loc>https://aegishub.dev/static/tools/color_wheel_tool.html</loc>
         <lastmod>2026-07-18</lastmod>
         <changefreq>weekly</changefreq>
@@ -104,12 +98,6 @@
     </url>
     <url>
         <loc>https://aegishub.dev/static/articles/developer_productivity.html</loc>
-        <lastmod>2026-07-18</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.7</priority>
-    </url>
-    <url>
-        <loc>https://aegishub.dev/static/articles/developer_tools.html</loc>
         <lastmod>2026-07-18</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.7</priority>

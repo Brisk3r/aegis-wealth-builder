@@ -64,10 +64,16 @@ async def run_pipeline(seed_topic: str, force_ollama: bool = False):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Aegis-100K On-Demand Pipeline Runner")
-    parser.add_argument("--seed", type=str, default="Developer Tools", help="Seed topic to research and build for")
+    parser.add_argument("--seed", type=str, default=None, help="Seed topic to research and build for")
     parser.add_argument("--ollama", action="store_true", help="Force local Ollama model backend")
     
     args = parser.parse_args()
     
     # Run pipeline
-    asyncio.run(run_pipeline(args.seed, force_ollama=args.ollama))
+    seed_topic = args.seed
+    if not seed_topic:
+        from scheduler import get_next_new_topic
+        seed_topic = get_next_new_topic()
+        logger.info("No seed topic provided. Dynamically selected unbuilt topic: %s", seed_topic)
+        
+    asyncio.run(run_pipeline(seed_topic, force_ollama=args.ollama))

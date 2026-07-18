@@ -60,6 +60,19 @@ class AegisOrchestrator:
         timestamp = datetime.now().isoformat()
         logger.info("Starting Aegis-100K iteration for seed topic: '%s' at %s", seed_topic, timestamp)
         
+        # Prevent topic/tool name clash by checking if file already exists
+        slug = seed_topic.lower().replace(" ", "_")
+        if slug.endswith("_tool"):
+            tool_name = slug + ".html"
+        else:
+            tool_name = slug + "_tool.html"
+            
+        tool_abs_path = config.BASE_DIR / "static" / "tools" / tool_name
+        if tool_abs_path.exists():
+            err_msg = f"Tool for seed topic '{seed_topic}' already exists at static/tools/{tool_name}. Aborting to prevent overwriting."
+            logger.error(err_msg)
+            raise ValueError(err_msg)
+            
         iteration_data = {
             "timestamp": timestamp,
             "seed_topic": seed_topic,
