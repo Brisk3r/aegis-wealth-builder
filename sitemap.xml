@@ -103,6 +103,12 @@
         <priority>0.8</priority>
     </url>
     <url>
+        <loc>https://aegishub.dev/static/tools/css_grid_layout_visual_generator_tool.html</loc>
+        <lastmod>2026-07-18</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
         <loc>https://aegishub.dev/static/articles/css_flexbox_cheat_sheet.html</loc>
         <lastmod>2026-07-18</lastmod>
         <changefreq>weekly</changefreq>
@@ -182,6 +188,12 @@
     </url>
     <url>
         <loc>https://aegishub.dev/static/articles/cron_job_schedule_expression_generator.html</loc>
+        <lastmod>2026-07-18</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.7</priority>
+    </url>
+    <url>
+        <loc>https://aegishub.dev/static/articles/css_grid_layout_visual_generator.html</loc>
         <lastmod>2026-07-18</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.7</priority>
