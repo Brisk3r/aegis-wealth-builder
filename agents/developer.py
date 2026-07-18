@@ -236,6 +236,8 @@ class ToolDeveloper:
 
         prompt = (
             f"You are tasked with reviewing and improving this existing HTML web utility tool file.\n"
+            f"CRITICAL: Start by checking the code and verifying if it does what it is meant to do, "
+            f"and then verify that it now does what it says it does or meets its requirements better.\n\n"
             f"Here is the current implementation code:\n"
             f"--- START CODE ---\n{current_code}\n--- END CODE ---\n\n"
             f"Goal: Improve this tool code. Additional focus areas: {improvement_instruction}\n"

@@ -79,8 +79,8 @@ async def run_midday_improvement():
         logger.warning("No tools generated yet. Skipping improvement pass.")
         return
         
-    # Select the oldest modified file to distribute improvements evenly
-    selected_tool = min(tool_files, key=lambda p: p.stat().st_mtime)
+    # Select the last page to be updated (most recently modified file)
+    selected_tool = max(tool_files, key=lambda p: p.stat().st_mtime)
     logger.info("Selected tool for improvement: %s", selected_tool.name)
     
     developer = ToolDeveloper()
