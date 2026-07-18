@@ -1,8 +1,29 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FlowState Professional | Aegis Dev Hub</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <script>
+        tailwind.config = { theme: { extend: { fontFamily: { sans: ['Outfit', 'sans-serif'] } } } }
+    </script>
+    <style>
+        body { background-color: #05070a; color: #e5e7eb; }
+        .glass { background: rgba(15, 23, 42, 0.4); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.05); }
+        .toast { transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1); }
+        .progress-circle { transition: stroke-dashoffset 0.35s; transform: rotate(-90deg); transform-origin: 50% 50%; }
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 10px; }
+    </style>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4750454395006570" crossorigin="anonymous"></script>
 
-    <script src="https://lmsqueezy.com/assets/embed.js" defer></script>
+    <script defer src="/_vercel/insights/script.js"></script>
+
+    <link rel="icon" type="image/png" href="/static/logo.png">
 
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-BZVWXPPG06"></script>
@@ -12,446 +33,143 @@
       gtag('js', new Date());
       gtag('config', 'G-BZVWXPPG06');
     </script>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FlowState Developer Dashboard - Aegis Dev Hub</title>
-    <!-- Fonts & Libraries -->
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://unpkg.com/lucide@latest"></script>
-    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: {
-                        sans: ['Outfit', 'sans-serif'],
-                    },
-                    colors: {
-                        brandDark: '#080b11',
-                        cardBg: 'rgba(17, 24, 39, 0.55)',
-                        borderLight: 'rgba(255, 255, 255, 0.05)',
-                    }
-                }
-            }
-        }
-    </script>
-    <style>
-        body {
-            background-color: #080b11;
-            background-image: 
-                radial-gradient(circle at 10% 20%, rgba(59, 130, 246, 0.04) 0%, transparent 40%),
-                radial-gradient(circle at 90% 80%, rgba(99, 102, 241, 0.03) 0%, transparent 40%);
-            background-attachment: fixed;
-        }
-        .glass-card {
-            background: rgba(17, 24, 39, 0.55);
-            backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.2);
-        }
-        .progress-circle {
-            transition: stroke-dashoffset 0.35s;
-            transform: rotate(-90deg);
-            transform-origin: 50% 50%;
-        }
-    </style>
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4750454395006570" crossorigin="anonymous"></script>
-
-    <script defer src="/_vercel/insights/script.js"></script>
-
-    <link rel="icon" type="image/png" href="/static/logo.png">
 
     <script src="https://assets.lemonsqueezy.com/lemon.js" defer></script>
 </head>
-<body class="font-sans text-gray-200 min-h-screen flex flex-col justify-between">
-    <!-- Navbar -->
-    <header class="border-b border-white/5 bg-[#080b11]/85 backdrop-blur-md sticky top-0 z-50">
-        <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
-            <a href="/" class="flex items-center gap-3 text-white font-semibold text-lg tracking-wide hover:opacity-90 transition-opacity">
-                <img src="/static/logo.png" alt="Aegis Hub Logo" class="h-8">
-                <span>Aegis Developer Hub</span>
-            </a>
-            <a href="/" class="text-blue-400 hover:text-blue-300 transition-colors text-sm font-medium flex items-center gap-1">
-                &larr; Back to Hub
-            </a>
-        </div>
-    </header>
+<body class="font-sans min-h-screen flex flex-col p-4 md:p-8">
 
-    <!-- Main Container -->
-    <main class="flex-grow max-w-7xl w-full mx-auto px-6 py-10">
-        <!-- Hero section -->
-        <div class="mb-10 text-center">
-            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 uppercase tracking-wide mb-3">
-                <i data-lucide="zap" class="w-3.5 h-3.5"></i>
-                Maximize Focus & Minimize Context Switching
+    <div class="navbar" style="display: flex; justify-content: space-between; align-items: center; padding: 20px 40px; border-bottom: 1px solid rgba(255,255,255,0.08); background: rgba(11, 15, 25, 0.7); backdrop-filter: blur(12px); position: sticky; top: 0; z-index: 100; font-family: 'Outfit', sans-serif;">
+        <a href="/" style="display: flex; align-items: center; gap: 10px; color: #f3f4f6; text-decoration: none; font-weight: 600;">
+            <img src="/static/logo.png" alt="Aegis Hub Logo" style="height: 30px;">
+            <span>Aegis Developer Hub</span>
+        </a>
+        <a href="/" style="color: #60a5fa; text-decoration: none; font-size: 0.95rem;">&larr; Back to Hub</a>
+    </div>
+    
+    
+    <!-- Toast Notification -->
+    <div id="toast" class="fixed top-6 right-6 z-[100] bg-blue-500 text-white px-6 py-3 rounded-2xl shadow-2xl translate-y-[-150%] opacity-0 toast font-medium flex items-center gap-2">
+        <i data-lucide="check-circle-2" class="w-5 h-5"></i> <span id="toastMsg">Action Successful</span>
+    </div>
+
+    <main class="max-w-6xl mx-auto w-full">
+        <header class="flex justify-between items-center mb-12">
+            <div>
+                <h1 class="text-3xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-indigo-400">FlowState Pro</h1>
+                <p class="text-gray-500 mt-1">Deep work orchestration & context management</p>
             </div>
-            <h1 class="text-4xl md:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-indigo-200 to-blue-500 mb-3 tracking-tight">
-                FlowState Journal & Timer
-            </h1>
-            <p class="text-gray-400 text-base md:text-lg max-w-2xl mx-auto leading-relaxed">
-                Log your git branch context, track your deep focus runs, and block distracting hooks. Keep your mind completely focused on the shipping line.
-            </p>
-        </div>
+            <div class="flex gap-3">
+                <button onclick="downloadAllLogs()" class="flex items-center gap-2 px-4 py-2 bg-white/5 hover:bg-white/10 rounded-xl transition border border-white/5 text-sm font-medium">
+                    <i data-lucide="download" class="w-4 h-4"></i> Export
+                </button>
+                <button onclick="clearAllData()" class="flex items-center gap-2 px-4 py-2 bg-red-500/10 text-red-400 hover:bg-red-500/20 rounded-xl transition border border-red-500/10 text-sm font-medium">
+                    <i data-lucide="trash-2" class="w-4 h-4"></i> Reset
+                </button>
+            </div>
+        </header>
 
-        <!-- Dashboard Widgets -->
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
-            <!-- Left Side: Context Logger -->
             <div class="lg:col-span-7 space-y-8">
-                <!-- Logger Card -->
-                <div class="glass-card rounded-2xl p-6 relative overflow-hidden">
-                    <h2 class="text-xl font-bold text-white flex items-center gap-2 mb-4">
-                        <i data-lucide="book-open" class="w-5 h-5 text-blue-400"></i>
-                        Flow Context Logger
-                    </h2>
-                    <p class="text-sm text-gray-400 mb-6">
-                        Before switching branches or clocking off, record a quick context snapshot so you can pick up exactly where you left off.
-                    </p>
-
-                    <div class="space-y-4">
-                        <div>
-                            <label class="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Current Branch / Task</label>
-                            <input id="contextBranch" type="text" placeholder="e.g. feature/auth-redirection" class="w-full bg-black/40 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-gray-500 outline-none focus:border-blue-500 transition-colors">
-                        </div>
-                        <div>
-                            <label class="block text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Focus Context Notes</label>
-                            <textarea id="contextNotes" placeholder="Write exactly what you are implementing, current blocker, and next immediate steps..." class="w-full h-28 bg-black/40 border border-white/10 rounded-xl px-4 py-3 text-white placeholder-gray-500 outline-none focus:border-blue-500 transition-colors resize-none"></textarea>
-                        </div>
-                        <button id="saveContextBtn" class="w-full flex items-center justify-center gap-2 bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 px-4 rounded-xl shadow-lg shadow-blue-500/10 transition-colors">
-                            <i data-lucide="plus" class="w-5 h-5"></i>
-                            Save Focus Context
-                        </button>
-                    </div>
+                <div class="glass rounded-3xl p-8">
+                    <h2 class="text-xl font-semibold mb-6 flex items-center gap-2"><i data-lucide="edit-3" class="w-5 h-5 text-blue-400"></i> New Context</h2>
+                    <input id="contextBranch" class="w-full bg-black/20 border border-white/10 rounded-xl px-4 py-3 mb-4 focus:border-blue-500 outline-none transition" placeholder="Branch name...">
+                    <textarea id="contextNotes" class="w-full h-32 bg-black/20 border border-white/10 rounded-xl px-4 py-3 mb-4 focus:border-blue-500 outline-none transition resize-none" placeholder="Context notes..."></textarea>
+                    <button id="saveContextBtn" class="w-full bg-blue-600 hover:bg-blue-500 py-3 rounded-xl font-semibold transition">Save Snapshot</button>
                 </div>
 
-                <!-- Logs List Card -->
-                <div class="glass-card rounded-2xl p-6">
-                    <h3 class="text-lg font-bold text-white flex items-center gap-2 mb-4">
-                        <i data-lucide="history" class="w-5 h-5 text-indigo-400"></i>
-                        Saved Focus History
-                    </h3>
-                    <div id="logsContainer" class="space-y-4 max-h-[400px] overflow-y-auto pr-2">
-                        <p class="text-sm text-gray-500 text-center py-6">No contexts saved yet. Log your first status above!</p>
-                    </div>
-                </div>
+                <div id="logsContainer" class="space-y-4"></div>
             </div>
 
-            <!-- Right Side: Focus Timer & Distraction Control -->
             <div class="lg:col-span-5 space-y-8">
-                <!-- Focus Timer Card -->
-                <div class="glass-card rounded-2xl p-6 text-center flex flex-col items-center">
-                    <h2 class="text-xl font-bold text-white flex items-center gap-2 self-start mb-6">
-                        <i data-lucide="timer" class="w-5 h-5 text-emerald-400"></i>
-                        Deep Focus Runner
-                    </h2>
-
-                    <!-- Timer Visual SVG -->
+                <div class="glass rounded-3xl p-8 flex flex-col items-center">
                     <div class="relative w-48 h-48 flex items-center justify-center mb-6">
-                        <svg class="w-full h-full">
-                            <circle cx="96" cy="96" r="88" stroke="rgba(255,255,255,0.03)" stroke-width="8" fill="transparent" />
-                            <circle id="timerRing" class="progress-circle" cx="96" cy="96" r="88" stroke="#10b981" stroke-width="8" stroke-linecap="round" fill="transparent" stroke-dasharray="552.92" stroke-dashoffset="0" />
+                        <svg class="w-full h-full rotate-[-90deg]">
+                            <circle cx="96" cy="96" r="88" stroke="rgba(255,255,255,0.05)" stroke-width="8" fill="transparent" />
+                            <circle id="timerRing" class="progress-circle" cx="96" cy="96" r="88" stroke="#3b82f6" stroke-width="8" stroke-dasharray="552.92" stroke-dashoffset="0" />
                         </svg>
-                        <div class="absolute flex flex-col items-center">
-                            <span id="timerDisplay" class="text-4xl font-extrabold text-white tracking-tight">25:00</span>
-                            <span id="timerState" class="text-xs text-gray-400 uppercase tracking-widest mt-1">Focus Run</span>
+                        <div class="absolute text-center">
+                            <div id="timerDisplay" class="text-4xl font-bold tabular-nums">25:00</div>
+                            <div id="timerState" class="text-[10px] uppercase tracking-widest text-blue-400 font-bold">Focus</div>
                         </div>
                     </div>
-
-                    <!-- Timer Controls -->
-                    <div class="flex items-center gap-3 w-full max-w-xs justify-center mb-6">
-                        <button id="timerPlayBtn" class="p-3.5 bg-emerald-500 hover:bg-emerald-600 rounded-full text-brandDark shadow-lg shadow-emerald-500/20 transition-all">
-                            <i id="playIcon" data-lucide="play" class="w-6 h-6"></i>
-                        </button>
-                        <button id="timerResetBtn" class="p-3.5 bg-white/5 hover:bg-white/10 rounded-full border border-white/10 transition-colors">
-                            <i data-lucide="rotate-ccw" class="w-5 h-5"></i>
-                        </button>
-                    </div>
-
-                    <!-- Session Mode Toggles -->
-                    <div class="flex bg-black/40 rounded-xl p-1 border border-white/5 w-full">
-                        <button id="focusModeBtn" class="flex-1 text-center py-2 text-sm font-semibold rounded-lg bg-emerald-500 text-brandDark transition-all">
-                            Focus (25m)
-                        </button>
-                        <button id="breakModeBtn" class="flex-1 text-center py-2 text-sm font-semibold text-gray-400 rounded-lg hover:text-white transition-all">
-                            Break (5m)
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Distraction Control Card -->
-                <div class="glass-card rounded-2xl p-6">
-                    <h2 class="text-xl font-bold text-white flex items-center gap-2 mb-4">
-                        <i data-lucide="shield-alert" class="w-5 h-5 text-red-400"></i>
-                        Focus Banish List
-                    </h2>
-                    <p class="text-sm text-gray-400 mb-4">
-                        Mute/block distraction hubs during your active timer rounds.
-                    </p>
-
-                    <div class="flex gap-2 mb-4">
-                        <input id="distractionInput" type="text" placeholder="e.g. reddit.com" class="flex-grow bg-black/40 border border-white/10 rounded-xl px-4 py-2.5 text-sm text-white placeholder-gray-500 outline-none focus:border-blue-500 transition-colors">
-                        <button id="addDistractionBtn" class="bg-indigo-500 hover:bg-indigo-600 text-white font-semibold px-4 py-2.5 rounded-xl text-sm transition-colors flex items-center gap-1.5">
-                            <i data-lucide="plus" class="w-4 h-4"></i> Add
-                        </button>
-                    </div>
-
-                    <div id="distractionList" class="space-y-3">
-                        <!-- Dynamic list items load here -->
+                    <div class="flex gap-4">
+                        <button id="timerPlayBtn" class="p-4 bg-white text-black rounded-full hover:scale-105 transition"><i id="playIcon" data-lucide="play" class="w-6 h-6"></i></button>
+                        <button id="timerResetBtn" class="p-4 bg-white/5 border border-white/10 rounded-full hover:bg-white/10 transition"><i data-lucide="rotate-ccw" class="w-5 h-5"></i></button>
                     </div>
                 </div>
             </div>
         </div>
     </main>
 
-    <!-- Footer -->
-    <footer class="border-t border-white/5 bg-[#080b11]/60 py-6 mt-12">
-        <div class="max-w-7xl mx-auto px-6 text-center text-sm text-gray-500">
-            <p>&copy; 2026 FlowState Journal / Aegis Dev Hub. All rights reserved.</p>
-        </div>
-    </footer>
-
     <script>
-        // --- State Variables ---
-        let logs = JSON.parse(localStorage.getItem('aegis_flow_logs') || '[]');
-        let distractions = JSON.parse(localStorage.getItem('aegis_flow_distractions') || '["reddit.com", "x.com", "youtube.com"]');
-        
-        let timerSeconds = 25 * 60;
-        let timerMaxSeconds = 25 * 60;
-        let isTimerRunning = false;
-        let timerInterval = null;
-        let timerMode = 'focus'; // 'focus' or 'break'
+        let logs = JSON.parse(localStorage.getItem('logs') || '[]');
+        let timerSeconds = 1500, timerMax = 1500, isRunning = false, interval = null;
 
-        // --- Selectors ---
-        const contextBranch = document.getElementById('contextBranch');
-        const contextNotes = document.getElementById('contextNotes');
-        const saveContextBtn = document.getElementById('saveContextBtn');
-        const logsContainer = document.getElementById('logsContainer');
+        const showToast = (msg) => {
+            const t = document.getElementById('toast');
+            document.getElementById('toastMsg').textContent = msg;
+            t.classList.remove('translate-y-[-150%]', 'opacity-0');
+            setTimeout(() => { t.classList.add('translate-y-[-150%]', 'opacity-0'); }, 3000);
+        };
 
-        const timerDisplay = document.getElementById('timerDisplay');
-        const timerState = document.getElementById('timerState');
-        const timerRing = document.getElementById('timerRing');
-        const timerPlayBtn = document.getElementById('timerPlayBtn');
-        const timerResetBtn = document.getElementById('timerResetBtn');
-        const playIcon = document.getElementById('playIcon');
-        const focusModeBtn = document.getElementById('focusModeBtn');
-        const breakModeBtn = document.getElementById('breakModeBtn');
-
-        const distractionInput = document.getElementById('distractionInput');
-        const addDistractionBtn = document.getElementById('addDistractionBtn');
-        const distractionList = document.getElementById('distractionList');
-
-        // Initialize Lucide icons
-        lucide.createIcons();
-
-        // --- Focus Logger Functions ---
-        function renderLogs() {
-            if (logs.length === 0) {
-                logsContainer.innerHTML = `<p class="text-sm text-gray-500 text-center py-6">No contexts saved yet. Log your first status above!</p>`;
-                return;
-            }
-
-            logsContainer.innerHTML = logs.map((l, idx) => `
-                <div class="p-4 bg-black/40 border border-white/5 rounded-xl relative hover:border-white/10 transition-colors">
+        const render = () => {
+            const cont = document.getElementById('logsContainer');
+            cont.innerHTML = logs.map((l, i) => `
+                <div class="glass p-6 rounded-2xl group relative">
                     <div class="flex justify-between items-start mb-2">
-                        <span class="text-xs font-semibold text-blue-400 bg-blue-500/10 px-2 py-0.5 rounded-md border border-blue-500/10">${escapeHtml(l.branch)}</span>
+                        <span class="text-blue-400 font-bold text-sm">${l.branch}</span>
                         <div class="flex gap-2">
-                            <button onclick="copyLogText(${idx})" class="p-1 text-gray-400 hover:text-white transition-colors" title="Copy notes">
-                                <i data-lucide="copy" class="w-3.5 h-3.5"></i>
-                            </button>
-                            <button onclick="deleteLog(${idx})" class="p-1 text-gray-400 hover:text-red-400 transition-colors" title="Delete entry">
-                                <i data-lucide="x" class="w-3.5 h-3.5"></i>
-                            </button>
+                            <button onclick="copyToClipboard('${btoa(l.notes)}')" class="opacity-0 group-hover:opacity-100 transition p-2 bg-white/5 rounded-lg"><i data-lucide="copy" class="w-4 h-4"></i></button>
+                            <button onclick="deleteLog(${i})" class="opacity-0 group-hover:opacity-100 transition p-2 bg-red-500/10 text-red-400 rounded-lg"><i data-lucide="trash" class="w-4 h-4"></i></button>
                         </div>
                     </div>
-                    <p class="text-sm text-gray-200 mt-1 whitespace-pre-wrap">${escapeHtml(l.notes)}</p>
-                    <div class="text-[10px] text-gray-500 mt-3 flex justify-between">
-                        <span>Logged by Aegis Developer</span>
-                        <span>${l.timestamp}</span>
-                    </div>
+                    <p class="text-sm text-gray-400 leading-relaxed">${l.notes}</p>
                 </div>
             `).join('');
             lucide.createIcons();
-        }
-
-        saveContextBtn.addEventListener('click', () => {
-            const branch = contextBranch.value.trim();
-            const notes = contextNotes.value.trim();
-
-            if (!branch || !notes) {
-                alert('Please enter both branch name and context notes.');
-                return;
-            }
-
-            const timestamp = new Date().toLocaleString();
-            logs.unshift({ branch, notes, timestamp });
-            localStorage.setItem('aegis_flow_logs', JSON.stringify(logs));
-            
-            contextBranch.value = '';
-            contextNotes.value = '';
-            renderLogs();
-        });
-
-        window.deleteLog = function(idx) {
-            logs.splice(idx, 1);
-            localStorage.setItem('aegis_flow_logs', JSON.stringify(logs));
-            renderLogs();
         };
 
-        window.copyLogText = function(idx) {
-            const item = logs[idx];
-            const textToCopy = `Branch: ${item.branch}\nContext: ${item.notes}\nTimestamp: ${item.timestamp}`;
-            navigator.clipboard.writeText(textToCopy).then(() => {
-                alert('Context notes copied to clipboard!');
-            });
+        const copyToClipboard = (encoded) => {
+            navigator.clipboard.writeText(atob(encoded));
+            showToast("Copied to clipboard");
         };
 
-        function escapeHtml(str) {
-            return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
-        }
+        const deleteLog = (i) => { logs.splice(i, 1); localStorage.setItem('logs', JSON.stringify(logs)); render(); };
+        
+        const clearAllData = () => { if(confirm('Clear entire history?')) { localStorage.clear(); logs = []; render(); showToast('All data cleared'); } };
 
-        // --- Timer Functions ---
-        const RING_CIRCUMFERENCE = 552.92; // 2 * pi * 88
-
-        function updateTimerRing() {
-            const fraction = timerSeconds / timerMaxSeconds;
-            const offset = RING_CIRCUMFERENCE - (fraction * RING_CIRCUMFERENCE);
-            timerRing.style.strokeDashoffset = offset;
-            
-            // Toggle stroke color depending on state
-            if (timerMode === 'focus') {
-                timerRing.setAttribute('stroke', '#10b981'); // Emerald
-            } else {
-                timerRing.setAttribute('stroke', '#a78bfa'); // Purple
-            }
-        }
-
-        function displayTime() {
-            const min = Math.floor(timerSeconds / 60);
-            const sec = timerSeconds % 60;
-            timerDisplay.textContent = `${min.toString().padStart(2, '0')}:${sec.toString().padStart(2, '0')}`;
-        }
-
-        function toggleTimer() {
-            if (isTimerRunning) {
-                clearInterval(timerInterval);
-                isTimerRunning = false;
-                playIcon.setAttribute('data-lucide', 'play');
-            } else {
-                isTimerRunning = true;
-                playIcon.setAttribute('data-lucide', 'pause');
-                timerInterval = setInterval(() => {
-                    timerSeconds--;
-                    if (timerSeconds <= 0) {
-                        clearInterval(timerInterval);
-                        isTimerRunning = false;
-                        playIcon.setAttribute('data-lucide', 'play');
-                        timerTriggerComplete();
-                    }
-                    displayTime();
-                    updateTimerRing();
-                }, 1000);
-            }
-            lucide.createIcons();
-        }
-
-        function timerTriggerComplete() {
-            confetti({
-                particleCount: 150,
-                spread: 70,
-                origin: { y: 0.6 }
-            });
-
-            // Standard sound alert using HTML5 synth
-            const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-            const osc = audioCtx.createOscillator();
-            const gain = audioCtx.createGain();
-            osc.connect(gain);
-            gain.connect(audioCtx.destination);
-            
-            osc.frequency.setValueAtTime(440, audioCtx.currentTime); // A4 note
-            osc.frequency.exponentialRampToValueAtTime(880, audioCtx.currentTime + 0.3); // Ramp up
-            gain.gain.setValueAtTime(0.1, audioCtx.currentTime);
-            gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.5);
-            
-            osc.start();
-            osc.stop(audioCtx.currentTime + 0.5);
-
-            alert(timerMode === 'focus' ? 'Focus session completed! Take a break.' : 'Break session completed! Back to work.');
-            resetTimer();
-        }
-
-        function resetTimer() {
-            clearInterval(timerInterval);
-            isTimerRunning = false;
-            playIcon.setAttribute('data-lucide', 'play');
-            lucide.createIcons();
-            
-            timerSeconds = timerMode === 'focus' ? 25 * 60 : 5 * 60;
-            timerMaxSeconds = timerSeconds;
-            
-            displayTime();
-            updateTimerRing();
-        }
-
-        timerPlayBtn.addEventListener('click', toggleTimer);
-        timerResetBtn.addEventListener('click', resetTimer);
-
-        focusModeBtn.addEventListener('click', () => {
-            timerMode = 'focus';
-            focusModeBtn.className = "flex-1 text-center py-2 text-sm font-semibold rounded-lg bg-emerald-500 text-brandDark transition-all";
-            breakModeBtn.className = "flex-1 text-center py-2 text-sm font-semibold text-gray-400 rounded-lg hover:text-white transition-all";
-            timerState.textContent = "Focus Run";
-            resetTimer();
-        });
-
-        breakModeBtn.addEventListener('click', () => {
-            timerMode = 'break';
-            breakModeBtn.className = "flex-1 text-center py-2 text-sm font-semibold rounded-lg bg-indigo-500 text-brandDark transition-all";
-            focusModeBtn.className = "flex-1 text-center py-2 text-sm font-semibold text-gray-400 rounded-lg hover:text-white transition-all";
-            timerState.textContent = "Break Session";
-            resetTimer();
-        });
-
-        // --- Distraction Control ---
-        function renderDistractions() {
-            distractionList.innerHTML = distractions.map((d, idx) => `
-                <div class="flex justify-between items-center bg-black/30 border border-white/5 px-4 py-2.5 rounded-xl text-sm">
-                    <span class="font-medium text-gray-200 flex items-center gap-2">
-                        <span class="w-2 h-2 rounded-full bg-red-400"></span>
-                        ${escapeHtml(d)}
-                    </span>
-                    <button onclick="removeDistraction(${idx})" class="text-gray-500 hover:text-red-400 transition-colors">
-                        <i data-lucide="trash-2" class="w-4 h-4"></i>
-                    </button>
-                </div>
-            `).join('');
-            lucide.createIcons();
-        }
-
-        addDistractionBtn.addEventListener('click', () => {
-            const domain = distractionInput.value.trim().toLowerCase();
-            if (!domain) return;
-            
-            // Basic domain check
-            const cleanDomain = domain.replace(/^(https?:\/\/)?(www\.)?/, '');
-            if (cleanDomain && !distractions.includes(cleanDomain)) {
-                distractions.push(cleanDomain);
-                localStorage.setItem('aegis_flow_distractions', JSON.stringify(distractions));
-                distractionInput.value = '';
-                renderDistractions();
-            }
-        });
-
-        window.removeDistraction = function(idx) {
-            distractions.splice(idx, 1);
-            localStorage.setItem('aegis_flow_distractions', JSON.stringify(distractions));
-            renderDistractions();
+        const downloadAllLogs = () => {
+            const blob = new Blob([JSON.stringify(logs, null, 2)], {type: 'application/json'});
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a'); a.href = url; a.download = 'flowstate_export.json'; a.click();
+            showToast('Download started');
         };
 
-        // --- App Boot ---
-        renderLogs();
-        renderDistractions();
-        resetTimer();
+        document.getElementById('saveContextBtn').onclick = () => {
+            const b = document.getElementById('contextBranch'), n = document.getElementById('contextNotes');
+            if(!b.value || !n.value) return showToast('Fill all fields');
+            logs.unshift({branch: b.value, notes: n.value, ts: new Date().toISOString()});
+            localStorage.setItem('logs', JSON.stringify(logs));
+            b.value = ''; n.value = ''; render(); showToast('Snapshot saved');
+        };
+
+        setInterval(() => {
+            if(!isRunning) return;
+            timerSeconds--;
+            if(timerSeconds <= 0) { clearInterval(interval); isRunning = false; confetti(); showToast('Time up!'); }
+            document.getElementById('timerDisplay').textContent = `${Math.floor(timerSeconds/60)}:${(timerSeconds%60).toString().padStart(2,0)}`;
+            const offset = 552.92 - ((timerSeconds/timerMax)*552.92);
+            document.getElementById('timerRing').style.strokeDashoffset = offset;
+        }, 1000);
+
+        document.getElementById('timerPlayBtn').onclick = () => {
+            isRunning = !isRunning;
+            document.getElementById('playIcon').setAttribute('data-lucide', isRunning ? 'pause' : 'play');
+            lucide.createIcons();
+        };
+
+        lucide.createIcons();
+        render();
     </script>
 </body>
 </html>
