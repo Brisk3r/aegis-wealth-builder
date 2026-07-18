@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SVG Optimizer Pro | Performance Utility</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Outfit', sans-serif; background: #0f172a; color: #f8fafc; }
+        .glass { background: rgba(30, 41, 59, 0.7); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.1); }
+        .gradient-text { background: linear-gradient(to right, #38bdf8, #818cf8); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .drop-zone { border: 2px dashed #475569; transition: all 0.3s ease; }
+        .drop-zone.active { border-color: #38bdf8; background: rgba(56, 189, 248, 0.1); border-style: solid; }
+        .file-item { transition: transform 0.2s; }
+        .file-item:hover { transform: translateY(-2px); }
+    </style>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4750454395006570" crossorigin="anonymous"></script>
+
+    <script defer src="/_vercel/insights/script.js"></script>
+
+    <link rel="icon" type="image/png" href="/static/logo.png">
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-BZVWXPPG06"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-BZVWXPPG06');
+    </script>
+
+    <script src="https://assets.lemonsqueezy.com/lemon.js" defer></script>
+</head>
+<body class="min-h-screen p-4 md:p-8">
+
+    <div class="navbar" style="display: flex; justify-content: space-between; align-items: center; padding: 20px 40px; border-bottom: 1px solid rgba(255,255,255,0.08); background: rgba(11, 15, 25, 0.7); backdrop-filter: blur(12px); position: sticky; top: 0; z-index: 100; font-family: 'Outfit', sans-serif;">
+        <a href="/" style="display: flex; align-items: center; gap: 10px; color: #f3f4f6; text-decoration: none; font-weight: 600;">
+            <img src="/static/logo.png" alt="Aegis Hub Logo" style="height: 30px;">
+            <span>Aegis Developer Hub</span>
+        </a>
+        <a href="/" style="color: #60a5fa; text-decoration: none; font-size: 0.95rem;">&larr; Back to Hub</a>
+    </div>
+    
+    <nav class="max-w-4xl mx-auto mb-8 py-4 px-6 glass rounded-2xl flex justify-between items-center">
+        <div class="font-bold text-xl tracking-tight">SVG<span class="text-blue-400">Opt</span></div>
+        <div class="text-xs text-slate-400 uppercase tracking-widest font-semibold">Production Tool v1.0</div>
+    </nav>
+
+    <main class="max-w-4xl mx-auto">
+        <header class="text-center mb-12">
+            <h1 class="text-4xl md:text-5xl font-bold mb-4 gradient-text">SVG Optimizer Pro</h1>
+            <p class="text-slate-400">Real-time vector minification for production performance.</p>
+        </header>
+
+        <section class="glass rounded-2xl p-6 md:p-10 shadow-2xl">
+            <div id="dropZone" class="drop-zone rounded-xl p-12 text-center cursor-pointer mb-8">
+                <svg class="w-16 h-16 mx-auto mb-4 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path></svg>
+                <p class="text-lg font-semibold">Drop SVG files to optimize</p>
+                <p class="text-slate-500 text-sm mt-1">Files are processed instantly in your browser</p>
+                <input type="file" id="fileInput" class="hidden" accept=".svg" multiple>
+            </div>
+
+            <div id="resultsArea" class="hidden space-y-4">
+                <div class="flex justify-between items-center border-b border-white/10 pb-4">
+                    <h2 class="text-xl font-bold">Optimization Queue</h2>
+                </div>
+                <div id="fileList" class="space-y-3"></div>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        const dropZone = document.getElementById('dropZone');
+        const fileInput = document.getElementById('fileInput');
+        const resultsArea = document.getElementById('resultsArea');
+        const fileList = document.getElementById('fileList');
+
+        /**
+         * Perform real, non-mocked SVG reduction
+         * Cleans meta-data, standardizes whitespace, and strips unnecessary attributes
+         */
+        function processSVG(svgString) {
+            let optimized = svgString;
+            
+            // Standard reduction steps
+            optimized = optimized.replace(/<!--[\s\S]*?-->/g, ''); // Comments
+            optimized = optimized.replace(/<!DOCTYPE[^>]*>/g, ''); // Doctype
+            optimized = optimized.replace(/<\?xml[^?]*\?>/g, ''); // XML header
+            optimized = optimized.replace(/\s+/g, ' '); // Extra spaces
+            optimized = optimized.replace(/>\s+</g, '><'); // Whitespaces between nodes
+            
+            // Remove common bloat attributes
+            optimized = optimized.replace(/(id|class|data-name|inkscape:[a-z]+|sodipodi:[a-z]+)="[^"]*"/g, '');
+            
+            return optimized.trim();
+        }
+
+        function handleFiles(files) {
+            resultsArea.classList.remove('hidden');
+            
+            Array.from(files).forEach(file => {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    const originalContent = e.target.result;
+                    const optimizedContent = processSVG(originalContent);
+                    
+                    const originalSize = new Blob([originalContent]).size;
+                    const optimizedSize = new Blob([optimizedContent]).size;
+                    const percent = (((originalSize - optimizedSize) / originalSize) * 100).toFixed(1);
+                    
+                    const item = document.createElement('div');
+                    item.className = 'file-item flex justify-between items-center bg-slate-900/50 p-4 rounded-lg border border-white/5';
+                    item.innerHTML = `
+                        <div>
+                            <p class="font-semibold text-sm truncate max-w-[200px]">${file.name}</p>
+                            <p class="text-xs text-slate-500">${(optimizedSize/1024).toFixed(2)} KB (saved ${percent}%)</p>
+                        </div>
+                        <button onclick="downloadFile('${btoa(optimizedContent)}', 'opt_${file.name}')" 
+                                class="text-blue-400 hover:text-blue-300 font-semibold text-sm">Download</button>
+                    `;
+                    fileList.appendChild(item);
+                };
+                reader.readAsText(file);
+            });
+        }
+
+        window.downloadFile = (base64, filename) => {
+            const link = document.createElement('a');
+            link.href = 'data:image/svg+xml;base64,' + base64;
+            link.download = filename;
+            link.click();
+        };
+
+        dropZone.addEventListener('click', () => fileInput.click());
+        fileInput.addEventListener('change', (e) => handleFiles(e.target.files));
+        
+        dropZone.addEventListener('dragover', (e) => { e.preventDefault(); dropZone.classList.add('active'); });
+        ['dragleave', 'drop'].forEach(evt => dropZone.addEventListener(evt, () => dropZone.classList.remove('active')));
+        
+        dropZone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            handleFiles(e.dataTransfer.files);
+        });
+    </script>
+</body>
+</html>
