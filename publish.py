@@ -27,7 +27,19 @@ TOOL_DESCRIPTIONS = {
     "JSON Formatter and Validator": "Interactive utility to validate, parse, format, and export structured JSON data with real-time syntax checking.",
     "SQL Query Formatter": "Client-side SQL formatting sandbox to clean, optimize, and beautify queries with custom indentation settings.",
     "Base64 Encoder Decoder": "Real-time client-side Base64 converter supporting text-to-base64, image-to-base64, and binary data translations.",
-    "Markdown Editor": "Compliance-ready Markdown editor (AuditTrailMD) featuring paragraph-level change history tracking and PDF export."
+    "Markdown Editor": "Compliance-ready Markdown editor (AuditTrailMD) featuring paragraph-level change history tracking and PDF export.",
+    "JWT Decoder and Debugger": "Paste any JSON Web Token to instantly decode its header, payload, and signature with expiration validation and claim inspection.",
+    "Cron Job Schedule Expression Generator": "Visual cron expression builder with human-readable schedule preview, next-run predictions, and copy-ready crontab output.",
+    "CSS Grid Layout Visual Generator": "Interactive CSS Grid sandbox with drag-to-resize tracks, named areas, and instant CSS/Tailwind code export.",
+    "URL Parser and Query Parameter Editor": "Decode, inspect, and edit URL components and query parameters in real-time with structured parameter table editing.",
+    "Diff Checker Side-by-Side Comparison Tool": "Side-by-side text diff comparison utility with inline change highlighting, line-level diffing, and merge conflict resolution.",
+    "OpenAPI Documentation Viewer": "Paste an OpenAPI spec (JSON/YAML) and instantly generate a beautiful, interactive API documentation dashboard in-browser.",
+    "Webhook Request Inspector": "Simulated local webhook endpoint that captures and displays incoming HTTP request headers and JSON payloads live on screen.",
+    "JSON to TypeScript Converter": "Convert raw JSON objects into TypeScript types, interfaces, or Zod validation schemas with a single click and clipboard export.",
+    "Code Screenshot Generator": "Paste code, select a syntax theme and gradient background, and download a beautiful padded snippet image for social sharing.",
+    "Code Snippet Generator": "Create and export syntax-highlighted code snippets with customizable themes, padding, and watermark-free image downloads.",
+    "DNS Record & SSL Certificate Inspector": "Look up DNS records (A, AAAA, MX, TXT, CNAME) and inspect SSL certificate details for any domain directly in-browser.",
+    "UUID, NanoID, and Snowflake String Generator": "Generate UUID v4, NanoID, and Snowflake IDs with configurable lengths, bulk generation, and one-click copy to clipboard."
 }
 
 AFFILIATE_DESCRIPTIONS = {

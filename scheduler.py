@@ -28,27 +28,88 @@ DEFAULT_TOPICS = [
     "UUID Guid Generator Tool"
 ]
 
+# Comprehensive registry: maps SEO-friendly topic name -> expected tool filename.
+# The scheduler scans the tools directory and builds the next tool for any registry
+# entry that doesn't have a matching file yet. Add new ideas here instead of
+# maintaining a separate list that gets exhausted.
+TOPIC_REGISTRY = {
+    # --- Already built (kept for reference) ---
+    "CSS Flexbox Cheat Sheet": "css_flexbox_cheat_sheet_tool.html",
+    "Developer Productivity": "developer_productivity_tool.html",
+    "Developer Tools": "developer_tools_tool.html",
+    "Color Wheel Tool": "color_wheel_tool.html",
+    "SaaS UI Boilerplate Exporter": "saas_ui_boilerplate_exporter_tool.html",
+    "Analytics Card Builder": "analytics_card_builder_tool.html",
+    "PDF Editor": "pdf_editor_tool.html",
+    "RegEx Tester Tool": "regex_tester_tool.html",
+    "SVG Path Editor": "svg_path_editor_tool.html",
+    "JSON Formatter and Validator": "json_formatter_and_validator_tool.html",
+    "SQL Query Formatter": "sql_query_formatter_tool.html",
+    "Markdown Editor": "markdown_editor_tool.html",
+    "Base64 Encoder Decoder": "base64_encoder_decoder_tool.html",
+    "JWT Decoder and Debugger": "jwt_decoder_and_debugger_tool.html",
+    "Cron Job Schedule Expression Generator": "cron_job_schedule_expression_generator_tool.html",
+    "CSS Grid Layout Visual Generator": "css_grid_layout_visual_generator_tool.html",
+    "URL Parser and Query Parameter Editor": "url_parser_and_query_parameter_editor_tool.html",
+    "Diff Checker Side-by-Side Comparison Tool": "diff_checker_side-by-side_comparison_tool.html",
+    "OpenAPI Documentation Viewer": "openapi_documentation_viewer_tool.html",
+    "Webhook Request Inspector": "webhook_request_inspector_tool.html",
+    "JSON to TypeScript Converter": "json_to_typescript_converter_tool.html",
+    "Code Screenshot Generator": "code_screenshot_generator_tool.html",
+    "Code Snippet Generator": "code_snippet_generator_tool.html",
+    "DNS Record and SSL Certificate Inspector": "dns_record_and_ssl_certificate_inspector_tool.html",
+    "UUID NanoID and Snowflake Generator": "uuid,_nanoid,_and_snowflake_string_generator_tool.html",
+    # --- New topics to build (gap targets) ---
+    "HTML Entity Encoder Decoder": "html_entity_encoder_decoder_tool.html",
+    "HTTP Header Inspector": "http_header_inspector_tool.html",
+    "JSON Schema Visual Generator": "json_schema_visual_generator_tool.html",
+    "SVG File Compressor and Optimizer": "svg_file_compressor_and_optimizer_tool.html",
+    "CSS Box Shadow Generator": "css_box_shadow_generator_tool.html",
+    "Lorem Ipsum Generator": "lorem_ipsum_generator_tool.html",
+    "Tailwind CSS Class Sorter": "tailwind_css_class_sorter_tool.html",
+    "Meta Tag Generator for SEO": "meta_tag_generator_for_seo_tool.html",
+    "Git Command Cheat Sheet": "git_command_cheat_sheet_tool.html",
+    "Responsive Breakpoint Tester": "responsive_breakpoint_tester_tool.html",
+    "JavaScript Event Keycode Finder": "javascript_event_keycode_finder_tool.html",
+    "Timestamp and Epoch Converter": "timestamp_and_epoch_converter_tool.html",
+    "YAML to JSON Converter": "yaml_to_json_converter_tool.html",
+    "Password Strength Checker": "password_strength_checker_tool.html",
+    "UTM Campaign Parameter Builder": "utm_campaign_parameter_builder_tool.html",
+    "Markdown Table Generator": "markdown_table_generator_tool.html",
+    "Favicon Generator from Text": "favicon_generator_from_text_tool.html",
+    "OG Image Preview Tester": "og_image_preview_tester_tool.html",
+    "CSV to JSON Converter": "csv_to_json_converter_tool.html",
+    "QR Code Generator": "qr_code_generator_tool.html",
+}
+
+IMPROVEMENT_RULES = """IMPROVEMENT RULES (you MUST follow these):
+1. Keep ALL existing features intact. Do not remove any working functionality.
+2. Keep the <title> tag and H1 heading exactly as they are.
+3. Do not apply flex centering styles (display:flex; align-items:center; justify-content:center; height:100vh) to the <body> tag.
+4. Use toast notifications, not alert() dialogs.
+5. Ensure the tool still does what its name says after your changes.
+6. The improved version must have MORE features than the original, never fewer."""
+
+
 IMPROVEMENT_PROMPTS = [
-    "Add a copy to clipboard toast and a download file button if they are missing or using basic alert popups. Add a clear button to wipe the workspaces. Ensure a premium glassmorphic layout is used.",
-    "Add one extra advanced setting or feature toggle to make the utility more powerful for senior developers.",
-    "Refine the visual spacing and margins to ensure the tool complies with layout guards. Do not squeeze the body flex properties.",
-    "Add keyboard shortcuts or quick action keys (e.g., Ctrl+Enter to run/format) to improve productivity.",
-    "Audit all inputs and outputs for potential scripting injection vectors and escape value strings appropriately."
+    f"{IMPROVEMENT_RULES}\n\nYOUR TASK: Add a copy to clipboard toast and a download file button if they are missing or using basic alert popups. Add a clear button to wipe the workspaces.",
+    f"{IMPROVEMENT_RULES}\n\nYOUR TASK: Add one extra advanced setting or feature toggle to make the utility more powerful for senior developers.",
+    f"{IMPROVEMENT_RULES}\n\nYOUR TASK: Refine the visual spacing and margins. Do not squeeze the body flex properties. Improve mobile responsiveness.",
+    f"{IMPROVEMENT_RULES}\n\nYOUR TASK: Add keyboard shortcuts (e.g., Ctrl+Enter to run/format, Escape to clear) to improve productivity.",
+    f"{IMPROVEMENT_RULES}\n\nYOUR TASK: Audit all inputs and outputs for potential scripting injection vectors and escape value strings appropriately."
 ]
 
 def get_next_new_topic() -> str:
-    """Finds the next topic in the default list that hasn't been built yet, or generates a random fallback."""
+    """Scans the TOPIC_REGISTRY for the first topic whose tool file doesn't exist yet."""
     tools_dir = config.BASE_DIR / "static" / "tools"
-    for topic in DEFAULT_TOPICS:
-        slug = topic.lower().replace(" ", "_")
-        filename = f"{slug}_tool.html"
-        if not (tools_dir / filename).exists():
+    for topic, expected_file in TOPIC_REGISTRY.items():
+        if not (tools_dir / expected_file).exists():
+            logger.info("Gap detected: '%s' (expected file: %s)", topic, expected_file)
             return topic
-            
-    # If all built, suggest a new one or return a random permutation
-    adjectives = ["Pro", "Interactive", "Visual", "Quick", "Smart"]
-    nouns = ["CSS Flexbox Grid", "Git Commands Cheat Sheet", "Markdown to HTML Editor", "Colors Palette Sandbox"]
-    return f"{random.choice(adjectives)} {random.choice(nouns)}"
+    
+    # All registry topics built — log clearly instead of generating random names
+    logger.warning("All %d topics in TOPIC_REGISTRY are built. Add new topics to the registry.", len(TOPIC_REGISTRY))
+    return ""
 
 async def wait_until(hour: int, minute: int, label: str):
     """Calculates time delay to next target hour/minute local time and sleeps."""
@@ -106,6 +167,9 @@ async def run_morning_research():
     
     load_env()
     topic = get_next_new_topic()
+    if not topic:
+        logger.info("No new topics to build. All registry entries fulfilled. Skipping morning run.")
+        return
     logger.info("Selected new topic for morning run: %s", topic)
     
     orchestrator = AegisOrchestrator()
