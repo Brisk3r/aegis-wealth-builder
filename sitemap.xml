@@ -187,6 +187,12 @@
         <priority>0.8</priority>
     </url>
     <url>
+        <loc>https://aegishub.dev/static/tools/css_box_shadow_generator_tool.html</loc>
+        <lastmod>2026-07-19</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
         <loc>https://aegishub.dev/static/articles/css_flexbox_cheat_sheet.html</loc>
         <lastmod>2026-07-19</lastmod>
         <changefreq>weekly</changefreq>
@@ -350,6 +356,12 @@
     </url>
     <url>
         <loc>https://aegishub.dev/static/articles/svg_file_compressor_and_optimizer.html</loc>
+        <lastmod>2026-07-19</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.7</priority>
+    </url>
+    <url>
+        <loc>https://aegishub.dev/static/articles/css_box_shadow_generator.html</loc>
         <lastmod>2026-07-19</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.7</priority>
