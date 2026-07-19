@@ -15,13 +15,13 @@ This document details where and how earnings are collected, how to configure the
   4. Payouts are made automatically once a week to your AU bank account or PayPal via Stripe Connect.
 * **Setup Action:** Complete the signup on the prepped Lemon Squeezy tab, verify your store, create your digital products (priced at $4.99, $9.99, and $29.00), and copy the checkout links.
 
-### B. Display Ad Revenue (Carbon Ads & EthicalAds)
+### B. Display Ad Revenue (EthicalAds)
 * **What it is:** Minimalist, contextual developer ads displayed in the hero section and at the bottom of pages.
 * **How it works:**
   1. Ad networks serve contextual, developer-related ads on your pages.
   2. Earnings accrue based on impressions (CPM) and clicks (CPC).
   3. Payouts are made monthly via direct deposit/wire or PayPal.
-* **Setup Action:** Submit your website (`https://aegis-wealth-builder.vercel.app/`) to Carbon Ads and EthicalAds on the prepped browser tabs. Once approved, copy the script source URL.
+* **Setup Action:** Submit your website (`https://aegis-wealth-builder.vercel.app/`) to EthicalAds on the prepped browser tabs. Once approved, copy the script source URL.
 
 ### C. Developer Referral & Affiliate Commissions
 * **DigitalOcean:** Earns **$25 cash** once a referred user spends $25. Accumulated payouts are sent to your bank/PayPal.
@@ -38,8 +38,6 @@ Once you have set up your accounts, open your local [.env](file:///C:/Users/avra
 # Custom domain canonical target
 AEGIS_CUSTOM_DOMAIN=aegisdev.com
 
-# Carbon Ads script source (e.g. //cdn.carbonads.com/carbon.js?serve=XXXXXX&placement=YYYYYY)
-CARBON_ADS_SRC=
 
 # Affiliate Links JSON dictionary
 AFFILIATE_LINKS_JSON='{

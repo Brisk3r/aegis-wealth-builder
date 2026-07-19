@@ -58,7 +58,7 @@ Based on the validated concept dataset within `developer_tools_tool.html`, here 
 ## 6. Next Session Focus: Complete Hub Monetization
 To complete the financial freedom mandate, the immediate priority for the next session is to fully launch the monetization layers on the Hub:
 1.  **Ad Networks Integration:**
-    *   Inject active script structures for **Carbon Ads** (targeted display ads for devs) and **Google AdSense** based on the environment configurations inside `config.py`.
+    *   Inject active script structures for **Google AdSense** and **EthicalAds** based on the environment configurations inside `config.py`.
 2.  **Affiliate Systems Routing:**
     *   Parse the `AFFILIATE_LINKS_JSON` key to inject contextual referral links for recommended hosting providers (e.g. Vercel, DigitalOcean) and developer products into blog post footers and tool sidebars.
 3.  **Payment Gateway Hookups:**

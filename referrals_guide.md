@@ -23,14 +23,7 @@ Lemon Squeezy acts as your **Merchant of Record** (MoR). They handle payment pro
 
 Display ads should be contextual and developer-focused. Avoid general networks (like AdSense) due to developer ad-blocker rates.
 
-### A. Carbon Ads
-* **Signup Portal:** [Carbon Ads Application](https://www.carbonads.net/join)
-* **Approval Criteria:**
-  * Requires a stable baseline of **10,000 to 20,000 monthly pageviews** (verified via dashboard screenshots).
-  * High-quality, English-language coding or tech design content.
-* **Payout Method:** Payouts are made monthly on a Net-30 basis via **PayPal** ($20 minimum payout) or **Direct Bank Wire** ($500 minimum payout).
-
-### B. EthicalAds
+### EthicalAds
 * **Signup Portal:** [EthicalAds Publishers](https://www.ethicalads.io/publishers/)
 * **Approval Criteria:**
   * Requires a baseline of **50,000 monthly pageviews** to apply.

@@ -43,7 +43,7 @@ Following each iteration, the static compiler processes the historical runs in `
 * **Index Compilation:** Re-builds the landing page index hub with dynamic card descriptions.
 * **Canonical URL Normalization:** Injects `<link rel="canonical" href="...">` pointing to your custom domain to optimize SEO indexing.
 * **Australian & Global Legal Compliance:** Injects Australian Privacy Principles (APPs), GDPR, and ASIC disclaimers into footers and disclosure sections.
-* **Affiliate & Ad Placement:** Automatically injects Carbon Ads script tags and a "Sponsored Developer Resources" grid dynamically populated from your `.env` settings.
+* **Affiliate & Ad Placement:** Automatically injects a "Sponsored Developer Resources" grid dynamically populated from your `.env` settings.
 * **Git Sync:** Commits and pushes the completed static pages to your remote repository, triggering an automatic Vercel production rebuild.
 
 ---
@@ -71,8 +71,6 @@ MODEL_BACKEND=gemini
 # Custom Domain canonical target
 AEGIS_CUSTOM_DOMAIN=aegisdev.com
 
-# Carbon Ads script source URL
-CARBON_ADS_SRC=
 
 # Affiliate Links JSON dictionary
 AFFILIATE_LINKS_JSON='{"digitalocean": "https://m.do.co/c/your-tag", "vercel": "https://vercel.com/v0", "hosting": "https://hostinger.com?referral=your-tag"}'

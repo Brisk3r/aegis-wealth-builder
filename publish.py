@@ -116,13 +116,7 @@ def simple_markdown_to_html(md_text: str) -> str:
 
 def generate_article_page(title: str, content_html: str, article_rel_path: str) -> str:
     ads_html = ""
-    if config.carbon_ads_src:
-        ads_html = f"""
-        <div style="margin-bottom: 30px;">
-            <script async type="text/javascript" src="{config.carbon_ads_src}" id="_carbonads_js"></script>
-        </div>
-        """
-    elif config.google_adsense_client and config.google_adsense_slot:
+    if config.google_adsense_client and config.google_adsense_slot:
         ads_html = f"""
         <div style="margin-bottom: 30px; text-align: center;">
             <ins class="adsbygoogle"
@@ -365,13 +359,7 @@ def generate_index_page(tools, articles) -> str:
         articles_list_html = "<p class='empty'>No articles published yet. Checking back soon!</p>"
 
     ads_html = ""
-    if config.carbon_ads_src:
-        ads_html = f"""
-        <div style="margin: 20px auto; max-width: 330px;">
-            <script async type="text/javascript" src="{config.carbon_ads_src}" id="_carbonads_js"></script>
-        </div>
-        """
-    elif config.google_adsense_client and config.google_adsense_slot:
+    if config.google_adsense_client and config.google_adsense_slot:
         ads_html = f"""
         <div style="margin: 30px auto 0 auto; max-width: 728px; text-align: center;">
             <ins class="adsbygoogle"

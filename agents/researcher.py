@@ -163,7 +163,7 @@ Our live search engine is currently rate-limited, so we have compiled this repor
 5. **"{seed_topic.lower()} playground code generator"** (Volume: ~800/mo, Difficulty: Low)
 
 ## 3. Top 3 Affiliate & Monetization Channels
-1. **Carbon Ads:** Contextual, non-intrusive display ads targeted specifically at frontend engineers.
+1. **EthicalAds:** Contextual, non-intrusive developer-focused display ads.
 2. **Vercel & DigitalOcean:** Cloud hosting referrals offering free credits for first-time builders.
 3. **Lemon Squeezy Digital Goods:** Premium boilerplates, cheatsheets, and CLI tools priced at $4.99 - $19.99.
 
