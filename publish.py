@@ -343,7 +343,7 @@ def get_category_for_tool(topic: str) -> str:
         return "ui"
     elif any(x in topic_lower for x in ["boilerplate", "regex", "json", "base64", "sql"]):
         return "code"
-    elif any(x in topic_lower for x in ["productivity", "tools", "pdf", "editor", "markdown"]):
+    elif any(x in topic_lower for x in ["productivity", "tools", "pdf", "editor", "markdown", "utm", "roas", "calculator", "timer", "parameter", "campaign"]):
         return "productivity"
     return "code"
 
@@ -353,7 +353,7 @@ def get_category_for_article(title: str) -> str:
         return "ui"
     elif any(x in title_lower for x in ["boilerplate", "regex", "json", "base64", "sql"]):
         return "code"
-    elif any(x in title_lower for x in ["productivity", "tools", "pdf", "editor", "markdown"]):
+    elif any(x in title_lower for x in ["productivity", "tools", "pdf", "editor", "markdown", "utm", "roas", "calculator", "timer", "parameter", "campaign"]):
         return "productivity"
     return "code"
 
@@ -871,6 +871,23 @@ def post_process_tool(tool_abs_path: Path, topic: str):
         return
         
     modified = False
+
+    # 0.5 Inject accessibility styles for dark theme inputs
+    accessibility_style = """
+    <style>
+        /* Global accessibility & dark theme input fixes */
+        input[type="text"], input[type="url"], input[type="number"], input[type="email"], input[type="password"], input[type="date"], select, textarea {
+            color: #f8fafc !important;
+        }
+        input::placeholder, textarea::placeholder {
+            color: #64748b !important;
+            opacity: 0.8 !important;
+        }
+    </style>
+    """
+    if "/* Global accessibility & dark theme input fixes */" not in html and "</head>" in html:
+        html = html.replace("</head>", f"{accessibility_style}\n</head>", 1)
+        modified = True
 
     # 1. Google AdSense client script injection
     if config.google_adsense_client:
