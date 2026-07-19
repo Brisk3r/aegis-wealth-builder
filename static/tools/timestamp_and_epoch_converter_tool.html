@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contextual Timestamp & Epoch Converter | Developer Utility</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Outfit:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        :root { --glass: rgba(30, 41, 59, 0.7); }
+        body { font-family: 'Inter', sans-serif; background: #0f172a; color: #f8fafc; min-height: 100vh; }
+        .glass { background: var(--glass); backdrop-filter: blur(16px); border: 1px solid rgba(255,255,255,0.1); border-radius: 1rem; }
+        h1, h2, h3 { font-family: 'Outfit', sans-serif; }
+        input, select { background: #0f172a !important; border: 1px solid #334155 !important; border-radius: 0.5rem !important; }
+        .tab-active { border-bottom: 2px solid #38bdf8; color: #38bdf8; }
+        .tab-inactive { color: #94a3b8; }
+        .tab-inactive:hover { color: #f8fafc; }
+    </style>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4750454395006570" crossorigin="anonymous"></script>
+
+    <script defer src="/_vercel/insights/script.js"></script>
+
+    <link rel="icon" type="image/png" href="/static/logo.png">
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-BZVWXPPG06"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-BZVWXPPG06');
+    </script>
+
+    <script src="https://assets.lemonsqueezy.com/lemon.js" defer></script>
+</head>
+<body class="p-4 md:p-8">
+
+    <div class="navbar" style="display: flex; justify-content: space-between; align-items: center; padding: 20px 40px; border-bottom: 1px solid rgba(255,255,255,0.08); background: rgba(11, 15, 25, 0.7); backdrop-filter: blur(12px); position: sticky; top: 0; z-index: 100; font-family: 'Outfit', sans-serif;">
+        <a href="/" style="display: flex; align-items: center; gap: 10px; color: #f3f4f6; text-decoration: none; font-weight: 600;">
+            <img src="/static/logo.png" alt="Aegis Hub Logo" style="height: 30px;">
+            <span>Aegis Developer Hub</span>
+        </a>
+        <a href="/" style="color: #60a5fa; text-decoration: none; font-size: 0.95rem;">&larr; Back to Hub</a>
+    </div>
+    
+
+<div class="max-w-4xl mx-auto">
+    <header class="mb-10 text-center">
+        <h1 class="text-4xl md:text-5xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-sky-400 to-indigo-500">Epoch & Timestamp Converter</h1>
+        <p class="text-slate-400">Precision conversion for DevOps and Data Engineering pipelines.</p>
+    </header>
+
+    <main class="glass p-6 md:p-8 shadow-2xl">
+        <nav class="flex gap-6 mb-8 border-b border-slate-700 pb-2">
+            <button onclick="switchTab('converter')" id="btn-converter" class="tab-active py-2 px-2 font-semibold transition">Live Converter</button>
+            <button onclick="switchTab('format')" id="btn-format" class="tab-inactive py-2 px-2 font-semibold transition">Dev Snippets</button>
+        </nav>
+
+        <section id="section-converter">
+            <div class="grid md:grid-cols-2 gap-6">
+                <div>
+                    <label class="block text-sm font-medium mb-2 text-slate-400">Timestamp Input</label>
+                    <input type="text" id="input-time" placeholder="e.g. 1752927323" class="w-full p-3 text-white outline-none focus:ring-2 focus:ring-sky-500 transition">
+                </div>
+                <div>
+                    <label class="block text-sm font-medium mb-2 text-slate-400">Output Timezone</label>
+                    <select id="tz-select" class="w-full p-3 outline-none focus:ring-2 focus:ring-sky-500 transition">
+                        <option value="UTC">UTC (Universal)</option>
+                        <option value="local">Local System</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="mt-8 p-6 bg-slate-950 rounded-xl border border-slate-800">
+                <div class="space-y-6">
+                    <div>
+                        <p class="text-xs uppercase tracking-widest text-slate-500 font-bold mb-1">Human Readable</p>
+                        <h3 id="res-human" class="text-2xl font-semibold text-white break-all">-</h3>
+                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <p class="text-xs uppercase tracking-widest text-slate-500 font-bold mb-1">ISO 8601</p>
+                            <code id="res-iso" class="text-sky-400 font-mono"> - </code>
+                        </div>
+                        <div>
+                             <p class="text-xs uppercase tracking-widest text-slate-500 font-bold mb-1">Seconds / Millis</p>
+                            <code id="res-math" class="text-slate-400 font-mono"> - </code>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="section-format" class="hidden">
+            <div class="space-y-4">
+                <div class="p-5 bg-slate-950 rounded-xl border border-slate-800">
+                    <p class="text-sm font-semibold text-sky-400 mb-2">Pandas (Python)</p>
+                    <code class="text-slate-300 text-sm">pd.to_datetime(data['ts'], unit='s')</code>
+                </div>
+                <div class="p-5 bg-slate-950 rounded-xl border border-slate-800">
+                    <p class="text-sm font-semibold text-sky-400 mb-2">Snowflake SQL</p>
+                    <code class="text-slate-300 text-sm">TO_TIMESTAMP(col_name) -- Expects epoch seconds</code>
+                </div>
+                <div class="p-5 bg-slate-950 rounded-xl border border-slate-800">
+                    <p class="text-sm font-semibold text-sky-400 mb-2">Excel/Google Sheets</p>
+                    <code class="text-slate-300 text-sm">= (A1 / 86400) + DATE(1970, 1, 1)</code>
+                </div>
+            </div>
+        </section>
+    </main>
+</div>
+
+<script>
+    const input = document.getElementById('input-time');
+    const resHuman = document.getElementById('res-human');
+    const resIso = document.getElementById('res-iso');
+    const resMath = document.getElementById('res-math');
+    const tzSelect = document.getElementById('tz-select');
+
+    function update() {
+        const val = input.value.trim();
+        if (!val) {
+            resHuman.innerText = "-";
+            resIso.innerText = "-";
+            resMath.innerText = "-";
+            return;
+        }
+
+        let date;
+        // Detect input format: Numeric epoch or ISO string
+        if (/^\d+$/.test(val)) {
+            // Handle both seconds and milliseconds
+            const ms = val.length > 12 ? parseInt(val) : parseInt(val) * 1000;
+            date = new Date(ms);
+        } else {
+            date = new Date(val);
+        }
+
+        if (isNaN(date.getTime())) {
+            resHuman.innerText = "Invalid Input";
+            resIso.innerText = "N/A";
+            resMath.innerText = "N/A";
+            return;
+        }
+
+        const useLocal = tzSelect.value === 'local';
+        resHuman.innerText = useLocal ? date.toLocaleString() : date.toUTCString();
+        resIso.innerText = date.toISOString();
+        resMath.innerText = date.getTime() + 'ms / ' + Math.floor(date.getTime()/1000) + 's';
+    }
+
+    input.addEventListener('input', update);
+    tzSelect.addEventListener('change', update);
+
+    function switchTab(tab) {
+        document.getElementById('section-converter').classList.toggle('hidden', tab !== 'converter');
+        document.getElementById('section-format').classList.toggle('hidden', tab !== 'format');
+        document.getElementById('btn-converter').classList.toggle('tab-active', tab === 'converter');
+        document.getElementById('btn-converter').classList.toggle('tab-inactive', tab !== 'converter');
+        document.getElementById('btn-format').classList.toggle('tab-active', tab === 'format');
+        document.getElementById('btn-format').classList.toggle('tab-inactive', tab !== 'format');
+    }
+
+    // Initialize with current time
+    input.value = Math.floor(Date.now() / 1000);
+    update();
+</script>
+</body>
+</html>
