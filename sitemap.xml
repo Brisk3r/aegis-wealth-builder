@@ -205,6 +205,12 @@
         <priority>0.8</priority>
     </url>
     <url>
+        <loc>https://aegishub.dev/static/tools/meta_tag_generator_for_seo_tool.html</loc>
+        <lastmod>2026-07-19</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
         <loc>https://aegishub.dev/static/articles/css_flexbox_cheat_sheet.html</loc>
         <lastmod>2026-07-19</lastmod>
         <changefreq>weekly</changefreq>
@@ -386,6 +392,12 @@
     </url>
     <url>
         <loc>https://aegishub.dev/static/articles/tailwind_css_class_sorter.html</loc>
+        <lastmod>2026-07-19</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.7</priority>
+    </url>
+    <url>
+        <loc>https://aegishub.dev/static/articles/meta_tag_generator_for_seo.html</loc>
         <lastmod>2026-07-19</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.7</priority>
