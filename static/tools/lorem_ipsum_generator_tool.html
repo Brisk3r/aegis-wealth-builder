@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contextual Content Placeholder Generator</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Outfit', sans-serif; background: #0c0f16; color: #e2e8f0; }
+        .glass { 
+            background: rgba(18, 24, 38, 0.6); 
+            backdrop-filter: blur(20px); 
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+        }
+        .gradient-text { background: linear-gradient(135deg, #38bdf8, #818cf8); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        textarea { resize: vertical; min-height: 240px; }
+        input, select, textarea { background: rgba(30, 41, 59, 0.5) !important; color: white !important; }
+        select option { background: #1e293b; color: white; }
+    </style>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4750454395006570" crossorigin="anonymous"></script>
+
+    <script defer src="/_vercel/insights/script.js"></script>
+
+    <link rel="icon" type="image/png" href="/static/logo.png">
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-BZVWXPPG06"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-BZVWXPPG06');
+    </script>
+
+    <script src="https://assets.lemonsqueezy.com/lemon.js" defer></script>
+</head>
+<body class="min-h-screen p-4 md:p-12">
+
+    <div class="navbar" style="display: flex; justify-content: space-between; align-items: center; padding: 20px 40px; border-bottom: 1px solid rgba(255,255,255,0.08); background: rgba(11, 15, 25, 0.7); backdrop-filter: blur(12px); position: sticky; top: 0; z-index: 100; font-family: 'Outfit', sans-serif;">
+        <a href="/" style="display: flex; align-items: center; gap: 10px; color: #f3f4f6; text-decoration: none; font-weight: 600;">
+            <img src="/static/logo.png" alt="Aegis Hub Logo" style="height: 30px;">
+            <span>Aegis Developer Hub</span>
+        </a>
+        <a href="/" style="color: #60a5fa; text-decoration: none; font-size: 0.95rem;">&larr; Back to Hub</a>
+    </div>
+    
+
+    <div class="max-w-5xl mx-auto">
+        <header class="mb-12 text-center md:text-left">
+            <h1 class="text-5xl font-bold mb-4 gradient-text">Contextual Content Generator</h1>
+            <p class="text-slate-400 text-lg">Generate industry-specific placeholder text for high-fidelity wireframes.</p>
+        </header>
+
+        <main class="grid md:grid-cols-3 gap-8">
+            <section class="md:col-span-1 glass p-8 rounded-3xl">
+                <div class="space-y-6">
+                    <div>
+                        <label class="block text-sm font-semibold mb-2 text-slate-400 uppercase tracking-wider">Industry Niche</label>
+                        <select id="niche" class="w-full border border-slate-700/50 rounded-xl p-4 outline-none focus:ring-2 focus:ring-sky-500/50 transition">
+                            <option value="medical">Medical Dashboard</option>
+                            <option value="ecommerce">E-commerce Product</option>
+                            <option value="legal">Legal Document</option>
+                            <option value="fintech">Fintech App</option>
+                            <option value="saas">SaaS Landing Page</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-semibold mb-2 text-slate-400 uppercase tracking-wider">Paragraph Count</label>
+                        <input type="number" id="count" value="3" min="1" max="20" class="w-full border border-slate-700/50 rounded-xl p-4 outline-none focus:ring-2 focus:ring-sky-500/50 transition">
+                    </div>
+                    <button onclick="generateText()" class="w-full bg-sky-600 hover:bg-sky-500 text-white font-bold py-4 rounded-xl transition duration-300 shadow-xl shadow-sky-900/20 active:scale-[0.98]">Generate Content</button>
+                    <button onclick="copyToClipboard()" class="w-full bg-slate-800 hover:bg-slate-700 text-slate-300 font-medium py-4 rounded-xl transition active:scale-[0.98]">Copy to Clipboard</button>
+                </div>
+            </section>
+
+            <section class="md:col-span-2 glass p-8 rounded-3xl">
+                <textarea id="output" readonly class="w-full h-full border-none outline-none text-slate-200 leading-relaxed text-sm md:text-base font-light"></textarea>
+            </section>
+        </main>
+    </div>
+
+    <script>
+        const contentLibrary = {
+            medical: [
+                "Patient Vitals: Heart rate stable at 72 bpm. O2 saturation at 98%. Observed slight arrhythmias in the late morning shift, currently being monitored under protocol B-12.",
+                "EHR Update: Medical records for accession #4492-X have been updated. Ensure the radiology department is notified of the pending MRI scan scheduled for 14:00.",
+                "Treatment Plan: Initiate standard post-operative recovery checklist. Check inflammation markers every 4 hours and adjust dosage per the Attending Physician's latest assessment.",
+                "Clinical Notes: Patient demonstrates improved range of motion in the right shoulder after therapeutic intervention. Schedule follow-up physical therapy for Tuesday next week."
+            ],
+            ecommerce: [
+                "Product Specs: Crafted from premium 100% organic cotton, this item features moisture-wicking technology and reinforced stitching for maximum durability in high-intensity activities.",
+                "Shipping & Returns: Orders are processed within 24 hours. We offer a 30-day hassle-free return policy if packaging remains unopened. Track your shipment via the link provided in your confirmation email.",
+                "Dynamic Price Adjustment: Current market price reflects a 15% discount for early adopters. Apply code 'SAVINGS20' at checkout for additional platform-wide benefits.",
+                "Customer Review: Verified buyer noted that the sizing fits true to form, with particular praise for the vibrant color fastness after multiple wash cycles."
+            ],
+            legal: [
+                "Article IV, Section 2: Parties agree to binding arbitration for any disputes arising from this contract. Venue shall be strictly limited to the jurisdiction defined in the primary agreement.",
+                "Confidentiality Clause: All proprietary information, including but not limited to trade secrets and source code, must be kept secure for a period of no less than five years post-termination.",
+                "Liability Waiver: The Service Provider assumes no responsibility for consequential or incidental damages caused by third-party vendor failure within the integration infrastructure.",
+                "Indemnification: Client agrees to hold the provider harmless from any claims arising from misuse of the platform outside of the defined Acceptable Use Policy."
+            ],
+            fintech: [
+                "Transaction Settlement: Your ACH transfer request for $4,500.00 is currently pending verification. Expect funds in your primary account by EOD Wednesday.",
+                "Portfolio Analytics: Your asset allocation has shifted slightly towards high-yield ETF positions over the last 30 days, resulting in a net gain of 2.4% against the benchmark index.",
+                "Security Alert: A login attempt was detected from an unrecognized IP address located in a different geolocation. Please review your active devices and update your MFA configuration immediately.",
+                "Market Insight: Inflation expectations for the coming quarter have normalized, suggesting a stable outlook for core asset classes within your diversified portfolio."
+            ],
+            saas: [
+                "Value Proposition: Stop wasting time on repetitive workflows. Our AI-powered automation engine integrates seamlessly with your current stack, reducing manual task delegation by 60%.",
+                "Pricing Tiers: Choose the Professional Plan to unlock team-wide collaboration features, custom reporting hooks, and priority 24/7 support. Scale your operations without increasing headcount.",
+                "Onboarding: Get started in under 3 minutes with our intuitive dashboard. Import your existing project data via CSV, API, or direct cloud synchronization.",
+                "Technical Support: Our documentation portal provides exhaustive API references and SDK integration guides to ensure your development team hits the ground running."
+            ]
+        };
+
+        function generateText() {
+            const niche = document.getElementById('niche').value;
+            const count = parseInt(document.getElementById('count').value);
+            const array = contentLibrary[niche];
+            let result = "";
+
+            for (let i = 0; i < count; i++) {
+                result += array[i % array.length] + "\n\n";
+            }
+
+            document.getElementById('output').value = result.trim();
+        }
+
+        async function copyToClipboard() {
+            const output = document.getElementById('output');
+            if (!output.value) return;
+            try {
+                await navigator.clipboard.writeText(output.value);
+                alert("Copied to clipboard!");
+            } catch (err) {
+                console.error('Failed to copy: ', err);
+            }
+        }
+
+        // Initialize display
+        generateText();
+    </script>
+</body>
+</html>
