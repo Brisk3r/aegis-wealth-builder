@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GitFlow Wizard | Contextual Command Generator</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Outfit:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { 
+            font-family: 'Inter', sans-serif; 
+            background: #05060f; 
+            color: #f8fafc; 
+            background-image: radial-gradient(circle at 50% -20%, #1e293b, #05060f);
+        }
+        .glass { 
+            background: rgba(15, 23, 42, 0.6); 
+            backdrop-filter: blur(20px); 
+            border: 1px solid rgba(255,255,255,0.08); 
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        }
+        .command-box { font-family: 'JetBrains Mono', 'Courier New', monospace; }
+        .gradient-text { background: linear-gradient(to right, #38bdf8, #818cf8); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .nav-link { transition: all 0.3s ease; }
+    </style>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4750454395006570" crossorigin="anonymous"></script>
+
+    <script defer src="/_vercel/insights/script.js"></script>
+
+    <link rel="icon" type="image/png" href="/static/logo.png">
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-BZVWXPPG06"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-BZVWXPPG06');
+    </script>
+
+    <script src="https://assets.lemonsqueezy.com/lemon.js" defer></script>
+</head>
+<body class="min-h-screen flex flex-col items-center p-6">
+
+    <div class="navbar" style="display: flex; justify-content: space-between; align-items: center; padding: 20px 40px; border-bottom: 1px solid rgba(255,255,255,0.08); background: rgba(11, 15, 25, 0.7); backdrop-filter: blur(12px); position: sticky; top: 0; z-index: 100; font-family: 'Outfit', sans-serif;">
+        <a href="/" style="display: flex; align-items: center; gap: 10px; color: #f3f4f6; text-decoration: none; font-weight: 600;">
+            <img src="/static/logo.png" alt="Aegis Hub Logo" style="height: 30px;">
+            <span>Aegis Developer Hub</span>
+        </a>
+        <a href="/" style="color: #60a5fa; text-decoration: none; font-size: 0.95rem;">&larr; Back to Hub</a>
+    </div>
+    
+
+    <nav class="w-full max-w-4xl flex justify-between items-center py-6 mb-12">
+        <div class="text-2xl font-['Outfit'] font-bold tracking-tight">GitFlow<span class="text-sky-500">Wizard</span></div>
+        <div class="flex gap-6 text-sm font-medium text-slate-400">
+            <a href="#" class="hover:text-white nav-link">Workflows</a>
+            <a href="#" class="hover:text-white nav-link">Integration</a>
+            <a href="#" class="hover:text-white nav-link">Docs</a>
+        </div>
+    </nav>
+
+<main class="max-w-xl w-full">
+    <div id="app" class="glass rounded-3xl p-8 transition-all duration-500">
+        <div id="step-container">
+            <h2 id="question" class="text-2xl font-bold font-['Outfit'] mb-8">What are you trying to achieve today?</h2>
+            <div id="options" class="grid gap-4"></div>
+        </div>
+
+        <div id="result-container" class="hidden animate-in fade-in zoom-in duration-300">
+            <h2 class="text-xl font-semibold mb-4 text-emerald-400 font-['Outfit']">Your Execution Plan</h2>
+            <div class="command-box bg-slate-950 p-6 rounded-xl border border-slate-700 mb-6 shadow-inner text-sm overflow-x-auto">
+                <pre id="command-output" class="text-sky-300 whitespace-pre-wrap"></pre>
+            </div>
+            <div class="flex gap-4">
+                <button onclick="copyToClipboard()" class="flex-1 bg-white text-slate-900 hover:bg-slate-200 font-semibold py-3 rounded-lg transition duration-200 shadow-lg">Copy Commands</button>
+                <button onclick="resetTool()" class="px-6 border border-slate-700 hover:bg-slate-800 rounded-lg transition">Restart</button>
+            </div>
+        </div>
+    </div>
+</main>
+
+<script>
+    const scenarios = {
+        main: {
+            question: "Choose your Git workflow challenge:",
+            options: [
+                { text: "Fix a botched merge commit", next: "merge_fix" },
+                { text: "Sync my repository (Submodules/Remotes)", next: "sync" },
+                { text: "Prepare a new project configuration", next: "setup" }
+            ]
+        },
+        merge_fix: {
+            question: "How do you want to handle the bad merge?",
+            options: [
+                { text: "Revert the entire merge commit", command: "# Find the merge commit hash first\ngit log --oneline\n# Revert the merge\ngit revert -m 1 <commit-hash>" },
+                { text: "Hard reset local (Destructive)", command: "# Only use if no one else has pulled your branch\ngit reset --hard HEAD~1" }
+            ]
+        },
+        sync: {
+            question: "What needs syncing?",
+            options: [
+                { text: "Update recursive submodules", command: "git submodule update --init --recursive --remote" },
+                { text: "Fetch & prune stale branches", command: "git fetch --prune origin && git remote prune origin" }
+            ]
+        },
+        setup: {
+            question: "Select your project environment:",
+            options: [
+                { text: "Python + AWS/Terraform", command: "# Generate standard ignore files\necho 'node_modules/\n*.pyc\n.terraform/\n*.tfstate*\n.env' > .gitignore\n# Initialize repo\ngit init\ngit add .\ngit commit -m 'Initial commit'" },
+                { text: "Kubernetes/DevOps Repo", command: "# Strict ignore for K8s sensitive data\necho '.secrets/*\n*.key\n*.pem\n*.tfstate' > .gitignore\ngit init\ngit checkout -b main" }
+            ]
+        }
+    };
+
+    function render(key) {
+        const data = scenarios[key];
+        const container = document.getElementById('options');
+        document.getElementById('question').innerText = data.question;
+        container.innerHTML = '';
+        
+        data.options.forEach(opt => {
+            const btn = document.createElement('button');
+            btn.className = "w-full text-left p-5 bg-slate-800/50 hover:bg-sky-900/30 hover:border-sky-500/50 rounded-xl transition-all border border-slate-700";
+            btn.innerHTML = `<span class="block font-medium">${opt.text}</span>`;
+            btn.onclick = () => {
+                if (opt.command) {
+                    showResult(opt.command);
+                } else {
+                    render(opt.next);
+                }
+            };
+            container.appendChild(btn);
+        });
+    }
+
+    function showResult(cmd) {
+        document.getElementById('step-container').classList.add('hidden');
+        document.getElementById('result-container').classList.remove('hidden');
+        document.getElementById('command-output').innerText = cmd;
+    }
+
+    function copyToClipboard() {
+        const cmd = document.getElementById('command-output').innerText;
+        navigator.clipboard.writeText(cmd).then(() => {
+            const btn = event.target;
+            const originalText = btn.innerText;
+            btn.innerText = "✓ Copied!";
+            setTimeout(() => btn.innerText = originalText, 2000);
+        });
+    }
+
+    function resetTool() {
+        document.getElementById('step-container').classList.remove('hidden');
+        document.getElementById('result-container').classList.add('hidden');
+        render('main');
+    }
+
+    render('main');
+</script>
+</body>
+</html>
