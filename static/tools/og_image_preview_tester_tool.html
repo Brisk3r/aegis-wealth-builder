@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OG Card Studio | Professional Social Image Generator</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Outfit', sans-serif; background: #020617; color: #f1f5f9; }
+        .glass { background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(16px); border: 1px solid rgba(255,255,255,0.08); }
+        .gradient-text { background: linear-gradient(135deg, #38bdf8 0%, #818cf8 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .canvas-container { background: #0f172a; border-radius: 12px; overflow: hidden; border: 1px solid rgba(255,255,255,0.05); }
+        #renderCanvas { width: 100%; height: auto; touch-action: none; }
+        input, select { transition: all 0.2s; }
+        input:focus, select:focus { border-color: #38bdf8; box-shadow: 0 0 0 2px rgba(56, 189, 248, 0.2); }
+    </style>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4750454395006570" crossorigin="anonymous"></script>
+
+    <script defer src="/_vercel/insights/script.js"></script>
+
+    <link rel="icon" type="image/png" href="/static/logo.png">
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-BZVWXPPG06"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-BZVWXPPG06');
+    </script>
+
+    <script src="https://assets.lemonsqueezy.com/lemon.js" defer></script>
+</head>
+<body class="min-h-screen">
+
+    <div class="navbar" style="display: flex; justify-content: space-between; align-items: center; padding: 20px 40px; border-bottom: 1px solid rgba(255,255,255,0.08); background: rgba(11, 15, 25, 0.7); backdrop-filter: blur(12px); position: sticky; top: 0; z-index: 100; font-family: 'Outfit', sans-serif;">
+        <a href="/" style="display: flex; align-items: center; gap: 10px; color: #f3f4f6; text-decoration: none; font-weight: 600;">
+            <img src="/static/logo.png" alt="Aegis Hub Logo" style="height: 30px;">
+            <span>Aegis Developer Hub</span>
+        </a>
+        <a href="/" style="color: #60a5fa; text-decoration: none; font-size: 0.95rem;">&larr; Back to Hub</a>
+    </div>
+    
+
+    <nav class="glass sticky top-0 z-50 border-b border-white/5 px-6 py-4 flex items-center justify-between">
+        <div class="text-xl font-bold tracking-tight">OG<span class="text-indigo-500">Studio</span></div>
+        <div class="text-sm text-slate-400">Professional Generation Suite</div>
+    </nav>
+
+    <main class="max-w-6xl mx-auto p-4 md:p-8">
+        <header class="mb-12">
+            <h1 class="text-3xl md:text-5xl font-extrabold mb-4 gradient-text">Dynamic Social Card Generator</h1>
+            <p class="text-slate-400 max-w-xl">Create programmatically-accurate social preview images. Real-time rendering engine, zero dependencies.</p>
+        </header>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <section class="glass p-8 rounded-3xl">
+                <h2 class="text-lg font-semibold mb-6 text-white flex items-center">
+                    <span class="w-1.5 h-6 bg-indigo-500 rounded-full mr-3"></span>Configuration
+                </h2>
+                <div class="space-y-6">
+                    <div>
+                        <label class="block text-xs uppercase tracking-wider text-slate-500 font-bold mb-2">Card Title</label>
+                        <input type="text" id="inTitle" value="Building the Future" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-4 text-white outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-xs uppercase tracking-wider text-slate-500 font-bold mb-2">Subtitle</label>
+                        <input type="text" id="inSub" value="High-converting social automation at scale." class="w-full bg-slate-950 border border-slate-800 rounded-xl p-4 text-white outline-none">
+                    </div>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-xs uppercase tracking-wider text-slate-500 font-bold mb-2">Accent Color</label>
+                            <input type="color" id="inColor" value="#38bdf8" class="w-full h-14 bg-slate-950 border border-slate-800 rounded-xl cursor-pointer">
+                        </div>
+                        <div>
+                            <label class="block text-xs uppercase tracking-wider text-slate-500 font-bold mb-2">Dimensions</label>
+                            <select id="inSize" class="w-full h-14 bg-slate-950 border border-slate-800 rounded-xl p-4 text-white outline-none">
+                                <option value="1200x630">1200x630 (OG)</option>
+                                <option value="1600x900">1600x900 (High Res)</option>
+                            </select>
+                        </div>
+                    </div>
+                    <button id="btnDownload" class="w-full h-14 bg-white text-slate-950 font-bold rounded-xl hover:bg-indigo-400 transition-all shadow-lg hover:shadow-indigo-500/25">
+                        Download PNG Asset
+                    </button>
+                </div>
+            </section>
+
+            <section class="flex flex-col gap-6">
+                <div class="canvas-container shadow-2xl">
+                    <canvas id="renderCanvas" width="1200" height="630"></canvas>
+                </div>
+                <div class="glass p-6 rounded-2xl flex justify-between items-center text-sm">
+                    <span class="text-slate-400">Rendering Engine Status</span>
+                    <span id="statText" class="text-green-400 font-semibold">Active: Pixel-Perfect</span>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <script>
+        const canvas = document.getElementById('renderCanvas');
+        const ctx = canvas.getContext('2d', { alpha: false });
+        
+        const draw = () => {
+            const title = document.getElementById('inTitle').value;
+            const subtitle = document.getElementById('inSub').value;
+            const color = document.getElementById('inColor').value;
+            
+            // Draw background
+            ctx.fillStyle = '#020617';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            // Draw accent box
+            ctx.fillStyle = color;
+            ctx.fillRect(0, 0, canvas.width * 0.02, canvas.height);
+            
+            // Draw text elements
+            ctx.fillStyle = '#ffffff';
+            ctx.font = `600 ${canvas.width * 0.06}px 'Outfit', sans-serif`;
+            ctx.fillText(title, canvas.width * 0.1, canvas.height * 0.4);
+            
+            ctx.fillStyle = '#94a3b8';
+            ctx.font = `300 ${canvas.width * 0.03}px 'Outfit', sans-serif`;
+            ctx.fillText(subtitle, canvas.width * 0.1, canvas.height * 0.52);
+            
+            // Draw branding label
+            ctx.fillStyle = '#334155';
+            ctx.font = `400 ${canvas.width * 0.015}px 'Outfit', sans-serif`;
+            ctx.fillText('OPTIMIZED BY OG STUDIO API', canvas.width * 0.1, canvas.height * 0.9);
+        };
+
+        // Event Listeners for real-time reactivity
+        ['inTitle', 'inSub', 'inColor'].forEach(id => {
+            document.getElementById(id).addEventListener('input', draw);
+        });
+
+        document.getElementById('inSize').addEventListener('change', (e) => {
+            const [w, h] = e.target.value.split('x');
+            canvas.width = parseInt(w);
+            canvas.height = parseInt(h);
+            draw();
+        });
+
+        // Functional download
+        document.getElementById('btnDownload').addEventListener('click', () => {
+            const link = document.createElement('a');
+            link.download = `og_card_${Date.now()}.png`;
+            link.href = canvas.toDataURL('image/png');
+            link.click();
+        });
+
+        // Initialize canvas
+        draw();
+    </script>
+</body>
+</html>
