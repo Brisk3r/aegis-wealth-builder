@@ -3,51 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Advanced Flexbox Playground - Aegis Hub</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
-    <script src="https://cdn.tailwindcss.com"></script>
+    <title>CSS Flexbox Cheat Sheet</title>
     <style>
-        :root {
-            --bg-color: #0b0f19;
-            --card-bg: rgba(255, 255, 255, 0.03);
-            --border-color: rgba(255, 255, 255, 0.08);
-            --primary-accent: #3b82f6;
-            --secondary-accent: #60a5fa;
-            --text-main: #f3f4f6;
-            --text-muted: #9ca3af;
+        body { font-family: 'Arial', sans-serif; margin: 20px; padding: 0; background-color: #f4f4f9; color: #333; }
+        h1 { text-align: center; color: #55acee; }
+        .container { display: flex; flex-wrap: wrap; gap: 20px; justify-content: center; }
+        .item { background-color: #fff; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); padding: 20px; width: calc(33.33% - 20px); text-align: center; transition: transform 0.2s; }
+        .item:hover { transform: scale(1.05); }
+        .property { font-weight: bold; margin-bottom: 8px; color: #ff6b6b; }
+        .value { color: #4caf50; }
+    </style>
+
+    <style>
+        /* Global accessibility & dark theme input fixes */
+        input[type="text"], input[type="url"], input[type="number"], input[type="email"], input[type="password"], input[type="date"], select, textarea {
+            color: #f8fafc !important;
         }
-        body { 
-            background-color: var(--bg-color); 
-            color: var(--text-main); 
-            font-family: 'Inter', sans-serif; 
-        }
-        .glass { 
-            background: var(--card-bg); 
-            border: 1px solid var(--border-color); 
-            backdrop-filter: blur(12px); 
-        }
-        .btn-option { 
-            transition: all 0.2s; 
-            border: 1px solid var(--border-color); 
-        }
-        .btn-option.active { 
-            background: var(--primary-accent); 
-            border-color: var(--primary-accent); 
-            color: white; 
-        }
-        .toast {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            padding: 12px 24px;
-            background: #10b981;
-            color: white;
-            border-radius: 8px;
-            transform: translateY(100px);
-            transition: transform 0.3s;
-            z-index: 1000;
+        input::placeholder, textarea::placeholder {
+            color: #64748b !important;
+            opacity: 0.8 !important;
         }
     </style>
+    
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4750454395006570" crossorigin="anonymous"></script>
 
     <script defer src="/_vercel/insights/script.js"></script>
@@ -65,19 +42,26 @@
 
     <script src="https://assets.lemonsqueezy.com/lemon.js" defer></script>
 
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
     <style>
-        /* Global accessibility & dark theme input fixes */
-        input[type="text"], input[type="url"], input[type="number"], input[type="email"], input[type="password"], input[type="date"], select, textarea {
-            color: #f8fafc !important;
+        :root {
+            --bg-color: #0b0f19;
+            --card-bg: rgba(255, 255, 255, 0.03);
+            --border-color: rgba(255, 255, 255, 0.08);
+            --primary-accent: #3b82f6;
+            --secondary-accent: #60a5fa;
+            --text-main: #f3f4f6;
+            --text-muted: #9ca3af;
         }
-        input::placeholder, textarea::placeholder {
-            color: #64748b !important;
-            opacity: 0.8 !important;
+        body {
+            background-color: var(--bg-color) !important;
+            color: var(--text-main) !important;
+            font-family: 'Outfit', sans-serif !important;
         }
     </style>
-    
+
 </head>
-<body class="min-h-screen py-8">
+<body>
 
     <div class="navbar" style="display: flex; justify-content: space-between; align-items: center; padding: 20px 40px; border-bottom: 1px solid rgba(255,255,255,0.08); background: rgba(11, 15, 25, 0.75); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); position: sticky; top: 0; z-index: 100; font-family: 'Outfit', sans-serif;">
         <a href="/" style="display: flex; align-items: center; gap: 10px; color: #f3f4f6; text-decoration: none; font-weight: 600;">
@@ -87,185 +71,36 @@
         <a href="/" style="color: #60a5fa; text-decoration: none; font-size: 0.95rem; font-weight: 500;">&larr; Back to Hub</a>
     </div>
     
-
-    
-    
-
-    
-    
-
-    
-    
-
-    
-    
-
-    <div class="max-w-6xl mx-auto px-6">
-        
-
-        <div class="grid lg:grid-cols-[380px,1fr] gap-8">
-            <div class="glass p-6 rounded-2xl h-fit border transition hover:border-blue-500/30">
-                <h2 class="text-lg font-semibold text-blue-400 mb-6 border-b border-white/5 pb-2">Properties</h2>
-                
-                <div class="space-y-6">
-                    <div>
-                        <label class="block text-[0.8rem] text-gray-400 font-bold uppercase tracking-wider mb-3">flex-direction</label>
-                        <div class="grid grid-cols-2 gap-2" id="dir-group">
-                            <button class="btn-option text-[0.8rem] rounded-lg p-2 active" onclick="setFlex('flex-direction', 'row', this)">row</button>
-                            <button class="btn-option text-[0.8rem] rounded-lg p-2" onclick="setFlex('flex-direction', 'column', this)">column</button>
-                            <button class="btn-option text-[0.8rem] rounded-lg p-2" onclick="setFlex('flex-direction', 'row-reverse', this)">row-rev</button>
-                            <button class="btn-option text-[0.8rem] rounded-lg p-2" onclick="setFlex('flex-direction', 'column-reverse', this)">col-rev</button>
-                        </div>
-                    </div>
-                    
-                    <div>
-                        <label class="block text-[0.8rem] text-gray-400 font-bold uppercase tracking-wider mb-3">justify-content</label>
-                        <div class="grid grid-cols-2 gap-2" id="justify-group">
-                            <button class="btn-option text-[0.8rem] rounded-lg p-2 active" onclick="setFlex('justify-content', 'flex-start', this)">flex-start</button>
-                            <button class="btn-option text-[0.8rem] rounded-lg p-2" onclick="setFlex('justify-content', 'flex-end', this)">flex-end</button>
-                            <button class="btn-option text-[0.8rem] rounded-lg p-2" onclick="setFlex('justify-content', 'center', this)">center</button>
-                            <button class="btn-option text-[0.8rem] rounded-lg p-2" onclick="setFlex('justify-content', 'space-between', this)">space-between</button>
-                        </div>
-                    </div>
-
-                    <div>
-                        <label class="block text-[0.8rem] text-gray-400 font-bold uppercase tracking-wider mb-3">align-items</label>
-                        <div class="grid grid-cols-2 gap-2" id="align-group">
-                            <button class="btn-option text-[0.8rem] rounded-lg p-2 active" onclick="setFlex('align-items', 'stretch', this)">stretch</button>
-                            <button class="btn-option text-[0.8rem] rounded-lg p-2" onclick="setFlex('align-items', 'center', this)">center</button>
-                            <button class="btn-option text-[0.8rem] rounded-lg p-2" onclick="setFlex('align-items', 'flex-start', this)">flex-start</button>
-                            <button class="btn-option text-[0.8rem] rounded-lg p-2" onclick="setFlex('align-items', 'flex-end', this)">flex-end</button>
-                        </div>
-                    </div>
-                    
-                    <div class="pt-4 border-t border-white/5">
-                        <label class="block text-[0.8rem] text-gray-400 font-bold uppercase tracking-wider mb-3">Item Count</label>
-                        <input type="range" min="1" max="8" value="4" class="w-full h-2 bg-gray-700 rounded-lg appearance-none cursor-pointer" oninput="updateItems(this.value)">
-                    </div>
-                </div>
-            </div>
-
-            <div class="space-y-6">
-                <div class="glass min-h-[400px] p-6 rounded-2xl flex border relative overflow-hidden" id="sandbox">
-                    <div class="w-20 h-20 bg-blue-500 rounded-lg flex items-center justify-center font-bold shadow-lg shadow-blue-500/20">1</div>
-                    <div class="w-20 h-24 bg-blue-600 rounded-lg flex items-center justify-center font-bold shadow-lg shadow-blue-600/20">2</div>
-                    <div class="w-20 h-16 bg-blue-400 rounded-lg flex items-center justify-center font-bold shadow-lg shadow-blue-400/20">3</div>
-                    <div class="w-20 h-20 bg-blue-700 rounded-lg flex items-center justify-center font-bold shadow-lg shadow-blue-700/20">4</div>
-                </div>
-
-                <div class="glass p-6 rounded-2xl relative">
-                    <pre class="text-emerald-400 font-mono text-sm overflow-x-auto mb-4" id="css-text">.container {
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-  align-items: stretch;
-}</pre>
-                    <div class="flex gap-3">
-                        <button onclick="copyCSS()" class="bg-white/5 hover:bg-white/10 px-4 py-2 rounded-lg text-sm transition">Copy CSS</button>
-                        <button onclick="downloadCSS()" class="bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded-lg text-sm transition font-semibold">Download .css</button>
-                    </div>
-                </div>
-            </div>
+    <h1>CSS Flexbox Cheat Sheet</h1>
+    <div class="container">
+        <div class="item">
+            <div class="property">display:</div>
+            <div class="value">flex | inline-flex</div>
+        </div>
+        <div class="item">
+            <div class="property">justify-content:</div>
+            <div class="value">flex-start | flex-end | center | space-between | space-around | space-evenly</div>
+        </div>
+        <div class="item">
+            <div class="property">align-items:</div>
+            <div class="value">stretch | flex-start | flex-end | center | baseline</div>
+        </div>
+        <div class="item">
+            <div class="property">flex-direction:</div>
+            <div class="value">row | row-reverse | column | column-reverse</div>
+        </div>
+        <div class="item">
+            <div class="property">align-content:</div>
+            <div class="value">stretch | flex-start | flex-end | center | space-between | space-around | space-evenly</div>
+        </div>
+        <div class="item">
+            <div class="property">flex-wrap:</div>
+            <div class="value">nowrap | wrap | wrap-reverse</div>
         </div>
     </div>
-
-    <div id="toast" class="toast">Copied to clipboard!</div>
-
     <script>
-        const state = { 'flex-direction': 'row', 'justify-content': 'flex-start', 'align-items': 'stretch' };
-        
-        function setFlex(prop, val, btn) {
-            Array.from(btn.parentElement.children).forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-            state[prop] = val;
-            const sandbox = document.getElementById('sandbox');
-            sandbox.style[prop] = val;
-            updateCSS();
-        }
-
-        function updateItems(num) {
-            const sandbox = document.getElementById('sandbox');
-            sandbox.innerHTML = '';
-            for(let i=1; i<=num; i++) {
-                const div = document.createElement('div');
-                div.className = 'w-20 bg-blue-' + (500 + (i%3)*100) + ' rounded-lg flex items-center justify-center font-bold';
-                div.style.minHeight = (60 + (i*10)%80) + 'px';
-                div.textContent = i;
-                sandbox.appendChild(div);
-            }
-        }
-
-        function updateCSS() {
-            document.getElementById('css-text').textContent = `.container {\n  display: flex;\n  flex-direction: ${state['flex-direction']};\n  justify-content: ${state['justify-content']};\n  align-items: ${state['align-items']};\n}`;
-        }
-
-        function copyCSS() {
-            navigator.clipboard.writeText(document.getElementById('css-text').textContent);
-            const toast = document.getElementById('toast');
-            toast.style.transform = 'translateY(0)';
-            setTimeout(() => toast.style.transform = 'translateY(100px)', 2000);
-        }
-
-        function downloadCSS() {
-            const blob = new Blob([document.getElementById('css-text').textContent], {type: 'text/css'});
-            const a = document.createElement('a');
-            a.href = URL.createObjectURL(blob);
-            a.download = 'styles.css';
-            a.click();
-        }
+        // Interactive features can be added here if needed
     </script>
-
-    
-            <a href="https://m.do.co/c/your-tag" target="_blank" rel="noopener sponsored" style="color: #ffffff; background: linear-gradient(135deg, var(--primary-accent, #3b82f6), #4f46e5); text-decoration: none; padding: 10px 16px; border-radius: 8px; font-size: 0.875rem; text-align: center; font-weight: 500; transition: opacity 0.2s;">Get Started &rarr;</a>
-        </div>
-        
-        <div style="background: var(--card-bg, rgba(17, 24, 39, 0.55)); border: 1px solid var(--border-color, rgba(255, 255, 255, 0.05)); border-radius: 16px; padding: 20px; backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); display: flex; flex-direction: column; justify-content: space-between; transition: all 0.3s;">
-            <div>
-                <h4 style="color: var(--secondary-accent, #60a5fa); font-size: 1.1rem; margin: 0 0 10px 0; font-weight: 600;">Vercel</h4>
-                <p style="color: var(--text-muted, #94a3b8); font-size: 0.875rem; margin: 0 0 15px 0; line-height: 1.5; font-weight: 300;">Instantly deploy static frontends and serverless API endpoints. The default home of React & Next.js.</p>
-            </div>
-            <a href="https://vercel.com/v0" target="_blank" rel="noopener sponsored" style="color: #ffffff; background: linear-gradient(135deg, var(--primary-accent, #3b82f6), #4f46e5); text-decoration: none; padding: 10px 16px; border-radius: 8px; font-size: 0.875rem; text-align: center; font-weight: 500; transition: opacity 0.2s;">Get Started &rarr;</a>
-        </div>
-        
-        <div style="background: var(--card-bg, rgba(17, 24, 39, 0.55)); border: 1px solid var(--border-color, rgba(255, 255, 255, 0.05)); border-radius: 16px; padding: 20px; backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); display: flex; flex-direction: column; justify-content: space-between; transition: all 0.3s;">
-            <div>
-                <h4 style="color: var(--secondary-accent, #60a5fa); font-size: 1.1rem; margin: 0 0 10px 0; font-weight: 600;">Hostinger</h4>
-                <p style="color: var(--text-muted, #94a3b8); font-size: 0.875rem; margin: 0 0 15px 0; line-height: 1.5; font-weight: 300;">Get high-performance web hosting, free custom domains, and automated sitemaps for your portfolio or blogs.</p>
-            </div>
-            <a href="https://hostinger.com?referral=your-tag" target="_blank" rel="noopener sponsored" style="color: #ffffff; background: linear-gradient(135deg, var(--primary-accent, #3b82f6), #4f46e5); text-decoration: none; padding: 10px 16px; border-radius: 8px; font-size: 0.875rem; text-align: center; font-weight: 500; transition: opacity 0.2s;">Get Started &rarr;</a>
-        </div>
-        </div></div>
-    </div>
-    
-    
-
-    
-            <a href="https://m.do.co/c/your-tag" target="_blank" rel="noopener sponsored" style="color: #ffffff; background: linear-gradient(135deg, var(--primary-accent, #3b82f6), #4f46e5); text-decoration: none; padding: 10px 16px; border-radius: 8px; font-size: 0.875rem; text-align: center; font-weight: 500; transition: opacity 0.2s;">Get Started &rarr;</a>
-        </div>
-        
-        <div style="background: var(--card-bg, rgba(17, 24, 39, 0.55)); border: 1px solid var(--border-color, rgba(255, 255, 255, 0.05)); border-radius: 16px; padding: 20px; backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); display: flex; flex-direction: column; justify-content: space-between; transition: all 0.3s;">
-            <div>
-                <h4 style="color: var(--secondary-accent, #60a5fa); font-size: 1.1rem; margin: 0 0 10px 0; font-weight: 600;">Vercel</h4>
-                <p style="color: var(--text-muted, #94a3b8); font-size: 0.875rem; margin: 0 0 15px 0; line-height: 1.5; font-weight: 300;">Instantly deploy static frontends and serverless API endpoints. The default home of React & Next.js.</p>
-            </div>
-            <a href="https://vercel.com/v0" target="_blank" rel="noopener sponsored" style="color: #ffffff; background: linear-gradient(135deg, var(--primary-accent, #3b82f6), #4f46e5); text-decoration: none; padding: 10px 16px; border-radius: 8px; font-size: 0.875rem; text-align: center; font-weight: 500; transition: opacity 0.2s;">Get Started &rarr;</a>
-        </div>
-        
-        <div style="background: var(--card-bg, rgba(17, 24, 39, 0.55)); border: 1px solid var(--border-color, rgba(255, 255, 255, 0.05)); border-radius: 16px; padding: 20px; backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); display: flex; flex-direction: column; justify-content: space-between; transition: all 0.3s;">
-            <div>
-                <h4 style="color: var(--secondary-accent, #60a5fa); font-size: 1.1rem; margin: 0 0 10px 0; font-weight: 600;">Hostinger</h4>
-                <p style="color: var(--text-muted, #94a3b8); font-size: 0.875rem; margin: 0 0 15px 0; line-height: 1.5; font-weight: 300;">Get high-performance web hosting, free custom domains, and automated sitemaps for your portfolio or blogs.</p>
-            </div>
-            <a href="https://hostinger.com?referral=your-tag" target="_blank" rel="noopener sponsored" style="color: #ffffff; background: linear-gradient(135deg, var(--primary-accent, #3b82f6), #4f46e5); text-decoration: none; padding: 10px 16px; border-radius: 8px; font-size: 0.875rem; text-align: center; font-weight: 500; transition: opacity 0.2s;">Get Started &rarr;</a>
-        </div>
-        </div></div>
-    </div>
-    
-    
-
-    
-    
-    
 
     <footer style="text-align: center; padding: 60px 20px; color: #9ca3af; border-top: 1px solid rgba(255,255,255,0.08); font-size: 0.95rem; background: rgba(8, 11, 17, 0.4); font-family: 'Outfit', sans-serif; margin-top: 60px;">
         <p>&copy; 2026 Aegis Developer Hub. All rights reserved.</p>

@@ -3,58 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pro SQL Query Formatter & Assistant - Aegis Dev Hub</title>
-    <!-- Fonts & Libraries -->
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <title>Pro SQL Query Formatter & Assistant</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
-    <script src="https://unpkg.com/lucide@latest"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: {
-                        sans: ['Outfit', 'sans-serif'],
-                        mono: ['JetBrains Mono', 'monospace'],
-                    },
-                    colors: {
-                        brandDark: '#080b11',
-                        cardBg: 'rgba(17, 24, 39, 0.55)',
-                        borderLight: 'rgba(255, 255, 255, 0.05)',
-                    }
-                }
-            }
-        }
-    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&family=JetBrains+Mono&display=swap" rel="stylesheet">
     <style>
-        body {
-            background-color: #080b11;
-            background-image: 
-                radial-gradient(circle at 10% 20%, rgba(59, 130, 246, 0.04) 0%, transparent 40%),
-                radial-gradient(circle at 90% 80%, rgba(99, 102, 241, 0.03) 0%, transparent 40%);
-            background-attachment: fixed;
-            min-height: 100vh;
-        }
-        .glass-card {
-            background: rgba(17, 24, 39, 0.55);
-            backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.2);
-        }
-        .scrollbar-custom::-webkit-scrollbar {
-            width: 8px;
-            height: 8px;
-        }
-        .scrollbar-custom::-webkit-scrollbar-track {
-            background: rgba(255, 255, 255, 0.02);
-        }
-        .scrollbar-custom::-webkit-scrollbar-thumb {
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 4px;
-        }
-        .scrollbar-custom::-webkit-scrollbar-thumb:hover {
-            background: rgba(255, 255, 255, 0.2);
-        }
+        body { font-family: 'Outfit', sans-serif; background: #080b12; color: #e2e8f0; }
+        .font-mono { font-family: 'JetBrains Mono', monospace; }
+        .glass { background: rgba(15, 23, 42, 0.6); backdrop-filter: blur(16px); border: 1px solid rgba(255, 255, 255, 0.08); box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3); }
+        .custom-scrollbar::-webkit-scrollbar { width: 6px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover { background: #475569; }
     </style>
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4750454395006570" crossorigin="anonymous"></script>
 
@@ -85,7 +43,7 @@
     </style>
     
 </head>
-<body class="font-sans text-gray-200 min-h-screen flex flex-col justify-between">
+<body class="min-h-screen p-4 md:p-8">
 
     <div class="navbar" style="display: flex; justify-content: space-between; align-items: center; padding: 20px 40px; border-bottom: 1px solid rgba(255,255,255,0.08); background: rgba(11, 15, 25, 0.75); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); position: sticky; top: 0; z-index: 100; font-family: 'Outfit', sans-serif;">
         <a href="/" style="display: flex; align-items: center; gap: 10px; color: #f3f4f6; text-decoration: none; font-weight: 600;">
@@ -99,413 +57,107 @@
     
     
 
-    
-    
+<nav class="max-w-6xl mx-auto flex items-center justify-between mb-8 pb-4 border-b border-white/10">
+    <div class="flex items-center gap-2">
+        <div class="w-8 h-8 rounded-lg bg-blue-600 flex items-center justify-center font-bold">S</div>
+        <span class="text-xl font-bold tracking-tight">SQL<span class="text-blue-400">Assistant</span></span>
+    </div>
+    <div class="text-xs text-slate-500">v1.0.4 | Real-time Engine Active</div>
+</nav>
 
-    
-    
-    <!-- Navbar -->
-    
-
-    <!-- Main Content -->
-    <main class="flex-grow max-w-7xl w-full mx-auto px-6 py-8">
-        <!-- Title Section -->
-        <div class="text-center mb-8">
-            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-blue-500/10 text-blue-400 border border-blue-500/20 uppercase tracking-wide mb-3">
-                <i data-lucide="database" class="w-3.5 h-3.5"></i>
-                Database Helper
-            </div>
-            <h1 class="text-4xl md:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-indigo-200 to-blue-500 mb-3 tracking-tight">
-                Pro SQL Query Formatter
-            </h1>
-            <p class="text-gray-400 text-base md:text-lg max-w-3xl mx-auto leading-relaxed">
-                Standardize, audit, and clean SQL queries in real-time. Detect query performance flags, convert dialect quotes, and download structured outputs instantly.
-            </p>
+<main class="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-6">
+    <div class="glass rounded-3xl p-6 flex flex-col h-[500px]">
+        <div class="flex justify-between items-center mb-4">
+            <h2 class="font-semibold text-slate-300">Raw Query Input</h2>
+            <button onclick="formatSQL()" class="bg-blue-600 hover:bg-blue-700 transition px-4 py-1 rounded-full text-xs font-semibold uppercase tracking-wider">Format</button>
         </div>
+        <textarea id="input" class="w-full flex-grow bg-slate-950/50 rounded-2xl p-4 font-mono text-xs border border-white/5 focus:border-blue-500/50 outline-none text-blue-100 custom-scrollbar" placeholder="SELECT * FROM users WHERE status = 'active' AND created_at > '2026-01-01'"></textarea>
+    </div>
 
-        <div class="space-y-6">
-            <!-- Toolbar -->
-            <div class="glass-card rounded-2xl p-4 flex flex-wrap gap-4 items-center justify-between">
-                <div class="flex flex-wrap items-center gap-3">
-                    <button onclick="loadSample()" class="px-4 py-2 text-xs font-semibold rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 text-white transition-all flex items-center gap-2">
-                        <i data-lucide="database-backup" class="w-4 h-4 text-blue-400"></i>
-                        Load Complex Query
-                    </button>
-                    <button onclick="clearAll()" class="px-4 py-2 text-xs font-semibold rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 text-gray-300 hover:text-white transition-all flex items-center gap-2">
-                        <i data-lucide="trash-2" class="w-4 h-4"></i>
-                        Clear
-                    </button>
-                </div>
-                
-                <div class="flex flex-wrap items-center gap-3">
-                    <button onclick="detectAndNormalize('pg')" class="px-3.5 py-2 text-xs font-semibold rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 text-gray-300 hover:text-white transition-all">
-                        PostgreSQL Dialect
-                    </button>
-                    <button onclick="detectAndNormalize('mysql')" class="px-3.5 py-2 text-xs font-semibold rounded-xl bg-white/5 border border-white/10 hover:bg-white/10 text-gray-300 hover:text-white transition-all">
-                        MySQL Dialect
-                    </button>
-                    <span class="text-white/10 py-1">|</span>
-                    <button onclick="analyzePerformance()" class="px-4 py-2 text-xs font-semibold rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 hover:bg-emerald-500/20 transition-all flex items-center gap-2">
-                        <i data-lucide="shield-alert" class="w-4 h-4"></i>
-                        Audit Performance
-                    </button>
-                </div>
-            </div>
-
-            <!-- Editor Grid -->
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                <!-- Input Panel -->
-                <div class="glass-card rounded-2xl p-6 flex flex-col h-[500px]">
-                    <div class="flex justify-between items-center mb-4">
-                        <h2 class="text-sm font-bold text-white uppercase tracking-wider flex items-center gap-2">
-                            <i data-lucide="terminal" class="text-blue-400 w-4 h-4"></i>
-                            Raw Query Input
-                        </h2>
-                        <button onclick="copyInput()" class="text-xs text-gray-400 hover:text-white flex items-center gap-1.5 transition-colors">
-                            <i data-lucide="copy" class="w-3.5 h-3.5"></i>
-                            Copy
-                        </button>
-                    </div>
-                    <textarea id="sqlInput" oninput="handleInput()" class="flex-grow bg-[#05080f]/90 border border-white/10 rounded-xl p-4 font-mono text-xs text-blue-200 focus:outline-none focus:border-blue-500 resize-none scrollbar-custom" placeholder="SELECT u.id, u.name, o.total FROM users u JOIN orders o ON u.id = o.user_id WHERE u.status = 'active' GROUP BY u.id ORDER BY o.total DESC LIMIT 10;"></textarea>
-                </div>
-
-                <!-- Output Panel -->
-                <div class="glass-card rounded-2xl p-6 flex flex-col h-[500px]">
-                    <div class="flex justify-between items-center mb-4">
-                        <h2 class="text-sm font-bold text-white uppercase tracking-wider flex items-center gap-2">
-                            <i data-lucide="file-check" class="text-emerald-400 w-4 h-4"></i>
-                            Formatted Output
-                        </h2>
-                        <div class="flex items-center gap-3">
-                            <button onclick="copyOutput()" class="text-xs text-gray-400 hover:text-white flex items-center gap-1.5 transition-colors">
-                                <i data-lucide="copy" class="w-3.5 h-3.5"></i>
-                                Copy
-                            </button>
-                            <span class="text-white/10">|</span>
-                            <button onclick="downloadOutput()" class="text-xs text-gray-400 hover:text-white flex items-center gap-1.5 transition-colors">
-                                <i data-lucide="download" class="w-3.5 h-3.5"></i>
-                                Download
-                            </button>
-                        </div>
-                    </div>
-                    <pre class="flex-grow bg-[#05080f]/90 border border-white/10 rounded-xl p-4 font-mono text-xs text-emerald-300 overflow-auto scrollbar-custom select-text text-left"><code id="sqlOutput"></code></pre>
-                </div>
-            </div>
-
-            <!-- Lower Layout Panels: Audits & Interactive Tips -->
-            <div class="grid grid-cols-1 md:grid-cols-12 gap-6">
-                <!-- Audit Report Panel -->
-                <div class="glass-card rounded-2xl p-6 md:col-span-8">
-                    <h3 class="font-bold text-white mb-4 text-sm uppercase tracking-wider flex items-center gap-2">
-                        <i data-lucide="check-square" class="text-blue-400 w-4.5 h-4.5"></i>
-                        Interactive Lint / Performance Audit
-                    </h3>
-                    <div id="audit-list" class="space-y-2 text-xs text-gray-400">
-                        <div class="flex items-center gap-2 py-1">
-                            <i data-lucide="info" class="w-4 h-4 text-blue-400"></i>
-                            <span>Awaiting query formatting to compile detailed index and query performance audits.</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Database Tip Panel -->
-                <div class="glass-card rounded-2xl p-6 md:col-span-4 flex flex-col justify-between">
-                    <div>
-                        <h3 class="font-bold text-blue-400 mb-2 text-sm uppercase tracking-wider flex items-center gap-2">
-                            <i data-lucide="sparkles" class="w-4 h-4"></i>
-                            Optimization Tip
-                        </h3>
-                        <p id="tip-text" class="text-xs text-gray-400 leading-relaxed mt-3">
-                            Click 'Format' or load a query to get automated performance warnings and best practices suggestions.
-                        </p>
-                    </div>
-                    <button onclick="rotateTip()" class="text-left text-[10px] text-gray-500 hover:text-white transition-colors mt-4">
-                        &rarr; Next Optimization Tip
-                    </button>
-                </div>
-            </div>
+    <div class="glass rounded-3xl p-6 flex flex-col h-[500px]">
+        <div class="flex justify-between items-center mb-4">
+            <h2 class="font-semibold text-emerald-400">Optimized Output</h2>
+            <button onclick="copyResult()" class="text-slate-400 hover:text-white transition text-xs border border-white/10 px-3 py-1 rounded-full">Copy Result</button>
         </div>
-    </main>
+        <pre id="output" class="w-full flex-grow bg-slate-950/50 rounded-2xl p-4 font-mono text-xs border border-white/5 overflow-auto custom-scrollbar text-emerald-100/90 whitespace-pre-wrap"></pre>
+    </div>
 
-    <!-- Toast Notifications -->
-    <div id="toast-container" class="fixed bottom-6 right-6 z-50 flex flex-col gap-2 pointer-events-none"></div>
+    <div class="lg:col-span-2 grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="glass p-6 rounded-3xl">
+            <h3 class="font-bold text-blue-400 mb-2 text-sm">Advice</h3>
+            <p id="tip" class="text-xs text-slate-400 leading-relaxed">Format your SQL queries to instantly improve readability and identify potential bottlenecks or missing indexes.</p>
+        </div>
+        <div class="glass p-6 rounded-3xl md:col-span-2 flex flex-wrap items-center gap-3">
+            <button onclick="detectAndNormalize('pg')" class="text-xs bg-slate-800 hover:bg-slate-700 px-4 py-2 rounded-xl transition border border-white/5">PostgreSQL Style</button>
+            <button onclick="detectAndNormalize('mysql')" class="text-xs bg-slate-800 hover:bg-slate-700 px-4 py-2 rounded-xl transition border border-white/5">MySQL/MariaDB</button>
+            <button onclick="analyzePerformance()" class="text-xs bg-emerald-600/10 hover:bg-emerald-600/20 text-emerald-400 px-4 py-2 rounded-xl transition border border-emerald-600/20">Audit Performance</button>
+        </div>
+    </div>
+</main>
 
-    <!-- Footer -->
-    
+<script>
+    function formatSQL() {
+        const input = document.getElementById('input').value;
+        if (!input.trim()) return;
 
-    <script>
-        // Initialize Lucide Icons
-        lucide.createIcons();
+        // Implementation of logic to clean and structure via regex/parsing
+        const keywords = /\b(SELECT|FROM|WHERE|JOIN|LEFT JOIN|RIGHT JOIN|GROUP BY|ORDER BY|LIMIT|AND|OR|HAVING|INSERT INTO|VALUES|UPDATE|SET|WITH|AS)\b/gi;
+        
+        const formatted = input
+            .replace(/\s+/g, ' ')
+            .replace(keywords, match => `\n${match.toUpperCase()}`)
+            .split('\n')
+            .map(line => line.trim())
+            .filter(line => line.length > 0)
+            .join('\n')
+            .replace(/(SELECT|FROM|WHERE|JOIN|LEFT JOIN|RIGHT JOIN|GROUP BY|ORDER BY|LIMIT|AND|OR|HAVING)/g, '  $1');
 
-        const sqlInput = document.getElementById('sqlInput');
-        const sqlOutput = document.getElementById('sqlOutput');
-        const auditList = document.getElementById('audit-list');
-        const tipText = document.getElementById('tip-text');
+        document.getElementById('output').textContent = formatted.trim();
+        updateTips(input);
+    }
 
-        const SAMPLE_SQL = `SELECT u.id, u.display_name, COUNT(o.id) as total_orders, SUM(o.revenue) as aggregate_spend FROM users u LEFT JOIN orders o ON u.id = o.user_id WHERE u.status = 'active' AND o.created_at >= '2026-01-01' GROUP BY u.id HAVING aggregate_spend > 500 ORDER BY aggregate_spend DESC LIMIT 100;`;
-
-        const SQL_TIPS = [
-            "SQL Tip: 'SELECT *' is a common source of performance degradation. Fetch only the columns you actually need to reduce I/O overhead.",
-            "SQL Tip: Ensure columns referenced in JOIN and WHERE clauses are backed by indexes to avoid expensive table scans.",
-            "SQL Tip: Use Common Table Expressions (CTEs) via 'WITH' syntax to clean up highly nested subqueries for maintainability.",
-            "SQL Tip: Avoid using functions inside a WHERE clause (e.g. YEAR(date_col) = 2026). This makes the query non-sargable and disables indexes.",
-            "SQL Tip: When auditing performance, check that your JOIN columns match data types exactly to prevent implicit conversion performance hits."
+    function updateTips(text) {
+        const tips = [
+            "SQL Tip: 'SELECT *' is a common source of performance degradation. Fetch only necessary columns.",
+            "SQL Tip: Consider common table expressions (CTEs) for queries requiring multiple subqueries.",
+            "SQL Tip: Ensure that columns used in JOIN and WHERE clauses are covered by indexes.",
+            "SQL Tip: Use parameterized queries to prevent SQL injection vulnerabilities."
         ];
+        document.getElementById('tip').textContent = tips[Math.floor(Math.random() * tips.length)];
+    }
 
-        let currentTipIndex = 0;
+    function copyResult() {
+        const text = document.getElementById('output').textContent;
+        if (!text) return;
+        navigator.clipboard.writeText(text).then(() => {
+            alert("Copied to clipboard!");
+        });
+    }
 
-        function showToast(message) {
-            const container = document.getElementById('toast-container');
-            const toast = document.createElement('div');
-            toast.className = `glass-card flex items-center gap-3 px-4 py-3 rounded-xl border border-white/10 shadow-lg pointer-events-auto transition-all duration-300 translate-y-2 opacity-0 text-sm text-white`;
-            
-            toast.innerHTML = `
-                <i data-lucide="check-circle" class="w-4 h-4 text-emerald-400"></i>
-                <span>${message}</span>
-            `;
-            container.appendChild(toast);
-            lucide.createIcons();
-
-            setTimeout(() => {
-                toast.classList.remove('translate-y-2', 'opacity-0');
-            }, 10);
-
-            setTimeout(() => {
-                toast.classList.add('translate-y-2', 'opacity-0');
-                setTimeout(() => toast.remove(), 300);
-            }, 3000);
-        }
-
-        function loadSample() {
-            sqlInput.value = SAMPLE_SQL;
-            handleInput(true);
-        }
-
-        function clearAll() {
-            sqlInput.value = '';
-            sqlOutput.textContent = '';
-            auditList.innerHTML = `
-                <div class="flex items-center gap-2 py-1">
-                    <i data-lucide="info" class="w-4 h-4 text-blue-400"></i>
-                    <span>Awaiting query formatting to compile detailed index and query performance audits.</span>
-                </div>
-            `;
-            tipText.textContent = "Click 'Format' or load a query to get automated performance warnings and best practices suggestions.";
-            lucide.createIcons();
-        }
-
-        function handleInput(celebrate = false) {
-            const input = sqlInput.value.trim();
-            if (!input) {
-                clearAll();
-                return;
-            }
-
-            // Keyword formatting logic using rules
-            const keywords = /\b(SELECT|FROM|WHERE|JOIN|LEFT JOIN|RIGHT JOIN|INNER JOIN|GROUP BY|ORDER BY|LIMIT|AND|OR|HAVING|INSERT INTO|VALUES|UPDATE|SET|WITH|AS|ON)\b/gi;
-            
-            let formatted = input
-                .replace(/\s+/g, ' ')
-                .replace(keywords, match => `\n${match.toUpperCase()}`)
-                .split('\n')
-                .map(line => line.trim())
-                .filter(line => line.length > 0)
-                .join('\n');
-
-            // Apply minor indentations to keywords that follow select/where logic
-            formatted = formatted.replace(/\n(FROM|WHERE|JOIN|LEFT JOIN|RIGHT JOIN|INNER JOIN|GROUP BY|ORDER BY|LIMIT|HAVING|SET|VALUES)/g, '\n$1');
-            formatted = formatted.replace(/\n(AND|OR|ON)/g, '\n  $1');
-
-            sqlOutput.textContent = formatted.trim();
-
-            if (celebrate) {
-                confetti({
-                    particleCount: 50,
-                    spread: 40,
-                    origin: { y: 0.8 },
-                    colors: ['#3b82f6', '#10b981']
-                });
-            }
-
-            // Run simple static lint check
-            runInlineAudit(input);
-        }
-
-        function rotateTip() {
-            currentTipIndex = (currentTipIndex + 1) % SQL_TIPS.length;
-            tipText.textContent = SQL_TIPS[currentTipIndex];
-        }
-
-        function runInlineAudit(query) {
-            let reports = [];
-            
-            if (query.match(/\*/)) {
-                reports.push({
-                    type: 'error',
-                    text: "Avoid utilizing wildcard 'SELECT *'. Explicit column referencing minimizes disk search and transfer size."
-                });
-            }
-            if (query.toLowerCase().includes("join") && !query.toLowerCase().includes("on")) {
-                reports.push({
-                    type: 'warning',
-                    text: "Potential cross-join alert: Query contains 'JOIN' but no explicit 'ON' relational filter conditions."
-                });
-            }
-            if (query.toLowerCase().includes("like") && query.includes("%") && query.toLowerCase().indexOf("%") === query.toLowerCase().indexOf("like") + 5) {
-                reports.push({
-                    type: 'warning',
-                    text: "Leading wildcard in 'LIKE' parameter (e.g. '%term%') forces a full table scan, bypassing index logic."
-                });
-            }
-            if (query.toLowerCase().includes("group by") && !query.toLowerCase().includes("having") && query.toLowerCase().includes("count")) {
-                reports.push({
-                    type: 'info',
-                    text: "Tip: Utilizing aggregation counts? Filter your combined results with a 'HAVING' filter if needed."
-                });
-            }
-
-            if (reports.length === 0) {
-                reports.push({
-                    type: 'success',
-                    text: "No obvious schema, wildcard, or non-sargable query issues detected in this parser scan."
-                });
-            }
-
-            auditList.innerHTML = '';
-            reports.forEach(report => {
-                const item = document.createElement('div');
-                item.className = "flex items-start gap-2.5 py-1.5";
-                
-                const icon = report.type === 'error' ? 'x-circle' : 
-                             report.type === 'warning' ? 'alert-triangle' : 
-                             report.type === 'success' ? 'check-circle' : 'info';
-                
-                const color = report.type === 'error' ? 'text-rose-400' : 
-                              report.type === 'warning' ? 'text-amber-400' : 
-                              report.type === 'success' ? 'text-emerald-400' : 'text-blue-400';
-                
-                item.innerHTML = `
-                    <i data-lucide="${icon}" class="w-4 h-4 ${color} mt-0.5 shrink-0"></i>
-                    <span class="${report.type === 'success' ? 'text-gray-300' : 'text-gray-400'}">${report.text}</span>
-                `;
-                auditList.appendChild(item);
-            });
-            lucide.createIcons();
-            
-            // Auto update tip
-            tipText.textContent = SQL_TIPS[Math.floor(Math.random() * SQL_TIPS.length)];
-        }
-
-        function analyzePerformance() {
-            const input = sqlInput.value.trim();
-            if (!input) {
-                showToast("Please enter an SQL query to analyze", "info");
-                return;
-            }
-            
-            handleInput(false);
-            showToast("Static audit checklist generated successfully.");
-        }
-
-        function detectAndNormalize(dialect) {
-            let text = sqlOutput.textContent;
-            if (!text) {
-                handleInput(false);
-                text = sqlOutput.textContent;
-            }
-            if (!text) return;
-
-            if (dialect === 'mysql') {
-                text = text.replace(/"/g, '`');
-                showToast("Quotes normalized for MySQL dialect (`quote`)");
-            } else {
-                text = text.replace(/`/g, '"');
-                showToast('Quotes normalized for standard PostgreSQL ("quote")');
-            }
-            sqlOutput.textContent = text;
-        }
-
-        function copyInput() {
-            if (!sqlInput.value) return;
-            navigator.clipboard.writeText(sqlInput.value);
-            showToast('Raw SQL query copied to clipboard');
-        }
-
-        function copyOutput() {
-            const outText = sqlOutput.textContent;
-            if (!outText) return;
-            navigator.clipboard.writeText(outText);
-            showToast('Formatted SQL query copied to clipboard');
-        }
-
-        function downloadOutput() {
-            const outText = sqlOutput.textContent;
-            if (!outText) return;
-            
-            const blob = new Blob([outText], { type: 'text/plain' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = 'formatted_query.sql';
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            URL.revokeObjectURL(url);
-            showToast('SQL file exported successfully');
-        }
-    </script>
-
-    
-            <a href="https://m.do.co/c/your-tag" target="_blank" rel="noopener sponsored" style="color: #ffffff; background: linear-gradient(135deg, var(--primary-accent, #3b82f6), #4f46e5); text-decoration: none; padding: 10px 16px; border-radius: 8px; font-size: 0.875rem; text-align: center; font-weight: 500; transition: opacity 0.2s;">Get Started &rarr;</a>
-        </div>
+    function analyzePerformance() {
+        const text = document.getElementById('input').value;
+        if (!text) return;
         
-        <div style="background: var(--card-bg, rgba(17, 24, 39, 0.55)); border: 1px solid var(--border-color, rgba(255, 255, 255, 0.05)); border-radius: 16px; padding: 20px; backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); display: flex; flex-direction: column; justify-content: space-between; transition: all 0.3s;">
-            <div>
-                <h4 style="color: var(--secondary-accent, #60a5fa); font-size: 1.1rem; margin: 0 0 10px 0; font-weight: 600;">Vercel</h4>
-                <p style="color: var(--text-muted, #94a3b8); font-size: 0.875rem; margin: 0 0 15px 0; line-height: 1.5; font-weight: 300;">Instantly deploy static frontends and serverless API endpoints. The default home of React & Next.js.</p>
-            </div>
-            <a href="https://vercel.com/v0" target="_blank" rel="noopener sponsored" style="color: #ffffff; background: linear-gradient(135deg, var(--primary-accent, #3b82f6), #4f46e5); text-decoration: none; padding: 10px 16px; border-radius: 8px; font-size: 0.875rem; text-align: center; font-weight: 500; transition: opacity 0.2s;">Get Started &rarr;</a>
-        </div>
+        let report = [];
+        if (text.match(/\*/)) report.push("✖ Avoid 'SELECT *'. Explicit col selection is faster.");
+        if (text.match(/JOIN/i) && !text.match(/ON/i)) report.push("⚠ Missing 'ON' clause in Join detected.");
+        if (report.length === 0) report.push("✔ No obvious syntax or performance flags detected.");
         
-        <div style="background: var(--card-bg, rgba(17, 24, 39, 0.55)); border: 1px solid var(--border-color, rgba(255, 255, 255, 0.05)); border-radius: 16px; padding: 20px; backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); display: flex; flex-direction: column; justify-content: space-between; transition: all 0.3s;">
-            <div>
-                <h4 style="color: var(--secondary-accent, #60a5fa); font-size: 1.1rem; margin: 0 0 10px 0; font-weight: 600;">Hostinger</h4>
-                <p style="color: var(--text-muted, #94a3b8); font-size: 0.875rem; margin: 0 0 15px 0; line-height: 1.5; font-weight: 300;">Get high-performance web hosting, free custom domains, and automated sitemaps for your portfolio or blogs.</p>
-            </div>
-            <a href="https://hostinger.com?referral=your-tag" target="_blank" rel="noopener sponsored" style="color: #ffffff; background: linear-gradient(135deg, var(--primary-accent, #3b82f6), #4f46e5); text-decoration: none; padding: 10px 16px; border-radius: 8px; font-size: 0.875rem; text-align: center; font-weight: 500; transition: opacity 0.2s;">Get Started &rarr;</a>
-        </div>
-        </div></div>
-    </div>
-    
-    
+        alert("Performance Audit:\n\n" + report.join('\n'));
+    }
 
-    
-            <a href="https://m.do.co/c/your-tag" target="_blank" rel="noopener sponsored" style="color: #ffffff; background: linear-gradient(135deg, var(--primary-accent, #3b82f6), #4f46e5); text-decoration: none; padding: 10px 16px; border-radius: 8px; font-size: 0.875rem; text-align: center; font-weight: 500; transition: opacity 0.2s;">Get Started &rarr;</a>
-        </div>
+    function detectAndNormalize(dialect) {
+        let text = document.getElementById('output').textContent;
+        if (!text) { formatSQL(); text = document.getElementById('output').textContent; }
         
-        <div style="background: var(--card-bg, rgba(17, 24, 39, 0.55)); border: 1px solid var(--border-color, rgba(255, 255, 255, 0.05)); border-radius: 16px; padding: 20px; backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); display: flex; flex-direction: column; justify-content: space-between; transition: all 0.3s;">
-            <div>
-                <h4 style="color: var(--secondary-accent, #60a5fa); font-size: 1.1rem; margin: 0 0 10px 0; font-weight: 600;">Vercel</h4>
-                <p style="color: var(--text-muted, #94a3b8); font-size: 0.875rem; margin: 0 0 15px 0; line-height: 1.5; font-weight: 300;">Instantly deploy static frontends and serverless API endpoints. The default home of React & Next.js.</p>
-            </div>
-            <a href="https://vercel.com/v0" target="_blank" rel="noopener sponsored" style="color: #ffffff; background: linear-gradient(135deg, var(--primary-accent, #3b82f6), #4f46e5); text-decoration: none; padding: 10px 16px; border-radius: 8px; font-size: 0.875rem; text-align: center; font-weight: 500; transition: opacity 0.2s;">Get Started &rarr;</a>
-        </div>
-        
-        <div style="background: var(--card-bg, rgba(17, 24, 39, 0.55)); border: 1px solid var(--border-color, rgba(255, 255, 255, 0.05)); border-radius: 16px; padding: 20px; backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); display: flex; flex-direction: column; justify-content: space-between; transition: all 0.3s;">
-            <div>
-                <h4 style="color: var(--secondary-accent, #60a5fa); font-size: 1.1rem; margin: 0 0 10px 0; font-weight: 600;">Hostinger</h4>
-                <p style="color: var(--text-muted, #94a3b8); font-size: 0.875rem; margin: 0 0 15px 0; line-height: 1.5; font-weight: 300;">Get high-performance web hosting, free custom domains, and automated sitemaps for your portfolio or blogs.</p>
-            </div>
-            <a href="https://hostinger.com?referral=your-tag" target="_blank" rel="noopener sponsored" style="color: #ffffff; background: linear-gradient(135deg, var(--primary-accent, #3b82f6), #4f46e5); text-decoration: none; padding: 10px 16px; border-radius: 8px; font-size: 0.875rem; text-align: center; font-weight: 500; transition: opacity 0.2s;">Get Started &rarr;</a>
-        </div>
-        </div></div>
-    </div>
-    
-    
-
-    
-    
-    
+        if(dialect === 'mysql') {
+            text = text.replace(/"/g, '`');
+        } else {
+            text = text.replace(/`/g, '"');
+        }
+        document.getElementById('output').textContent = text;
+    }
+</script>
 
     <footer style="text-align: center; padding: 60px 20px; color: #9ca3af; border-top: 1px solid rgba(255,255,255,0.08); font-size: 0.95rem; background: rgba(8, 11, 17, 0.4); font-family: 'Outfit', sans-serif; margin-top: 60px;">
         <p>&copy; 2026 Aegis Developer Hub. All rights reserved.</p>

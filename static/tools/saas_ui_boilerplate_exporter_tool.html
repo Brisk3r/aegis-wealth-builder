@@ -1,77 +1,83 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
-    <script src="https://lmsqueezy.com/assets/embed.js" defer></script>
-
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-BZVWXPPG06"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'G-BZVWXPPG06');
-    </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SaaS UI Boilerplate Exporter - Aegis Dev Hub</title>
-    <!-- Fonts & Libraries -->
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
-    <script src="https://unpkg.com/lucide@latest"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: {
-                        sans: ['Outfit', 'sans-serif'],
-                    },
-                    colors: {
-                        brandDark: '#080b11',
-                        cardBg: 'rgba(17, 24, 39, 0.55)',
-                        borderLight: 'rgba(255, 255, 255, 0.05)',
-                    }
-                }
-            }
-        }
-    </script>
+    <title>SaaS UI Boilerplate Exporter</title>
     <style>
         body {
-            background-color: #080b11;
-            background-image: 
-                radial-gradient(circle at 10% 20%, rgba(59, 130, 246, 0.04) 0%, transparent 40%),
-                radial-gradient(circle at 90% 80%, rgba(16, 185, 129, 0.03) 0%, transparent 40%);
-            background-attachment: fixed;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f4f4f9;
         }
-        .glass-card {
-            background: rgba(17, 24, 39, 0.55);
-            backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.2);
+        .container {
+            width: 85%;
+            max-width: 600px;
+            padding: 20px;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         }
-        .scrollbar-custom::-webkit-scrollbar {
-            width: 6px;
-            height: 6px;
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
         }
-        .scrollbar-custom::-webkit-scrollbar-track {
-            background: rgba(255, 255, 255, 0.02);
+        .tasks-list {
+            list-style-type: none;
+            padding: 0;
         }
-        .scrollbar-custom::-webkit-scrollbar-thumb {
-            background: rgba(255, 255, 255, 0.1);
+        .task-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #ddd;
+            padding: 10px 0;
+        }
+        .task-name {
+            margin: 0;
+        }
+        .task-actions {
+            display: flex;
+            gap: 5px;
+        }
+        button {
+            padding: 5px 10px;
+            border: none;
             border-radius: 3px;
+            background-color: #007bff;
+            color: white;
+            cursor: pointer;
         }
-        .scrollbar-custom::-webkit-scrollbar-thumb:hover {
-            background: rgba(255, 255, 255, 0.2);
+        button:hover {
+            background-color: #0056b3;
         }
     </style>
-    <script defer src="/_vercel/insights/script.js"></script>
+
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4750454395006570" crossorigin="anonymous"></script>
+    <style>
+        :root {
+            --bg-color: #0b0f19;
+            --card-bg: rgba(255, 255, 255, 0.03);
+            --border-color: rgba(255, 255, 255, 0.08);
+            --primary-accent: #3b82f6;
+            --secondary-accent: #60a5fa;
+            --text-main: #f3f4f6;
+            --text-muted: #9ca3af;
+        }
+        body {
+            background-color: var(--bg-color) !important;
+            color: var(--text-main) !important;
+            font-family: 'Outfit', sans-serif !important;
+        }
+    </style>
 
-    <link rel="icon" type="image/png" href="/static/logo.png">
-
-    <script src="https://assets.lemonsqueezy.com/lemon.js" defer></script>
+    <script defer src="/_vercel/insights/script.js"></script>
 
     <style>
         /* Global accessibility & dark theme input fixes */
@@ -84,8 +90,22 @@
         }
     </style>
     
+
+    <link rel="icon" type="image/png" href="/static/logo.png">
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-BZVWXPPG06"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-BZVWXPPG06');
+    </script>
+
+    <script src="https://assets.lemonsqueezy.com/lemon.js" defer></script>
 </head>
-<body class="font-sans text-gray-200 min-h-screen flex flex-col justify-between">
+
+<body>
 
     <div class="navbar" style="display: flex; justify-content: space-between; align-items: center; padding: 20px 40px; border-bottom: 1px solid rgba(255,255,255,0.08); background: rgba(11, 15, 25, 0.75); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); position: sticky; top: 0; z-index: 100; font-family: 'Outfit', sans-serif;">
         <a href="/" style="display: flex; align-items: center; gap: 10px; color: #f3f4f6; text-decoration: none; font-weight: 600;">
@@ -98,331 +118,105 @@
 
     
     
-
-    
-    
-
-    
-    
-    <!-- Navbar -->
-    
-
-    <!-- Main Content -->
-    <main class="flex-grow max-w-7xl w-full mx-auto px-6 py-8">
-        <!-- Title & Subtitle -->
-        <div class="text-center mb-8">
-            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 uppercase tracking-wide mb-3">
-                <i data-lucide="sparkles" class="w-3.5 h-3.5"></i>
-                Interactive Exporter Sandbox
-            </div>
-            <h1 class="text-4xl md:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 via-teal-200 to-blue-500 mb-3 tracking-tight">
-                SaaS UI Boilerplate Exporter
-            </h1>
-            <p class="text-gray-400 text-base md:text-lg max-w-3xl mx-auto leading-relaxed">
-                Configure your tech stack, customize your theme and authentication, preview your project structure, and instantly download a production-ready boilerplate bundle locally.
-            </p>
-        </div>
-
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-            <!-- Left Side: Configuration Controls (5 Columns) -->
-            <div class="lg:col-span-5 space-y-6">
-                <!-- Stack Selection -->
-                <div class="glass-card rounded-2xl p-6">
-                    <h2 class="text-lg font-bold text-white mb-4 flex items-center gap-2">
-                        <i data-lucide="layers" class="text-emerald-400 w-5 h-5"></i>
-                        1. Choose Tech Stack
-                    </h2>
-                    <div class="grid grid-cols-2 gap-3">
-                        <button onclick="setStack('nextjs_supabase')" id="btn-nextjs_supabase" class="flex flex-col items-center gap-2 p-4 rounded-xl border border-white/5 bg-white/5 hover:bg-white/10 hover:border-emerald-500/30 transition-all text-center group active">
-                            <span class="p-2 rounded-lg bg-emerald-500/10 text-emerald-400 group-hover:scale-105 transition-transform">
-                                <i data-lucide="activity" class="w-6 h-6"></i>
-                            </span>
-                            <span class="font-semibold text-sm text-white">Next.js + Supabase</span>
-                            <span class="text-xs text-gray-400">Robust SQL Auth</span>
-                        </button>
-                        <button onclick="setStack('nextjs_prisma')" id="btn-nextjs_prisma" class="flex flex-col items-center gap-2 p-4 rounded-xl border border-white/5 bg-white/5 hover:bg-white/10 hover:border-emerald-500/30 transition-all text-center group">
-                            <span class="p-2 rounded-lg bg-blue-500/10 text-blue-400 group-hover:scale-105 transition-transform">
-                                <i data-lucide="database" class="w-6 h-6"></i>
-                            </span>
-                            <span class="font-semibold text-sm text-white">Next.js + Prisma</span>
-                            <span class="text-xs text-gray-400">PostgreSQL Schema</span>
-                        </button>
-                        <button onclick="setStack('sveltekit_supabase')" id="btn-sveltekit_supabase" class="flex flex-col items-center gap-2 p-4 rounded-xl border border-white/5 bg-white/5 hover:bg-white/10 hover:border-emerald-500/30 transition-all text-center group">
-                            <span class="p-2 rounded-lg bg-orange-500/10 text-orange-400 group-hover:scale-105 transition-transform">
-                                <i data-lucide="terminal" class="w-6 h-6"></i>
-                            </span>
-                            <span class="font-semibold text-sm text-white">SvelteKit + Tailwind</span>
-                            <span class="text-xs text-gray-400">Fast Rich State</span>
-                        </button>
-                        <button onclick="setStack('vite_react_firebase')" id="btn-vite_react_firebase" class="flex flex-col items-center gap-2 p-4 rounded-xl border border-white/5 bg-white/5 hover:bg-white/10 hover:border-emerald-500/30 transition-all text-center group">
-                            <span class="p-2 rounded-lg bg-yellow-500/10 text-yellow-400 group-hover:scale-105 transition-transform">
-                                <i data-lucide="zap" class="w-6 h-6"></i>
-                            </span>
-                            <span class="font-semibold text-sm text-white">Vite + Firebase</span>
-                            <span class="text-xs text-gray-400">No-Server Backend</span>
-                        </button>
-                    </div>
-                </div>
-
-                <!-- Customization Options -->
-                <div class="glass-card rounded-2xl p-6">
-                    <h2 class="text-lg font-bold text-white mb-4 flex items-center gap-2">
-                        <i data-lucide="settings" class="text-emerald-400 w-5 h-5"></i>
-                        2. Customize Boilerplate
-                    </h2>
-                    
-                    <div class="space-y-4">
-                        <!-- Payment Gateway -->
-                        <div>
-                            <label class="block text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2">Payment Integration</label>
-                            <select id="payment-select" onchange="updateOptions()" class="w-full bg-[#0d131f] border border-white/10 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-emerald-500">
-                                <option value="lemonsqueezy">Lemon Squeezy (Recommended - Lifetime licenses)</option>
-                                <option value="stripe">Stripe Checkout (Subscribers & Metered billing)</option>
-                                <option value="paddle">Paddle Billing (Global tax compliance)</option>
-                            </select>
-                        </div>
-
-                        <!-- Authentication UI Mode -->
-                        <div>
-                            <label class="block text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2">Auth Page Theme</label>
-                            <div class="grid grid-cols-3 gap-2">
-                                <button onclick="setAuthTheme('dark')" id="theme-dark" class="px-3 py-2 text-xs font-semibold rounded-lg bg-emerald-500 text-white border border-emerald-500/30 transition-all">Dark UI</button>
-                                <button onclick="setAuthTheme('glass')" id="theme-glass" class="px-3 py-2 text-xs font-semibold rounded-lg bg-white/5 border border-white/10 text-gray-300 hover:bg-white/10 transition-all">Glassmorphic</button>
-                                <button onclick="setAuthTheme('cyberpunk')" id="theme-cyberpunk" class="px-3 py-2 text-xs font-semibold rounded-lg bg-white/5 border border-white/10 text-gray-300 hover:bg-white/10 transition-all">Cyberpunk</button>
-                            </div>
-                        </div>
-
-                        <!-- Landing Page Features -->
-                        <div>
-                            <label class="block text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2">Include Addons</label>
-                            <div class="space-y-2">
-                                <label class="flex items-center gap-3 cursor-pointer group">
-                                    <input type="checkbox" id="addon-analytics" checked onchange="updateOptions()" class="rounded border-white/10 bg-white/5 text-emerald-500 focus:ring-emerald-500 focus:ring-offset-[#0b0f19] w-4 h-4">
-                                    <span class="text-sm text-gray-300 group-hover:text-white transition-colors">Vercel Analytics & Speed Insights</span>
-                                </label>
-                                <label class="flex items-center gap-3 cursor-pointer group">
-                                    <input type="checkbox" id="addon-seo" checked onchange="updateOptions()" class="rounded border-white/10 bg-white/5 text-emerald-500 focus:ring-emerald-500 focus:ring-offset-[#0b0f19] w-4 h-4">
-                                    <span class="text-sm text-gray-300 group-hover:text-white transition-colors">Dynamic Sitemap & Metadata Exporter</span>
-                                </label>
-                                <label class="flex items-center gap-3 cursor-pointer group">
-                                    <input type="checkbox" id="addon-docker" onchange="updateOptions()" class="rounded border-white/10 bg-white/5 text-emerald-500 focus:ring-emerald-500 focus:ring-offset-[#0b0f19] w-4 h-4">
-                                    <span class="text-sm text-gray-300 group-hover:text-white transition-colors">Docker Compose Dev Environment</span>
-                                </label>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- Ad Banner Sponsor (Aegis Hub Monetization Layer) -->
-                <div class="glass-card rounded-2xl p-6 border border-emerald-500/20 bg-gradient-to-br from-emerald-500/5 via-transparent to-transparent">
-                    <h3 class="text-sm font-bold text-emerald-400 uppercase tracking-wider mb-2">Premium Expansion</h3>
-                    <p class="text-xs text-gray-400 leading-relaxed mb-4">
-                        Unlock access to fully finished dashboard UI files, dark-mode pricing grids, Stripe subscription flows, and auto-generated database schemas.
-                    </p>
-                    <a href="https://aegishub.lemonsqueezy.com/checkout/buy/0f7285e8-f8d2-4d19-8856-1e6d08ef423f?embed=1" class="lemonsqueezy-button w-full py-2.5 px-4 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white text-xs font-semibold flex items-center justify-center gap-1.5 transition-all shadow-lg active:scale-95">
-                        <i data-lucide="crown" class="w-4 h-4"></i>
-                        Get Lifetime License - $29
-                    </a>
-                </div>            </div>
-
-            <!-- Right Side: File Explorer & Code Preview (7 Columns) -->
-            <div class="lg:col-span-7 flex flex-col h-[650px] glass-card rounded-2xl overflow-hidden border border-white/10 shadow-2xl relative">
-                <!-- Header Control Strip -->
-                <div class="border-b border-white/10 bg-black/30 px-6 py-4 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3">
-                    <div>
-                        <h3 id="current-file-label" class="text-sm font-bold text-white tracking-wide">package.json</h3>
-                        <p class="text-[11px] text-emerald-400 font-mono" id="current-path-label">/package.json</p>
-                    </div>
-                    
-                    <button onclick="downloadZip()" class="py-2 px-4 rounded-xl bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-400 hover:to-teal-400 text-white font-semibold text-xs flex items-center gap-1.5 transition-all shadow-md active:scale-95">
-                        <i data-lucide="download" class="w-4 h-4"></i>
-                        Download Boilerplate .zip
-                    </button>
-                </div>
-
-                <!-- Shell Body -->
-                <div class="flex-grow flex overflow-hidden">
-                    <!-- File Explorer Sidebar (35%) -->
-                    <div class="w-1/3 border-r border-white/10 bg-black/20 overflow-y-auto scrollbar-custom p-4 space-y-2">
-                        <div class="text-[10px] font-bold text-gray-500 uppercase tracking-wider mb-2">Workspace Files</div>
-                        
-                        <div class="space-y-1" id="file-tree-container">
-                            <!-- File list will be injected here -->
-                        </div>
-                    </div>
-
-                    <!-- Code Preview Panel (65%) -->
-                    <div class="w-2/3 flex flex-col h-full bg-[#05080f]/90 relative">
-                        <!-- Code panel overlay details -->
-                        <div class="absolute top-3 right-3 z-10 flex gap-2">
-                            <button onclick="copyCurrentCode()" class="p-2 rounded-lg bg-white/5 border border-white/10 text-gray-400 hover:text-white hover:bg-white/10 transition-all" title="Copy code">
-                                <i data-lucide="copy" class="w-4 h-4"></i>
-                            </button>
-                        </div>
-
-                        <!-- Read-only Code editor -->
-                        <pre class="flex-grow p-6 overflow-auto scrollbar-custom text-xs font-mono text-emerald-400/90 leading-relaxed text-left selection:bg-emerald-500/20 selection:text-emerald-200" style="white-space: pre-wrap;"><code id="code-editor-element"></code></pre>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </main>
-
-    <!-- Toast Notifications -->
-    <div id="toast-container" class="fixed bottom-6 right-6 z-50 flex flex-col gap-2 pointer-events-none"></div>
-
-    <!-- Footer -->
-    
+    <div class="container">
+        <h1>SaaS UI Boilerplate Exporter</h1>
+        <ul id="tasks-list" class="tasks-list"></ul>
+        <!-- Add more interactive elements and buttons as needed -->
+    </div>
 
     <script>
-        // Options State
-        let activeStack = 'nextjs_supabase';
-        let activeAuthTheme = 'dark';
-        let activePayment = 'lemonsqueezy';
-        let selectedFile = 'package.json';
+        // Function to fetch and display tasks
+        async function fetchTasks() {
+            const response = await fetch('/manage_task', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    "name": "manage_task",
+                    "arguments": {
+                        "Action": "list"
+                    }
+                })
+            });
 
-        // Boilerplate definition templates
-        const FILES_PRESET = {
-            nextjs_supabase: {
-                "package.json": () => `{
-  "name": "nextjs-supabase-saas-boilerplate",
-  "version": "1.0.0",
-  "private": true,
-  "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "lint": "next lint"
-  },
-  "dependencies": {
-    "@supabase/ssr": "^0.3.0",
-    "@supabase/supabase-js": "^2.43.4",
-    "next": "^14.2.3",
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1",
-    "lucide-react": "^0.379.0",
-    "clsx": "^2.1.1",
-    "tailwind-merge": "^2.3.0"${
-        document.getElementById('addon-analytics').checked ? ',\n    "@vercel/analytics": "^1.3.1",\n    "@vercel/speed-insights": "^1.0.12"' : ''
-    }
-  },
-  "devDependencies": {
-    "postcss": "^8.4.38",
-    "tailwindcss": "^3.4.3"
-  }
-}`,
-                "README.md": () => `# Aegis Next.js + Supabase Boilerplate Starter Kit
-
-Welcome to your production-ready SaaS starter kit! Fully optimized for client-side speed, type-safety, and smooth Tailwind styles.
-
-## Quick Start
-1. Install dependencies:
-   \`\`\`bash
-   npm install
-   \`\`\`
-2. Configure local variables in \`.env.local\`:
-   \`\`\`env
-   NEXT_PUBLIC_SUPABASE_URL=https://your-project.supabase.co
-   NEXT_PUBLIC_SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1Ni...
-   ${activePayment === 'lemonsqueezy' ? 'LEMONSQUEEZY_API_KEY=your_key_here' : 'STRIPE_SECRET_KEY=sk_test_...'}
-   \`\`\`
-3. Run the development server:
-   \`\`\`bash
-   npm run dev
-   \`\`\`
-`,
-                "tailwind.config.js": () => `/** @type {import('tailwindcss').Config} */
-module.exports = {
-  content: [
-    "./app/**/*.{js,ts,jsx,tsx,mdx}",
-    "./components/**/*.{js,ts,jsx,tsx,mdx}",
-  ],
-  theme: {
-    extend: {
-      colors: {
-        brand: {
-          dark: '#080b11',
-          primary: '#10b981', // Emerald Theme
-          secondary: '#3b82f6',
+            if (response.ok) {
+                const tasks = await response.json();
+                displayTasks(tasks);
+            } else {
+                console.error('Failed to fetch tasks');
+            }
         }
-      },
-      fontFamily: {
-        sans: ['Outfit', 'sans-serif']
-      }
-    },
-  },
-  plugins: [],
-}`,
-                "app/layout.js": () => `import './globals.css';
-import { Outfit } from 'next/font/google';${
-                    document.getElementById('addon-analytics').checked ? "\nimport { Analytics } from '@vercel/analytics/react';\nimport { SpeedInsights } from '@vercel/speed-insights/next';" : ""
-                }
 
-const outfit = Outfit({ subsets: ['latin'], variable: '--font-outfit' });
-
-export const metadata = {
-  title: 'Aegis SaaS Platform',
-  description: 'Built with Next.js and Supabase',
-};
-
-export default function RootLayout({ children }) {
-  return (
-    <html lang="en" className="dark">
-      <body class="\${outfit.variable} font-sans bg-[#080b11] text-gray-100 min-h-screen">
-        {children}${
-            document.getElementById('addon-analytics').checked ? "\n        <Analytics />\n        <SpeedInsights />" : ""
+        // Function to display tasks on the UI
+        function displayTasks(tasks) {
+            const taskList = document.getElementById('tasks-list');
+            taskList.innerHTML = '';
+            tasks.forEach(task => {
+                const listItem = document.createElement('li');
+                listItem.className = 'task-item';
+                listItem.innerHTML = `
+                    <span class="task-name">${task.name}</span>
+                    <div class="task-actions">
+                        <button onclick="killTask('${task.id}')">Kill</button>
+                        <button onclick="checkStatus('${task.id}')">Check Status</button>
+                    </div>
+                `;
+                taskList.appendChild(listItem);
+            });
         }
-      
-    
-            <a href="https://m.do.co/c/your-tag" target="_blank" rel="noopener sponsored" style="color: #ffffff; background: linear-gradient(135deg, var(--primary-accent, #3b82f6), #4f46e5); text-decoration: none; padding: 10px 16px; border-radius: 8px; font-size: 0.875rem; text-align: center; font-weight: 500; transition: opacity 0.2s;">Get Started &rarr;</a>
-        </div>
-        
-        <div style="background: var(--card-bg, rgba(17, 24, 39, 0.55)); border: 1px solid var(--border-color, rgba(255, 255, 255, 0.05)); border-radius: 16px; padding: 20px; backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); display: flex; flex-direction: column; justify-content: space-between; transition: all 0.3s;">
-            <div>
-                <h4 style="color: var(--secondary-accent, #60a5fa); font-size: 1.1rem; margin: 0 0 10px 0; font-weight: 600;">Vercel</h4>
-                <p style="color: var(--text-muted, #94a3b8); font-size: 0.875rem; margin: 0 0 15px 0; line-height: 1.5; font-weight: 300;">Instantly deploy static frontends and serverless API endpoints. The default home of React & Next.js.</p>
-            </div>
-            <a href="https://vercel.com/v0" target="_blank" rel="noopener sponsored" style="color: #ffffff; background: linear-gradient(135deg, var(--primary-accent, #3b82f6), #4f46e5); text-decoration: none; padding: 10px 16px; border-radius: 8px; font-size: 0.875rem; text-align: center; font-weight: 500; transition: opacity 0.2s;">Get Started &rarr;</a>
-        </div>
-        
-        <div style="background: var(--card-bg, rgba(17, 24, 39, 0.55)); border: 1px solid var(--border-color, rgba(255, 255, 255, 0.05)); border-radius: 16px; padding: 20px; backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); display: flex; flex-direction: column; justify-content: space-between; transition: all 0.3s;">
-            <div>
-                <h4 style="color: var(--secondary-accent, #60a5fa); font-size: 1.1rem; margin: 0 0 10px 0; font-weight: 600;">Hostinger</h4>
-                <p style="color: var(--text-muted, #94a3b8); font-size: 0.875rem; margin: 0 0 15px 0; line-height: 1.5; font-weight: 300;">Get high-performance web hosting, free custom domains, and automated sitemaps for your portfolio or blogs.</p>
-            </div>
-            <a href="https://hostinger.com?referral=your-tag" target="_blank" rel="noopener sponsored" style="color: #ffffff; background: linear-gradient(135deg, var(--primary-accent, #3b82f6), #4f46e5); text-decoration: none; padding: 10px 16px; border-radius: 8px; font-size: 0.875rem; text-align: center; font-weight: 500; transition: opacity 0.2s;">Get Started &rarr;</a>
-        </div>
-        </div></div>
-    </div>
-    
-    
 
-    
-            <a href="https://m.do.co/c/your-tag" target="_blank" rel="noopener sponsored" style="color: #ffffff; background: linear-gradient(135deg, var(--primary-accent, #3b82f6), #4f46e5); text-decoration: none; padding: 10px 16px; border-radius: 8px; font-size: 0.875rem; text-align: center; font-weight: 500; transition: opacity 0.2s;">Get Started &rarr;</a>
-        </div>
-        
-        <div style="background: var(--card-bg, rgba(17, 24, 39, 0.55)); border: 1px solid var(--border-color, rgba(255, 255, 255, 0.05)); border-radius: 16px; padding: 20px; backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); display: flex; flex-direction: column; justify-content: space-between; transition: all 0.3s;">
-            <div>
-                <h4 style="color: var(--secondary-accent, #60a5fa); font-size: 1.1rem; margin: 0 0 10px 0; font-weight: 600;">Vercel</h4>
-                <p style="color: var(--text-muted, #94a3b8); font-size: 0.875rem; margin: 0 0 15px 0; line-height: 1.5; font-weight: 300;">Instantly deploy static frontends and serverless API endpoints. The default home of React & Next.js.</p>
-            </div>
-            <a href="https://vercel.com/v0" target="_blank" rel="noopener sponsored" style="color: #ffffff; background: linear-gradient(135deg, var(--primary-accent, #3b82f6), #4f46e5); text-decoration: none; padding: 10px 16px; border-radius: 8px; font-size: 0.875rem; text-align: center; font-weight: 500; transition: opacity 0.2s;">Get Started &rarr;</a>
-        </div>
-        
-        <div style="background: var(--card-bg, rgba(17, 24, 39, 0.55)); border: 1px solid var(--border-color, rgba(255, 255, 255, 0.05)); border-radius: 16px; padding: 20px; backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); display: flex; flex-direction: column; justify-content: space-between; transition: all 0.3s;">
-            <div>
-                <h4 style="color: var(--secondary-accent, #60a5fa); font-size: 1.1rem; margin: 0 0 10px 0; font-weight: 600;">Hostinger</h4>
-                <p style="color: var(--text-muted, #94a3b8); font-size: 0.875rem; margin: 0 0 15px 0; line-height: 1.5; font-weight: 300;">Get high-performance web hosting, free custom domains, and automated sitemaps for your portfolio or blogs.</p>
-            </div>
-            <a href="https://hostinger.com?referral=your-tag" target="_blank" rel="noopener sponsored" style="color: #ffffff; background: linear-gradient(135deg, var(--primary-accent, #3b82f6), #4f46e5); text-decoration: none; padding: 10px 16px; border-radius: 8px; font-size: 0.875rem; text-align: center; font-weight: 500; transition: opacity 0.2s;">Get Started &rarr;</a>
-        </div>
-        </div></div>
-    </div>
-    
-    
+        // Function to kill a specific task
+        async function killTask(taskId) {
+            const response = await fetch('/manage_task', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    "name": "manage_task",
+                    "arguments": {
+                        "Action": "kill",
+                        "TaskId": taskId
+                    }
+                })
+            });
 
-    
-    
-    
+            if (response.ok) {
+                console.log('Task killed successfully');
+                fetchTasks(); // Refresh the task list
+            } else {
+                console.error('Failed to kill task');
+            }
+        }
+
+        // Function to check status of a specific task
+        async function checkStatus(taskId) {
+            const response = await fetch('/manage_task', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    "name": "manage_task",
+                    "arguments": {
+                        "Action": "status",
+                        "TaskId": taskId
+                    }
+                })
+            });
+
+            if (response.ok) {
+                const status = await response.json();
+                alert(`Status for task ${taskId}: ${status.status}\nLog URI: ${status.logUri}`);
+            } else {
+                console.error('Failed to get task status');
+            }
+        }
+
+        // Initial fetch
+        fetchTasks();
+    </script>
 
     <footer style="text-align: center; padding: 60px 20px; color: #9ca3af; border-top: 1px solid rgba(255,255,255,0.08); font-size: 0.95rem; background: rgba(8, 11, 17, 0.4); font-family: 'Outfit', sans-serif; margin-top: 60px;">
         <p>&copy; 2026 Aegis Developer Hub. All rights reserved.</p>
@@ -435,555 +229,5 @@ export default function RootLayout({ children }) {
         </p>
     </footer>
     
-</body>
-    </html>
-  );
-}`,
-                "app/page.js": () => `import Link from 'next/link';
-
-export default function Home() {
-  return (
-    <main className="max-w-6xl mx-auto px-6 py-20 flex flex-col items-center text-center">
-      <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 uppercase tracking-wide mb-6">
-        Next.js & Supabase Template Ready
-      </div>
-      
-      <h1 className="text-5xl md:text-7xl font-extrabold text-white tracking-tight mb-6">
-        Launch Your Micro-SaaS <br/>
-        <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-teal-200">
-          In Record Time
-        </span>
-      </h1>
-
-      <p className="text-gray-400 text-lg md:text-xl max-w-2xl mb-10 leading-relaxed">
-        Stop spending weeks configuring database clients, responsive headers, and OAuth callbacks. Start writing the business logic that drives conversions.
-      </p>
-
-      <div className="flex gap-4">
-        <Link href="/auth/login" className="px-6 py-3 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-white font-semibold transition-all">
-          Get Started For Free
-        </Link>
-        <a href="#pricing" className="px-6 py-3 rounded-xl border border-white/10 hover:bg-white/5 text-gray-300 font-semibold transition-all">
-          View Pricing
-        </a>
-      </div>
-    </main>
-  );
-}`,
-                "lib/supabase.js": () => `import { createBrowserClient } from '@supabase/ssr';
-
-export function createClient() {
-  return createBrowserClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
-  );
-}`,
-                "app/api/webhooks/route.js": () => `// Webhook Integration for ${activePayment === 'lemonsqueezy' ? 'Lemon Squeezy' : activePayment === 'stripe' ? 'Stripe' : 'Paddle'}
-import { NextResponse } from 'next/server';
-import crypto from 'crypto';
-
-export async function POST(req) {
-  const rawBody = await req.text();
-  
-  ${activePayment === 'lemonsqueezy' ? `// Validate signature for Lemon Squeezy
-  const secret = process.env.LEMONSQUEEZY_WEBHOOK_SECRET;
-  const hmac = crypto.createHmac('sha256', secret);
-  const digest = Buffer.from(hmac.update(rawBody).digest('hex'), 'utf8');
-  const signature = Buffer.from(req.headers.get('x-signature') || '', 'utf8');
-
-  if (!crypto.timingSafeEqual(digest, signature)) {
-    return NextResponse.json({ error: 'Invalid signature' }, { status: 401 });
-  }
-
-  const payload = JSON.parse(rawBody);
-  const eventName = payload['meta']['event_name'];
-
-  if (eventName === 'order_created') {
-    const userEmail = payload['data']['attributes']['user_email'];
-    const customFields = payload['meta']['custom_data'];
-    // Update user quota or role inside Supabase Database here
-    console.log(\`Successfully credited: \${userEmail}\`);
-  }` : activePayment === 'stripe' ? `// Validate signature for Stripe
-  const sig = req.headers.get('stripe-signature');
-  // Initialize Stripe client wrapper and confirm event
-  // stripe.webhooks.constructEvent(rawBody, sig, endpointSecret)
-  console.log("Stripe webhook payload received successfully");` : `// Validate signature for Paddle
-  console.log("Paddle webhook payload received successfully");`}
-
-  return NextResponse.json({ success: true });
-}`
-            },
-            nextjs_prisma: {
-                "package.json": () => `{
-  "name": "nextjs-prisma-postgres-boilerplate",
-  "version": "1.0.0",
-  "private": true,
-  "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "postinstall": "prisma generate"
-  },
-  "dependencies": {
-    "@prisma/client": "^5.14.0",
-    "next": "^14.2.3",
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1",
-    "lucide-react": "^0.379.0"
-  },
-  "devDependencies": {
-    "prisma": "^5.14.0",
-    "tailwindcss": "^3.4.3"
-  }
-}`,
-                "README.md": () => `# Aegis Next.js + Prisma PostgreSQL Boilerplate
-
-Designed for developers needing clean relational modeling and automated ORM mapping.
-
-## Setup
-1. Define Postgres database URL in \`.env\`:
-   \`\`\`env
-   DATABASE_URL="postgresql://user:password@localhost:5432/mydb"
-   \`\`\`
-2. Push your schema:
-   \`\`\`bash
-   npx prisma db push
-   \`\`\`
-`,
-                "prisma/schema.prisma": () => `datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
-}
-
-generator client {
-  provider = "prisma-client-js"
-}
-
-model User {
-  id        String   @id @default(uuid())
-  email     String   @unique
-  name      String?
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  plan      String   @default("FREE")
-}`,
-                "lib/prisma.js": () => `import { PrismaClient } from '@prisma/client';
-
-const globalForPrisma = global;
-
-export const prisma =
-  globalForPrisma.prisma ||
-  new PrismaClient({
-    log: ['query'],
-  });
-
-if (process.env.NODE_ENV !== 'production') globalForPrisma.prisma = prisma;`
-            },
-            sveltekit_supabase: {
-                "package.json": () => `{
-  "name": "sveltekit-supabase-boilerplate",
-  "version": "1.0.0",
-  "scripts": {
-    "dev": "vite dev",
-    "build": "vite build",
-    "preview": "vite preview"
-  },
-  "devDependencies": {
-    "@sveltejs/adapter-auto": "^3.2.0",
-    "@sveltejs/kit": "^2.5.7",
-    "@sveltejs/vite-plugin-svelte": "^3.1.0",
-    "svelte": "^4.2.16",
-    "tailwindcss": "^3.4.3",
-    "vite": "^5.2.11"
-  }
-}`,
-                "README.md": () => `# SvelteKit + Tailwind CSS Boilerplate Kit
-Ultra-responsive frontend with blazing speed.
-`,
-                "src/routes/+page.svelte": () => `<main class="p-8 max-w-4xl mx-auto text-center">
-  <h1 class="text-4xl font-bold text-white mb-4">SvelteKit Sandbox Initialized</h1>
-  <p class="text-gray-400">Blazing fast reactive client rendering.</p>
-</main>`
-            },
-            vite_react_firebase: {
-                "package.json": () => `{
-  "name": "vite-react-firebase-boilerplate",
-  "version": "1.0.0",
-  "scripts": {
-    "dev": "vite",
-    "build": "vite build",
-    "preview": "vite preview"
-  },
-  "dependencies": {
-    "firebase": "^10.12.0",
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1"
-  },
-  "devDependencies": {
-    "@vitejs/plugin-react": "^4.3.0",
-    "tailwindcss": "^3.4.3",
-    "vite": "^5.2.11"
-  }
-}`,
-                "README.md": () => `# Vite + React + Firebase Client Boilerplate
-
-No servers to manage, infinite scalability.
-`,
-                "src/firebase.js": () => `import { initializeApp } from "firebase/app";
-import { getAuth } from "firebase/auth";
-import { getFirestore } from "firebase/firestore";
-
-const firebaseConfig = {
-  apiKey: "your-api-key",
-  authDomain: "your-auth-domain",
-  projectId: "your-project-id",
-  storageBucket: "your-storage-bucket",
-  messagingSenderId: "your-sender-id",
-  appId: "your-app-id"
-};
-
-const app = initializeApp(firebaseConfig);
-export const auth = getAuth(app);
-export const db = getFirestore(app);`
-            }
-        };
-
-        // Render File Tree Sidebar based on current stack selection
-        function renderFileTree() {
-            const container = document.getElementById('file-tree-container');
-            container.innerHTML = '';
-            
-            const fileDict = FILES_PRESET[activeStack];
-            const sortedPaths = Object.keys(fileDict).sort();
-            
-            // Basic directory/file hierarchical tree rendering
-            let structureMap = {};
-            sortedPaths.forEach(path => {
-                const parts = path.split('/');
-                let current = structureMap;
-                for (let i = 0; i < parts.length; i++) {
-                    const part = parts[i];
-                    if (i === parts.length - 1) {
-                        current[part] = path; // Leaf file reference path
-                    } else {
-                        if (!current[part]) current[part] = {};
-                        current = current[part];
-                    }
-                }
-            });
-
-            function buildHtml(obj, name, depth = 0, currentPath = '') {
-                let html = '';
-                const indent = depth * 12;
-                
-                // Sort folders before files
-                const entries = Object.entries(obj).sort((a, b) => {
-                    const aIsDir = typeof a[1] === 'object';
-                    const bIsDir = typeof b[1] === 'object';
-                    if (aIsDir && !bIsDir) return -1;
-                    if (!aIsDir && bIsDir) return 1;
-                    return a[0].localeCompare(b[0]);
-                });
-
-                entries.forEach(([key, val]) => {
-                    const isDir = typeof val === 'object';
-                    if (isDir) {
-                        html += `
-                        <div class="space-y-1">
-                            <div class="flex items-center gap-1.5 py-1 text-xs text-gray-400 font-medium" style="padding-left: ${indent}px">
-                                <i data-lucide="folder" class="w-3.5 h-3.5 text-emerald-500"></i>
-                                <span>${key}</span>
-                            </div>
-                            <div class="border-l border-white/5 ml-1.5">
-                                ${buildHtml(val, key, depth + 1, currentPath + key + '/')}
-                            </div>
-                        </div>`;
-                    } else {
-                        const isActive = selectedFile === val;
-                        html += `
-                        <button onclick="selectFile('${val}')" class="w-full flex items-center gap-1.5 py-1 px-2 rounded-lg text-xs font-mono text-left transition-all ${
-                            isActive 
-                            ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 font-semibold' 
-                            : 'text-gray-400 hover:text-white hover:bg-white/5 border border-transparent'
-                        }" style="padding-left: ${indent + 8}px">
-                            <i data-lucide="file-code" class="w-3.5 h-3.5 ${isActive ? 'text-emerald-400' : 'text-gray-500'}"></i>
-                            <span>${key}</span>
-                        </button>`;
-                    }
-                });
-                return html;
-            }
-
-            container.innerHTML = buildHtml(structureMap, '');
-            lucide.createIcons();
-        }
-
-        // Handle active stack change
-        function setStack(stackKey) {
-            // Update UI selected btn states
-            document.querySelectorAll('[id^="btn-"]').forEach(btn => {
-                btn.classList.remove('border-emerald-500/30', 'bg-white/10', 'active');
-                if (btn.id === `btn-${stackKey}`) {
-                    btn.classList.add('border-emerald-500/30', 'bg-white/10', 'active');
-                }
-            });
-
-            activeStack = stackKey;
-            
-            // Set default selected file depending on stack
-            const files = Object.keys(FILES_PRESET[activeStack]);
-            if (!files.includes(selectedFile)) {
-                selectedFile = files[0];
-            }
-            
-            renderFileTree();
-            renderSelectedFileCode();
-            showToast("Stack changed: " + stackKey.replace('_', ' ').toUpperCase());
-        }
-
-        // Choose Theme Mode
-        function setAuthTheme(theme) {
-            document.querySelectorAll('[id^="theme-"]').forEach(btn => {
-                btn.classList.remove('bg-emerald-500', 'text-white');
-                btn.classList.add('bg-white/5', 'text-gray-300');
-            });
-            const activeBtn = document.getElementById(`theme-${theme}`);
-            activeBtn.classList.remove('bg-white/5', 'text-gray-300');
-            activeBtn.classList.add('bg-emerald-500', 'text-white');
-            
-            activeAuthTheme = theme;
-            renderSelectedFileCode();
-            showToast(`Auth theme preview: ${theme.toUpperCase()}`);
-        }
-
-        // Generic Option change trigger
-        function updateOptions() {
-            activePayment = document.getElementById('payment-select').value;
-            renderSelectedFileCode();
-        }
-
-        // View file details inside code panel
-        function selectFile(filePath) {
-            selectedFile = filePath;
-            renderFileTree(); // re-draw hierarchy to update highlight class
-            renderSelectedFileCode();
-        }
-
-        // Output current file contents to code elements
-        function renderSelectedFileCode() {
-            const label = document.getElementById('current-file-label');
-            const path = document.getElementById('current-path-label');
-            const codeBox = document.getElementById('code-editor-element');
-
-            const fileDict = FILES_PRESET[activeStack];
-            const fileGenerator = fileDict[selectedFile];
-            
-            if (fileGenerator) {
-                label.textContent = selectedFile.split('/').pop();
-                path.textContent = `/${selectedFile}`;
-                codeBox.textContent = fileGenerator();
-            } else {
-                codeBox.textContent = "// File not found or empty";
-            }
-        }
-
-        // Clipboard Copy Action
-        function copyCurrentCode() {
-            const codeBox = document.getElementById('code-editor-element');
-            navigator.clipboard.writeText(codeBox.textContent).then(() => {
-                showToast("Code copied to clipboard!");
-            });
-        }
-
-        // Toast Popup Notification
-        function showToast(message) {
-            const container = document.getElementById('toast-container');
-            const toast = document.createElement('div');
-            toast.className = "flex items-center gap-2.5 py-3 px-4 rounded-xl border border-white/10 bg-gray-900/90 text-white text-xs font-medium shadow-2xl pointer-events-auto transition-all duration-300 opacity-0 translate-y-2";
-            toast.innerHTML = `
-                <i data-lucide="check-circle" class="w-4 h-4 text-emerald-400"></i>
-                <span>${message}</span>
-            `;
-            container.appendChild(toast);
-            lucide.createIcons();
-            
-            // Animate in
-            setTimeout(() => {
-                toast.classList.remove('opacity-0', 'translate-y-2');
-            }, 10);
-            
-            // Animate out
-            setTimeout(() => {
-                toast.classList.add('opacity-0', 'translate-y-2');
-                setTimeout(() => {
-                    toast.remove();
-                }, 300);
-            }, 3000);
-        }
-
-        // Dynamic local client-side ZIP generation
-        function downloadZip() {
-            if (!checkProStatus('download')) return;
-            const zip = new JSZip();
-            const fileDict = FILES_PRESET[activeStack];
-
-            // Populate JSZip folder structure
-            Object.entries(fileDict).forEach(([filePath, generator]) => {
-                zip.file(filePath, generator());
-            });
-
-            // If docker Compose addon is checked, append compose.yml client-side
-            if (document.getElementById('addon-docker').checked) {
-                zip.file("docker-compose.yml", `version: '3.8'
-services:
-  app:
-    build: .
-    ports:
-      - "3000:3000"
-    environment:
-      - NODE_ENV=development
-`);
-            }
-
-            // Exporter config.json metadata
-            zip.file("aegis-config.json", JSON.stringify({
-                stack: activeStack,
-                auth_theme: activeAuthTheme,
-                payment_gateway: activePayment,
-                sitemap_seo: document.getElementById('addon-seo').checked,
-                vercel_analytics: document.getElementById('addon-analytics').checked,
-                exported_at: new Date().toISOString()
-            }, null, 2));
-
-            // Generate ZIP blob and trigger browser download
-            zip.generateAsync({ type: "blob" }).then(function (content) {
-                const url = window.URL.createObjectURL(content);
-                const a = document.createElement('a');
-                a.href = url;
-                a.download = `aegis-${activeStack}-boilerplate.zip`;
-                document.body.appendChild(a);
-                a.click();
-                window.URL.revokeObjectURL(url);
-                a.remove();
-
-                // Trigger confetti celebration!
-                confetti({
-                    particleCount: 80,
-                    spread: 60,
-                    origin: { y: 0.8 },
-                    colors: ['#10b981', '#3b82f6', '#14b8a6']
-                });
-
-                showToast("Boilerplate ZIP generated & downloaded!");
-            });
-        }
-
-        // Premium Gating Logic
-        let isProUnlocked = localStorage.getItem('aegis_pro_unlocked') === 'true';
-
-        // Lemon Squeezy event handler setup
-        if (window.LemonSqueezy) {
-            window.LemonSqueezy.Setup({
-                eventHandler: (event) => {
-                    if (event.event === 'Checkout.Success') {
-                        isProUnlocked = true;
-                        localStorage.setItem('aegis_pro_unlocked', 'true');
-                        closePremiumGate();
-                        confetti({
-                            particleCount: 150,
-                            spread: 80,
-                            origin: { y: 0.6 }
-                        });
-                        showToast("Aegis Pro features unlocked successfully!");
-                    }
-                }
-            });
-        }
-
-        function checkProStatus(triggeringAction) {
-            if (isProUnlocked) return true;
-            
-            const isDockerChecked = document.getElementById('addon-docker') && document.getElementById('addon-docker').checked;
-            const isPrismaSelected = activeStack === 'nextjs_prisma';
-            
-            if (isDockerChecked || isPrismaSelected) {
-                document.getElementById('premium-gate-modal').classList.remove('hidden');
-                return false;
-            }
-            return true;
-        }
-
-        function closePremiumGate() {
-            document.getElementById('premium-gate-modal').classList.add('hidden');
-            if (!isProUnlocked) {
-                if (document.getElementById('addon-docker')) {
-                    document.getElementById('addon-docker').checked = false;
-                }
-                if (activeStack === 'nextjs_prisma') {
-                    setStack('nextjs_supabase');
-                }
-            }
-        }
-
-        // Intercept setStack to check pro status!
-        const originalSetStack = window.setStack;
-        window.setStack = function(stack) {
-            if (stack === 'nextjs_prisma' && !isProUnlocked) {
-                document.getElementById('premium-gate-modal').classList.remove('hidden');
-                return;
-            }
-            if (typeof originalSetStack === 'function') {
-                originalSetStack(stack);
-            }
-        };
-
-        // Intercept updateOptions to check pro status when docker compose is clicked
-        const originalUpdateOptions = window.updateOptions;
-        window.updateOptions = function() {
-            if (typeof originalUpdateOptions === 'function') {
-                originalUpdateOptions();
-            }
-            checkProStatus('options');
-        };
-
-        // Initial setup
-        window.addEventListener('DOMContentLoaded', () => {
-            renderFileTree();
-            renderSelectedFileCode();
-            lucide.createIcons();
-            
-            // Re-setup LemonSqueezy overlay buttons
-            if (window.createLemonSqueezy) {
-                window.createLemonSqueezy();
-            }
-        });
-    </script>
-
-    <!-- Premium Gate Modal -->
-    <div id="premium-gate-modal" class="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/80 backdrop-blur-sm hidden" style="background: rgba(8, 11, 17, 0.85); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);">
-        <div class="glass max-w-md w-full p-8 rounded-3xl border border-white/10 bg-[#0c101b] shadow-2xl space-y-6 text-center" style="font-family: 'Outfit', sans-serif; box-shadow: 0 20px 40px rgba(0,0,0,0.6);">
-            <div class="inline-flex items-center justify-center w-12 h-12 rounded-full bg-yellow-500/10 text-yellow-400 mb-2 mx-auto">
-                <i data-lucide="crown" class="w-6 h-6"></i>
-            </div>
-            <h3 class="text-xl font-bold text-white">Unlock Aegis Pro Boilerplates</h3>
-            <p class="text-sm text-gray-300 leading-relaxed">
-                You have selected a premium boilerplate configuration (Prisma stack or Docker environment). Unlock the full professional features:
-            </p>
-            <ul class="text-xs text-gray-400 space-y-2 text-left list-disc list-inside">
-                <li>Full Docker Compose environment files</li>
-                <li>Pre-integrated Stripe/Lemon Squeezy webhooks</li>
-                <li>Ready-to-deploy Supabase SQL database schemas</li>
-                <li>GitHub Actions CI/CD deployment pipelines</li>
-            </ul>
-            <div class="flex flex-col gap-3">
-                <a href="https://aegishub.lemonsqueezy.com/checkout/buy/0f7285e8-f8d2-4d19-8856-1e6d08ef423f?embed=1" class="lemonsqueezy-button w-full py-3 px-4 rounded-xl bg-gradient-to-r from-yellow-500 to-amber-500 hover:from-yellow-400 hover:to-amber-400 text-slate-950 font-bold text-sm shadow-lg shadow-yellow-950/30 text-center" data-cb-type="checkout" data-cb-embed="1">
-                    Buy Pro Starter Kit - $29
-                </a>
-                <button onclick="closePremiumGate()" class="text-xs text-gray-500 hover:text-gray-400 transition-colors">
-                    Cancel Selection
-                </button>
-            </div>
-        </div>
-    </div>
 </body>
 </html>

@@ -5,76 +5,24 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Base64 Studio | Pro Utility</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
     <style>
-        :root {
-            --font-main: 'Outfit', sans-serif;
-            --font-body: 'Inter', sans-serif;
-        }
-        body {
-            font-family: var(--font-body);
-            background-color: #080b11;
-            background-image: 
-                radial-gradient(circle at 10% 20%, rgba(59, 130, 246, 0.03) 0%, transparent 40%),
-                radial-gradient(circle at 90% 80%, rgba(99, 102, 241, 0.02) 0%, transparent 40%);
-            background-attachment: fixed;
-        }
-        h1, h2, h3, h4, .font-heading {
-            font-family: var(--font-main);
-        }
-        .glass {
-            background: rgba(17, 24, 39, 0.55);
-            backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-        }
-        .glass-card {
-            background: rgba(255, 255, 255, 0.02);
-            backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-        }
-        .btn-gradient {
-            background: linear-gradient(135deg, #3b82f6 0%, #6366f1 100%);
-            transition: all 0.2s ease;
-        }
-        .btn-gradient:hover {
-            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4);
-            transform: translateY(-1px);
-        }
-        .btn-secondary {
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            transition: all 0.2s ease;
-        }
-        .btn-secondary:hover {
-            background: rgba(255, 255, 255, 0.07);
-            border-color: rgba(255, 255, 255, 0.15);
-        }
-        textarea {
-            font-family: 'Courier New', Courier, monospace;
-            background: rgba(0, 0, 0, 0.25) !important;
-            border-color: rgba(255, 255, 255, 0.05) !important;
-        }
-        textarea:focus {
-            border-color: rgba(59, 130, 246, 0.4) !important;
-            box-shadow: 0 0 10px rgba(59, 130, 246, 0.1) !important;
-            outline: none;
-        }
-        .dropzone {
-            border: 2px dashed rgba(255, 255, 255, 0.1);
-            transition: all 0.25s ease;
-        }
-        .dropzone.dragover {
-            border-color: #3b82f6;
-            background: rgba(59, 130, 246, 0.05);
-        }
-        .tab-btn.active {
-            color: #fff;
-            border-bottom: 2px solid #3b82f6;
-        }
+        body { font-family: 'Outfit', sans-serif; background-color: #030712; color: #f8fafc; }
+        .glass { background: rgba(17, 24, 39, 0.7); backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.08); }
+        textarea { resize: vertical; min-height: 200px; background: rgba(0,0,0,0.2); }
+        .btn-primary { background: linear-gradient(135deg, #3b82f6 0%, #6366f1 100%); transition: all 0.3s ease; }
+        .btn-primary:active { transform: translateY(2px); }
+        .btn-secondary { background: rgba(55, 65, 81, 0.5); border: 1px solid rgba(255,255,255,0.1); transition: all 0.3s ease; }
+        .btn-secondary:hover { background: rgba(75, 85, 99, 0.8); }
+        .gradient-text { -webkit-background-clip: text; background-clip: text; color: transparent; }
     </style>
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4750454395006570" crossorigin="anonymous"></script>
+
     <script defer src="/_vercel/insights/script.js"></script>
+
     <link rel="icon" type="image/png" href="/static/logo.png">
+
+    <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-BZVWXPPG06"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
@@ -82,6 +30,7 @@
       gtag('js', new Date());
       gtag('config', 'G-BZVWXPPG06');
     </script>
+
     <script src="https://assets.lemonsqueezy.com/lemon.js" defer></script>
 
     <style>
@@ -96,7 +45,7 @@
     </style>
     
 </head>
-<body class="flex flex-col min-h-screen text-slate-200">
+<body class="min-h-screen p-4 md:p-12 flex flex-col items-center">
 
     <div class="navbar" style="display: flex; justify-content: space-between; align-items: center; padding: 20px 40px; border-bottom: 1px solid rgba(255,255,255,0.08); background: rgba(11, 15, 25, 0.75); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); position: sticky; top: 0; z-index: 100; font-family: 'Outfit', sans-serif;">
         <a href="/" style="display: flex; align-items: center; gap: 10px; color: #f3f4f6; text-decoration: none; font-weight: 600;">
@@ -110,498 +59,62 @@
     
     
 
-    
-    
+    <nav class="w-full max-w-5xl mb-12 flex items-center justify-between glass px-8 py-4 rounded-2xl">
+        <div class="text-xl font-semibold tracking-tight gradient-text bg-gradient-to-r from-blue-400 to-indigo-400">Base64 Studio</div>
+        <div class="text-sm text-slate-400 font-light">Pro Developer Utility</div>
+    </nav>
 
-    
-    
-
-    <!-- Navbar Wrapper (Layout squeezer proof) -->
-    
-
-    <!-- Main Container -->
-    <div class="flex-grow max-w-7xl mx-auto w-full px-6 py-12 flex flex-col">
-        
-        <!-- Header -->
-        <header class="mb-10 flex flex-col md:flex-row md:items-center justify-between gap-4 glass px-8 py-5 rounded-2xl">
-            <div>
-                <h1 class="text-2xl font-bold tracking-tight text-white font-heading">Base64 Studio</h1>
-                <p class="text-sm text-slate-400 mt-1">Real-time client-side Base64 encoder/decoder for text, images, and binary files.</p>
+    <main class="w-full max-w-5xl glass rounded-3xl p-8 md:p-12 shadow-2xl">
+        <div class="grid md:grid-cols-2 gap-8">
+            <div class="space-y-4">
+                <label class="block text-sm font-medium text-slate-300 uppercase tracking-wider">Input Payload</label>
+                <textarea id="input" class="w-full border border-slate-700 rounded-2xl p-6 text-slate-100 focus:ring-2 focus:ring-blue-500 outline-none transition" placeholder="Paste data here..."></textarea>
             </div>
-            <div class="flex items-center gap-2">
-                <span class="px-3 py-1 bg-green-500/10 text-green-400 text-xs font-semibold rounded-full uppercase tracking-wider">100% Client-Side</span>
-            </div>
-        </header>
-
-        <!-- Main Workspace -->
-        <div class="glass rounded-3xl p-6 md:p-8 flex-grow flex flex-col gap-6">
             
-            <!-- Tab Controls -->
-            <div class="flex border-b border-white/5 gap-6">
-                <button onclick="switchTab('text')" id="tab-btn-text" class="tab-btn font-heading font-medium pb-3 text-slate-400 hover:text-white transition active">Text Mode</button>
-                <button onclick="switchTab('file')" id="tab-btn-file" class="tab-btn font-heading font-medium pb-3 text-slate-400 hover:text-white transition">Binary File Mode</button>
-                <button onclick="switchTab('image')" id="tab-btn-image" class="tab-btn font-heading font-medium pb-3 text-slate-400 hover:text-white transition">Image Mode</button>
+            <div class="space-y-4">
+                <label class="block text-sm font-medium text-slate-300 uppercase tracking-wider">Processed Output</label>
+                <textarea id="output" class="w-full border border-slate-700 rounded-2xl p-6 text-blue-300 font-mono" readonly placeholder="Result will appear here..."></textarea>
             </div>
-
-            <!-- Tab: Text Mode -->
-            <div id="tab-content-text" class="tab-pane flex-grow flex flex-col gap-6">
-                <div class="grid md:grid-cols-2 gap-6 flex-grow">
-                    <div class="flex flex-col gap-2">
-                        <div class="flex justify-between items-center px-1">
-                            <span class="text-xs font-semibold uppercase tracking-wider text-slate-400 font-heading">Input Text Payload</span>
-                            <span id="text-input-size" class="text-xs text-slate-500">0 chars</span>
-                        </div>
-                        <textarea id="text-input" class="w-full flex-grow border border-white/5 rounded-2xl p-5 text-slate-100 text-sm placeholder:text-slate-600 focus:outline-none" placeholder="Enter or paste plain text here to encode, or base64 to decode..."></textarea>
-                    </div>
-                    
-                    <div class="flex flex-col gap-2">
-                        <div class="flex justify-between items-center px-1">
-                            <span class="text-xs font-semibold uppercase tracking-wider text-slate-400 font-heading">Processed Output</span>
-                            <span id="text-output-size" class="text-xs text-slate-500">0 chars</span>
-                        </div>
-                        <textarea id="text-output" class="w-full flex-grow border border-white/5 rounded-2xl p-5 text-blue-300 text-sm focus:outline-none" readonly placeholder="Output will appear here..."></textarea>
-                    </div>
-                </div>
-
-                <div class="flex flex-wrap gap-4 justify-center py-2 border-t border-white/5">
-                    <button onclick="textProcess('encode')" class="btn-gradient px-8 py-3 rounded-xl font-semibold text-white text-sm shadow-md">Encode Text</button>
-                    <button onclick="textProcess('decode')" class="btn-secondary px-8 py-3 rounded-xl font-semibold text-white text-sm">Decode Base64</button>
-                    <button onclick="copyContent('text-output')" class="btn-secondary px-6 py-3 rounded-xl font-semibold text-slate-300 text-sm">Copy Result</button>
-                    <button onclick="clearText()" class="px-6 py-3 text-slate-500 hover:text-slate-300 text-sm font-medium transition">Clear</button>
-                </div>
-            </div>
-
-            <!-- Tab: File Mode -->
-            <div id="tab-content-file" class="tab-pane hidden flex-grow flex flex-col gap-6">
-                <div class="grid md:grid-cols-2 gap-6 flex-grow">
-                    <!-- Left: Encoder Area -->
-                    <div class="flex flex-col gap-4">
-                        <h3 class="text-sm font-semibold uppercase tracking-wider text-slate-400 font-heading">File to Base64 (Encode)</h3>
-                        <div id="file-dropzone" class="dropzone rounded-2xl p-8 text-center flex flex-col items-center justify-center gap-3 cursor-pointer py-12">
-                            <input type="file" id="file-input" class="hidden" onchange="handleFileSelect(event)">
-                            <svg class="w-10 h-10 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path></svg>
-                            <div class="text-sm text-slate-300">Drag & drop any binary file, or <span class="text-blue-400 hover:underline">browse</span></div>
-                            <div class="text-xs text-slate-500">Supports PDFs, ZIPs, datasets, binary blobs, etc.</div>
-                        </div>
-                        <div id="file-meta" class="hidden glass-card p-4 rounded-xl text-xs space-y-1">
-                            <div><strong class="text-slate-400">Filename:</strong> <span id="meta-name" class="text-slate-200"></span></div>
-                            <div><strong class="text-slate-400">Size:</strong> <span id="meta-size" class="text-slate-200"></span></div>
-                            <div><strong class="text-slate-400">Type:</strong> <span id="meta-type" class="text-slate-200"></span></div>
-                        </div>
-                        <div class="flex-grow flex flex-col gap-2">
-                            <span class="text-xs font-semibold uppercase text-slate-500 px-1">Encoded Base64 Output</span>
-                            <textarea id="file-output" class="w-full flex-grow min-h-[150px] border border-white/5 rounded-2xl p-4 text-xs text-blue-300 focus:outline-none" readonly></textarea>
-                        </div>
-                        <div class="flex gap-3 justify-end">
-                            <button onclick="copyContent('file-output')" class="btn-secondary px-5 py-2.5 rounded-xl font-semibold text-slate-300 text-xs">Copy Code</button>
-                            <button onclick="downloadTextFile('file-output', 'encoded_base64.txt')" class="btn-gradient px-5 py-2.5 rounded-xl font-semibold text-white text-xs">Download TXT</button>
-                        </div>
-                    </div>
-
-                    <!-- Right: Decoder Area -->
-                    <div class="flex flex-col gap-4">
-                        <h3 class="text-sm font-semibold uppercase tracking-wider text-slate-400 font-heading">Base64 to File (Decode)</h3>
-                        <div class="flex-grow flex flex-col gap-2">
-                            <span class="text-xs font-semibold uppercase text-slate-500 px-1">Paste Base64 Code</span>
-                            <textarea id="file-decode-input" class="w-full flex-grow border border-white/5 rounded-2xl p-4 text-xs text-slate-300 focus:outline-none" placeholder="Paste base64 content here..."></textarea>
-                        </div>
-                        <div class="glass-card p-4 rounded-xl space-y-3">
-                            <div class="grid grid-cols-2 gap-3">
-                                <div class="space-y-1">
-                                    <label class="text-[10px] uppercase font-bold text-slate-500">Output Filename</label>
-                                    <input type="text" id="decode-filename" class="w-full bg-slate-900/60 border border-white/5 rounded-lg px-3 py-2 text-xs focus:outline-none" placeholder="decoded_file.bin">
-                                </div>
-                                <div class="space-y-1">
-                                    <label class="text-[10px] uppercase font-bold text-slate-500">MIME Content-Type</label>
-                                    <input type="text" id="decode-mime" class="w-full bg-slate-900/60 border border-white/5 rounded-lg px-3 py-2 text-xs focus:outline-none" placeholder="application/octet-stream">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="flex justify-end">
-                            <button onclick="decodeToFile()" class="btn-gradient px-6 py-3 rounded-xl font-semibold text-white text-sm shadow-md">Decode & Download File</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Tab: Image Mode -->
-            <div id="tab-content-image" class="tab-pane hidden flex-grow flex flex-col gap-6">
-                <div class="grid md:grid-cols-2 gap-6 flex-grow">
-                    <!-- Left: Upload and Preview -->
-                    <div class="flex flex-col gap-4">
-                        <h3 class="text-sm font-semibold uppercase tracking-wider text-slate-400 font-heading">Image Input</h3>
-                        <div id="img-dropzone" class="dropzone rounded-2xl p-8 text-center flex flex-col items-center justify-center gap-3 cursor-pointer py-12">
-                            <input type="file" id="img-input" class="hidden" accept="image/*" onchange="handleImageSelect(event)">
-                            <svg class="w-10 h-10 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
-                            <div class="text-sm text-slate-300">Drag & drop any image file, or <span class="text-blue-400 hover:underline">browse</span></div>
-                            <div class="text-xs text-slate-500">Supports PNG, JPG, WebP, SVG, GIF, etc.</div>
-                        </div>
-                        
-                        <div id="img-preview-box" class="hidden flex-grow flex flex-col gap-3 glass-card p-5 rounded-2xl items-center justify-center">
-                            <span class="text-xs font-semibold uppercase text-slate-500">Live Visual Preview</span>
-                            <div class="max-h-[220px] overflow-hidden rounded-lg border border-white/5 bg-black/45">
-                                <img id="img-preview" src="#" alt="Preview" class="max-h-[220px] object-contain">
-                            </div>
-                            <div id="img-meta" class="text-xs text-slate-400 font-mono"></div>
-                        </div>
-                    </div>
-
-                    <!-- Right: Base64 Outputs -->
-                    <div class="flex flex-col gap-4">
-                        <h3 class="text-sm font-semibold uppercase tracking-wider text-slate-400 font-heading">Base64 Output Formats</h3>
-                        
-                        <div class="flex-grow flex flex-col gap-2">
-                            <div class="flex justify-between items-center">
-                                <span class="text-xs font-semibold text-slate-400 px-1">Raw Base64 Code</span>
-                                <button onclick="copyContent('img-raw-output')" class="text-blue-400 hover:text-blue-300 text-xs">Copy</button>
-                            </div>
-                            <textarea id="img-raw-output" class="w-full flex-grow min-h-[120px] border border-white/5 rounded-2xl p-4 text-xs text-blue-300 focus:outline-none" readonly></textarea>
-                        </div>
-                        
-                        <div class="flex-grow flex flex-col gap-2">
-                            <div class="flex justify-between items-center">
-                                <span class="text-xs font-semibold text-slate-400 px-1">HTML Data URI Link tag</span>
-                                <button onclick="copyContent('img-uri-output')" class="text-blue-400 hover:text-blue-300 text-xs">Copy</button>
-                            </div>
-                            <textarea id="img-uri-output" class="w-full flex-grow min-h-[120px] border border-white/5 rounded-2xl p-4 text-xs text-emerald-400 focus:outline-none" readonly></textarea>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
         </div>
 
-    </div>
-
-    <!-- Toast Notifications Container -->
-    <div id="toast-container" class="fixed bottom-5 right-5 z-50 flex flex-col gap-2 pointer-events-none"></div>
+        <div class="flex flex-wrap gap-4 mt-10 justify-center">
+            <button onclick="process('encode')" class="btn-primary px-8 py-3 rounded-xl font-semibold shadow-lg shadow-blue-500/20">Encode Base64</button>
+            <button onclick="process('decode')" class="btn-secondary px-8 py-3 rounded-xl font-semibold">Decode Base64</button>
+            <button onclick="copyToClipboard()" class="bg-transparent border border-slate-700 hover:border-slate-500 px-6 py-3 rounded-xl font-semibold transition">Copy Result</button>
+            <button onclick="clearFields()" class="text-slate-500 hover:text-slate-300 px-6 py-3 font-medium transition">Clear</button>
+        </div>
+    </main>
 
     <script>
-        // Tab switching
-        function switchTab(tabId) {
-            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-            document.querySelectorAll('.tab-pane').forEach(pane => pane.classList.add('hidden'));
-            
-            document.getElementById(`tab-btn-${tabId}`).classList.add('active');
-            document.getElementById(`tab-content-${tabId}`).classList.remove('hidden');
-        }
+        const input = document.getElementById('input');
+        const output = document.getElementById('output');
 
-        // Toast notifications system
-        function showToast(message, type = 'success') {
-            const container = document.getElementById('toast-container');
-            const toast = document.createElement('div');
-            toast.className = `px-5 py-3 rounded-xl text-xs font-semibold glass border shadow-2xl flex items-center gap-3 transition duration-300 opacity-0 translate-y-3 pointer-events-auto`;
-            
-            if (type === 'success') {
-                toast.style.borderColor = 'rgba(16, 185, 129, 0.2)';
-                toast.style.background = 'rgba(6, 78, 59, 0.7)';
-                toast.innerHTML = `<svg class="w-4 h-4 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg> <span>${message}</span>`;
-            } else {
-                toast.style.borderColor = 'rgba(239, 68, 68, 0.2)';
-                toast.style.background = 'rgba(127, 29, 29, 0.7)';
-                toast.innerHTML = `<svg class="w-4 h-4 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg> <span>${message}</span>`;
-            }
-
-            container.appendChild(toast);
-            setTimeout(() => {
-                toast.classList.remove('opacity-0', 'translate-y-3');
-                toast.classList.add('opacity-100', 'translate-y-0');
-            }, 10);
-
-            setTimeout(() => {
-                toast.classList.remove('opacity-100', 'translate-y-0');
-                toast.classList.add('opacity-0', 'translate-y-3');
-                setTimeout(() => toast.remove(), 300);
-            }, 3000);
-        }
-
-        // Generic copy content to clipboard
-        async function copyContent(elementId) {
-            const textarea = document.getElementById(elementId);
-            if (!textarea.value) {
-                showToast('No output content to copy!', 'error');
-                return;
-            }
-            try {
-                await navigator.clipboard.writeText(textarea.value);
-                showToast('Copied to clipboard successfully!');
-            } catch (e) {
-                showToast('Failed to copy text: ' + e.message, 'error');
-            }
-        }
-
-        // Helper to download text content as file
-        function downloadTextFile(textareaId, filename) {
-            const val = document.getElementById(textareaId).value;
-            if (!val) {
-                showToast('No content to download!', 'error');
-                return;
-            }
-            const blob = new Blob([val], { type: 'text/plain;charset=utf-8' });
-            const link = document.createElement('a');
-            link.href = URL.createObjectURL(blob);
-            link.download = filename;
-            link.click();
-            URL.revokeObjectURL(link.href);
-            showToast('Downloaded text report successfully!');
-        }
-
-        // ================= TEXT MODE UTILS =================
-        const txtInput = document.getElementById('text-input');
-        const txtOutput = document.getElementById('text-output');
-        const txtInSize = document.getElementById('text-input-size');
-        const txtOutSize = document.getElementById('text-output-size');
-
-        txtInput.addEventListener('input', () => {
-            txtInSize.textContent = `${txtInput.value.length} chars`;
-        });
-
-        function textProcess(mode) {
-            const val = txtInput.value;
-            if (!val) {
-                showToast('Please enter text to process!', 'error');
-                return;
-            }
+        function process(mode) {
+            const val = input.value;
+            if (!val) return;
             try {
                 if (mode === 'encode') {
-                    // Safe encoding that supports UTF-8 characters (like emojis)
-                    txtOutput.value = btoa(unescape(encodeURIComponent(val)));
-                    showToast('Successfully encoded text to Base64.');
+                    output.value = btoa(unescape(encodeURIComponent(val)));
                 } else {
-                    txtOutput.value = decodeURIComponent(escape(atob(val.trim())));
-                    showToast('Successfully decoded Base64 to text.');
+                    output.value = decodeURIComponent(escape(atob(val)));
                 }
-                txtOutSize.textContent = `${txtOutput.value.length} chars`;
             } catch (e) {
-                showToast('Decoding Error: Invalid Base64 structure.', 'error');
-                txtOutput.value = '';
-                txtOutSize.textContent = '0 chars';
+                alert('Processing Error: ' + e.message);
+                output.value = "";
             }
         }
 
-        function clearText() {
-            txtInput.value = '';
-            txtOutput.value = '';
-            txtInSize.textContent = '0 chars';
-            txtOutSize.textContent = '0 chars';
-            showToast('Cleared input and output fields.');
+        async function copyToClipboard() {
+            if (!output.value) return;
+            await navigator.clipboard.writeText(output.value);
+            alert("Copied to clipboard!");
         }
 
-        // ================= BINARY FILE MODE UTILS =================
-        const fileDropzone = document.getElementById('file-dropzone');
-        const fileInput = document.getElementById('file-input');
-        const fileMeta = document.getElementById('file-meta');
-        const fileOutput = document.getElementById('file-output');
-
-        // Drag and drop event handlers
-        ['dragenter', 'dragover'].forEach(name => {
-            fileDropzone.addEventListener(name, (e) => {
-                e.preventDefault();
-                fileDropzone.classList.add('dragover');
-            }, false);
-        });
-
-        ['dragleave', 'drop'].forEach(name => {
-            fileDropzone.addEventListener(name, (e) => {
-                e.preventDefault();
-                fileDropzone.classList.remove('dragover');
-            }, false);
-        });
-
-        fileDropzone.addEventListener('drop', (e) => {
-            const dt = e.dataTransfer;
-            const files = dt.files;
-            if (files.length) {
-                processBinaryFile(files[0]);
-            }
-        });
-
-        fileDropzone.addEventListener('click', () => fileInput.click());
-
-        function handleFileSelect(e) {
-            const files = e.target.files;
-            if (files.length) {
-                processBinaryFile(files[0]);
-            }
-        }
-
-        function processBinaryFile(file) {
-            fileMeta.classList.remove('hidden');
-            document.getElementById('meta-name').textContent = file.name;
-            document.getElementById('meta-size').textContent = `${file.size.toLocaleString()} bytes`;
-            document.getElementById('meta-type').textContent = file.type || 'unknown/binary';
-
-            const reader = new FileReader();
-            reader.onload = function(evt) {
-                const dataUrl = evt.target.result;
-                // FileReader.readAsDataURL returns "data:mime/type;base64,BASE64_DATA..."
-                // We extract just the base64 part
-                const base64Data = dataUrl.split(',')[1];
-                fileOutput.value = base64Data;
-                showToast('Binary file converted to Base64 successfully!');
-            };
-            reader.onerror = function() {
-                showToast('Error reading binary file.', 'error');
-            };
-            reader.readAsDataURL(file);
-        }
-
-        function decodeToFile() {
-            const b64 = document.getElementById('file-decode-input').value.trim();
-            let filename = document.getElementById('decode-filename').value.trim() || 'decoded_file.bin';
-            const mime = document.getElementById('decode-mime').value.trim() || 'application/octet-stream';
-
-            if (!b64) {
-                showToast('Please paste Base64 code to decode!', 'error');
-                return;
-            }
-
-            try {
-                // Decode base64 to binary byte array
-                const binaryStr = atob(b64);
-                const bytes = new Uint8Array(binaryStr.length);
-                for (let i = 0; i < binaryStr.length; i++) {
-                    bytes[i] = binaryStr.charCodeAt(i);
-                }
-
-                // Create blob and download
-                const blob = new Blob([bytes], { type: mime });
-                const link = document.createElement('a');
-                link.href = URL.createObjectURL(blob);
-                link.download = filename;
-                link.click();
-                URL.revokeObjectURL(link.href);
-                showToast('Successfully decoded Base64 and downloaded file!');
-            } catch (e) {
-                showToast('Decoding Error: Failed to parse binary file from Base64.', 'error');
-            }
-        }
-
-        // ================= IMAGE MODE UTILS =================
-        const imgDropzone = document.getElementById('img-dropzone');
-        const imgInput = document.getElementById('img-input');
-        const imgPreviewBox = document.getElementById('img-preview-box');
-        const imgPreview = document.getElementById('img-preview');
-        const imgMeta = document.getElementById('img-meta');
-        const imgRawOutput = document.getElementById('img-raw-output');
-        const imgUriOutput = document.getElementById('img-uri-output');
-
-        ['dragenter', 'dragover'].forEach(name => {
-            imgDropzone.addEventListener(name, (e) => {
-                e.preventDefault();
-                imgDropzone.classList.add('dragover');
-            }, false);
-        });
-
-        ['dragleave', 'drop'].forEach(name => {
-            imgDropzone.addEventListener(name, (e) => {
-                e.preventDefault();
-                imgDropzone.classList.remove('dragover');
-            }, false);
-        });
-
-        imgDropzone.addEventListener('drop', (e) => {
-            const dt = e.dataTransfer;
-            const files = dt.files;
-            if (files.length) {
-                processImageFile(files[0]);
-            }
-        });
-
-        imgDropzone.addEventListener('click', () => imgInput.click());
-
-        function handleImageSelect(e) {
-            const files = e.target.files;
-            if (files.length) {
-                processImageFile(files[0]);
-            }
-        }
-
-        function processImageFile(file) {
-            if (!file.type.startsWith('image/')) {
-                showToast('Selected file is not an image!', 'error');
-                return;
-            }
-
-            const reader = new FileReader();
-            reader.onload = function(evt) {
-                const dataUrl = evt.target.result;
-                const base64Data = dataUrl.split(',')[1];
-                
-                // Show visual outputs
-                imgPreviewBox.classList.remove('hidden');
-                imgPreview.src = dataUrl;
-                
-                imgRawOutput.value = base64Data;
-                imgUriOutput.value = `<img src="${dataUrl}" alt="${file.name}">`;
-
-                // Calculate image dimensions
-                const img = new Image();
-                img.onload = function() {
-                    imgMeta.textContent = `${file.name} (${img.width}x${img.height}px, ${file.size.toLocaleString()} bytes)`;
-                };
-                img.src = dataUrl;
-
-                showToast('Image converted to Base64 data successfully!');
-            };
-            reader.onerror = function() {
-                showToast('Error reading image file.', 'error');
-            };
-            reader.readAsDataURL(file);
+        function clearFields() {
+            input.value = '';
+            output.value = '';
         }
     </script>
-
-    
-            <a href="https://m.do.co/c/your-tag" target="_blank" rel="noopener sponsored" style="color: #ffffff; background: linear-gradient(135deg, var(--primary-accent, #3b82f6), #4f46e5); text-decoration: none; padding: 10px 16px; border-radius: 8px; font-size: 0.875rem; text-align: center; font-weight: 500; transition: opacity 0.2s;">Get Started &rarr;</a>
-        </div>
-        
-        <div style="background: var(--card-bg, rgba(17, 24, 39, 0.55)); border: 1px solid var(--border-color, rgba(255, 255, 255, 0.05)); border-radius: 16px; padding: 20px; backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); display: flex; flex-direction: column; justify-content: space-between; transition: all 0.3s;">
-            <div>
-                <h4 style="color: var(--secondary-accent, #60a5fa); font-size: 1.1rem; margin: 0 0 10px 0; font-weight: 600;">Vercel</h4>
-                <p style="color: var(--text-muted, #94a3b8); font-size: 0.875rem; margin: 0 0 15px 0; line-height: 1.5; font-weight: 300;">Instantly deploy static frontends and serverless API endpoints. The default home of React & Next.js.</p>
-            </div>
-            <a href="https://vercel.com/v0" target="_blank" rel="noopener sponsored" style="color: #ffffff; background: linear-gradient(135deg, var(--primary-accent, #3b82f6), #4f46e5); text-decoration: none; padding: 10px 16px; border-radius: 8px; font-size: 0.875rem; text-align: center; font-weight: 500; transition: opacity 0.2s;">Get Started &rarr;</a>
-        </div>
-        
-        <div style="background: var(--card-bg, rgba(17, 24, 39, 0.55)); border: 1px solid var(--border-color, rgba(255, 255, 255, 0.05)); border-radius: 16px; padding: 20px; backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); display: flex; flex-direction: column; justify-content: space-between; transition: all 0.3s;">
-            <div>
-                <h4 style="color: var(--secondary-accent, #60a5fa); font-size: 1.1rem; margin: 0 0 10px 0; font-weight: 600;">Hostinger</h4>
-                <p style="color: var(--text-muted, #94a3b8); font-size: 0.875rem; margin: 0 0 15px 0; line-height: 1.5; font-weight: 300;">Get high-performance web hosting, free custom domains, and automated sitemaps for your portfolio or blogs.</p>
-            </div>
-            <a href="https://hostinger.com?referral=your-tag" target="_blank" rel="noopener sponsored" style="color: #ffffff; background: linear-gradient(135deg, var(--primary-accent, #3b82f6), #4f46e5); text-decoration: none; padding: 10px 16px; border-radius: 8px; font-size: 0.875rem; text-align: center; font-weight: 500; transition: opacity 0.2s;">Get Started &rarr;</a>
-        </div>
-        </div></div>
-    </div>
-    
-    
-
-    
-            <a href="https://m.do.co/c/your-tag" target="_blank" rel="noopener sponsored" style="color: #ffffff; background: linear-gradient(135deg, var(--primary-accent, #3b82f6), #4f46e5); text-decoration: none; padding: 10px 16px; border-radius: 8px; font-size: 0.875rem; text-align: center; font-weight: 500; transition: opacity 0.2s;">Get Started &rarr;</a>
-        </div>
-        
-        <div style="background: var(--card-bg, rgba(17, 24, 39, 0.55)); border: 1px solid var(--border-color, rgba(255, 255, 255, 0.05)); border-radius: 16px; padding: 20px; backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); display: flex; flex-direction: column; justify-content: space-between; transition: all 0.3s;">
-            <div>
-                <h4 style="color: var(--secondary-accent, #60a5fa); font-size: 1.1rem; margin: 0 0 10px 0; font-weight: 600;">Vercel</h4>
-                <p style="color: var(--text-muted, #94a3b8); font-size: 0.875rem; margin: 0 0 15px 0; line-height: 1.5; font-weight: 300;">Instantly deploy static frontends and serverless API endpoints. The default home of React & Next.js.</p>
-            </div>
-            <a href="https://vercel.com/v0" target="_blank" rel="noopener sponsored" style="color: #ffffff; background: linear-gradient(135deg, var(--primary-accent, #3b82f6), #4f46e5); text-decoration: none; padding: 10px 16px; border-radius: 8px; font-size: 0.875rem; text-align: center; font-weight: 500; transition: opacity 0.2s;">Get Started &rarr;</a>
-        </div>
-        
-        <div style="background: var(--card-bg, rgba(17, 24, 39, 0.55)); border: 1px solid var(--border-color, rgba(255, 255, 255, 0.05)); border-radius: 16px; padding: 20px; backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); display: flex; flex-direction: column; justify-content: space-between; transition: all 0.3s;">
-            <div>
-                <h4 style="color: var(--secondary-accent, #60a5fa); font-size: 1.1rem; margin: 0 0 10px 0; font-weight: 600;">Hostinger</h4>
-                <p style="color: var(--text-muted, #94a3b8); font-size: 0.875rem; margin: 0 0 15px 0; line-height: 1.5; font-weight: 300;">Get high-performance web hosting, free custom domains, and automated sitemaps for your portfolio or blogs.</p>
-            </div>
-            <a href="https://hostinger.com?referral=your-tag" target="_blank" rel="noopener sponsored" style="color: #ffffff; background: linear-gradient(135deg, var(--primary-accent, #3b82f6), #4f46e5); text-decoration: none; padding: 10px 16px; border-radius: 8px; font-size: 0.875rem; text-align: center; font-weight: 500; transition: opacity 0.2s;">Get Started &rarr;</a>
-        </div>
-        </div></div>
-    </div>
-    
-    
-
-    
-    
-    
 
     <footer style="text-align: center; padding: 60px 20px; color: #9ca3af; border-top: 1px solid rgba(255,255,255,0.08); font-size: 0.95rem; background: rgba(8, 11, 17, 0.4); font-family: 'Outfit', sans-serif; margin-top: 60px;">
         <p>&copy; 2026 Aegis Developer Hub. All rights reserved.</p>
