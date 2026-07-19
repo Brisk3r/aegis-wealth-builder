@@ -53,11 +53,20 @@ def get_affiliate_html() -> str:
     if not links:
         return ""
     
+    # Filter out placeholders
+    active_links = {}
+    for key, url in links.items():
+        if url and "your-tag" not in url and "your-real-tag" not in url and "example.com" not in url:
+            active_links[key] = url
+            
+    if not active_links:
+        return ""
+    
     html = '<div class="affiliate-section" style="margin: 40px auto; max-width: 1200px; padding: 0 20px; box-sizing: border-box; font-family: \'Outfit\', sans-serif;">'
     html += '<h3 style="font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1.5px; color: var(--text-muted, #94a3b8); margin-bottom: 20px; font-weight: 700;">Sponsored Developer Resources</h3>'
     html += '<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px;">'
     
-    for key, url in links.items():
+    for key, url in active_links.items():
         name = key.capitalize()
         if key == "digitalocean":
             name = "DigitalOcean"
@@ -151,13 +160,13 @@ def generate_article_page(title: str, content_html: str, article_rel_path: str) 
     ads_html = ""
     if config.google_adsense_client and config.google_adsense_slot:
         ads_html = f"""
-        <div style="margin-bottom: 30px; text-align: center;">
+        <div class="adsense-wrapper" style="margin: 20px auto 30px auto; max-width: 728px; min-height: 90px; text-align: center; overflow: hidden; display: flex; justify-content: center; align-items: center;">
             <ins class="adsbygoogle"
-                 style="display:block"
+                 style="display:inline-block;width:728px;height:90px"
                  data-ad-client="{config.google_adsense_client}"
                  data-ad-slot="{config.google_adsense_slot}"
-                 data-ad-format="auto"
-                 data-full-width-responsive="true"></ins>
+                 data-ad-format="horizontal"
+                 data-full-width-responsive="false"></ins>
             <script>(adsbygoogle = window.adsbygoogle || []).push({{}});</script>
         </div>
         """
@@ -339,25 +348,47 @@ def generate_article_page(title: str, content_html: str, article_rel_path: str) 
 
 def get_category_for_tool(topic: str) -> str:
     topic_lower = topic.lower()
-    if any(x in topic_lower for x in ["flex", "color", "wheel", "card", "svg", "pattern"]):
+    if any(x in topic_lower for x in ["flex", "color", "wheel", "card", "svg", "breakpoint", "screenshot", "snippet", "shadow", "gradient", "css", "favicon"]):
         return "ui"
-    elif any(x in topic_lower for x in ["boilerplate", "regex", "json", "base64", "sql"]):
-        return "code"
-    elif any(x in topic_lower for x in ["productivity", "tools", "pdf", "editor", "markdown", "utm", "roas", "calculator", "timer", "parameter", "campaign"]):
-        return "productivity"
-    return "code"
+    elif any(x in topic_lower for x in ["cron", "dns", "ssl", "webhook", "openapi", "http", "header", "url", "parameter", "utm", "query"]):
+        return "devops"
+    elif any(x in topic_lower for x in ["json", "yaml", "sql", "typescript", "csv", "diff", "markdown", "table", "formatter", "parser", "entity"]):
+        return "data"
+    return "security"
 
 def get_category_for_article(title: str) -> str:
     title_lower = title.lower()
-    if any(x in title_lower for x in ["flexbox", "color", "wheel", "card", "svg", "pattern"]):
+    if any(x in title_lower for x in ["flexbox", "color", "wheel", "card", "svg", "breakpoint", "screenshot", "snippet", "shadow", "gradient", "css", "favicon"]):
         return "ui"
-    elif any(x in title_lower for x in ["boilerplate", "regex", "json", "base64", "sql"]):
-        return "code"
-    elif any(x in title_lower for x in ["productivity", "tools", "pdf", "editor", "markdown", "utm", "roas", "calculator", "timer", "parameter", "campaign"]):
-        return "productivity"
-    return "code"
+    elif any(x in title_lower for x in ["cron", "dns", "ssl", "webhook", "openapi", "http", "header", "url", "parameter", "utm", "query"]):
+        return "devops"
+    elif any(x in title_lower for x in ["json", "yaml", "sql", "typescript", "csv", "diff", "markdown", "table", "formatter", "parser", "entity"]):
+        return "data"
+    return "security"
 
 def generate_index_page(tools, articles) -> str:
+    featured_tool_names = ["SaaS UI Boilerplate Exporter", "PDF Editor", "Color Wheel Tool", "SVG Path Editor", "CSS Flexbox Cheat Sheet"]
+    
+    # 1. Build Featured Spotlight
+    featured_html = ""
+    for tool in tools:
+        if tool['name'] in featured_tool_names:
+            cat = get_category_for_tool(tool['name'])
+            featured_html += f"""
+            <div class="card featured-card" data-category="{cat}" style="border-color: rgba(59, 130, 246, 0.2); background: rgba(17, 24, 39, 0.7); box-shadow: 0 10px 30px rgba(59, 130, 246, 0.08);">
+                <div class="card-header">
+                    <span class="badge" style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.15), rgba(99, 102, 241, 0.15)); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.3);">Featured Spotlight</span>
+                </div>
+                <h3>{tool['name']}</h3>
+                <p>{tool['description']}</p>
+                <a href="/{tool['path'].replace(chr(92), '/')}" class="btn" style="background: linear-gradient(135deg, #3b82f6, #6366f1); border: none;">Launch Utility &rarr;</a>
+            </div>
+            """
+            
+    if not featured_html:
+        featured_html = "<p class='empty'>No featured utilities spotlighted yet.</p>"
+
+    # 2. Build Regular Tools list
     tools_list_html = ""
     for tool in tools:
         cat = get_category_for_tool(tool['name'])
@@ -371,10 +402,10 @@ def generate_index_page(tools, articles) -> str:
             <a href="/{tool['path'].replace(chr(92), '/')}" class="btn">Launch Tool &rarr;</a>
         </div>
         """
-    
     if not tools:
         tools_list_html = "<p class='empty'>No tools generated yet. Checking back soon!</p>"
 
+    # 3. Build Articles list
     articles_list_html = ""
     for art in articles:
         cat = get_category_for_article(art['title'])
@@ -388,20 +419,19 @@ def generate_index_page(tools, articles) -> str:
             <a href="/{art['path'].replace(chr(92), '/')}" class="btn sec">Read Article &rarr;</a>
         </div>
         """
-    
     if not articles:
         articles_list_html = "<p class='empty'>No articles published yet. Checking back soon!</p>"
 
     ads_html = ""
     if config.google_adsense_client and config.google_adsense_slot:
         ads_html = f"""
-        <div style="margin: 30px auto 0 auto; max-width: 728px; text-align: center;">
+        <div class="adsense-wrapper" style="margin: 30px auto 20px auto; max-width: 728px; min-height: 90px; text-align: center; overflow: hidden; display: flex; justify-content: center; align-items: center;">
             <ins class="adsbygoogle"
-                 style="display:block"
+                 style="display:inline-block;width:728px;height:90px"
                  data-ad-client="{config.google_adsense_client}"
                  data-ad-slot="{config.google_adsense_slot}"
-                 data-ad-format="auto"
-                 data-full-width-responsive="true"></ins>
+                 data-ad-format="horizontal"
+                 data-full-width-responsive="false"></ins>
             <script>(adsbygoogle = window.adsbygoogle || []).push({{}});</script>
         </div>
         """
@@ -454,10 +484,10 @@ def generate_index_page(tools, articles) -> str:
             justify-content: space-between;
         }}
         .hero {{
-            padding: 120px 20px 90px 20px;
+            padding: 90px 20px 60px 20px;
             text-align: center;
             border-bottom: 1px solid var(--border-color);
-            background: linear-gradient(rgba(8, 11, 17, 0.8), rgba(8, 11, 17, 0.95)), url('/static/hero_banner.png') no-repeat center center;
+            background: linear-gradient(rgba(8, 11, 17, 0.85), rgba(8, 11, 17, 0.98)), url('/static/hero_banner.png') no-repeat center center;
             background-size: cover;
             position: relative;
         }}
@@ -471,9 +501,9 @@ def generate_index_page(tools, articles) -> str:
             background: linear-gradient(90deg, transparent, rgba(59, 130, 246, 0.3), transparent);
         }}
         .hero h1 {{
-            font-size: 3.8rem;
+            font-size: 3.2rem;
             font-weight: 800;
-            margin: 0 0 20px 0;
+            margin: 0 0 15px 0;
             background: linear-gradient(135deg, var(--text-main) 30%, var(--secondary-accent));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
@@ -481,7 +511,7 @@ def generate_index_page(tools, articles) -> str:
         }}
         .hero p {{
             color: var(--text-muted);
-            font-size: 1.3rem;
+            font-size: 1.15rem;
             max-width: 650px;
             margin: 0 auto;
             line-height: 1.6;
@@ -490,8 +520,8 @@ def generate_index_page(tools, articles) -> str:
         .controls-panel {{
             display: flex;
             flex-direction: column;
-            gap: 20px;
-            margin: 40px auto 10px auto;
+            gap: 15px;
+            margin: 30px auto 10px auto;
             max-width: 1200px;
             padding: 0 20px;
             width: calc(100% - 40px);
@@ -539,47 +569,112 @@ def generate_index_page(tools, articles) -> str:
             background: rgba(17, 24, 39, 0.6);
             box-shadow: 0 0 15px rgba(59, 130, 246, 0.15);
         }}
-        .filter-tabs {{
+        
+        .dashboard-layout {{
             display: flex;
-            gap: 10px;
+            flex-direction: column;
+            gap: 20px;
+        }}
+        .sidebar-nav {{
+            display: none;
+        }}
+        .mobile-filter-tabs {{
+            display: flex;
+            gap: 8px;
             overflow-x: auto;
-            padding-bottom: 5px;
+            padding-bottom: 8px;
             scrollbar-width: none;
             width: 100%;
         }}
-        @media (min-width: 768px) {{
-            .filter-tabs {{
-                width: auto;
-            }}
-        }}
-        .filter-tabs::-webkit-scrollbar {{
+        .mobile-filter-tabs::-webkit-scrollbar {{
             display: none;
         }}
-        .filter-btn {{
+        
+        @media (min-width: 1024px) {{
+            .dashboard-layout {{
+                flex-direction: row;
+                gap: 40px;
+            }}
+            .sidebar-nav {{
+                display: flex !important;
+                width: 280px;
+                flex-shrink: 0;
+                position: sticky;
+                top: 100px;
+                height: fit-content;
+                flex-direction: column;
+                gap: 8px;
+            }}
+            .mobile-filter-tabs {{
+                display: none !important;
+            }}
+        }}
+        
+        .sidebar-nav .filter-btn {{
+            background: transparent;
+            border: 1px solid transparent;
+            color: var(--text-muted);
+            padding: 12px 18px;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 0.95rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-family: 'Outfit', sans-serif;
+            font-weight: 500;
+        }}
+        .sidebar-nav .filter-btn:hover {{
+            color: var(--text-main);
+            background: rgba(255, 255, 255, 0.03);
+            border-color: rgba(255, 255, 255, 0.05);
+        }}
+        .sidebar-nav .filter-btn.active {{
+            color: #ffffff;
+            background: rgba(59, 130, 246, 0.1);
+            border: 1px solid rgba(59, 130, 246, 0.2);
+            font-weight: 600;
+        }}
+        .count-badge {{
+            font-size: 0.75rem;
+            background: rgba(255, 255, 255, 0.08);
+            color: var(--text-muted);
+            padding: 2px 8px;
+            border-radius: 99px;
+            font-weight: 500;
+        }}
+        .sidebar-nav .filter-btn.active .count-badge {{
+            background: var(--primary-accent);
+            color: #ffffff;
+            box-shadow: 0 0 10px rgba(59, 130, 246, 0.3);
+        }}
+        
+        .mobile-filter-tabs .filter-btn {{
             background: rgba(255, 255, 255, 0.02);
             border: 1px solid var(--border-color);
             color: var(--text-muted);
-            padding: 10px 20px;
-            border-radius: 12px;
+            padding: 8px 16px;
+            border-radius: 10px;
             font-family: 'Outfit', sans-serif;
             font-weight: 500;
-            font-size: 0.95rem;
+            font-size: 0.9rem;
             cursor: pointer;
             transition: all 0.25s;
             white-space: nowrap;
             backdrop-filter: blur(8px);
         }}
-        .filter-btn:hover {{
+        .mobile-filter-tabs .filter-btn:hover {{
             color: var(--text-main);
             background: rgba(255, 255, 255, 0.05);
-            border-color: rgba(255, 255, 255, 0.15);
         }}
-        .filter-btn.active {{
+        .mobile-filter-tabs .filter-btn.active {{
             color: #ffffff;
             background: linear-gradient(135deg, var(--primary-accent), #4f46e5);
             border-color: transparent;
-            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.35);
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.25);
         }}
+        
         .container {{
             max-width: 1200px;
             margin: 20px auto 60px auto;
@@ -589,27 +684,27 @@ def generate_index_page(tools, articles) -> str:
             box-sizing: border-box;
         }}
         .section-title {{
-            font-size: 1.8rem;
+            font-size: 1.5rem;
             font-weight: 800;
-            margin-top: 40px;
-            margin-bottom: 25px;
+            margin-top: 0;
+            margin-bottom: 20px;
             border-left: 4px solid var(--primary-accent);
-            padding-left: 15px;
+            padding-left: 12px;
             letter-spacing: -0.5px;
             transition: opacity 0.3s;
         }}
         .grid {{
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(min(100%, 320px), 1fr));
-            gap: 30px;
-            margin-bottom: 70px;
+            gap: 24px;
+            margin-bottom: 50px;
             transition: opacity 0.3s;
         }}
         .card {{
             background: var(--card-bg);
             border: 1px solid var(--border-color);
-            border-radius: 20px;
-            padding: 35px;
+            border-radius: 16px;
+            padding: 24px;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
@@ -631,22 +726,22 @@ def generate_index_page(tools, articles) -> str:
             transition: opacity 0.3s;
         }}
         .card:hover {{
-            transform: translateY(-6px) scale(1.01);
+            transform: translateY(-4px) scale(1.005);
             border-color: rgba(59, 130, 246, 0.25);
-            box-shadow: 0 12px 40px rgba(59, 130, 246, 0.15);
+            box-shadow: 0 12px 30px rgba(59, 130, 246, 0.12);
         }}
         .card:hover::before {{
             opacity: 1;
         }}
         .card-header {{
-            margin-bottom: 15px;
+            margin-bottom: 12px;
         }}
         .badge {{
             display: inline-block;
-            font-size: 0.75rem;
+            font-size: 0.7rem;
             font-weight: 700;
             text-transform: uppercase;
-            padding: 4px 10px;
+            padding: 3px 8px;
             border-radius: 99px;
             letter-spacing: 0.5px;
         }}
@@ -662,15 +757,15 @@ def generate_index_page(tools, articles) -> str:
         }}
         .card h3 {{
             margin-top: 0;
-            font-size: 1.45rem;
+            font-size: 1.25rem;
             font-weight: 700;
             line-height: 1.3;
         }}
         .card p {{
             color: var(--text-muted);
-            font-size: 1rem;
-            line-height: 1.6;
-            margin: 15px 0 30px 0;
+            font-size: 0.92rem;
+            line-height: 1.5;
+            margin: 10px 0 20px 0;
             flex-grow: 1;
         }}
         .btn {{
@@ -679,16 +774,16 @@ def generate_index_page(tools, articles) -> str:
             background: var(--primary-accent);
             color: #ffffff;
             text-decoration: none;
-            padding: 12px 24px;
-            border-radius: 10px;
+            padding: 10px 20px;
+            border-radius: 8px;
             font-weight: 600;
-            font-size: 0.95rem;
+            font-size: 0.9rem;
             transition: all 0.2s;
             border: 1px solid transparent;
         }}
         .btn:hover {{
             background: #2563eb;
-            box-shadow: 0 4px 15px rgba(37, 99, 235, 0.4);
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.35);
         }}
         .btn.sec {{
             background: transparent;
@@ -696,9 +791,8 @@ def generate_index_page(tools, articles) -> str:
             color: var(--secondary-accent);
         }}
         .btn.sec:hover {{
-            background: rgba(59, 130, 246, 0.1);
+            background: rgba(59, 130, 246, 0.08);
             border-color: var(--primary-accent);
-            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.1);
         }}
         .empty {{
             color: var(--text-muted);
@@ -707,7 +801,7 @@ def generate_index_page(tools, articles) -> str:
             padding: 40px;
             background: var(--card-bg);
             border: 1px dashed var(--border-color);
-            border-radius: 20px;
+            border-radius: 16px;
             backdrop-filter: blur(12px);
         }}
         footer {{
@@ -723,11 +817,12 @@ def generate_index_page(tools, articles) -> str:
 </head>
 <body>
     <div class="hero">
-        <img src="/static/logo.png" alt="Aegis Hub Logo" style="height: 80px; margin-bottom: 25px; filter: drop-shadow(0 0 15px rgba(59, 130, 246, 0.55));">
+        <img src="/static/logo.png" alt="Aegis Hub Logo" style="height: 70px; margin-bottom: 20px; filter: drop-shadow(0 0 15px rgba(59, 130, 246, 0.55));">
         <h1>Aegis Developer Hub</h1>
         <p>A curated sandbox of high-utility web tools, interactive components, and premium developer guides.</p>
-        {ads_html}
     </div>
+    
+    {ads_html}
     
     <div class="controls-panel">
         <div class="search-wrapper">
@@ -736,26 +831,87 @@ def generate_index_page(tools, articles) -> str:
             </svg>
             <input type="text" id="search-input" placeholder="Search sandbox utilities, guides, and articles..." autocomplete="off">
         </div>
-        <div class="filter-tabs">
+        <div class="mobile-filter-tabs">
             <button class="filter-btn active" data-filter="all">All Utilities</button>
-            <button class="filter-btn" data-filter="ui">Layout & UI</button>
-            <button class="filter-btn" data-filter="code">Code Utilities</button>
-            <button class="filter-btn" data-filter="productivity">Productivity & Docs</button>
+            <button class="filter-btn" data-filter="ui">Design & UI</button>
+            <button class="filter-btn" data-filter="devops">DevOps/API</button>
+            <button class="filter-btn" data-filter="data">Data/Code</button>
+            <button class="filter-btn" data-filter="security">Security/Utils</button>
+            <button class="filter-btn" data-filter="articles">Guides</button>
         </div>
     </div>
-
+    
     <div class="container">
-        <div class="section-title" id="tools-title">Interactive SaaS Utilities</div>
-        <div class="grid" id="tools-grid">
-            {tools_list_html}
-        </div>
-        
-        <div class="section-title" id="articles-title">Guides & Insights</div>
-        <div class="grid" id="articles-grid">
-            {articles_list_html}
+        <div class="dashboard-layout">
+            <aside class="sidebar-nav">
+                <div class="sidebar-title">Toolboxes</div>
+                <button class="filter-btn active" data-filter="all">
+                    <span>All Utilities</span>
+                    <span class="count-badge" id="count-all">0</span>
+                </button>
+                <button class="filter-btn" data-filter="ui">
+                    <span>Design & UI Lab</span>
+                    <span class="count-badge" id="count-ui">0</span>
+                </button>
+                <button class="filter-btn" data-filter="devops">
+                    <span>DevOps & API Studio</span>
+                    <span class="count-badge" id="count-devops">0</span>
+                </button>
+                <button class="filter-btn" data-filter="data">
+                    <span>Code & Data Workspace</span>
+                    <span class="count-badge" id="count-data">0</span>
+                </button>
+                <button class="filter-btn" data-filter="security">
+                    <span>Security & Utilities</span>
+                    <span class="count-badge" id="count-security">0</span>
+                </button>
+                
+                <div class="sidebar-title" style="margin-top: 15px; border-top: 1px solid var(--border-color); padding-top: 15px;">Guides</div>
+                <button class="filter-btn" data-filter="articles">
+                    <span>Companion Guides</span>
+                    <span class="count-badge" id="count-articles">0</span>
+                </button>
+            </aside>
+            
+            <div class="main-content">
+                <!-- Featured Section Spotlight -->
+                <div class="featured-section" id="featured-section" style="margin-bottom: 45px;">
+                    <div class="section-title" style="font-size: 1.4rem; display: flex; align-items: center; gap: 10px; margin-bottom: 20px;">
+                        <span style="display: inline-block; width: 6px; height: 22px; background: linear-gradient(to bottom, #3b82f6, #6366f1); border-radius: 3px;"></span>
+                        Featured Spotlight
+                    </div>
+                    <div class="grid" style="margin-bottom: 0;">
+                        {featured_html}
+                    </div>
+                </div>
+                
+                <!-- Main Tools Section -->
+                <div id="tools-section">
+                    <div class="section-title" id="tools-title" style="font-size: 1.4rem; display: flex; align-items: center; gap: 10px;">
+                        <span style="display: inline-block; width: 6px; height: 22px; background: linear-gradient(to bottom, #3b82f6, #10b981); border-radius: 3px;"></span>
+                        SaaS Utilities & Toolboxes
+                    </div>
+                    <div class="grid" id="tools-grid">
+                        {tools_list_html}
+                    </div>
+                </div>
+                
+                <!-- Articles Section -->
+                <div id="articles-section">
+                    <div class="section-title" id="articles-title" style="font-size: 1.4rem; display: flex; align-items: center; gap: 10px;">
+                        <span style="display: inline-block; width: 6px; height: 22px; background: linear-gradient(to bottom, #8b5cf6, #ec4899); border-radius: 3px;"></span>
+                        Companion Guides & Insights
+                    </div>
+                    <div class="grid" id="articles-grid">
+                        {articles_list_html}
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
+    
     {get_affiliate_html()}
+    
     <footer>
         <p>&copy; 2026 Aegis Developer Hub. All rights reserved.</p>
         <p style="font-size: 0.85rem; max-width: 600px; margin: 15px auto; line-height: 1.5; color: var(--text-muted);">
@@ -773,12 +929,14 @@ def generate_index_page(tools, articles) -> str:
             const filterBtns = document.querySelectorAll('.filter-btn');
             const cards = document.querySelectorAll('.card');
             
-            const toolsTitle = document.getElementById('tools-title');
+            const toolsSection = document.getElementById('tools-section');
+            const articlesSection = document.getElementById('articles-section');
+            const featuredSection = document.getElementById('featured-section');
+            
             const toolsGrid = document.getElementById('tools-grid');
-            const articlesTitle = document.getElementById('articles-title');
             const articlesGrid = document.getElementById('articles-grid');
             
-            // Create empty state elements dynamically if they do not exist
+            // Create empty state messages dynamically if they do not exist
             let emptyTools = document.getElementById('empty-tools-msg');
             if (!emptyTools) {{
                 emptyTools = document.createElement('div');
@@ -799,6 +957,46 @@ def generate_index_page(tools, articles) -> str:
                 articlesGrid.appendChild(emptyArticles);
             }}
             
+            // Calculate counts dynamically on load
+            const counts = {{
+                all: 0,
+                ui: 0,
+                devops: 0,
+                data: 0,
+                security: 0,
+                articles: 0
+            }};
+            
+            cards.forEach(card => {{
+                if (card.classList.contains('featured-card')) {{
+                    return; // skip counting featured duplicate cards
+                }}
+                const cat = card.getAttribute('data-category');
+                const isTool = card.querySelector('.badge-tool') !== null;
+                
+                if (isTool) {{
+                    counts[cat] = (counts[cat] || 0) + 1;
+                    counts.all++;
+                }} else {{
+                    counts.articles++;
+                }}
+            }});
+            
+            // Set count numbers in Sidebar
+            const countAllEl = document.getElementById('count-all');
+            const countUiEl = document.getElementById('count-ui');
+            const countDevopsEl = document.getElementById('count-devops');
+            const countDataEl = document.getElementById('count-data');
+            const countSecurityEl = document.getElementById('count-security');
+            const countArticlesEl = document.getElementById('count-articles');
+            
+            if (countAllEl) countAllEl.textContent = counts.all;
+            if (countUiEl) countUiEl.textContent = counts.ui;
+            if (countDevopsEl) countDevopsEl.textContent = counts.devops;
+            if (countDataEl) countDataEl.textContent = counts.data;
+            if (countSecurityEl) countSecurityEl.textContent = counts.security;
+            if (countArticlesEl) countArticlesEl.textContent = counts.articles;
+            
             let activeFilter = 'all';
             let searchQuery = '';
             
@@ -806,15 +1004,32 @@ def generate_index_page(tools, articles) -> str:
                 let visibleTools = 0;
                 let visibleArticles = 0;
                 
+                // Hide or show featured spotlight
+                if (activeFilter === 'all' && searchQuery === '') {{
+                    featuredSection.style.display = 'block';
+                }} else {{
+                    featuredSection.style.display = 'none';
+                }}
+                
                 cards.forEach(card => {{
+                    if (card.classList.contains('featured-card')) {{
+                        // Spotlight cards are handled by outer display
+                        return;
+                    }}
+                    
                     const title = card.querySelector('h3').textContent.toLowerCase();
                     const desc = card.querySelector('p').textContent.toLowerCase();
                     const cat = card.getAttribute('data-category');
+                    const isTool = card.querySelector('.badge-tool') !== null;
                     
                     const matchesSearch = title.includes(searchQuery) || desc.includes(searchQuery);
-                    const matchesCategory = activeFilter === 'all' || cat === activeFilter;
                     
-                    const isTool = card.querySelector('.badge-tool') !== null;
+                    let matchesCategory = false;
+                    if (isTool) {{
+                        matchesCategory = (activeFilter === 'all' || cat === activeFilter);
+                    }} else {{
+                        matchesCategory = (activeFilter === 'articles');
+                    }}
                     
                     if (matchesSearch && matchesCategory) {{
                         card.style.display = 'flex';
@@ -831,13 +1046,20 @@ def generate_index_page(tools, articles) -> str:
                     }}
                 }});
                 
-                // Hide/show headers if no elements fit
-                toolsTitle.style.display = (visibleTools === 0 && searchQuery !== '') ? 'none' : 'block';
-                articlesTitle.style.display = (visibleArticles === 0 && searchQuery !== '') ? 'none' : 'block';
+                // Toggle entire sections visibility
+                if (activeFilter === 'articles') {{
+                    toolsSection.style.display = 'none';
+                    articlesSection.style.display = 'block';
+                }} else if (activeFilter !== 'all' && activeFilter !== 'articles') {{
+                    toolsSection.style.display = 'block';
+                    articlesSection.style.display = 'none';
+                }} else {{
+                    toolsSection.style.display = 'block';
+                    articlesSection.style.display = 'block';
+                }}
                 
-                // Show empty states if filtered grid is completely empty
-                emptyTools.style.display = (visibleTools === 0) ? 'block' : 'none';
-                emptyArticles.style.display = (visibleArticles === 0) ? 'block' : 'none';
+                emptyTools.style.display = (visibleTools === 0 && toolsSection.style.display !== 'none') ? 'block' : 'none';
+                emptyArticles.style.display = (visibleArticles === 0 && articlesSection.style.display !== 'none') ? 'block' : 'none';
             }}
             
             searchInput.addEventListener('input', (e) => {{
@@ -847,9 +1069,18 @@ def generate_index_page(tools, articles) -> str:
             
             filterBtns.forEach(btn => {{
                 btn.addEventListener('click', () => {{
-                    filterBtns.forEach(b => b.classList.remove('active'));
-                    btn.classList.add('active');
-                    activeFilter = btn.getAttribute('data-filter');
+                    const filterVal = btn.getAttribute('data-filter');
+                    
+                    // Update active button classes on both mobile and sidebar lists
+                    filterBtns.forEach(b => {{
+                        if (b.getAttribute('data-filter') === filterVal) {{
+                            b.classList.add('active');
+                        }} else {{
+                            b.classList.remove('active');
+                        }}
+                    }});
+                    
+                    activeFilter = filterVal;
                     filterItems();
                 }});
             }});
@@ -858,6 +1089,41 @@ def generate_index_page(tools, articles) -> str:
 </body>
 </html>
 """
+
+def strip_balanced_tag(html: str, start_tag_prefix: str) -> str:
+    """Removes a tag matching start_tag_prefix and its balanced closing tag (usually div)."""
+    while True:
+        idx = html.find(start_tag_prefix)
+        if idx == -1:
+            break
+        
+        pos = idx + len(start_tag_prefix)
+        tag_end = html.find('>', pos)
+        if tag_end == -1:
+            break
+        pos = tag_end + 1
+        
+        depth = 1
+        while depth > 0 and pos < len(html):
+            next_open = html.find('<div', pos)
+            next_close = html.find('</div>', pos)
+            
+            if next_close == -1:
+                break
+                
+            if next_open != -1 and next_open < next_close:
+                depth += 1
+                pos = next_open + 4
+            else:
+                depth -= 1
+                pos = next_close + 6
+                
+        if depth == 0:
+            html = html[:idx] + html[pos:]
+        else:
+            html = html[:idx] + html[next_close + 6:]
+            
+    return html
 
 def post_process_tool(tool_abs_path: Path, topic: str):
     if not tool_abs_path.exists():
@@ -926,6 +1192,11 @@ def post_process_tool(tool_abs_path: Path, topic: str):
         m_text = match.group(0)
         if "back to" in m_text.lower() or "aegis" in m_text.lower():
             html = html.replace(m_text, '')
+            
+    # Balanced div stripping for class navbar and class tool-affiliate-wrapper
+    html = strip_balanced_tag(html, '<div class="navbar"')
+    html = strip_balanced_tag(html, '<div class="tool-affiliate-wrapper"')
+
     for match in list(re.finditer(r'<div[^>]*class="navbar"[^>]*>.*?</div>', html, flags=re.DOTALL | re.IGNORECASE)):
         m_text = match.group(0)
         html = html.replace(m_text, '')
@@ -935,9 +1206,6 @@ def post_process_tool(tool_abs_path: Path, topic: str):
         m_text = match.group(0)
         if "aegis" in m_text.lower() or "rights" in m_text.lower() or "disclaimer" in m_text.lower() or "privacy" in m_text.lower():
             html = html.replace(m_text, '')
-            
-    # Strip any older affiliate wrapper
-    html = re.sub(r'<div class="tool-affiliate-wrapper".*?</div>', '', html, flags=re.DOTALL)
 
     # Inject standard Navbar right after <body>
     navbar_html = """
@@ -961,10 +1229,15 @@ def post_process_tool(tool_abs_path: Path, topic: str):
             modified = True
 
     # Inject standard Footer right before </body>
-    footer_html = f"""
+    aff_html = get_affiliate_html()
+    aff_wrapper = ""
+    if aff_html:
+        aff_wrapper = f"""
     <div class="tool-affiliate-wrapper" style="max-width: 1200px; margin: 40px auto; padding: 0 20px; box-sizing: border-box;">
-        {get_affiliate_html()}
-    </div>
+        {aff_html}
+    </div>"""
+
+    footer_html = f"""{aff_wrapper}
     <footer style="text-align: center; padding: 60px 20px; color: #9ca3af; border-top: 1px solid rgba(255,255,255,0.08); font-size: 0.95rem; background: rgba(8, 11, 17, 0.4); font-family: 'Outfit', sans-serif; margin-top: 60px;">
         <p>&copy; 2026 Aegis Developer Hub. All rights reserved.</p>
         <p style="font-size: 0.85rem; max-width: 800px; margin: 15px auto; line-height: 1.5; color: #9ca3af;">
