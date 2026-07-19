@@ -247,6 +247,12 @@
         <priority>0.8</priority>
     </url>
     <url>
+        <loc>https://aegishub.dev/static/tools/utm_campaign_parameter_builder_tool.html</loc>
+        <lastmod>2026-07-19</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
         <loc>https://aegishub.dev/static/articles/css_flexbox_cheat_sheet.html</loc>
         <lastmod>2026-07-19</lastmod>
         <changefreq>weekly</changefreq>
@@ -470,6 +476,12 @@
     </url>
     <url>
         <loc>https://aegishub.dev/static/articles/password_strength_checker.html</loc>
+        <lastmod>2026-07-19</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.7</priority>
+    </url>
+    <url>
+        <loc>https://aegishub.dev/static/articles/utm_campaign_parameter_builder.html</loc>
         <lastmod>2026-07-19</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.7</priority>
