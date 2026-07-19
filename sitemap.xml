@@ -289,6 +289,18 @@
         <priority>0.8</priority>
     </url>
     <url>
+        <loc>https://aegishub.dev/static/tools/roas_calculator_tool.html</loc>
+        <lastmod>2026-07-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://aegishub.dev/static/tools/marketing_sprint_timer_tool.html</loc>
+        <lastmod>2026-07-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
         <loc>https://aegishub.dev/static/articles/css_flexbox_cheat_sheet.html</loc>
         <lastmod>2026-07-20</lastmod>
         <changefreq>weekly</changefreq>
@@ -554,6 +566,18 @@
     </url>
     <url>
         <loc>https://aegishub.dev/static/articles/.html</loc>
+        <lastmod>2026-07-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.7</priority>
+    </url>
+    <url>
+        <loc>https://aegishub.dev/static/articles/roas_break-even_calculator.html</loc>
+        <lastmod>2026-07-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.7</priority>
+    </url>
+    <url>
+        <loc>https://aegishub.dev/static/articles/daily_marketing_consistency_timer.html</loc>
         <lastmod>2026-07-20</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.7</priority>

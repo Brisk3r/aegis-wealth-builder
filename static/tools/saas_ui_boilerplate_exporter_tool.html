@@ -74,18 +74,17 @@
     <script src="https://assets.lemonsqueezy.com/lemon.js" defer></script>
 </head>
 <body class="font-sans text-gray-200 min-h-screen flex flex-col justify-between">
+
+    <div class="navbar" style="display: flex; justify-content: space-between; align-items: center; padding: 20px 40px; border-bottom: 1px solid rgba(255,255,255,0.08); background: rgba(11, 15, 25, 0.75); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); position: sticky; top: 0; z-index: 100; font-family: 'Outfit', sans-serif;">
+        <a href="/" style="display: flex; align-items: center; gap: 10px; color: #f3f4f6; text-decoration: none; font-weight: 600;">
+            <img src="/static/logo.png" alt="Aegis Hub Logo" style="height: 30px;">
+            <span>Aegis Developer Hub</span>
+        </a>
+        <a href="/" style="color: #60a5fa; text-decoration: none; font-size: 0.95rem; font-weight: 500;">&larr; Back to Hub</a>
+    </div>
+    
     <!-- Navbar -->
-    <header class="border-b border-white/5 bg-[#080b11]/85 backdrop-blur-md sticky top-0 z-50">
-        <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
-            <a href="/" class="flex items-center gap-3 text-white font-semibold text-lg tracking-wide hover:opacity-90 transition-opacity">
-                <img src="/static/logo.png" alt="Aegis Hub Logo" class="h-8">
-                <span>Aegis Developer Hub</span>
-            </a>
-            <a href="/" class="text-blue-400 hover:text-blue-300 transition-colors text-sm font-medium flex items-center gap-1">
-                &larr; Back to Hub
-            </a>
-        </div>
-    </header>
+    
 
     <!-- Main Content -->
     <main class="flex-grow max-w-7xl w-full mx-auto px-6 py-8">
@@ -192,19 +191,17 @@
                         </div>
                     </div>
                 </div>
-
                 <!-- Ad Banner Sponsor (Aegis Hub Monetization Layer) -->
                 <div class="glass-card rounded-2xl p-6 border border-emerald-500/20 bg-gradient-to-br from-emerald-500/5 via-transparent to-transparent">
                     <h3 class="text-sm font-bold text-emerald-400 uppercase tracking-wider mb-2">Premium Expansion</h3>
                     <p class="text-xs text-gray-400 leading-relaxed mb-4">
                         Unlock access to fully finished dashboard UI files, dark-mode pricing grids, Stripe subscription flows, and auto-generated database schemas.
                     </p>
-                    <a href="https://aegishub.dev/premium" target="_blank" class="w-full py-2.5 px-4 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-semibold flex items-center justify-center gap-1.5 transition-colors shadow-lg shadow-emerald-950/40">
+                    <a href="https://aegishub.lemonsqueezy.com/checkout/buy/0f7285e8-f8d2-4d19-8856-1e6d08ef423f?embed=1" class="lemonsqueezy-button w-full py-2.5 px-4 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white text-xs font-semibold flex items-center justify-center gap-1.5 transition-all shadow-lg active:scale-95">
                         <i data-lucide="crown" class="w-4 h-4"></i>
-                        Get Lifetime License for $19
+                        Get Lifetime License - $29
                     </a>
-                </div>
-            </div>
+                </div>            </div>
 
             <!-- Right Side: File Explorer & Code Preview (7 Columns) -->
             <div class="lg:col-span-7 flex flex-col h-[650px] glass-card rounded-2xl overflow-hidden border border-white/10 shadow-2xl relative">
@@ -253,9 +250,7 @@
     <div id="toast-container" class="fixed bottom-6 right-6 z-50 flex flex-col gap-2 pointer-events-none"></div>
 
     <!-- Footer -->
-    <footer class="border-t border-white/5 bg-[#080b11]/85 py-6 px-6 text-center text-xs text-gray-500">
-        <p>&copy; 2026 Aegis Developer Hub. All rights reserved. Generated client-side, local processing.</p>
-    </footer>
+    
 
     <script>
         // Options State
@@ -355,7 +350,46 @@ export default function RootLayout({ children }) {
         {children}${
             document.getElementById('addon-analytics').checked ? "\n        <Analytics />\n        <SpeedInsights />" : ""
         }
-      </body>
+      
+    <div class="tool-affiliate-wrapper" style="max-width: 1200px; margin: 40px auto; padding: 0 20px; box-sizing: border-box;">
+        <div class="affiliate-section" style="margin: 40px auto; max-width: 1200px; padding: 0 20px; box-sizing: border-box; font-family: 'Outfit', sans-serif;"><h3 style="font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1.5px; color: var(--text-muted, #94a3b8); margin-bottom: 20px; font-weight: 700;">Sponsored Developer Resources</h3><div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px;">
+        <div style="background: var(--card-bg, rgba(17, 24, 39, 0.55)); border: 1px solid var(--border-color, rgba(255, 255, 255, 0.05)); border-radius: 16px; padding: 20px; backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); display: flex; flex-direction: column; justify-content: space-between; transition: all 0.3s;">
+            <div>
+                <h4 style="color: var(--secondary-accent, #60a5fa); font-size: 1.1rem; margin: 0 0 10px 0; font-weight: 600;">DigitalOcean</h4>
+                <p style="color: var(--text-muted, #94a3b8); font-size: 0.875rem; margin: 0 0 15px 0; line-height: 1.5; font-weight: 300;">Deploy your next web application or backend cloud. Get a $200 free trial credit.</p>
+            </div>
+            <a href="https://m.do.co/c/your-tag" target="_blank" rel="noopener sponsored" style="color: #ffffff; background: linear-gradient(135deg, var(--primary-accent, #3b82f6), #4f46e5); text-decoration: none; padding: 10px 16px; border-radius: 8px; font-size: 0.875rem; text-align: center; font-weight: 500; transition: opacity 0.2s;">Get Started &rarr;</a>
+        </div>
+        
+        <div style="background: var(--card-bg, rgba(17, 24, 39, 0.55)); border: 1px solid var(--border-color, rgba(255, 255, 255, 0.05)); border-radius: 16px; padding: 20px; backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); display: flex; flex-direction: column; justify-content: space-between; transition: all 0.3s;">
+            <div>
+                <h4 style="color: var(--secondary-accent, #60a5fa); font-size: 1.1rem; margin: 0 0 10px 0; font-weight: 600;">Vercel</h4>
+                <p style="color: var(--text-muted, #94a3b8); font-size: 0.875rem; margin: 0 0 15px 0; line-height: 1.5; font-weight: 300;">Instantly deploy static frontends and serverless API endpoints. The default home of React & Next.js.</p>
+            </div>
+            <a href="https://vercel.com/v0" target="_blank" rel="noopener sponsored" style="color: #ffffff; background: linear-gradient(135deg, var(--primary-accent, #3b82f6), #4f46e5); text-decoration: none; padding: 10px 16px; border-radius: 8px; font-size: 0.875rem; text-align: center; font-weight: 500; transition: opacity 0.2s;">Get Started &rarr;</a>
+        </div>
+        
+        <div style="background: var(--card-bg, rgba(17, 24, 39, 0.55)); border: 1px solid var(--border-color, rgba(255, 255, 255, 0.05)); border-radius: 16px; padding: 20px; backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); display: flex; flex-direction: column; justify-content: space-between; transition: all 0.3s;">
+            <div>
+                <h4 style="color: var(--secondary-accent, #60a5fa); font-size: 1.1rem; margin: 0 0 10px 0; font-weight: 600;">Hostinger</h4>
+                <p style="color: var(--text-muted, #94a3b8); font-size: 0.875rem; margin: 0 0 15px 0; line-height: 1.5; font-weight: 300;">Get high-performance web hosting, free custom domains, and automated sitemaps for your portfolio or blogs.</p>
+            </div>
+            <a href="https://hostinger.com?referral=your-tag" target="_blank" rel="noopener sponsored" style="color: #ffffff; background: linear-gradient(135deg, var(--primary-accent, #3b82f6), #4f46e5); text-decoration: none; padding: 10px 16px; border-radius: 8px; font-size: 0.875rem; text-align: center; font-weight: 500; transition: opacity 0.2s;">Get Started &rarr;</a>
+        </div>
+        </div></div>
+    </div>
+    <footer style="text-align: center; padding: 60px 20px; color: #9ca3af; border-top: 1px solid rgba(255,255,255,0.08); font-size: 0.95rem; background: rgba(8, 11, 17, 0.4); font-family: 'Outfit', sans-serif; margin-top: 60px;">
+        <p>&copy; 2026 Aegis Developer Hub. All rights reserved.</p>
+        <p style="font-size: 0.85rem; max-width: 800px; margin: 15px auto; line-height: 1.5; color: #9ca3af;">
+            <strong>Disclaimer:</strong> The tools and content provided on this website are for educational and informational purposes only and do not constitute financial, investment, legal, or professional advice. Conforms to Australian Privacy Principles (APPs) under the Privacy Act 1988, GDPR rules on data protection, and ASIC regulatory guidelines.
+        </p>
+        <p style="margin-top: 20px;">
+            <a href="/static/privacy.html" style="color: #9ca3af; text-decoration: underline; margin-right: 15px;">Privacy Policy</a>
+            <a href="/static/terms.html" style="color: #9ca3af; text-decoration: underline;">Terms of Service & Disclaimer</a>
+        </p>
+    </footer>
+    
+</body>
     </html>
   );
 }`,
@@ -743,6 +777,7 @@ export const db = getFirestore(app);`
 
         // Dynamic local client-side ZIP generation
         function downloadZip() {
+            if (!checkProStatus('download')) return;
             const zip = new JSZip();
             const fileDict = FILES_PRESET[activeStack];
 
@@ -797,12 +832,112 @@ services:
             });
         }
 
+        // Premium Gating Logic
+        let isProUnlocked = localStorage.getItem('aegis_pro_unlocked') === 'true';
+
+        // Lemon Squeezy event handler setup
+        if (window.LemonSqueezy) {
+            window.LemonSqueezy.Setup({
+                eventHandler: (event) => {
+                    if (event.event === 'Checkout.Success') {
+                        isProUnlocked = true;
+                        localStorage.setItem('aegis_pro_unlocked', 'true');
+                        closePremiumGate();
+                        confetti({
+                            particleCount: 150,
+                            spread: 80,
+                            origin: { y: 0.6 }
+                        });
+                        showToast("Aegis Pro features unlocked successfully!");
+                    }
+                }
+            });
+        }
+
+        function checkProStatus(triggeringAction) {
+            if (isProUnlocked) return true;
+            
+            const isDockerChecked = document.getElementById('addon-docker') && document.getElementById('addon-docker').checked;
+            const isPrismaSelected = activeStack === 'nextjs_prisma';
+            
+            if (isDockerChecked || isPrismaSelected) {
+                document.getElementById('premium-gate-modal').classList.remove('hidden');
+                return false;
+            }
+            return true;
+        }
+
+        function closePremiumGate() {
+            document.getElementById('premium-gate-modal').classList.add('hidden');
+            if (!isProUnlocked) {
+                if (document.getElementById('addon-docker')) {
+                    document.getElementById('addon-docker').checked = false;
+                }
+                if (activeStack === 'nextjs_prisma') {
+                    setStack('nextjs_supabase');
+                }
+            }
+        }
+
+        // Intercept setStack to check pro status!
+        const originalSetStack = window.setStack;
+        window.setStack = function(stack) {
+            if (stack === 'nextjs_prisma' && !isProUnlocked) {
+                document.getElementById('premium-gate-modal').classList.remove('hidden');
+                return;
+            }
+            if (typeof originalSetStack === 'function') {
+                originalSetStack(stack);
+            }
+        };
+
+        // Intercept updateOptions to check pro status when docker compose is clicked
+        const originalUpdateOptions = window.updateOptions;
+        window.updateOptions = function() {
+            if (typeof originalUpdateOptions === 'function') {
+                originalUpdateOptions();
+            }
+            checkProStatus('options');
+        };
+
         // Initial setup
         window.addEventListener('DOMContentLoaded', () => {
             renderFileTree();
             renderSelectedFileCode();
             lucide.createIcons();
+            
+            // Re-setup LemonSqueezy overlay buttons
+            if (window.createLemonSqueezy) {
+                window.createLemonSqueezy();
+            }
         });
     </script>
+
+    <!-- Premium Gate Modal -->
+    <div id="premium-gate-modal" class="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/80 backdrop-blur-sm hidden" style="background: rgba(8, 11, 17, 0.85); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);">
+        <div class="glass max-w-md w-full p-8 rounded-3xl border border-white/10 bg-[#0c101b] shadow-2xl space-y-6 text-center" style="font-family: 'Outfit', sans-serif; box-shadow: 0 20px 40px rgba(0,0,0,0.6);">
+            <div class="inline-flex items-center justify-center w-12 h-12 rounded-full bg-yellow-500/10 text-yellow-400 mb-2 mx-auto">
+                <i data-lucide="crown" class="w-6 h-6"></i>
+            </div>
+            <h3 class="text-xl font-bold text-white">Unlock Aegis Pro Boilerplates</h3>
+            <p class="text-sm text-gray-300 leading-relaxed">
+                You have selected a premium boilerplate configuration (Prisma stack or Docker environment). Unlock the full professional features:
+            </p>
+            <ul class="text-xs text-gray-400 space-y-2 text-left list-disc list-inside">
+                <li>Full Docker Compose environment files</li>
+                <li>Pre-integrated Stripe/Lemon Squeezy webhooks</li>
+                <li>Ready-to-deploy Supabase SQL database schemas</li>
+                <li>GitHub Actions CI/CD deployment pipelines</li>
+            </ul>
+            <div class="flex flex-col gap-3">
+                <a href="https://aegishub.lemonsqueezy.com/checkout/buy/0f7285e8-f8d2-4d19-8856-1e6d08ef423f?embed=1" class="lemonsqueezy-button w-full py-3 px-4 rounded-xl bg-gradient-to-r from-yellow-500 to-amber-500 hover:from-yellow-400 hover:to-amber-400 text-slate-950 font-bold text-sm shadow-lg shadow-yellow-950/30 text-center" data-cb-type="checkout" data-cb-embed="1">
+                    Buy Pro Starter Kit - $29
+                </a>
+                <button onclick="closePremiumGate()" class="text-xs text-gray-500 hover:text-gray-400 transition-colors">
+                    Cancel Selection
+                </button>
+            </div>
+        </div>
+    </div>
 </body>
 </html>

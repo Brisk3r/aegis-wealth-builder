@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ROAS Break-Even Calculator | Aegis Hub</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Outfit', sans-serif;
+            background-color: #080b11;
+            color: #f3f4f6;
+        }
+        .glass-card {
+            background: rgba(17, 24, 39, 0.55);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        input:focus {
+            outline: none;
+            border-color: #3b82f6 !important;
+            box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
+        }
+    </style>
+    <!-- Pagead2 & Analytics placeholders to be filled by post-processor -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4750454395006570" crossorigin="anonymous"></script>
+    <script defer src="/_vercel/insights/script.js"></script>
+    <link rel="icon" type="image/png" href="/static/logo.png">
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-BZVWXPPG06"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-BZVWXPPG06');
+    </script>
+    <script src="https://assets.lemonsqueezy.com/lemon.js" defer></script>
+</head>
+<body class="min-h-screen flex flex-col justify-between">
+
+    <div class="navbar" style="display: flex; justify-content: space-between; align-items: center; padding: 20px 40px; border-bottom: 1px solid rgba(255,255,255,0.08); background: rgba(11, 15, 25, 0.75); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); position: sticky; top: 0; z-index: 100; font-family: 'Outfit', sans-serif;">
+        <a href="/" style="display: flex; align-items: center; gap: 10px; color: #f3f4f6; text-decoration: none; font-weight: 600;">
+            <img src="/static/logo.png" alt="Aegis Hub Logo" style="height: 30px;">
+            <span>Aegis Developer Hub</span>
+        </a>
+        <a href="/" style="color: #60a5fa; text-decoration: none; font-size: 0.95rem; font-weight: 500;">&larr; Back to Hub</a>
+    </div>
+    
+    <!-- Navbar placeholder: will be replaced by normalize_branding -->
+    
+
+    <main class="max-w-4xl w-full mx-auto px-4 py-12 flex-grow">
+        <!-- Header -->
+        <div class="text-center mb-12">
+            <h1 class="text-4xl font-extrabold tracking-tight bg-gradient-to-r from-blue-400 to-indigo-400 bg-clip-text text-transparent mb-3">
+                ROAS Break-Even Calculator
+            </h1>
+            <p class="text-gray-400 max-w-lg mx-auto text-sm md:text-base">
+                Calculate the absolute minimum Return on Ad Spend (ROAS) required to cover your product costs and overhead.
+            </p>
+        </div>
+
+        <!-- Calculator Cards Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-12 gap-8 items-start">
+            <!-- Left inputs card (5 cols) -->
+            <section class="md:col-span-5 glass-card rounded-2xl p-6 md:p-8 space-y-6">
+                <h2 class="text-lg font-bold text-white mb-4 flex items-center gap-2">
+                    <span class="w-6 h-6 rounded bg-blue-500/10 text-blue-400 flex items-center justify-center font-bold text-xs">1</span>
+                    Input Pricing Data
+                </h2>
+                
+                <div class="space-y-4">
+                    <div>
+                        <label for="roas-price" class="block text-xs uppercase tracking-wider text-gray-400 mb-1.5 font-semibold">Selling Price ($) *</label>
+                        <input type="number" id="roas-price" min="0.01" step="0.01" required placeholder="100.00" class="w-full bg-slate-950 border border-white/10 rounded-xl p-3 text-sm text-white transition-all">
+                    </div>
+                    <div>
+                        <label for="roas-cost" class="block text-xs uppercase tracking-wider text-gray-400 mb-1.5 font-semibold">Cost of Goods & Overhead ($) *</label>
+                        <input type="number" id="roas-cost" min="0" step="0.01" required placeholder="40.00" class="w-full bg-slate-950 border border-white/10 rounded-xl p-3 text-sm text-white transition-all">
+                    </div>
+                </div>
+
+                <button id="calculate-roas" class="w-full py-3.5 px-4 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-bold text-sm transition-all shadow-lg shadow-blue-950/40 hover:scale-[1.01] active:scale-[0.99]">
+                    Calculate Break-Even
+                </button>
+            </section>
+
+            <!-- Right results card (7 cols) -->
+            <section class="md:col-span-7 flex flex-col h-full space-y-6">
+                <div class="glass-card rounded-2xl p-6 md:p-8 flex-grow flex flex-col justify-between min-h-[300px]">
+                    <div>
+                        <h2 class="text-lg font-bold text-white mb-6 flex items-center gap-2">
+                            <span class="w-6 h-6 rounded bg-indigo-500/10 text-indigo-400 flex items-center justify-center font-bold text-xs">2</span>
+                            Your Viability Metrics
+                        </h2>
+
+                        <div id="roas-result" class="space-y-6">
+                            <div class="text-center py-8 bg-slate-950/40 rounded-xl border border-white/5">
+                                <span class="text-gray-500 text-sm italic">Enter pricing details to see analysis...</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Actions -->
+                    <div id="roas-actions" class="hidden pt-6 border-t border-white/5 flex gap-4">
+                        <button onclick="copyCalculations()" class="flex-1 py-3 px-4 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 text-white font-semibold text-xs flex items-center justify-center gap-2 transition-all">
+                            <svg class="w-4 h-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3" />
+                            </svg>
+                            <span id="btn-copy-text">Copy Results</span>
+                        </button>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Footer placeholder: will be replaced by normalize_branding -->
+    <div class="footer"></div>
+
+    <script>
+        const priceInput = document.getElementById('roas-price');
+        const costInput = document.getElementById('roas-cost');
+        const calculateBtn = document.getElementById('calculate-roas');
+        const resultContainer = document.getElementById('roas-result');
+        const actionsContainer = document.getElementById('roas-actions');
+
+        let calculationResult = "";
+
+        calculateBtn.addEventListener('click', () => {
+            const price = parseFloat(priceInput.value);
+            const cost = parseFloat(costInput.value);
+
+            if (isNaN(price) || isNaN(cost) || price <= 0 || cost < 0) {
+                resultContainer.innerHTML = `
+                    <div class="text-center py-8 text-rose-400 font-semibold text-sm">
+                        Please enter valid positive pricing figures.
+                    </div>
+                `;
+                actionsContainer.classList.add('hidden');
+                return;
+            }
+
+            const margin = price - cost;
+            if (margin <= 0) {
+                resultContainer.innerHTML = `
+                    <div class="text-center py-8 text-rose-400 font-semibold text-sm">
+                        Product cost ($${cost.toFixed(2)}) is equal to or exceeds selling price ($${price.toFixed(2)}). This product is inherently unprofitable.
+                    </div>
+                `;
+                actionsContainer.classList.add('hidden');
+                return;
+            }
+
+            const marginPercent = (margin / price) * 100;
+            const breakEvenRoas = price / margin;
+
+            resultContainer.innerHTML = `
+                <div class="space-y-6">
+                    <div class="text-center py-6 bg-slate-950/60 rounded-2xl border border-white/5 relative overflow-hidden">
+                        <div class="text-xs text-gray-400 uppercase tracking-wider mb-2 font-bold">Break-Even ROAS</div>
+                        <div class="text-5xl font-extrabold text-blue-400 tracking-tight">${breakEvenRoas.toFixed(2)}x</div>
+                        <div class="text-[11px] text-gray-500 mt-2">Every $1.00 spent on advertising must return $${breakEvenRoas.toFixed(2)} in revenue.</div>
+                    </div>
+                    
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="p-4 bg-slate-950/30 rounded-xl border border-white/5">
+                            <div class="text-[10px] text-gray-400 uppercase tracking-wider mb-1 font-semibold">Gross Profit Margin</div>
+                            <div class="text-lg font-bold text-white">${marginPercent.toFixed(1)}%</div>
+                            <div class="text-xs text-emerald-400 font-mono">+$${margin.toFixed(2)} / unit</div>
+                        </div>
+                        <div class="p-4 bg-slate-950/30 rounded-xl border border-white/5">
+                            <div class="text-[10px] text-gray-400 uppercase tracking-wider mb-1 font-semibold">Max Customer Acquisition Cost</div>
+                            <div class="text-lg font-bold text-white">$${margin.toFixed(2)}</div>
+                            <div class="text-xs text-gray-400">Total headroom for CPA</div>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            calculationResult = `ROAS Break-Even Calculations:
+Selling Price: $${price.toFixed(2)}
+Unit Cost: $${cost.toFixed(2)}
+Gross Profit Margin: $${margin.toFixed(2)} (${marginPercent.toFixed(1)}%)
+Break-Even ROAS: ${breakEvenRoas.toFixed(2)}x
+Max CAC (Customer Acquisition Cost): $${margin.toFixed(2)}`;
+
+            actionsContainer.classList.remove('hidden');
+        });
+
+        function copyCalculations() {
+            if (!calculationResult) return;
+            navigator.clipboard.writeText(calculationResult).then(() => {
+                const btnText = document.getElementById('btn-copy-text');
+                btnText.textContent = "Copied!";
+                setTimeout(() => {
+                    btnText.textContent = "Copy Results";
+                }, 2000);
+            });
+        }
+    </script>
+
+    <div class="tool-affiliate-wrapper" style="max-width: 1200px; margin: 40px auto; padding: 0 20px; box-sizing: border-box;">
+        <div class="affiliate-section" style="margin: 40px auto; max-width: 1200px; padding: 0 20px; box-sizing: border-box; font-family: 'Outfit', sans-serif;"><h3 style="font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1.5px; color: var(--text-muted, #94a3b8); margin-bottom: 20px; font-weight: 700;">Sponsored Developer Resources</h3><div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px;">
+        <div style="background: var(--card-bg, rgba(17, 24, 39, 0.55)); border: 1px solid var(--border-color, rgba(255, 255, 255, 0.05)); border-radius: 16px; padding: 20px; backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); display: flex; flex-direction: column; justify-content: space-between; transition: all 0.3s;">
+            <div>
+                <h4 style="color: var(--secondary-accent, #60a5fa); font-size: 1.1rem; margin: 0 0 10px 0; font-weight: 600;">DigitalOcean</h4>
+                <p style="color: var(--text-muted, #94a3b8); font-size: 0.875rem; margin: 0 0 15px 0; line-height: 1.5; font-weight: 300;">Deploy your next web application or backend cloud. Get a $200 free trial credit.</p>
+            </div>
+            <a href="https://m.do.co/c/your-tag" target="_blank" rel="noopener sponsored" style="color: #ffffff; background: linear-gradient(135deg, var(--primary-accent, #3b82f6), #4f46e5); text-decoration: none; padding: 10px 16px; border-radius: 8px; font-size: 0.875rem; text-align: center; font-weight: 500; transition: opacity 0.2s;">Get Started &rarr;</a>
+        </div>
+        
+        <div style="background: var(--card-bg, rgba(17, 24, 39, 0.55)); border: 1px solid var(--border-color, rgba(255, 255, 255, 0.05)); border-radius: 16px; padding: 20px; backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); display: flex; flex-direction: column; justify-content: space-between; transition: all 0.3s;">
+            <div>
+                <h4 style="color: var(--secondary-accent, #60a5fa); font-size: 1.1rem; margin: 0 0 10px 0; font-weight: 600;">Vercel</h4>
+                <p style="color: var(--text-muted, #94a3b8); font-size: 0.875rem; margin: 0 0 15px 0; line-height: 1.5; font-weight: 300;">Instantly deploy static frontends and serverless API endpoints. The default home of React & Next.js.</p>
+            </div>
+            <a href="https://vercel.com/v0" target="_blank" rel="noopener sponsored" style="color: #ffffff; background: linear-gradient(135deg, var(--primary-accent, #3b82f6), #4f46e5); text-decoration: none; padding: 10px 16px; border-radius: 8px; font-size: 0.875rem; text-align: center; font-weight: 500; transition: opacity 0.2s;">Get Started &rarr;</a>
+        </div>
+        
+        <div style="background: var(--card-bg, rgba(17, 24, 39, 0.55)); border: 1px solid var(--border-color, rgba(255, 255, 255, 0.05)); border-radius: 16px; padding: 20px; backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); display: flex; flex-direction: column; justify-content: space-between; transition: all 0.3s;">
+            <div>
+                <h4 style="color: var(--secondary-accent, #60a5fa); font-size: 1.1rem; margin: 0 0 10px 0; font-weight: 600;">Hostinger</h4>
+                <p style="color: var(--text-muted, #94a3b8); font-size: 0.875rem; margin: 0 0 15px 0; line-height: 1.5; font-weight: 300;">Get high-performance web hosting, free custom domains, and automated sitemaps for your portfolio or blogs.</p>
+            </div>
+            <a href="https://hostinger.com?referral=your-tag" target="_blank" rel="noopener sponsored" style="color: #ffffff; background: linear-gradient(135deg, var(--primary-accent, #3b82f6), #4f46e5); text-decoration: none; padding: 10px 16px; border-radius: 8px; font-size: 0.875rem; text-align: center; font-weight: 500; transition: opacity 0.2s;">Get Started &rarr;</a>
+        </div>
+        </div></div>
+    </div>
+    <footer style="text-align: center; padding: 60px 20px; color: #9ca3af; border-top: 1px solid rgba(255,255,255,0.08); font-size: 0.95rem; background: rgba(8, 11, 17, 0.4); font-family: 'Outfit', sans-serif; margin-top: 60px;">
+        <p>&copy; 2026 Aegis Developer Hub. All rights reserved.</p>
+        <p style="font-size: 0.85rem; max-width: 800px; margin: 15px auto; line-height: 1.5; color: #9ca3af;">
+            <strong>Disclaimer:</strong> The tools and content provided on this website are for educational and informational purposes only and do not constitute financial, investment, legal, or professional advice. Conforms to Australian Privacy Principles (APPs) under the Privacy Act 1988, GDPR rules on data protection, and ASIC regulatory guidelines.
+        </p>
+        <p style="margin-top: 20px;">
+            <a href="/static/privacy.html" style="color: #9ca3af; text-decoration: underline; margin-right: 15px;">Privacy Policy</a>
+            <a href="/static/terms.html" style="color: #9ca3af; text-decoration: underline;">Terms of Service & Disclaimer</a>
+        </p>
+    </footer>
+    
+</body>
+</html>

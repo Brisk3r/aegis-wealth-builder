@@ -48,6 +48,39 @@ AFFILIATE_DESCRIPTIONS = {
     "hosting": "Get high-performance web hosting, free custom domains, and automated sitemaps for your portfolio or blogs.",
 }
 
+def get_affiliate_html() -> str:
+    links = config.affiliate_links
+    if not links:
+        return ""
+    
+    html = '<div class="affiliate-section" style="margin: 40px auto; max-width: 1200px; padding: 0 20px; box-sizing: border-box; font-family: \'Outfit\', sans-serif;">'
+    html += '<h3 style="font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1.5px; color: var(--text-muted, #94a3b8); margin-bottom: 20px; font-weight: 700;">Sponsored Developer Resources</h3>'
+    html += '<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px;">'
+    
+    for key, url in links.items():
+        name = key.capitalize()
+        if key == "digitalocean":
+            name = "DigitalOcean"
+        elif key == "vercel":
+            name = "Vercel"
+        elif key == "hosting":
+            name = "Hostinger"
+        
+        desc = AFFILIATE_DESCRIPTIONS.get(key, "High-performance developer services and infrastructure.")
+        
+        html += f"""
+        <div style="background: var(--card-bg, rgba(17, 24, 39, 0.55)); border: 1px solid var(--border-color, rgba(255, 255, 255, 0.05)); border-radius: 16px; padding: 20px; backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); display: flex; flex-direction: column; justify-content: space-between; transition: all 0.3s;">
+            <div>
+                <h4 style="color: var(--secondary-accent, #60a5fa); font-size: 1.1rem; margin: 0 0 10px 0; font-weight: 600;">{name}</h4>
+                <p style="color: var(--text-muted, #94a3b8); font-size: 0.875rem; margin: 0 0 15px 0; line-height: 1.5; font-weight: 300;">{desc}</p>
+            </div>
+            <a href="{url}" target="_blank" rel="noopener sponsored" style="color: #ffffff; background: linear-gradient(135deg, var(--primary-accent, #3b82f6), #4f46e5); text-decoration: none; padding: 10px 16px; border-radius: 8px; font-size: 0.875rem; text-align: center; font-weight: 500; transition: opacity 0.2s;">Get Started &rarr;</a>
+        </div>
+        """
+    
+    html += '</div></div>'
+    return html
+
 def get_analytics_tag(indent=4) -> str:
     if not config.google_analytics_id:
         return ""
@@ -290,6 +323,7 @@ def generate_article_page(title: str, content_html: str, article_rel_path: str) 
                 <strong>Disclaimer:</strong> The tools and content provided on this website are for educational and informational purposes only and do not constitute financial, investment, legal, or professional advice.
             </div>
         </article>
+        {get_affiliate_html()}
     </div>
     <footer>
         <p>&copy; 2026 Aegis Developer Hub. All rights reserved.</p>
@@ -721,7 +755,7 @@ def generate_index_page(tools, articles) -> str:
             {articles_list_html}
         </div>
     </div>
-    
+    {get_affiliate_html()}
     <footer>
         <p>&copy; 2026 Aegis Developer Hub. All rights reserved.</p>
         <p style="font-size: 0.85rem; max-width: 600px; margin: 15px auto; line-height: 1.5; color: var(--text-muted);">
@@ -869,30 +903,69 @@ def post_process_tool(tool_abs_path: Path, topic: str):
         html = html.replace('</head>', f'{ls_script}\n</head>', 1)
         modified = True
 
-    # 2. Inject Navbar right after <body> if NOT already present
-    if "Aegis Hub Logo" not in html and "navbar" not in html:
-        navbar_html = """
-    <div class="navbar" style="display: flex; justify-content: space-between; align-items: center; padding: 20px 40px; border-bottom: 1px solid rgba(255,255,255,0.08); background: rgba(11, 15, 25, 0.7); backdrop-filter: blur(12px); position: sticky; top: 0; z-index: 100; font-family: 'Outfit', sans-serif;">
+    # 2. Normalize Branding (header, navbar, footer and affiliates)
+    # Strip any existing headers/navbars containing "Back to Hub" or "Aegis"
+    for match in list(re.finditer(r'<header[^>]*>.*?</header>', html, flags=re.DOTALL | re.IGNORECASE)):
+        m_text = match.group(0)
+        if "back to" in m_text.lower() or "aegis" in m_text.lower():
+            html = html.replace(m_text, '')
+    for match in list(re.finditer(r'<div[^>]*class="navbar"[^>]*>.*?</div>', html, flags=re.DOTALL | re.IGNORECASE)):
+        m_text = match.group(0)
+        html = html.replace(m_text, '')
+        
+    # Strip any existing footer elements
+    for match in list(re.finditer(r'<footer[^>]*>.*?</footer>', html, flags=re.DOTALL | re.IGNORECASE)):
+        m_text = match.group(0)
+        if "aegis" in m_text.lower() or "rights" in m_text.lower() or "disclaimer" in m_text.lower() or "privacy" in m_text.lower():
+            html = html.replace(m_text, '')
+            
+    # Strip any older affiliate wrapper
+    html = re.sub(r'<div class="tool-affiliate-wrapper".*?</div>', '', html, flags=re.DOTALL)
+
+    # Inject standard Navbar right after <body>
+    navbar_html = """
+    <div class="navbar" style="display: flex; justify-content: space-between; align-items: center; padding: 20px 40px; border-bottom: 1px solid rgba(255,255,255,0.08); background: rgba(11, 15, 25, 0.75); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); position: sticky; top: 0; z-index: 100; font-family: 'Outfit', sans-serif;">
         <a href="/" style="display: flex; align-items: center; gap: 10px; color: #f3f4f6; text-decoration: none; font-weight: 600;">
             <img src="/static/logo.png" alt="Aegis Hub Logo" style="height: 30px;">
             <span>Aegis Developer Hub</span>
         </a>
-        <a href="/" style="color: #60a5fa; text-decoration: none; font-size: 0.95rem;">&larr; Back to Hub</a>
+        <a href="/" style="color: #60a5fa; text-decoration: none; font-size: 0.95rem; font-weight: 500;">&larr; Back to Hub</a>
     </div>
     """
-        if "<body>" in html:
-            html = html.replace("<body>", f"<body>\n{navbar_html}", 1)
+    
+    if "<body>" in html:
+        html = html.replace("<body>", f"<body>\n{navbar_html}", 1)
+        modified = True
+    elif "<body" in html:
+        match = re.search(r"<body[^>]*>", html)
+        if match:
+            body_tag = match.group(0)
+            html = html.replace(body_tag, f"{body_tag}\n{navbar_html}", 1)
             modified = True
-        elif "<body" in html:
-            # handle attributes
-            match = re.search(r"<body[^>]*>", html)
-            if match:
-                body_tag = match.group(0)
-                html = html.replace(body_tag, f"{body_tag}\n{navbar_html}", 1)
-                modified = True
+
+    # Inject standard Footer right before </body>
+    footer_html = f"""
+    <div class="tool-affiliate-wrapper" style="max-width: 1200px; margin: 40px auto; padding: 0 20px; box-sizing: border-box;">
+        {get_affiliate_html()}
+    </div>
+    <footer style="text-align: center; padding: 60px 20px; color: #9ca3af; border-top: 1px solid rgba(255,255,255,0.08); font-size: 0.95rem; background: rgba(8, 11, 17, 0.4); font-family: 'Outfit', sans-serif; margin-top: 60px;">
+        <p>&copy; 2026 Aegis Developer Hub. All rights reserved.</p>
+        <p style="font-size: 0.85rem; max-width: 800px; margin: 15px auto; line-height: 1.5; color: #9ca3af;">
+            <strong>Disclaimer:</strong> The tools and content provided on this website are for educational and informational purposes only and do not constitute financial, investment, legal, or professional advice. Conforms to Australian Privacy Principles (APPs) under the Privacy Act 1988, GDPR rules on data protection, and ASIC regulatory guidelines.
+        </p>
+        <p style="margin-top: 20px;">
+            <a href="/static/privacy.html" style="color: #9ca3af; text-decoration: underline; margin-right: 15px;">Privacy Policy</a>
+            <a href="/static/terms.html" style="color: #9ca3af; text-decoration: underline;">Terms of Service & Disclaimer</a>
+        </p>
+    </footer>
+    """
+    
+    if "</body>" in html:
+        html = html.replace("</body>", f"{footer_html}\n</body>", 1)
+        modified = True
 
     # 3. Inject default Outfit Font & basic styles only if the tool has no built-in styling system
-    if "Aegis Hub Logo" not in html and "fonts.googleapis.com/css2?family=Outfit" not in html and "</head>" in html:
+    if "fonts.googleapis.com/css2?family=Outfit" not in html and "</head>" in html:
         if "tailwindcss" not in html and "tailwind.config" not in html:
             font_link = '<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">'
             custom_styles = f"""

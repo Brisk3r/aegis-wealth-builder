@@ -254,14 +254,6 @@
                                     
                                     <!-- Checkout Box integration mock -->
                                     <div class="space-y-2">
-                                        
-                                        <a href="https://aegishub.lemonsqueezy.com/checkout/buy/22815780-b4e8-466d-a4eb-5bd71d121707?embed=1" class="lemonsqueezy-button block text-center bg-blue-600/30 hover:bg-blue-600/50 border border-blue-500/50 text-blue-300 font-semibold py-2 px-4 rounded-lg text-xs transition-all duration-200" data-cb-type="checkout" data-cb-embed="1">Get Premium Spec - $4.99</a>
-                                        <a href="https://aegishub.lemonsqueezy.com/checkout/buy/22815780-b4e8-466d-a4eb-5bd71d121707?embed=1" class="lemonsqueezy-button block text-center bg-blue-600/30 hover:bg-blue-600/50 border border-blue-500/50 text-blue-300 font-semibold py-2 px-4 rounded-lg text-xs transition-all duration-200" data-cb-type="checkout" data-cb-embed="1">Get Premium Spec - $4.99</a>
-                                        <a href="https://aegishub.lemonsqueezy.com/checkout/buy/22815780-b4e8-466d-a4eb-5bd71d121707?embed=1" class="lemonsqueezy-button block text-center bg-blue-600/30 hover:bg-blue-600/50 border border-blue-500/50 text-blue-300 font-semibold py-2 px-4 rounded-lg text-xs transition-all duration-200" data-cb-type="checkout" data-cb-embed="1">Get Premium Spec - $4.99</a>
-                                        <a href="https://aegishub.lemonsqueezy.com/checkout/buy/22815780-b4e8-466d-a4eb-5bd71d121707?embed=1" class="lemonsqueezy-button block text-center bg-blue-600/30 hover:bg-blue-600/50 border border-blue-500/50 text-blue-300 font-semibold py-2 px-4 rounded-lg text-xs transition-all duration-200" data-cb-type="checkout" data-cb-embed="1">Get Premium Spec - $4.99</a>
-                                        <a href="https://aegishub.lemonsqueezy.com/checkout/buy/22815780-b4e8-466d-a4eb-5bd71d121707?embed=1" class="lemonsqueezy-button block text-center bg-blue-600/30 hover:bg-blue-600/50 border border-blue-500/50 text-blue-300 font-semibold py-2 px-4 rounded-lg text-xs transition-all duration-200" data-cb-type="checkout" data-cb-embed="1">Get Premium Spec - $4.99</a>
-                                        <a href="https://aegishub.lemonsqueezy.com/checkout/buy/22815780-b4e8-466d-a4eb-5bd71d121707?embed=1" class="lemonsqueezy-button block text-center bg-blue-600/30 hover:bg-blue-600/50 border border-blue-500/50 text-blue-300 font-semibold py-2 px-4 rounded-lg text-xs transition-all duration-200" data-cb-type="checkout" data-cb-embed="1">Get Premium Spec - $4.99</a>
-                                        <a href="https://aegishub.lemonsqueezy.com/checkout/buy/22815780-b4e8-466d-a4eb-5bd71d121707?embed=1" class="lemonsqueezy-button block text-center bg-blue-600/30 hover:bg-blue-600/50 border border-blue-500/50 text-blue-300 font-semibold py-2 px-4 rounded-lg text-xs transition-all duration-200" data-cb-type="checkout" data-cb-embed="1">Get Premium Spec - $4.99</a>
                                         <p class="text-[10px] text-gray-500 text-center">Checkout powered secure by Lemon Squeezy</p>
                                     </div>
                                 </div>
@@ -1296,6 +1288,14 @@ ${activeConcept.monetization}
 
         function revealBoilerplate() {
             if (!activeConcept) return;
+            
+            // Gate medium/high complexity behind premium spec license
+            const isUnlocked = localStorage.getItem('aegis_spec_unlocked') === 'true' || localStorage.getItem('aegis_pro_unlocked') === 'true';
+            if ((activeConcept.complexity === 'Medium' || activeConcept.complexity === 'High') && !isUnlocked) {
+                document.getElementById('premium-gate-modal').classList.remove('hidden');
+                return;
+            }
+            
             const stack = activeConcept.stack;
             const code = BOILERPLATES[stack] || BOILERPLATES["Next.js"];
             
@@ -1424,11 +1424,70 @@ ${activeConcept.monetization}
             }, 3000);
         }
 
+        // Premium Gating Logic
+        let isSpecUnlocked = localStorage.getItem('aegis_spec_unlocked') === 'true' || localStorage.getItem('aegis_pro_unlocked') === 'true';
+
+        // Lemon Squeezy event handler setup
+        if (window.LemonSqueezy) {
+            window.LemonSqueezy.Setup({
+                eventHandler: (event) => {
+                    if (event.event === 'Checkout.Success') {
+                        isSpecUnlocked = true;
+                        localStorage.setItem('aegis_spec_unlocked', 'true');
+                        closePremiumGate();
+                        confetti({
+                            particleCount: 150,
+                            spread: 80,
+                            origin: { y: 0.6 }
+                        });
+                        showToast("Premium spec unlocked successfully!");
+                        // auto-run revealBoilerplate again
+                        revealBoilerplate();
+                    }
+                }
+            });
+        }
+
+        function closePremiumGate() {
+            document.getElementById('premium-gate-modal').classList.add('hidden');
+        }
+
         // Init bindings
         window.addEventListener('DOMContentLoaded', () => {
             renderSelectors();
             loadHistory();
+            
+            // Re-setup LemonSqueezy overlay buttons
+            if (window.createLemonSqueezy) {
+                window.createLemonSqueezy();
+            }
         });
     </script>
+
+    <!-- Premium Gate Modal -->
+    <div id="premium-gate-modal" class="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/80 backdrop-blur-sm hidden" style="background: rgba(8, 11, 17, 0.85); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);">
+        <div class="glass max-w-md w-full p-8 rounded-3xl border border-white/10 bg-[#0c101b] shadow-2xl space-y-6 text-center" style="font-family: 'Outfit', sans-serif; box-shadow: 0 20px 40px rgba(0,0,0,0.6);">
+            <div class="inline-flex items-center justify-center w-12 h-12 rounded-full bg-blue-500/10 text-blue-400 mb-2 mx-auto">
+                <i data-lucide="lock" class="w-6 h-6"></i>
+            </div>
+            <h3 class="text-xl font-bold text-white">Unlock Premium Specification</h3>
+            <p class="text-sm text-gray-300 leading-relaxed">
+                Boilerplates and configuration specifications for Medium and High complexity micro-SaaS niches are gated under a premium license:
+            </p>
+            <ul class="text-xs text-gray-400 space-y-2 text-left list-disc list-inside">
+                <li>Production-ready code architecture blueprints</li>
+                <li>Comprehensive database structure and API routes</li>
+                <li>Integrated payment webhook controller code</li>
+            </ul>
+            <div class="flex flex-col gap-3">
+                <a href="https://aegishub.lemonsqueezy.com/checkout/buy/22815780-b4e8-466d-a4eb-5bd71d121707?embed=1" class="lemonsqueezy-button w-full py-3 px-4 rounded-xl bg-gradient-to-r from-blue-500 to-indigo-500 hover:from-blue-400 hover:to-indigo-400 text-white font-bold text-sm shadow-lg shadow-blue-950/30 text-center" data-cb-type="checkout" data-cb-embed="1">
+                    Buy Premium Spec - $4.99
+                </a>
+                <button onclick="closePremiumGate()" class="text-xs text-gray-500 hover:text-gray-400 transition-colors">
+                    Cancel
+                </button>
+            </div>
+        </div>
+    </div>
 </body>
 </html>
