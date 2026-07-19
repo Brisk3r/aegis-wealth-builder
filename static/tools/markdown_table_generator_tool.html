@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DevTable Pro | Professional Markdown Table Transformer</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Outfit:wght@300;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root { --bg: #0f172a; --glass: rgba(30, 41, 59, 0.7); --accent: #38bdf8; }
+        body { font-family: 'Inter', sans-serif; background-color: var(--bg); color: #f1f5f9; background-image: radial-gradient(at 0% 0%, rgba(56, 189, 248, 0.05) 0px, transparent 50%); }
+        h1, h2 { font-family: 'Outfit', sans-serif; }
+        .glass { background: var(--glass); backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.08); }
+        .input-area { min-height: 300px; }
+        .btn-glow:hover { box-shadow: 0 0 20px rgba(56, 189, 248, 0.4); }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #1e293b; }
+        ::-webkit-scrollbar-thumb { background: #475569; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--accent); }
+    </style>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4750454395006570" crossorigin="anonymous"></script>
+
+    <script defer src="/_vercel/insights/script.js"></script>
+
+    <link rel="icon" type="image/png" href="/static/logo.png">
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-BZVWXPPG06"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-BZVWXPPG06');
+    </script>
+
+    <script src="https://assets.lemonsqueezy.com/lemon.js" defer></script>
+</head>
+<body class="min-h-screen p-4 md:p-8">
+
+    <div class="navbar" style="display: flex; justify-content: space-between; align-items: center; padding: 20px 40px; border-bottom: 1px solid rgba(255,255,255,0.08); background: rgba(11, 15, 25, 0.7); backdrop-filter: blur(12px); position: sticky; top: 0; z-index: 100; font-family: 'Outfit', sans-serif;">
+        <a href="/" style="display: flex; align-items: center; gap: 10px; color: #f3f4f6; text-decoration: none; font-weight: 600;">
+            <img src="/static/logo.png" alt="Aegis Hub Logo" style="height: 30px;">
+            <span>Aegis Developer Hub</span>
+        </a>
+        <a href="/" style="color: #60a5fa; text-decoration: none; font-size: 0.95rem;">&larr; Back to Hub</a>
+    </div>
+    
+
+    <div class="max-w-6xl mx-auto">
+        <header class="mb-12 text-center">
+            <div class="inline-block p-1 rounded-full bg-slate-800/50 border border-slate-700 mb-4">
+                <span class="px-4 py-1 text-xs font-semibold text-sky-400 uppercase tracking-widest">Enterprise Utility</span>
+            </div>
+            <h1 class="text-5xl md:text-6xl font-bold mb-4 text-white tracking-tight">DevTable <span class="text-sky-500">Pro</span></h1>
+            <p class="text-slate-400 text-lg">Industrial-grade precision for technical documentation formatting.</p>
+        </header>
+
+        <main class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            <section class="glass p-8 rounded-3xl shadow-2xl relative overflow-hidden">
+                <h2 class="text-xl font-semibold mb-6 text-slate-100 flex items-center gap-2">
+                    <span class="w-2 h-6 bg-sky-500 rounded-full"></span>
+                    Raw Data Source (CSV)
+                </h2>
+                <textarea id="csvInput" class="w-full bg-slate-950/50 p-6 rounded-2xl border border-slate-700 focus:border-sky-500 focus:ring-1 focus:ring-sky-500 transition-all font-mono text-sm leading-relaxed text-slate-300 input-area" placeholder="Paste your CSV content here...&#10;Columns should be comma-separated.&#10;&#10;ID,Feature,Status&#10;1,CSV Sync,Active&#10;2,Markdown Export,Active"></textarea>
+                <div class="mt-6 flex gap-4">
+                    <button onclick="processTable()" class="flex-grow px-8 py-3 bg-sky-600 hover:bg-sky-500 text-white rounded-xl font-semibold btn-glow transition-all">Generate Markdown</button>
+                    <button onclick="clearAll()" class="px-6 py-3 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-xl font-medium transition-all">Clear</button>
+                </div>
+            </section>
+
+            <section class="glass p-8 rounded-3xl shadow-2xl">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-xl font-semibold text-slate-100 flex items-center gap-2">
+                        <span class="w-2 h-6 bg-emerald-500 rounded-full"></span>
+                        Formatted Output
+                    </h2>
+                    <button onclick="copyOutput()" id="copyBtn" class="text-sm bg-slate-800 hover:bg-slate-700 px-4 py-2 rounded-lg text-slate-300 transition-all flex items-center gap-2 border border-slate-700">
+                        Copy to Clipboard
+                    </button>
+                </div>
+                <textarea id="markdownOutput" readonly class="w-full bg-slate-950/80 p-6 rounded-2xl border border-slate-700 font-mono text-sm text-sky-200 input-area" placeholder="Formatted table will appear here..."></textarea>
+                <p id="statusMsg" class="mt-4 text-xs text-slate-500 font-medium h-4"></p>
+            </section>
+        </main>
+    </div>
+
+    <script>
+        function processTable() {
+            const input = document.getElementById('csvInput').value.trim();
+            const output = document.getElementById('markdownOutput');
+            const status = document.getElementById('statusMsg');
+
+            if (!input) {
+                status.innerText = "Error: Input field is empty.";
+                return;
+            }
+
+            try {
+                // Parse CSV logic: Split by lines then commas, handle quotes if necessary
+                const rows = input.split('\n').map(line => line.split(',').map(c => c.trim()));
+                if (rows.length < 1) return;
+
+                let table = '| ' + rows[0].join(' | ') + ' |\n';
+                table += '| ' + rows[0].map(() => '---').join(' | ') + ' |\n';
+
+                for (let i = 1; i < rows.length; i++) {
+                    if (rows[i].length === rows[0].length) {
+                        table += '| ' + rows[i].join(' | ') + ' |\n';
+                    }
+                }
+
+                output.value = table;
+                status.innerText = "Success: Table generated successfully.";
+            } catch (e) {
+                status.innerText = "Error: Unable to parse CSV data.";
+            }
+        }
+
+        async function copyOutput() {
+            const output = document.getElementById('markdownOutput');
+            if(!output.value) return;
+            
+            try {
+                await navigator.clipboard.writeText(output.value);
+                const btn = document.getElementById('copyBtn');
+                btn.innerText = "Copied!";
+                btn.classList.add('bg-emerald-900', 'border-emerald-700', 'text-emerald-300');
+                setTimeout(() => {
+                    btn.innerText = "Copy to Clipboard";
+                    btn.classList.remove('bg-emerald-900', 'border-emerald-700', 'text-emerald-300');
+                }, 2000);
+            } catch (err) {
+                alert("Failed to copy text.");
+            }
+        }
+
+        function clearAll() {
+            document.getElementById('csvInput').value = '';
+            document.getElementById('markdownOutput').value = '';
+            document.getElementById('statusMsg').innerText = '';
+        }
+    </script>
+</body>
+</html>
