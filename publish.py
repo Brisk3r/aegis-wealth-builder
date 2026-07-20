@@ -39,7 +39,8 @@ TOOL_DESCRIPTIONS = {
     "Code Screenshot Generator": "Paste code, select a syntax theme and gradient background, and download a beautiful padded snippet image for social sharing.",
     "Code Snippet Generator": "Create and export syntax-highlighted code snippets with customizable themes, padding, and watermark-free image downloads.",
     "DNS Record and SSL Certificate Inspector": "Look up DNS records (A, AAAA, MX, TXT, CNAME) and inspect SSL certificate details for any domain directly in-browser.",
-    "UUID NanoID and Snowflake Generator": "Generate UUID v4, NanoID, and Snowflake IDs with configurable lengths, bulk generation, and one-click copy to clipboard."
+    "UUID NanoID and Snowflake Generator": "Generate UUID v4, NanoID, and Snowflake IDs with configurable lengths, bulk generation, and one-click copy to clipboard.",
+    "HEIC Photo Converter": "Convert HEIC, HEIF, PNG, WebP, BMP, and TIFF photos to JPG or PNG instantly in-browser. Set quality, target file size, and bulk-download a ZIP — 100% private, no uploads."
 }
 
 AFFILIATE_DESCRIPTIONS = {
