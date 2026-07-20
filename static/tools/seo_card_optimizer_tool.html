@@ -222,6 +222,15 @@
 
         // Init
         updateSeo();
+    
+        // Handle hash anchor routing for consolidated tabs
+        window.addEventListener("DOMContentLoaded", () => {
+            const hash = window.location.hash.substring(1);
+            const validTabs = ['seo', 'og', 'favicon'];
+            if (validTabs.includes(hash)) {
+                switchTab(hash);
+            }
+        });
     </script>
 
     <footer style="text-align: center; padding: 60px 20px; color: #9ca3af; border-top: 1px solid rgba(255,255,255,0.08); font-size: 0.95rem; background: rgba(8, 11, 17, 0.4); font-family: 'Outfit', sans-serif; margin-top: 60px;">

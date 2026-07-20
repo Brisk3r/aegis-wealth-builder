@@ -3,36 +3,581 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Universal HEIC & Photo Converter & Compressor</title>
+    <title>Universal HEIC & Photo Converter – Aegis Developer Hub</title>
+    <meta name="description" content="Convert HEIC, HEIF, PNG, WebP, BMP, and TIFF photos to JPG or PNG instantly in-browser. Adjust quality, set target file size, and batch download — 100% private, no uploads.">
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- heic2any: pure-JS HEIC/HEIF decoder (MIT licence) -->
+    <script src="https://cdn.jsdelivr.net/npm/heic2any@0.0.4/dist/heic2any.min.js"></script>
     <style>
+        :root {
+            --bg: #080b11;
+            --surface: rgba(17, 24, 39, 0.55);
+            --surface-hi: rgba(255,255,255,0.035);
+            --border: 1px solid rgba(255,255,255,0.07);
+            --border-glow: 1px solid rgba(99,179,255,0.18);
+            --accent: #3b82f6;
+            --accent2: #6366f1;
+            --accent-grad: linear-gradient(135deg, #3b82f6 0%, #6366f1 100%);
+            --success: #10b981;
+            --warn: #f59e0b;
+            --danger: #ef4444;
+            --text: #f3f4f6;
+            --muted: #9ca3af;
+            --radius: 14px;
+        }
+
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
         body {
-            font-family: 'Outfit', sans-serif !important;
-            background-color: #080b11 !important;
+            background: var(--bg);
+            color: var(--text);
+            font-family: 'Outfit', sans-serif;
+            min-height: 100vh;
+            line-height: 1.6;
         }
-    </style>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://unpkg.com/@phosphor-icons/web"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
-    <style>
-        /* Custom styles for sliders and scrollbars */
-        .compare-slider-thumb::-webkit-slider-thumb {
-            appearance: none; width: 4px; height: 1000px;
-            background: white; cursor: ew-resize; box-shadow: 0 0 15px rgba(0,0,0,0.9);
+
+        /* ── Navbar ── */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 18px 40px;
+            border-bottom: var(--border);
+            background: rgba(8,11,17,0.75);
+            backdrop-filter: blur(14px);
+            position: sticky;
+            top: 0;
+            z-index: 200;
         }
-        .compare-slider-thumb::-moz-range-thumb {
-            appearance: none; width: 4px; height: 1000px;
-            background: white; cursor: ew-resize; border: none; box-shadow: 0 0 15px rgba(0,0,0,0.9);
+        .navbar-brand { display: flex; align-items: center; gap: 12px; text-decoration: none; }
+        .navbar-brand img { height: 32px; }
+        .navbar-brand span { font-weight: 700; font-size: 1.1rem; color: var(--text); }
+        .back-link {
+            color: #60a5fa;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: opacity .2s;
         }
-        .bg-grid-pattern {
-            background-image: radial-gradient(#334155 1px, transparent 1px);
-            background-size: 20px 20px;
+        .back-link:hover { opacity: .75; }
+
+        /* ── Hero ── */
+        .hero {
+            text-align: center;
+            padding: 56px 20px 36px;
         }
-        /* Premium custom scrollbar for the queue list */
-        .queue-scroll::-webkit-scrollbar { width: 8px; }
-        .queue-scroll::-webkit-scrollbar-track { background: #0f172a; border-radius: 8px; }
-        .queue-scroll::-webkit-scrollbar-thumb { background: #334155; border-radius: 8px; }
-        .queue-scroll::-webkit-scrollbar-thumb:hover { background: #475569; }
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(59,130,246,0.12);
+            border: 1px solid rgba(59,130,246,0.28);
+            border-radius: 100px;
+            padding: 5px 14px;
+            font-size: 0.78rem;
+            font-weight: 600;
+            color: #60a5fa;
+            letter-spacing: .6px;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+        }
+        .hero h1 {
+            font-size: clamp(1.8rem, 4vw, 2.8rem);
+            font-weight: 800;
+            background: var(--accent-grad);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 14px;
+        }
+        .hero p {
+            max-width: 600px;
+            margin: 0 auto;
+            color: var(--muted);
+            font-size: 1rem;
+        }
+        .privacy-note {
+            margin-top: 14px;
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            font-size: 0.82rem;
+            color: var(--success);
+            font-weight: 500;
+        }
+        .privacy-note svg { flex-shrink: 0; }
+
+        /* ── Layout ── */
+        .main-grid {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 24px 60px;
+            display: grid;
+            grid-template-columns: 340px 1fr;
+            gap: 28px;
+            align-items: start;
+        }
+        @media (max-width: 860px) {
+            .main-grid { grid-template-columns: 1fr; }
+        }
+
+        /* ── Cards / Panels ── */
+        .card {
+            background: var(--surface);
+            border: var(--border);
+            border-radius: var(--radius);
+            backdrop-filter: blur(12px);
+            padding: 24px;
+        }
+        .card + .card { margin-top: 20px; }
+        .card-title {
+            font-size: 0.82rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1.2px;
+            color: var(--muted);
+            margin-bottom: 18px;
+        }
+
+        /* ── Drop Zone ── */
+        .dropzone {
+            border: 2px dashed rgba(99,130,255,0.35);
+            border-radius: var(--radius);
+            background: rgba(59,130,246,0.04);
+            text-align: center;
+            padding: 44px 20px;
+            cursor: pointer;
+            transition: border-color .25s, background .25s;
+            position: relative;
+        }
+        .dropzone:hover, .dropzone.drag-over {
+            border-color: rgba(99,130,255,0.7);
+            background: rgba(59,130,246,0.09);
+        }
+        .dropzone input[type="file"] {
+            position: absolute;
+            inset: 0;
+            opacity: 0;
+            cursor: pointer;
+        }
+        .drop-icon {
+            font-size: 2.8rem;
+            margin-bottom: 12px;
+            display: block;
+        }
+        .drop-main-text {
+            font-weight: 700;
+            font-size: 1.05rem;
+            color: var(--text);
+            margin-bottom: 6px;
+        }
+        .drop-sub-text {
+            font-size: 0.83rem;
+            color: var(--muted);
+        }
+        .drop-formats {
+            margin-top: 14px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 7px;
+        }
+        .fmt-badge {
+            background: rgba(255,255,255,0.06);
+            border: var(--border);
+            border-radius: 6px;
+            padding: 2px 9px;
+            font-size: 0.72rem;
+            font-weight: 600;
+            color: var(--muted);
+            letter-spacing: .4px;
+        }
+        .fmt-badge.heic { color: #f59e0b; border-color: rgba(245,158,11,0.3); background: rgba(245,158,11,0.08); }
+
+        /* ── Controls ── */
+        .control-group { margin-bottom: 20px; }
+        .control-group label {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.88rem;
+            font-weight: 600;
+            color: var(--text);
+            margin-bottom: 9px;
+        }
+        .control-group label span {
+            font-weight: 400;
+            color: var(--accent);
+            font-size: 0.85rem;
+        }
+
+        /* Format selector tabs */
+        .format-tabs {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+        }
+        .fmt-tab {
+            border: var(--border);
+            border-radius: 10px;
+            padding: 12px 8px;
+            text-align: center;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: all .2s;
+            background: var(--surface-hi);
+            color: var(--muted);
+        }
+        .fmt-tab:hover { border-color: rgba(99,130,255,0.4); color: var(--text); }
+        .fmt-tab.active {
+            background: var(--accent-grad);
+            border-color: transparent;
+            color: #fff;
+        }
+        .fmt-tab .fmt-tab-sub {
+            font-size: 0.7rem;
+            font-weight: 400;
+            margin-top: 3px;
+            opacity: .8;
+        }
+
+        /* Sliders */
+        input[type="range"] {
+            -webkit-appearance: none;
+            width: 100%;
+            height: 5px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 3px;
+            outline: none;
+            cursor: pointer;
+        }
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: var(--accent-grad);
+            cursor: pointer;
+            box-shadow: 0 0 0 3px rgba(99,130,255,0.18);
+        }
+
+        /* Target size mode */
+        .target-size-row {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+        .target-size-row input[type="number"] {
+            flex: 1;
+            background: rgba(255,255,255,0.05);
+            border: var(--border);
+            border-radius: 8px;
+            color: var(--text);
+            font-family: 'Outfit', sans-serif;
+            font-size: 0.9rem;
+            padding: 9px 12px;
+            outline: none;
+            transition: border-color .2s;
+        }
+        .target-size-row input[type="number"]:focus { border-color: rgba(99,130,255,0.5); }
+        .target-size-row select {
+            background: rgba(255,255,255,0.05);
+            border: var(--border);
+            border-radius: 8px;
+            color: var(--text);
+            font-family: 'Outfit', sans-serif;
+            font-size: 0.9rem;
+            padding: 9px 12px;
+            outline: none;
+            cursor: pointer;
+        }
+
+        /* Toggle switch */
+        .toggle-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.88rem;
+            font-weight: 600;
+            color: var(--text);
+        }
+        .toggle {
+            position: relative;
+            width: 40px;
+            height: 22px;
+            cursor: pointer;
+        }
+        .toggle input { opacity: 0; width: 0; height: 0; }
+        .toggle-track {
+            position: absolute;
+            inset: 0;
+            background: rgba(255,255,255,0.1);
+            border-radius: 22px;
+            transition: background .2s;
+        }
+        .toggle input:checked + .toggle-track { background: var(--accent); }
+        .toggle-thumb {
+            position: absolute;
+            top: 3px;
+            left: 3px;
+            width: 16px;
+            height: 16px;
+            background: white;
+            border-radius: 50%;
+            transition: left .2s;
+        }
+        .toggle input:checked ~ .toggle-thumb { left: 21px; }
+
+        /* Convert button */
+        .btn-convert {
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 10px;
+            background: var(--accent-grad);
+            color: white;
+            font-family: 'Outfit', sans-serif;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: opacity .2s, transform .15s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        .btn-convert:disabled { opacity: .45; cursor: not-allowed; }
+        .btn-convert:not(:disabled):hover { opacity: .88; transform: translateY(-1px); }
+
+        /* ── Results area ── */
+        .results-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 18px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .results-header h2 {
+            font-size: 1.15rem;
+            font-weight: 700;
+        }
+        .btn-dl-all {
+            padding: 9px 20px;
+            border: var(--border-glow);
+            border-radius: 9px;
+            background: rgba(99,102,241,0.12);
+            color: #a5b4fc;
+            font-family: 'Outfit', sans-serif;
+            font-size: 0.86rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all .2s;
+            display: flex;
+            align-items: center;
+            gap: 7px;
+        }
+        .btn-dl-all:hover { background: rgba(99,102,241,0.22); }
+        .btn-dl-all:disabled { opacity: .4; cursor: not-allowed; }
+
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--muted);
+        }
+        .empty-state .es-icon { font-size: 3.5rem; margin-bottom: 16px; opacity: .5; }
+        .empty-state p { font-size: 0.95rem; }
+
+        /* File queue items */
+        .file-list { display: flex; flex-direction: column; gap: 14px; }
+        .file-item {
+            background: var(--surface);
+            border: var(--border);
+            border-radius: 12px;
+            backdrop-filter: blur(8px);
+            overflow: hidden;
+            transition: border-color .2s;
+        }
+        .file-item.done { border-color: rgba(16,185,129,0.3); }
+        .file-item.error { border-color: rgba(239,68,68,0.35); }
+
+        .file-item-head {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 14px 16px;
+        }
+        .file-thumb {
+            width: 52px;
+            height: 52px;
+            border-radius: 8px;
+            object-fit: cover;
+            background: rgba(255,255,255,0.06);
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.6rem;
+            overflow: hidden;
+        }
+        .file-thumb img { width: 100%; height: 100%; object-fit: cover; border-radius: 8px; }
+        .file-meta { flex: 1; min-width: 0; }
+        .file-name {
+            font-weight: 600;
+            font-size: 0.9rem;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .file-sizes {
+            font-size: 0.78rem;
+            color: var(--muted);
+            margin-top: 3px;
+        }
+        .file-sizes .arrow { color: var(--accent); margin: 0 5px; }
+        .file-sizes .saving { color: var(--success); font-weight: 600; }
+        .file-sizes .saving.negative { color: var(--warn); }
+
+        .file-status {
+            font-size: 0.78rem;
+            font-weight: 600;
+            padding: 4px 10px;
+            border-radius: 6px;
+            flex-shrink: 0;
+        }
+        .file-status.pending { background: rgba(255,255,255,0.06); color: var(--muted); }
+        .file-status.converting { background: rgba(59,130,246,0.15); color: #60a5fa; }
+        .file-status.done { background: rgba(16,185,129,0.13); color: #34d399; }
+        .file-status.error { background: rgba(239,68,68,0.13); color: #f87171; }
+
+        .file-actions {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-shrink: 0;
+        }
+        .btn-dl {
+            padding: 7px 14px;
+            border: none;
+            border-radius: 8px;
+            background: var(--accent-grad);
+            color: white;
+            font-family: 'Outfit', sans-serif;
+            font-size: 0.78rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: opacity .2s;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .btn-dl:hover { opacity: .82; }
+        .btn-remove {
+            background: none;
+            border: none;
+            color: var(--muted);
+            cursor: pointer;
+            font-size: 1.1rem;
+            padding: 4px;
+            border-radius: 5px;
+            transition: color .2s;
+        }
+        .btn-remove:hover { color: var(--danger); }
+
+        /* Progress bar */
+        .progress-bar-wrap {
+            height: 3px;
+            background: rgba(255,255,255,0.06);
+        }
+        .progress-bar {
+            height: 100%;
+            background: var(--accent-grad);
+            border-radius: 3px;
+            transition: width .3s;
+        }
+
+        /* Error message */
+        .file-error-msg {
+            padding: 8px 16px 12px;
+            font-size: 0.8rem;
+            color: #f87171;
+        }
+
+        /* Stats bar */
+        .stats-bar {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+        @media (max-width: 640px) {
+            .stats-bar { grid-template-columns: repeat(2, 1fr); }
+        }
+        .stat-card {
+            background: var(--surface);
+            border: var(--border);
+            border-radius: 12px;
+            padding: 16px;
+            text-align: center;
+            backdrop-filter: blur(8px);
+        }
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: 800;
+            background: var(--accent-grad);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .stat-label {
+            font-size: 0.72rem;
+            color: var(--muted);
+            margin-top: 4px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: .6px;
+        }
+
+        /* Toast */
+        .toast {
+            position: fixed;
+            bottom: 28px;
+            left: 50%;
+            transform: translateX(-50%) translateY(80px);
+            background: rgba(17,24,39,0.95);
+            border: 1px solid rgba(16,185,129,0.4);
+            color: #34d399;
+            padding: 12px 24px;
+            border-radius: 100px;
+            font-size: 0.88rem;
+            font-weight: 600;
+            backdrop-filter: blur(12px);
+            transition: transform .3s cubic-bezier(.34,1.56,.64,1);
+            z-index: 9999;
+            pointer-events: none;
+        }
+        .toast.show { transform: translateX(-50%) translateY(0); }
+        .toast.error-toast { border-color: rgba(239,68,68,0.4); color: #f87171; }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 60px 20px;
+            color: #9ca3af;
+            border-top: 1px solid rgba(255,255,255,0.08);
+            font-size: 0.85rem;
+            background: rgba(8, 11, 17, 0.4);
+            font-family: 'Outfit', sans-serif;
+            margin-top: 60px;
+        }
+        footer p { margin-bottom: 8px; }
+        footer a { color: #9ca3af; text-decoration: underline; margin: 0 10px; }
+
+        .divider { height: 1px; background: rgba(255,255,255,0.06); margin: 18px 0; }
     </style>
 
     <style>
@@ -62,823 +607,629 @@
     </script>
 
     <script src="https://assets.lemonsqueezy.com/lemon.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/heic2any@0.0.4/dist/heic2any.min.js"></script>
 </head>
-<body class="bg-slate-950 text-slate-200 min-h-screen font-sans selection:bg-sky-500 selection:text-white pb-12">
+<body>
 
-    <div class="navbar" style="display: flex; justify-content: space-between; align-items: center; padding: 20px 40px; border-bottom: 1px solid rgba(255,255,255,0.08); background: rgba(11, 15, 25, 0.75); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); position: sticky; top: 0; z-index: 100; font-family: 'Outfit', sans-serif;">
-        <a href="/" style="display: flex; align-items: center; gap: 10px; color: #f3f4f6; text-decoration: none; font-weight: 600;">
-            <img src="/static/logo.png" alt="Aegis Hub Logo" style="height: 30px;">
-            <span>Aegis Developer Hub</span>
-        </a>
-        <a href="/" style="color: #60a5fa; text-decoration: none; font-size: 0.95rem; font-weight: 500;">&larr; Back to Hub</a>
+<nav class="navbar">
+    <a href="/" class="navbar-brand">
+        <img src="/static/logo.png" alt="Aegis Developer Hub Logo" onerror="this.style.display='none'">
+        <span>Aegis Developer Hub</span>
+    </a>
+    <a href="/" class="back-link">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+        Back to Tools
+    </a>
+</nav>
+
+<!-- Hero -->
+<section class="hero">
+    <div class="hero-badge">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 20M14 8h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+        Universal Photo Converter
     </div>
-    
-
-    <div class="max-w-6xl mx-auto p-4 sm:p-6 lg:p-8 space-y-6">
-        
-        <header class="text-center space-y-2 mb-8 mt-4">
-            <h1 class="text-4xl md:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-sky-400 to-indigo-500 tracking-tight">
-                HEIC & Photo Converter
-            </h1>
-            <p class="text-slate-400 text-lg">Universal client-side batch converter. Drop images or entire folders.</p>
-        </header>
-
-        <!-- Dynamic Message Box -->
-        <div id="messageBox" class="hidden rounded-xl p-4 flex items-center gap-3 font-medium transition-all shadow-lg border">
-            <i id="messageIcon" class="ph text-2xl"></i>
-            <span id="messageText" class="flex-1"></span>
-        </div>
-
-        <!-- Drop Zone (Full size initially, shrinks when files are loaded) -->
-        <div id="dropZone" class="group relative overflow-hidden rounded-3xl border-2 border-dashed border-slate-700 bg-slate-900/50 hover:bg-slate-800/80 hover:border-sky-500 transition-all duration-300 flex flex-col items-center justify-center p-12 text-center shadow-xl">
-            <input type="file" id="fileInput" accept="image/*,.heic,.heif" multiple class="hidden">
-            <input type="file" id="folderInput" webkitdirectory directory class="hidden">
-            
-            <div class="absolute inset-0 bg-sky-500/5 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"></div>
-            
-            <i class="ph-duotone ph-files text-6xl text-slate-500 group-hover:-translate-y-2 transition-transform duration-300 group-hover:text-sky-400 mb-4 pointer-events-none"></i>
-            <h3 class="text-2xl font-bold text-slate-200 mb-2 pointer-events-none">Drag & drop files or folders</h3>
-            <p class="text-slate-500 font-medium mb-6 pointer-events-none">Everything is processed locally in your browser.</p>
-            
-            <div class="flex flex-wrap justify-center gap-4 relative z-10">
-                <button onclick="document.getElementById('fileInput').click()" class="px-6 py-3 rounded-xl bg-slate-800 hover:bg-slate-700 text-sm font-bold text-slate-200 border border-slate-600 transition-colors shadow-lg flex items-center gap-2">
-                    <i class="ph-bold ph-image"></i> Select Images
-                </button>
-                <button onclick="document.getElementById('folderInput').click()" class="px-6 py-3 rounded-xl bg-sky-900/30 hover:bg-sky-800/50 text-sm font-bold text-sky-400 border border-sky-800/50 transition-colors shadow-lg flex items-center gap-2">
-                    <i class="ph-bold ph-folder-open"></i> Select Folder
-                </button>
-            </div>
-            
-            <div class="mt-8 flex flex-wrap justify-center gap-2 pointer-events-none">
-                <span class="px-3 py-1 rounded-full bg-slate-950/50 text-xs font-semibold text-slate-500 border border-slate-800">HEIC</span>
-                <span class="px-3 py-1 rounded-full bg-slate-950/50 text-xs font-semibold text-slate-500 border border-slate-800">WebP</span>
-                <span class="px-3 py-1 rounded-full bg-slate-950/50 text-xs font-semibold text-slate-500 border border-slate-800">AVIF</span>
-                <span class="px-3 py-1 rounded-full bg-slate-950/50 text-xs font-semibold text-slate-500 border border-slate-800">JPG</span>
-                <span class="px-3 py-1 rounded-full bg-slate-950/50 text-xs font-semibold text-slate-500 border border-slate-800">PNG</span>
-            </div>
-        </div>
-
-        <!-- Main Workspace (Hidden until files are loaded) -->
-        <div id="workspace" class="hidden flex flex-col lg:flex-row gap-6">
-            
-            <!-- Left Column: Global Settings -->
-            <div class="w-full lg:w-1/3 flex flex-col gap-6">
-                
-                <div class="bg-slate-900 border border-slate-800 rounded-3xl p-6 shadow-xl relative overflow-hidden">
-                    <div class="absolute inset-0 bg-gradient-to-br from-sky-500/5 to-transparent pointer-events-none"></div>
-                    <h2 class="text-xl font-bold mb-4 text-slate-200 border-b border-slate-800 pb-2 relative z-10">Batch Settings</h2>
-                    
-                    <!-- Output Format -->
-                    <div class="space-y-3 relative z-10 mb-6">
-                        <label class="block text-xs font-bold text-slate-400 uppercase tracking-wider">Output Format</label>
-                        <div class="relative">
-                            <select id="selFormat" class="w-full appearance-none bg-slate-950 border border-slate-700 text-slate-200 rounded-xl px-4 py-3 pr-10 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-transparent transition-all font-medium">
-                                <option value="image/jpeg">JPEG (.jpg)</option>
-                                <option value="image/webp" selected>WebP (.webp)</option>
-                                <option value="image/png">PNG (.png) - Lossless</option>
-                                <option value="image/avif">AVIF (.avif)</option>
-                            </select>
-                            <i class="ph ph-caret-down absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none"></i>
-                        </div>
-                    </div>
-
-                    <!-- Processing Mode -->
-                    <div class="space-y-3 relative z-10">
-                        <label class="block text-xs font-bold text-slate-400 uppercase tracking-wider">Optimization Target</label>
-                        
-                        <div class="grid grid-cols-1 gap-2 p-1 bg-slate-950 rounded-xl border border-slate-800">
-                            <label class="cursor-pointer">
-                                <input type="radio" name="mode" value="quality" checked class="peer hidden">
-                                <div class="py-2 px-3 rounded-lg text-sm font-semibold text-slate-500 peer-checked:bg-sky-500/20 peer-checked:text-sky-400 transition-all flex items-center justify-between">
-                                    <span>Smart Quality</span>
-                                    <i class="ph-fill ph-check-circle opacity-0 peer-checked:opacity-100"></i>
-                                </div>
-                            </label>
-                            <label class="cursor-pointer">
-                                <input type="radio" name="mode" value="target" class="peer hidden">
-                                <div class="py-2 px-3 rounded-lg text-sm font-semibold text-slate-500 peer-checked:bg-sky-500/20 peer-checked:text-sky-400 transition-all flex items-center justify-between">
-                                    <span>Max File Size</span>
-                                    <i class="ph-fill ph-check-circle opacity-0 peer-checked:opacity-100"></i>
-                                </div>
-                            </label>
-                            <label class="cursor-pointer">
-                                <input type="radio" name="mode" value="resize" class="peer hidden">
-                                <div class="py-2 px-3 rounded-lg text-sm font-semibold text-slate-500 peer-checked:bg-sky-500/20 peer-checked:text-sky-400 transition-all flex items-center justify-between">
-                                    <span>Exact Dimensions</span>
-                                    <i class="ph-fill ph-check-circle opacity-0 peer-checked:opacity-100"></i>
-                                </div>
-                            </label>
-                        </div>
-
-                        <!-- Sub-panels -->
-                        <div class="mt-4 bg-slate-950 p-4 rounded-xl border border-slate-800 min-h-[80px] flex flex-col justify-center">
-                            <!-- Quality Panel -->
-                            <div id="panelQuality" class="block w-full">
-                                <div class="flex justify-between text-sm mb-2 font-medium">
-                                    <span class="text-slate-400">Compression Quality</span>
-                                    <span id="lblQuality" class="text-sky-400 font-bold">85%</span>
-                                </div>
-                                <input type="range" id="rngQuality" min="0" max="1" step="0.01" value="0.85" 
-                                       class="w-full accent-sky-500 cursor-pointer h-2 bg-slate-800 rounded-lg appearance-none">
-                            </div>
-                            <!-- Target Size Panel -->
-                            <div id="panelTarget" class="hidden w-full space-y-2">
-                                <label class="text-sm font-medium text-slate-400 block">Maximum File Size (KB)</label>
-                                <div class="relative">
-                                    <input type="number" id="numTargetKB" value="500" min="10" 
-                                           class="w-full bg-slate-900 border border-slate-700 text-slate-200 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-sky-500 transition-all font-mono">
-                                    <span class="absolute right-4 top-1/2 -translate-y-1/2 text-slate-500 font-bold">KB</span>
-                                </div>
-                                <p class="text-xs text-slate-500 mt-1">Applies to all files in batch.</p>
-                            </div>
-                            <!-- Resize Panel -->
-                            <div id="panelResize" class="hidden w-full">
-                                <label class="text-sm font-medium text-slate-400 block mb-2">Force Exact Dimensions</label>
-                                <div class="flex items-center gap-3">
-                                    <div class="relative flex-1">
-                                        <span class="absolute left-3 top-1/2 -translate-y-1/2 text-slate-500 text-sm font-bold">W</span>
-                                        <input type="number" id="resizeW" value="1920" class="w-full bg-slate-900 border border-slate-700 text-slate-200 rounded-lg pl-8 pr-3 py-2 focus:outline-none focus:ring-2 focus:ring-sky-500 font-mono">
-                                    </div>
-                                    <i class="ph ph-x text-slate-600"></i>
-                                    <div class="relative flex-1">
-                                        <span class="absolute left-3 top-1/2 -translate-y-1/2 text-slate-500 text-sm font-bold">H</span>
-                                        <input type="number" id="resizeH" value="1080" class="w-full bg-slate-900 border border-slate-700 text-slate-200 rounded-lg pl-8 pr-3 py-2 focus:outline-none focus:ring-2 focus:ring-sky-500 font-mono">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Process Button -->
-                <button id="btnProcessBatch" class="w-full py-4 rounded-2xl font-bold text-lg text-white bg-gradient-to-r from-emerald-500 to-teal-600 hover:from-emerald-400 hover:to-teal-500 shadow-lg shadow-emerald-500/25 hover:shadow-emerald-500/40 transition-all duration-300 flex items-center justify-center gap-2 transform hover:-translate-y-1">
-                    <i class="ph-bold ph-play-circle text-xl"></i>
-                    Process <span id="btnProcessCount">0</span> Files
-                </button>
-                
-                <!-- Download Zip Button (Hidden initially) -->
-                <button id="btnDownloadZip" class="hidden w-full py-4 rounded-2xl font-bold text-lg text-white bg-gradient-to-r from-sky-500 to-indigo-600 hover:from-sky-400 hover:to-indigo-500 shadow-lg shadow-sky-500/25 hover:shadow-sky-500/40 transition-all duration-300 flex items-center justify-center gap-2 transform hover:-translate-y-1">
-                    <i class="ph-bold ph-file-zip text-xl"></i>
-                    Download All as ZIP
-                </button>
-
-            </div>
-
-            <!-- Right Column: Preview & Queue -->
-            <div class="w-full lg:w-2/3 flex flex-col gap-6">
-                
-                <!-- Live Preview Block -->
-                <div id="previewBlock" class="bg-slate-900 border border-slate-800 rounded-3xl p-2 shadow-xl flex flex-col">
-                    <div class="px-4 py-2 flex justify-between items-center border-b border-slate-800/50 mb-2">
-                        <span class="text-sm font-bold text-slate-400 uppercase">Live Preview</span>
-                        <span id="previewFilename" class="text-xs text-sky-400 font-mono truncate max-w-[200px]">select a file</span>
-                    </div>
-                    
-                    <div id="compareContainer" class="relative w-full rounded-2xl border border-slate-800 bg-slate-950 overflow-hidden bg-grid-pattern h-[40vh] min-h-[300px]">
-                        <div id="previewPlaceholder" class="absolute inset-0 flex flex-col items-center justify-center text-slate-600">
-                            <i class="ph-duotone ph-image text-4xl mb-2"></i>
-                            <p class="text-sm">Select a file from the queue to preview settings</p>
-                        </div>
-                        
-                        <!-- Output Image (Base) -->
-                        <img id="imgBase" alt="Output" class="absolute top-0 left-0 w-full h-full object-contain p-2 hidden">
-                        <!-- Original Image (Overlaid, clipped) -->
-                        <img id="imgOver" alt="Original" class="absolute top-0 left-0 w-full h-full object-contain p-2 hidden" style="clip-path: inset(0 50% 0 0);">
-                        <!-- Interactive Slider Overlay -->
-                        <input type="range" min="0" max="100" value="50" id="compareSlider" class="absolute top-0 left-0 w-full h-full m-0 appearance-none bg-transparent outline-none z-10 cursor-ew-resize compare-slider-thumb hidden">
-                        
-                        <!-- Info Badges -->
-                        <div id="badgeOriginalContainer" class="hidden absolute bottom-4 left-4 z-20 backdrop-blur-md bg-slate-950/80 border border-slate-700/50 rounded-xl p-2 shadow-lg pointer-events-none">
-                            <p class="text-[10px] font-bold text-slate-400 uppercase mb-0.5">Original</p>
-                            <p id="badgeOriginal" class="text-xs font-mono text-slate-200">0 KB</p>
-                        </div>
-                        <div id="badgeOutputContainer" class="hidden absolute bottom-4 right-4 z-20 backdrop-blur-md bg-slate-950/80 border border-slate-700/50 rounded-xl p-2 shadow-lg pointer-events-none text-right">
-                            <p class="text-[10px] font-bold text-sky-400 uppercase mb-0.5">Output Preview</p>
-                            <p id="badgeOutput" class="text-xs font-mono text-slate-200">0 KB</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Queue List Block -->
-                <div class="bg-slate-900 border border-slate-800 rounded-3xl shadow-xl flex-1 flex flex-col overflow-hidden max-h-[50vh]">
-                    <div class="px-6 py-4 flex justify-between items-center border-b border-slate-800 bg-slate-900/80 backdrop-blur-sm z-10">
-                        <div class="flex items-center gap-2">
-                            <i class="ph-bold ph-list-dashes text-sky-400"></i>
-                            <h2 class="text-lg font-bold text-slate-200">Batch Queue</h2>
-                        </div>
-                        <button onclick="clearQueue()" class="text-xs font-bold text-red-400 hover:text-red-300 flex items-center gap-1 transition-colors">
-                            <i class="ph-bold ph-trash"></i> Clear All
-                        </button>
-                    </div>
-                    
-                    <div class="flex-1 overflow-y-auto queue-scroll p-4 space-y-2" id="queueList">
-                        <!-- Queue Items Injected Here -->
-                    </div>
-                </div>
-
-            </div>
-        </div>
+    <h1>HEIC & Photo Converter</h1>
+    <p>Convert HEIC, HEIF, PNG, WebP, BMP &amp; TIFF to JPG or PNG with precision quality and target file-size controls.</p>
+    <div class="privacy-note">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        100% Private — files never leave your device
     </div>
+</section>
 
-    <script>
-        /* State Variables */
-        let fileQueue = []; // Array of objects: { id, file, name, size, status, outputBlob, previewImageObj }
-        let activePreviewId = null;
-        let isProcessing = false;
-        
-        let debounceTimer = null;
-        let currentBaseUrl = null;
-        let currentOverUrl = null;
-        let zipInstance = null;
+<!-- Main Layout -->
+<div class="main-grid">
 
-        /* DOM Elements */
-        const dropZone = document.getElementById('dropZone');
-        const workspace = document.getElementById('workspace');
-        const queueList = document.getElementById('queueList');
-        const messageBox = document.getElementById('messageBox');
-        
-        // Settings
-        const selFormat = document.getElementById('selFormat');
-        const radioModes = document.querySelectorAll('input[name="mode"]');
-        const rngQuality = document.getElementById('rngQuality');
-        const numTargetKB = document.getElementById('numTargetKB');
-        const resizeW = document.getElementById('resizeW');
-        const resizeH = document.getElementById('resizeH');
-        
-        // Preview
-        const imgBase = document.getElementById('imgBase');
-        const imgOver = document.getElementById('imgOver');
-        const compareSlider = document.getElementById('compareSlider');
-        const previewPlaceholder = document.getElementById('previewPlaceholder');
-        const badgeOriginalContainer = document.getElementById('badgeOriginalContainer');
-        const badgeOutputContainer = document.getElementById('badgeOutputContainer');
-        
-        // Actions
-        const btnProcessBatch = document.getElementById('btnProcessBatch');
-        const btnDownloadZip = document.getElementById('btnDownloadZip');
+    <!-- LEFT: Controls -->
+    <aside>
+        <!-- Drop Zone -->
+        <div class="card">
+            <div class="card-title">📂 Input Files</div>
+            <div class="dropzone" id="dropzone">
+                <input type="file" id="file-input" multiple accept=".heic,.heif,.jpg,.jpeg,.png,.webp,.bmp,.tiff,.tif">
+                <span class="drop-icon">🖼️</span>
+                <p class="drop-main-text">Drop photos here or click to browse</p>
+                <p class="drop-sub-text">Supports individual files or bulk batches</p>
+                <div class="drop-formats">
+                    <span class="fmt-badge heic">HEIC</span>
+                    <span class="fmt-badge heic">HEIF</span>
+                    <span class="fmt-badge">JPG</span>
+                    <span class="fmt-badge">PNG</span>
+                    <span class="fmt-badge">WebP</span>
+                    <span class="fmt-badge">BMP</span>
+                    <span class="fmt-badge">TIFF</span>
+                </div>
+            </div>
+        </div>
 
-        /* Utility Functions */
-        function generateId() { return Math.random().toString(36).substr(2, 9); }
-        function formatBytes(bytes) {
-            if (bytes === 0) return '0 B';
-            const k = 1024, sizes = ['B', 'KB', 'MB', 'GB'], i = Math.floor(Math.log(bytes) / Math.log(k));
-            return parseFloat((bytes / Math.pow(k, i)).toFixed(1)) + ' ' + sizes[i];
-        }
+        <!-- Output Settings -->
+        <div class="card">
+            <div class="card-title">⚙️ Output Settings</div>
 
-        function showMessage(msg, type = 'info') {
-            messageBox.className = 'rounded-xl p-4 flex items-center gap-3 font-medium transition-all shadow-lg border mb-6';
-            messageBox.classList.remove('hidden');
-            document.getElementById('messageText').innerText = msg;
-            const icon = document.getElementById('messageIcon');
-            if (type === 'loading') {
-                messageBox.classList.add('bg-sky-950/50', 'border-sky-800', 'text-sky-200');
-                icon.className = 'ph ph-spinner-gap text-2xl animate-spin text-sky-400';
-            } else if (type === 'error') {
-                messageBox.classList.add('bg-red-950/50', 'border-red-800', 'text-red-200');
-                icon.className = 'ph-fill ph-warning-circle text-2xl text-red-500';
-            } else if (type === 'success') {
-                messageBox.classList.add('bg-emerald-950/50', 'border-emerald-800', 'text-emerald-200');
-                icon.className = 'ph-fill ph-check-circle text-2xl text-emerald-400';
-            } else {
-                messageBox.classList.add('bg-slate-900', 'border-slate-700', 'text-slate-200');
-                icon.className = 'ph-fill ph-info text-2xl text-slate-400';
-            }
-        }
-        function hideMessage() { messageBox.classList.add('hidden'); }
-
-        /* Drag and Drop Handlers with Folder Support */
-        dropZone.addEventListener('dragover', (e) => { e.preventDefault(); dropZone.classList.add('border-sky-500', 'bg-slate-800'); });
-        dropZone.addEventListener('dragleave', () => { dropZone.classList.remove('border-sky-500', 'bg-slate-800'); });
-        dropZone.addEventListener('drop', async (e) => {
-            e.preventDefault();
-            dropZone.classList.remove('border-sky-500', 'bg-slate-800');
-            if (isProcessing) return showMessage("Batch is currently processing. Please wait.", "error");
-            
-            showMessage("Scanning files...", "loading");
-            const items = e.dataTransfer.items;
-            let filesFound = [];
-            
-            if (items) {
-                // Use webkitGetAsEntry for recursive folder scanning
-                const promises = [];
-                for (let i = 0; i < items.length; i++) {
-                    const item = items[i].webkitGetAsEntry();
-                    if (item) promises.push(traverseFileTree(item, filesFound));
-                }
-                await Promise.all(promises);
-            } else {
-                // Fallback standard file drop
-                filesFound = Array.from(e.dataTransfer.files);
-            }
-            
-            handleParsedFiles(filesFound);
-        });
-
-        document.getElementById('fileInput').addEventListener('change', (e) => {
-            if(e.target.files.length) handleParsedFiles(Array.from(e.datatarget.files || e.target.files));
-        });
-        document.getElementById('folderInput').addEventListener('change', (e) => {
-            if(e.target.files.length) handleParsedFiles(Array.from(e.target.files));
-        });
-
-        // Recursive directory traversal
-        function traverseFileTree(item, fileList, path = "") {
-            return new Promise((resolve) => {
-                if (item.isFile) {
-                    item.file((file) => {
-                        // Filter for common image types + HEIC
-                        if (file.type.startsWith('image/') || file.name.toLowerCase().match(/\.(heic|heif)$/)) {
-                            // Store relative path if available, else just filename
-                            file.customPath = path + file.name;
-                            fileList.push(file);
-                        }
-                        resolve();
-                    });
-                } else if (item.isDirectory) {
-                    let dirReader = item.createReader();
-                    dirReader.readEntries((entries) => {
-                        let promises = [];
-                        for (let i = 0; i < entries.length; i++) {
-                            promises.push(traverseFileTree(entries[i], fileList, path + item.name + "/"));
-                        }
-                        Promise.all(promises).then(resolve);
-                    });
-                } else {
-                    resolve();
-                }
-            });
-        }
-
-        function handleParsedFiles(files) {
-            const validFiles = files.filter(f => f.type.startsWith('image/') || f.name.toLowerCase().match(/\.(heic|heif)$/));
-            
-            if (validFiles.length === 0) {
-                showMessage("No valid images found.", "error");
-                return;
-            }
-
-            validFiles.forEach(f => {
-                fileQueue.push({
-                    id: generateId(),
-                    file: f,
-                    name: f.customPath || f.name,
-                    size: f.size,
-                    status: 'pending', // pending, loaded, processing, done, error
-                    outputBlob: null,
-                    previewImageObj: null // HTMLImageElement specifically for the previewer
-                });
-            });
-
-            // Transition UI
-            dropZone.classList.add('hidden');
-            workspace.classList.remove('hidden');
-            hideMessage();
-            btnDownloadZip.classList.add('hidden');
-            btnProcessBatch.classList.remove('hidden');
-            
-            renderQueue();
-            
-            // Auto-select first item for preview if none selected
-            if (!activePreviewId && fileQueue.length > 0) {
-                selectForPreview(fileQueue[0].id);
-            }
-        }
-
-        function renderQueue() {
-            document.getElementById('btnProcessCount').innerText = fileQueue.length;
-            queueList.innerHTML = '';
-            
-            fileQueue.forEach(item => {
-                const el = document.createElement('div');
-                el.className = `flex items-center justify-between p-3 rounded-xl border transition-colors cursor-pointer ${activePreviewId === item.id ? 'bg-sky-900/30 border-sky-500' : 'bg-slate-950 border-slate-800 hover:border-slate-600'}`;
-                el.onclick = () => selectForPreview(item.id);
-                
-                // Status icon logic
-                let statusIcon = '<i class="ph-bold ph-hourglass-high text-slate-500"></i>';
-                let outputSizeStr = '';
-                
-                if (item.status === 'processing') statusIcon = '<i class="ph-bold ph-spinner-gap animate-spin text-sky-400"></i>';
-                else if (item.status === 'done') {
-                    statusIcon = '<i class="ph-fill ph-check-circle text-emerald-500"></i>';
-                    outputSizeStr = `<span class="text-emerald-400 ml-2">&rarr; ${formatBytes(item.outputBlob.size)}</span>`;
-                }
-                else if (item.status === 'error') statusIcon = '<i class="ph-fill ph-warning-circle text-red-500"></i>';
-
-                el.innerHTML = `
-                    <div class="flex items-center gap-3 overflow-hidden">
-                        ${statusIcon}
-                        <div class="truncate">
-                            <p class="text-sm font-semibold text-slate-200 truncate" title="${item.name}">${item.name.split('/').pop()}</p>
-                            <p class="text-xs text-slate-500 font-mono">${formatBytes(item.size)} ${outputSizeStr}</p>
-                        </div>
+            <div class="control-group">
+                <label>Output Format</label>
+                <div class="format-tabs">
+                    <div class="fmt-tab active" id="tab-jpg" onclick="selectFormat('jpg')">
+                        JPG / JPEG
+                        <div class="fmt-tab-sub">Smaller file · lossy</div>
                     </div>
-                    <button onclick="removeQueueItem('${item.id}', event)" class="p-2 text-slate-500 hover:text-red-400 transition-colors ml-2">
-                        <i class="ph-bold ph-x"></i>
-                    </button>
-                `;
-                queueList.appendChild(el);
-            });
-        }
+                    <div class="fmt-tab" id="tab-png" onclick="selectFormat('png')">
+                        PNG
+                        <div class="fmt-tab-sub">Lossless · transparency</div>
+                    </div>
+                </div>
+            </div>
 
-        function removeQueueItem(id, event) {
-            event.stopPropagation();
-            if(isProcessing) return;
-            
-            const index = fileQueue.findIndex(q => q.id === id);
-            if(index > -1) {
-                if(fileQueue[index].previewImageObj) fileQueue[index].previewImageObj = null; // Help GC
-                fileQueue.splice(index, 1);
-            }
-            
-            if (activePreviewId === id) {
-                activePreviewId = null;
-                clearPreview();
-                if (fileQueue.length > 0) selectForPreview(fileQueue[0].id);
-            }
-            
-            if (fileQueue.length === 0) {
-                workspace.classList.add('hidden');
-                dropZone.classList.remove('hidden');
-            } else {
-                renderQueue();
-            }
-        }
+            <div class="divider"></div>
 
-        function clearQueue() {
-            if(isProcessing) return;
-            fileQueue = [];
-            activePreviewId = null;
-            clearPreview();
-            workspace.classList.add('hidden');
-            dropZone.classList.remove('hidden');
-            btnDownloadZip.classList.add('hidden');
-        }
+            <!-- Quality Slider -->
+            <div class="control-group" id="quality-section">
+                <label>
+                    JPEG Quality
+                    <span id="quality-display">88%</span>
+                </label>
+                <input type="range" id="quality-slider" min="1" max="100" value="88">
+                <div style="display:flex;justify-content:space-between;font-size:0.72rem;color:var(--muted);margin-top:5px;">
+                    <span>Smaller file</span>
+                    <span>Higher quality</span>
+                </div>
+            </div>
 
-        async function selectForPreview(id) {
-            if (isProcessing) return;
-            activePreviewId = id;
-            renderQueue(); // Update highlights
-            
-            const item = fileQueue.find(q => q.id === id);
-            if (!item) return;
+            <div class="divider"></div>
 
-            document.getElementById('previewFilename').innerText = item.name.split('/').pop();
-            
-            // Show loading state in preview
-            previewPlaceholder.classList.remove('hidden');
-            previewPlaceholder.innerHTML = '<i class="ph-duotone ph-spinner-gap animate-spin text-4xl mb-2 text-sky-400"></i><p class="text-sm">Loading preview data...</p>';
-            imgBase.classList.add('hidden');
-            imgOver.classList.add('hidden');
-            compareSlider.classList.add('hidden');
-            badgeOriginalContainer.classList.add('hidden');
-            badgeOutputContainer.classList.add('hidden');
+            <!-- Target file size -->
+            <div class="control-group">
+                <div class="toggle-row">
+                    <span>Target File Size Mode</span>
+                    <label class="toggle" title="Enable target file size">
+                        <input type="checkbox" id="size-mode-toggle">
+                        <div class="toggle-track"></div>
+                        <div class="toggle-thumb"></div>
+                    </label>
+                </div>
+                <p style="font-size:0.78rem;color:var(--muted);margin-top:8px;">Automatically iterates quality to hit your target size. May take a few extra seconds per image.</p>
+            </div>
 
-            try {
-                // Decode or load image into memory for preview
-                if (!item.previewImageObj) {
-                    item.previewImageObj = await decodeFileToImage(item.file);
-                }
+            <div class="control-group" id="target-size-section" style="display:none;">
+                <label>Target Max Size</label>
+                <div class="target-size-row">
+                    <input type="number" id="target-size-val" value="500" min="10" max="50000" placeholder="e.g. 500">
+                    <select id="target-size-unit">
+                        <option value="KB">KB</option>
+                        <option value="MB">MB</option>
+                    </select>
+                </div>
+            </div>
 
-                // Initial dimensions update from first loaded file (optional UX choice)
-                // if (document.getElementById('resizeW').value == "") {
-                //    document.getElementById('resizeW').value = item.previewImageObj.width;
-                //    document.getElementById('resizeH').value = item.previewImageObj.height;
-                // }
+            <div class="divider"></div>
 
-                // Create baseline original for the slider overlay
-                const originalCanvas = document.createElement('canvas');
-                originalCanvas.width = item.previewImageObj.width;
-                originalCanvas.height = item.previewImageObj.height;
-                originalCanvas.getContext('2d').drawImage(item.previewImageObj, 0, 0);
-                
-                originalCanvas.toBlob(blob => {
-                    if(currentOverUrl) URL.revokeObjectURL(currentOverUrl);
-                    currentOverUrl = URL.createObjectURL(blob);
-                    imgOver.src = currentOverUrl;
-                    document.getElementById('badgeOriginal').innerText = formatBytes(item.size);
-                    
-                    // Reveal UI
-                    previewPlaceholder.classList.add('hidden');
-                    imgOver.classList.remove('hidden');
-                    imgBase.classList.remove('hidden');
-                    compareSlider.classList.remove('hidden');
-                    badgeOriginalContainer.classList.remove('hidden');
-                    badgeOutputContainer.classList.remove('hidden');
-                    
-                    // Trigger optimization preview based on current settings
-                    triggerPreviewUpdate();
-                }, 'image/png');
+            <!-- Resize option -->
+            <div class="control-group">
+                <div class="toggle-row">
+                    <span>Resize Longest Edge</span>
+                    <label class="toggle" title="Resize output dimensions">
+                        <input type="checkbox" id="resize-toggle">
+                        <div class="toggle-track"></div>
+                        <div class="toggle-thumb"></div>
+                    </label>
+                </div>
+            </div>
+            <div class="control-group" id="resize-section" style="display:none;">
+                <label>
+                    Max Dimension (px)
+                    <span id="resize-display">2048 px</span>
+                </label>
+                <input type="range" id="resize-slider" min="256" max="8192" step="128" value="2048">
+            </div>
 
-            } catch (e) {
-                previewPlaceholder.innerHTML = '<i class="ph-duotone ph-warning-circle text-4xl mb-2 text-red-400"></i><p class="text-sm text-red-300">Failed to render preview.</p>';
-            }
-        }
+            <button class="btn-convert" id="convert-btn" disabled onclick="startConversion()">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0114.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0020.49 15"/></svg>
+                Convert Files
+            </button>
+        </div>
+    </aside>
 
-        function clearPreview() {
-            imgBase.classList.add('hidden');
-            imgOver.classList.add('hidden');
-            compareSlider.classList.add('hidden');
-            badgeOriginalContainer.classList.add('hidden');
-            badgeOutputContainer.classList.add('hidden');
-            previewPlaceholder.classList.remove('hidden');
-            previewPlaceholder.innerHTML = '<i class="ph-duotone ph-image text-4xl mb-2"></i><p class="text-sm">Select a file from the queue to preview settings</p>';
-            document.getElementById('previewFilename').innerText = 'select a file';
-        }
+    <!-- RIGHT: Results -->
+    <section>
+        <!-- Stats Bar -->
+        <div class="stats-bar" id="stats-bar" style="display:none;">
+            <div class="stat-card">
+                <div class="stat-value" id="stat-total">0</div>
+                <div class="stat-label">Total Files</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="stat-done">0</div>
+                <div class="stat-label">Converted</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="stat-saved">—</div>
+                <div class="stat-label">Space Saved</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="stat-ratio">—</div>
+                <div class="stat-label">Avg Reduction</div>
+            </div>
+        </div>
 
-        // Settings event listeners to update live preview
-        radioModes.forEach(r => r.addEventListener('change', (e) => {
-            document.getElementById('panelQuality').style.display = e.target.value === 'quality' ? 'block' : 'none';
-            document.getElementById('panelTarget').style.display = e.target.value === 'target' ? 'block' : 'none';
-            document.getElementById('panelResize').style.display = e.target.value === 'resize' ? 'block' : 'none';
-            triggerPreviewUpdate();
-        }));
-        rngQuality.addEventListener('input', (e) => {
-            document.getElementById('lblQuality').innerText = Math.round(e.target.value * 100) + '%';
-            triggerPreviewUpdate();
-        });
-        numTargetKB.addEventListener('input', triggerPreviewUpdate);
-        selFormat.addEventListener('change', triggerPreviewUpdate);
-        
-        // Aspect ratio lock logic (simplified for batch: just arbitrary W/H is allowed, but we try to help on live preview)
-        resizeW.addEventListener('input', (e) => { triggerPreviewUpdate(); });
-        resizeH.addEventListener('input', (e) => { triggerPreviewUpdate(); });
+        <!-- Results header -->
+        <div class="results-header">
+            <h2 id="results-title">Converted Images</h2>
+            <button class="btn-dl-all" id="dl-all-btn" onclick="downloadAll()" disabled>
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                Download All (ZIP)
+            </button>
+        </div>
 
-        compareSlider.addEventListener('input', function() {
-            imgOver.style.clipPath = `inset(0 calc(100% - ${this.value}%) 0 0)`;
-        });
+        <!-- File list -->
+        <div id="file-list" class="file-list">
+            <div class="empty-state" id="empty-state">
+                <div class="es-icon">🗂️</div>
+                <p>Add photos using the panel on the left — then click <strong>Convert Files</strong> to begin.</p>
+            </div>
+        </div>
+    </section>
+</div>
 
-        function triggerPreviewUpdate() {
-            clearTimeout(debounceTimer);
-            debounceTimer = setTimeout(updateLivePreview, 400);
-        }
+<footer>
+    <p>© 2026 Aegis Developer Hub. All rights reserved.</p>
+    <p style="font-size: 0.8rem; max-width: 800px; margin: 12px auto; color: #9ca3af; line-height: 1.5;">
+        <strong>Disclaimer:</strong> The tools and content provided on this website are for educational and informational purposes only and do not constitute financial, investment, legal, or professional advice. Conforms to Australian Privacy Principles (APPs) under the Privacy Act 1988, GDPR rules on data protection, and ASIC regulatory guidelines.
+    </p>
+    <p style="margin-top: 16px;">
+        <a href="/static/privacy.html">Privacy Policy</a>
+        <a href="/static/terms.html">Terms of Service &amp; Disclaimer</a>
+    </p>
+</footer>
 
-        // Dynamic HEIC loading to prevent startup block
-        async function loadHeicEngine() {
-            if (window.heic2any) return true;
-            return new Promise((resolve, reject) => {
-                const s = document.createElement('script');
-                s.src = 'https://cdn.jsdelivr.net/npm/heic2any@0.0.8/dist/heic2any.min.js';
-                s.onload = () => resolve(true);
-                s.onerror = () => reject(new Error("HEIC library failed to load."));
-                document.head.appendChild(s);
-            });
-        }
-        function isSafari() { return /^((?!chrome|android).)*safari/i.test(navigator.userAgent); }
+<!-- Toast -->
+<div class="toast" id="toast"></div>
 
-        // Converts a File to an HTMLImageElement (Handles HEIC translation natively or via WASM)
-        async function decodeFileToImage(file) {
-            let blobUrl;
-            if (file.name.toLowerCase().match(/\.(heic|heif)$/)) {
-                if (isSafari()) {
-                    blobUrl = URL.createObjectURL(file);
-                } else {
-                    await loadHeicEngine();
-                    const cleanBlob = new Blob([file], { type: 'image/heic' });
-                    let res = await heic2any({ blob: cleanBlob, toType: "image/jpeg", quality: 0.9 });
-                    if (Array.isArray(res)) res = res[0];
-                    blobUrl = URL.createObjectURL(res);
-                }
-            } else {
-                blobUrl = URL.createObjectURL(file);
-            }
+<script>
+// ──────────────────────────────────────────────
+//  State
+// ──────────────────────────────────────────────
+let selectedFormat = 'jpg';
+let fileQueue = [];   // { file, id, status, origSize, blob, filename, origDataURL }
+let convertedBlobs = [];
 
-            return new Promise((resolve, reject) => {
-                const img = new Image();
-                img.onload = () => {
-                    URL.revokeObjectURL(blobUrl);
-                    resolve(img);
-                };
-                img.onerror = () => reject(new Error("Decoding failed"));
-                img.src = blobUrl;
-            });
-        }
+// ──────────────────────────────────────────────
+//  UI helpers
+// ──────────────────────────────────────────────
+function showToast(msg, isError = false) {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.className = 'toast show' + (isError ? ' error-toast' : '');
+    setTimeout(() => t.className = 'toast', 2800);
+}
 
-        async function updateLivePreview() {
-            if (!activePreviewId || isProcessing) return;
-            const item = fileQueue.find(q => q.id === activePreviewId);
-            if (!item || !item.previewImageObj) return;
+function formatBytes(bytes) {
+    if (bytes < 1024) return bytes + ' B';
+    if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + ' KB';
+    return (bytes / (1024 * 1024)).toFixed(2) + ' MB';
+}
 
-            document.getElementById('badgeOutput').innerHTML = `<i class="ph ph-spinner-gap animate-spin"></i>`;
-            
-            try {
-                const settings = getSettings();
-                const optimizedBlob = await processSingleItem(item.previewImageObj, settings, item.file.type);
-                
-                if(currentBaseUrl) URL.revokeObjectURL(currentBaseUrl);
-                currentBaseUrl = URL.createObjectURL(optimizedBlob);
-                imgBase.src = currentBaseUrl;
-                
-                let actualExt = optimizedBlob.type.split('/')[1].toUpperCase().replace('JPEG', 'JPG');
-                document.getElementById('badgeOutput').innerText = `${actualExt} | ${formatBytes(optimizedBlob.size)}`;
-            } catch(e) {
-                document.getElementById('badgeOutput').innerText = 'Error';
-            }
-        }
+function selectFormat(fmt) {
+    selectedFormat = fmt;
+    document.getElementById('tab-jpg').classList.toggle('active', fmt === 'jpg');
+    document.getElementById('tab-png').classList.toggle('active', fmt === 'png');
+    // PNG is lossless — hide quality slider
+    document.getElementById('quality-section').style.display = fmt === 'jpg' ? '' : 'none';
+}
 
-        function getSettings() {
-            return {
-                format: selFormat.value,
-                mode: document.querySelector('input[name="mode"]:checked').value,
-                quality: parseFloat(rngQuality.value),
-                targetKB: parseFloat(numTargetKB.value),
-                resizeW: parseInt(resizeW.value) || 1920,
-                resizeH: parseInt(resizeH.value) || 1080
-            };
-        }
+// Quality slider
+const qualSlider = document.getElementById('quality-slider');
+const qualDisplay = document.getElementById('quality-display');
+qualSlider.addEventListener('input', () => qualDisplay.textContent = qualSlider.value + '%');
 
-        /* The core algorithm applying settings to an Image object */
-        async function processSingleItem(imgObj, settings, originalType) {
-            const { format, mode, quality, targetKB, resizeW, resizeH } = settings;
-            
-            // Helper to render canvas
-            const renderCanvas = (q, w, h) => {
-                return new Promise((resolve, reject) => {
-                    const canvas = document.createElement('canvas');
-                    canvas.width = Math.max(1, w);
-                    canvas.height = Math.max(1, h);
-                    const ctx = canvas.getContext('2d');
-                    if (format === 'image/jpeg') {
-                        ctx.fillStyle = '#ffffff';
-                        ctx.fillRect(0, 0, canvas.width, canvas.height);
-                    }
-                    ctx.drawImage(imgObj, 0, 0, canvas.width, canvas.height);
-                    canvas.toBlob(blob => {
-                        if (!blob) reject(new Error("Format error"));
-                        resolve(blob);
-                    }, format, q);
-                });
-            };
+// Resize slider
+const resizeSlider = document.getElementById('resize-slider');
+const resizeDisplay = document.getElementById('resize-display');
+resizeSlider.addEventListener('input', () => resizeDisplay.textContent = parseInt(resizeSlider.value).toLocaleString() + ' px');
 
-            if (mode === 'quality') {
-                return await renderCanvas(quality, imgObj.width, imgObj.height);
-            } 
-            else if (mode === 'resize') {
-                return await renderCanvas(0.85, resizeW, resizeH); // Default good quality for explicit resize
-            } 
-            else if (mode === 'target') {
-                // Binary search logic for target file size
-                const targetBytes = targetKB * 1024;
-                if (format === 'image/png' || format === 'image/bmp') {
-                    // Lossless formats just get scaled down spatially
-                    let blob = await renderCanvas(1.0, imgObj.width, imgObj.height);
-                    if (blob.size <= targetBytes) return blob;
-                    let scale = Math.sqrt(targetBytes / blob.size);
-                    return await renderCanvas(1.0, imgObj.width * scale, imgObj.height * scale);
-                }
-                
-                let minQ = 0.0, maxQ = 1.0, bestBlob = null;
-                let blob = await renderCanvas(1.0, imgObj.width, imgObj.height);
-                if (blob.size <= targetBytes) return blob;
-                
-                for (let i = 0; i < 7; i++) {
-                    let q = (minQ + maxQ) / 2;
-                    blob = await renderCanvas(q, imgObj.width, imgObj.height);
-                    if (blob.size <= targetBytes) {
-                        bestBlob = blob;
-                        minQ = q; 
-                    } else {
-                        maxQ = q; 
-                    }
-                }
-                
-                if (!bestBlob) {
-                    blob = await renderCanvas(0.01, imgObj.width, imgObj.height);
-                    if (blob.size > targetBytes) {
-                        let scale = Math.sqrt(targetBytes / blob.size);
-                        return await renderCanvas(0.5, imgObj.width * scale, imgObj.height * scale);
-                    }
-                    return blob;
-                }
-                return bestBlob;
-            }
-        }
+// Toggles
+document.getElementById('size-mode-toggle').addEventListener('change', function() {
+    document.getElementById('target-size-section').style.display = this.checked ? '' : 'none';
+});
+document.getElementById('resize-toggle').addEventListener('change', function() {
+    document.getElementById('resize-section').style.display = this.checked ? '' : 'none';
+});
 
-        btnProcessBatch.addEventListener('click', async () => {
-            if (fileQueue.length === 0 || isProcessing) return;
-            
-            isProcessing = true;
-            btnProcessBatch.innerHTML = `<i class="ph-bold ph-spinner-gap animate-spin text-xl"></i> Processing...`;
-            btnProcessBatch.disabled = true;
-            
-            const settings = getSettings();
-            let successCount = 0;
-            let errorCount = 0;
+// ──────────────────────────────────────────────
+//  Drop zone
+// ──────────────────────────────────────────────
+const dropzone = document.getElementById('dropzone');
+const fileInput = document.getElementById('file-input');
 
-            // Sequential processing to prevent memory crashes on large batches
-            for (let i = 0; i < fileQueue.length; i++) {
-                const item = fileQueue[i];
-                item.status = 'processing';
-                renderQueue(); // Update UI to show spinner for this row
-                
-                try {
-                    // Use existing preview image if it's the active one to save decoding time, else decode fresh
-                    let imgObj = item.previewImageObj;
-                    let needsGC = false;
-                    if (!imgObj) {
-                        imgObj = await decodeFileToImage(item.file);
-                        needsGC = true;
-                    }
-                    
-                    const blob = await processSingleItem(imgObj, settings, item.file.type);
-                    item.outputBlob = blob;
-                    item.status = 'done';
-                    successCount++;
-                    
-                    // Garbage collection for memory
-                    if(needsGC) {
-                        imgObj.src = '';
-                        imgObj = null;
-                    }
-                } catch (err) {
-                    console.error(`Error on ${item.name}:`, err);
-                    item.status = 'error';
-                    errorCount++;
-                }
-                
-                // Small delay to allow UI render cycle to breathe between heavy canvas ops
-                await new Promise(r => setTimeout(r, 50));
-            }
-            
-            renderQueue(); // Final status update
-            
-            isProcessing = false;
-            btnProcessBatch.innerHTML = `<i class="ph-bold ph-check-circle text-xl"></i> Done`;
-            
-            if (successCount > 0) {
-                showMessage(`Successfully processed ${successCount} files. ${errorCount > 0 ? `(${errorCount} failed)` : ''}`, "success");
-                btnProcessBatch.classList.add('hidden');
-                btnDownloadZip.classList.remove('hidden');
-            } else {
-                showMessage("All files failed to process.", "error");
-                btnProcessBatch.disabled = false;
-                btnProcessBatch.innerHTML = `<i class="ph-bold ph-play-circle text-xl"></i> Retry Batch`;
-            }
-        });
-
-        btnDownloadZip.addEventListener('click', async () => {
-            const btn = btnDownloadZip;
-            const originalText = btn.innerHTML;
-            btn.innerHTML = `<i class="ph-bold ph-spinner-gap animate-spin text-xl"></i> Zipping files...`;
-            btn.disabled = true;
-            
-            try {
-                if (typeof JSZip === 'undefined') throw new Error("JSZip library not loaded.");
-                const zip = new JSZip();
-                const settings = getSettings();
-                const ext = settings.format.split('/')[1].replace('jpeg', 'jpg');
-                
-                let fileCounter = 0;
-                fileQueue.forEach(item => {
-                    if (item.status === 'done' && item.outputBlob) {
-                        // Construct path ensuring safe filename (remove original extension, add new)
-                        let pathParts = item.name.split('/');
-                        let filename = pathParts.pop();
-                        let baseName = filename.substring(0, filename.lastIndexOf('.')) || filename;
-                        let newName = `${baseName}_omni.${ext}`;
-                        
-                        // Handle potential duplicate names in root by appending an index if needed, 
-                        // but JSZip handles folder structures nicely if we pass the path.
-                        let fullZipPath = pathParts.length > 0 ? `${pathParts.join('/')}/${newName}` : newName;
-                        
-                        zip.file(fullZipPath, item.outputBlob);
-                        fileCounter++;
-                    }
-                });
-
-                if (fileCounter === 0) throw new Error("No processed files to download.");
-
-                const content = await zip.generateAsync({ type: "blob" });
-                
-                // Trigger download
-                const url = URL.createObjectURL(content);
-                const a = document.createElement('a');
-                a.href = url;
-                a.download = `OmniPhoto_Batch_${new Date().getTime()}.zip`;
-                document.body.appendChild(a);
-                a.click();
-                document.body.removeChild(a);
-                URL.revokeObjectURL(url);
-                
-            } catch (err) {
-                showMessage(err.message, "error");
-            }
-            
-            btn.disabled = false;
-            btn.innerHTML = originalText;
-        });
-
-    </script>
-
-    <footer style="text-align: center; padding: 60px 20px; color: #9ca3af; border-top: 1px solid rgba(255,255,255,0.08); font-size: 0.95rem; background: rgba(8, 11, 17, 0.4); font-family: 'Outfit', sans-serif; margin-top: 60px;">
-        <p>&copy; 2026 Aegis Developer Hub. All rights reserved.</p>
-        <p style="font-size: 0.85rem; max-width: 800px; margin: 15px auto; line-height: 1.5; color: #9ca3af;">
-            <strong>Disclaimer:</strong> The tools and content provided on this website are for educational and informational purposes only and do not constitute financial, investment, legal, or professional advice. Conforms to Australian Privacy Principles (APPs) under the Privacy Act 1988, GDPR rules on data protection, and ASIC regulatory guidelines.
-        </p>
-        <p style="margin-top: 20px;">
-            <a href="/static/privacy.html" style="color: #9ca3af; text-decoration: underline; margin-right: 15px;">Privacy Policy</a>
-            <a href="/static/terms.html" style="color: #9ca3af; text-decoration: underline;">Terms of Service & Disclaimer</a>
-        </p>
-    </footer>
+dropzone.addEventListener('dragover', e => { e.preventDefault(); dropzone.classList.add('drag-over'); });
+dropzone.addEventListener('dragleave', () => dropzone.classList.remove('drag-over'));
+dropzone.addEventListener('drop', async e => {
+    e.preventDefault();
+    dropzone.classList.remove('drag-over');
     
+    const items = e.dataTransfer.items;
+    let filesFound = [];
+    
+    if (items) {
+        const promises = [];
+        for (let i = 0; i < items.length; i++) {
+            if (typeof items[i].webkitGetAsEntry === 'function') {
+                const item = items[i].webkitGetAsEntry();
+                if (item) promises.push(traverseFileTree(item, filesFound));
+            }
+        }
+        if (promises.length > 0) {
+            await Promise.all(promises);
+        } else {
+            filesFound = Array.from(e.dataTransfer.files);
+        }
+    } else {
+        filesFound = Array.from(e.dataTransfer.files);
+    }
+    
+    handleFiles(filesFound);
+});
+
+// Recursive directory traversal helper
+function traverseFileTree(item, fileList, path = "") {
+    return new Promise((resolve) => {
+        if (item.isFile) {
+            item.file((file) => {
+                fileList.push(file);
+                resolve();
+            });
+        } else if (item.isDirectory) {
+            let dirReader = item.createReader();
+            dirReader.readEntries((entries) => {
+                let promises = [];
+                for (let i = 0; i < entries.length; i++) {
+                    promises.push(traverseFileTree(entries[i], fileList, path + item.name + "/"));
+                }
+                Promise.all(promises).then(resolve);
+            });
+        } else {
+            resolve();
+        }
+    });
+}
+fileInput.addEventListener('change', () => handleFiles([...fileInput.files]));
+
+const ACCEPTED = ['image/heic','image/heif','image/jpeg','image/jpg','image/png','image/webp','image/bmp','image/tiff'];
+const HEIC_NAMES = ['.heic','.heif'];
+
+function isAccepted(file) {
+    const lname = file.name.toLowerCase();
+    if (ACCEPTED.includes(file.type)) return true;
+    if (HEIC_NAMES.some(e => lname.endsWith(e))) return true;
+    return false;
+}
+
+function handleFiles(files) {
+    const valid = files.filter(isAccepted);
+    if (valid.length < files.length) showToast(`${files.length - valid.length} unsupported file(s) skipped`, true);
+    if (!valid.length) return;
+
+    valid.forEach(file => {
+        const id = 'f_' + Date.now() + '_' + Math.random().toString(36).slice(2,7);
+        fileQueue.push({ file, id, status: 'pending', origSize: file.size, blob: null, filename: null, origDataURL: null });
+    });
+
+    renderQueue();
+    updateStats();
+    document.getElementById('convert-btn').disabled = false;
+    document.getElementById('empty-state').style.display = 'none';
+}
+
+// ──────────────────────────────────────────────
+//  Render queue
+// ──────────────────────────────────────────────
+function renderQueue() {
+    const list = document.getElementById('file-list');
+    list.innerHTML = '';
+    if (!fileQueue.length) {
+        list.innerHTML = '<div class="empty-state" id="empty-state"><div class="es-icon">🗂️</div><p>Add photos using the panel on the left — then click <strong>Convert Files</strong> to begin.</p></div>';
+        return;
+    }
+
+    fileQueue.forEach(item => {
+        const div = document.createElement('div');
+        div.className = 'file-item' + (item.status === 'done' ? ' done' : '') + (item.status === 'error' ? ' error' : '');
+        div.id = 'item-' + item.id;
+
+        const ext = item.file.name.split('.').pop().toUpperCase();
+        const thumbHTML = item.origDataURL
+            ? `<img src="${item.origDataURL}" alt="thumb">`
+            : `<span>${ext}</span>`;
+
+        let sizesHTML = formatBytes(item.origSize);
+        if (item.blob) {
+            const saved = item.origSize - item.blob.size;
+            const pct = ((saved / item.origSize) * 100).toFixed(1);
+            const neg = saved < 0;
+            sizesHTML = `${formatBytes(item.origSize)}<span class="arrow">→</span>${formatBytes(item.blob.size)} <span class="saving${neg?' negative':''}">${neg?'+':''}${neg?Math.abs(pct):pct}% ${neg?'larger':'saved'}</span>`;
+        }
+
+        const statusText = { pending:'Queued', converting:'Converting…', done:'Done', error:'Error' }[item.status];
+
+        const dlBtn = item.status === 'done' ? `<button class="btn-dl" onclick="downloadFile('${item.id}')">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            Download
+        </button>` : '';
+
+        div.innerHTML = `
+            <div class="file-item-head">
+                <div class="file-thumb">${thumbHTML}</div>
+                <div class="file-meta">
+                    <div class="file-name" title="${item.file.name}">${item.file.name}</div>
+                    <div class="file-sizes">${sizesHTML}</div>
+                </div>
+                <span class="file-status ${item.status}">${statusText}</span>
+                <div class="file-actions">
+                    ${dlBtn}
+                    <button class="btn-remove" onclick="removeFile('${item.id}')" title="Remove">✕</button>
+                </div>
+            </div>
+            <div class="progress-bar-wrap">
+                <div class="progress-bar" id="prog-${item.id}" style="width:${item.status==='done'||item.status==='error'?'100':'0'}%"></div>
+            </div>
+            ${item.status === 'error' && item.errorMsg ? `<div class="file-error-msg">⚠ ${item.errorMsg}</div>` : ''}
+        `;
+        list.appendChild(div);
+    });
+}
+
+function removeFile(id) {
+    fileQueue = fileQueue.filter(f => f.id !== id);
+    renderQueue();
+    updateStats();
+    if (!fileQueue.length) {
+        document.getElementById('convert-btn').disabled = true;
+        document.getElementById('stats-bar').style.display = 'none';
+    }
+}
+
+function updateStats() {
+    const bar = document.getElementById('stats-bar');
+    if (!fileQueue.length) { bar.style.display = 'none'; return; }
+    bar.style.display = 'grid';
+
+    const done = fileQueue.filter(f => f.status === 'done');
+    document.getElementById('stat-total').textContent = fileQueue.length;
+    document.getElementById('stat-done').textContent = done.length;
+
+    if (done.length) {
+        const totalOrig = done.reduce((s,f) => s + f.origSize, 0);
+        const totalNew = done.reduce((s,f) => s + (f.blob?.size||0), 0);
+        const saved = totalOrig - totalNew;
+        document.getElementById('stat-saved').textContent = (saved >= 0 ? '-' : '+') + formatBytes(Math.abs(saved));
+        const ratio = ((Math.abs(saved) / totalOrig) * 100).toFixed(1);
+        document.getElementById('stat-ratio').textContent = (saved >= 0 ? '-' : '+') + ratio + '%';
+    }
+
+    const doneItems = fileQueue.filter(f => f.status === 'done');
+    const dlBtn = document.getElementById('dl-all-btn');
+    dlBtn.disabled = doneItems.length === 0;
+}
+
+// ──────────────────────────────────────────────
+//  Conversion core
+// ──────────────────────────────────────────────
+async function fileToImageBitmap(file) {
+    const lname = file.name.toLowerCase();
+    const isHEIC = lname.endsWith('.heic') || lname.endsWith('.heif') ||
+                   file.type === 'image/heic' || file.type === 'image/heif';
+
+    if (isHEIC) {
+        // heic2any returns a Blob (or array of Blobs for burst)
+        const resultBlob = await heic2any({ blob: file, toType: 'image/jpeg', quality: 0.95 });
+        const singleBlob = Array.isArray(resultBlob) ? resultBlob[0] : resultBlob;
+        return await createImageBitmap(singleBlob);
+    } else {
+        return await createImageBitmap(file);
+    }
+}
+
+function resizeBitmap(bitmap, maxPx) {
+    let { width, height } = bitmap;
+    if (width <= maxPx && height <= maxPx) return bitmap; // no resize needed (returns same ref)
+    const scale = maxPx / Math.max(width, height);
+    return { bitmap, width: Math.round(width * scale), height: Math.round(height * scale) };
+}
+
+async function bitmapToBlob(bitmap, bitmapDims, format, quality) {
+    const w = bitmapDims ? bitmapDims.width : bitmap.width;
+    const h = bitmapDims ? bitmapDims.height : bitmap.height;
+
+    const canvas = document.createElement('canvas');
+    canvas.width = w;
+    canvas.height = h;
+    const ctx = canvas.getContext('2d');
+    ctx.drawImage(bitmap, 0, 0, w, h);
+
+    const mimeType = format === 'png' ? 'image/png' : 'image/jpeg';
+    return new Promise(resolve => canvas.toBlob(resolve, mimeType, quality));
+}
+
+async function binarySearchQuality(bitmap, bitmapDims, format, targetBytes, progressCallback) {
+    let lo = 0.01, hi = 1.0, best = null, iters = 0;
+    while (lo <= hi && iters < 14) {
+        const mid = (lo + hi) / 2;
+        const blob = await bitmapToBlob(bitmap, bitmapDims, format, mid);
+        if (blob.size <= targetBytes) {
+            best = blob;
+            lo = mid + 0.02;
+        } else {
+            hi = mid - 0.02;
+        }
+        iters++;
+        progressCallback && progressCallback(iters / 14);
+    }
+    return best;
+}
+
+async function convertItem(item) {
+    item.status = 'converting';
+    refreshItem(item);
+
+    try {
+        const bitmap = await fileToImageBitmap(item.file);
+
+        // Generate thumbnail
+        const thumbCanvas = document.createElement('canvas');
+        const tSize = 128;
+        const tScale = tSize / Math.max(bitmap.width, bitmap.height);
+        thumbCanvas.width = Math.round(bitmap.width * tScale);
+        thumbCanvas.height = Math.round(bitmap.height * tScale);
+        thumbCanvas.getContext('2d').drawImage(bitmap, 0, 0, thumbCanvas.width, thumbCanvas.height);
+        item.origDataURL = thumbCanvas.toDataURL('image/jpeg', 0.7);
+
+        // Resize?
+        let dims = null;
+        if (document.getElementById('resize-toggle').checked) {
+            const maxPx = parseInt(resizeSlider.value);
+            if (bitmap.width > maxPx || bitmap.height > maxPx) {
+                const scale = maxPx / Math.max(bitmap.width, bitmap.height);
+                dims = { width: Math.round(bitmap.width * scale), height: Math.round(bitmap.height * scale) };
+            }
+        }
+
+        // Build output filename
+        const baseName = item.file.name.replace(/\.[^.]+$/, '');
+        item.filename = baseName + '.' + selectedFormat;
+
+        // Convert
+        let blob;
+        const sizeModeOn = document.getElementById('size-mode-toggle').checked;
+        if (sizeModeOn && selectedFormat !== 'png') {
+            const targetVal = parseFloat(document.getElementById('target-size-val').value) || 500;
+            const unit = document.getElementById('target-size-unit').value;
+            const targetBytes = unit === 'MB' ? targetVal * 1024 * 1024 : targetVal * 1024;
+            blob = await binarySearchQuality(bitmap, dims ? { bitmap, ...dims } : null, selectedFormat, targetBytes, p => {
+                const bar = document.getElementById('prog-' + item.id);
+                if (bar) bar.style.width = Math.round(p * 100) + '%';
+            });
+            if (!blob) {
+                // Couldn't hit target — use lowest quality
+                blob = await bitmapToBlob(bitmap, dims ? { bitmap, ...dims } : null, selectedFormat, 0.01);
+            }
+        } else {
+            const quality = selectedFormat === 'png' ? 1.0 : parseInt(qualSlider.value) / 100;
+            blob = await bitmapToBlob(bitmap, dims ? { bitmap, ...dims } : null, selectedFormat, quality);
+        }
+
+        item.blob = blob;
+        item.status = 'done';
+        bitmap.close?.();
+    } catch (err) {
+        console.error(err);
+        item.status = 'error';
+        item.errorMsg = err.message || 'Conversion failed.';
+    }
+
+    refreshItem(item);
+}
+
+function refreshItem(item) {
+    renderQueue();
+    updateStats();
+}
+
+async function startConversion() {
+    const btn = document.getElementById('convert-btn');
+    btn.disabled = true;
+    btn.innerHTML = `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg> Converting…`;
+
+    // Reset previously converted items if re-running
+    fileQueue.forEach(f => {
+        if (f.status !== 'pending') {
+            f.status = 'pending';
+            f.blob = null;
+        }
+    });
+
+    renderQueue();
+
+    // Process sequentially to avoid memory spikes on large batches
+    for (const item of fileQueue) {
+        await convertItem(item);
+    }
+
+    btn.disabled = false;
+    btn.innerHTML = `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0114.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0020.49 15"/></svg> Convert Files`;
+
+    const doneCount = fileQueue.filter(f => f.status === 'done').length;
+    if (doneCount) showToast(`✓ ${doneCount} file${doneCount > 1 ? 's' : ''} converted successfully!`);
+    if (doneCount) document.getElementById('dl-all-btn').disabled = false;
+}
+
+// ──────────────────────────────────────────────
+//  Download
+// ──────────────────────────────────────────────
+function downloadFile(id) {
+    const item = fileQueue.find(f => f.id === id);
+    if (!item || !item.blob) return;
+    const url = URL.createObjectURL(item.blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = item.filename;
+    a.click();
+    setTimeout(() => URL.revokeObjectURL(url), 5000);
+}
+
+async function downloadAll() {
+    const done = fileQueue.filter(f => f.status === 'done' && f.blob);
+    if (!done.length) return;
+
+    // If only 1 file, just download directly
+    if (done.length === 1) { downloadFile(done[0].id); return; }
+
+    // Use fflate for ZIP if available, otherwise JSZip CDN fallback
+    if (window.JSZip === undefined) {
+        await loadScript('https://cdn.jsdelivr.net/npm/jszip@3.10.1/dist/jszip.min.js');
+    }
+
+    const zip = new JSZip();
+    for (const item of done) {
+        const buf = await item.blob.arrayBuffer();
+        zip.file(item.filename, buf);
+    }
+    const zipBlob = await zip.generateAsync({ type: 'blob', compression: 'DEFLATE', compressionOptions: { level: 6 } });
+    const url = URL.createObjectURL(zipBlob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'aegis-converted-photos.zip';
+    a.click();
+    setTimeout(() => URL.revokeObjectURL(url), 8000);
+    showToast(`📦 ZIP ready — ${done.length} files bundled!`);
+}
+
+function loadScript(src) {
+    return new Promise((res, rej) => {
+        const s = document.createElement('script');
+        s.src = src;
+        s.onload = res;
+        s.onerror = rej;
+        document.head.appendChild(s);
+    });
+}
+</script>
 </body>
 </html>

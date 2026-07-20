@@ -368,7 +368,18 @@ def get_category_for_article(title: str) -> str:
     return "security"
 
 def generate_index_page(tools, articles) -> str:
-    featured_tool_names = ["SaaS UI Boilerplate Exporter", "PDF Editor", "Color Wheel Tool", "SVG Path Editor", "CSS Flexbox Cheat Sheet"]
+    featured_tool_names = [
+        "SaaS UI Boilerplate Exporter", 
+        "LegalRedact.io", 
+        "Visual Color Wheel & Palette Generator", 
+        "Interactive SVG Path Editor", 
+        "DevWorkspace", 
+        "JSON Studio", 
+        "StyleLab", 
+        "BrandKit", 
+        "OmniCode", 
+        "Universal HEIC & Photo Converter & Compressor"
+    ]
     
     # 1. Build Featured Spotlight
     featured_html = ""
@@ -881,7 +892,7 @@ def generate_index_page(tools, articles) -> str:
                         <span style="display: inline-block; width: 6px; height: 22px; background: linear-gradient(to bottom, #3b82f6, #6366f1); border-radius: 3px;"></span>
                         Featured Spotlight
                     </div>
-                    <div class="grid" style="margin-bottom: 0;">
+                    <div class="grid" id="featured-grid" style="margin-bottom: 0;">
                         {featured_html}
                     </div>
                 </div>
@@ -933,6 +944,18 @@ def generate_index_page(tools, articles) -> str:
             const toolsSection = document.getElementById('tools-section');
             const articlesSection = document.getElementById('articles-section');
             const featuredSection = document.getElementById('featured-section');
+            
+            // Client-side Spotlight Shuffling
+            const featuredGrid = document.getElementById('featured-grid');
+            if (featuredGrid) {{
+                const fCards = Array.from(featuredGrid.querySelectorAll('.featured-card'));
+                for (let i = fCards.length - 1; i > 0; i--) {{
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [fCards[i], fCards[j]] = [fCards[j], fCards[i]];
+                }}
+                featuredGrid.innerHTML = '';
+                fCards.slice(0, 3).forEach(c => featuredGrid.appendChild(c));
+            }}
             
             const toolsGrid = document.getElementById('tools-grid');
             const articlesGrid = document.getElementById('articles-grid');

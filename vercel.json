@@ -1,5 +1,31 @@
 {
   "version": 2,
+  "redirects": [
+    { "source": "/static/tools/base64_encoder_decoder_tool.html", "destination": "/static/tools/developer_workspace_tool.html#base64", "permanent": true },
+    { "source": "/static/tools/html_entity_encoder_decoder_tool.html", "destination": "/static/tools/developer_workspace_tool.html#html", "permanent": true },
+    { "source": "/static/tools/url_parser_and_query_parameter_editor_tool.html", "destination": "/static/tools/developer_workspace_tool.html#url", "permanent": true },
+    { "source": "/static/tools/jwt_decoder_and_debugger_tool.html", "destination": "/static/tools/developer_workspace_tool.html#jwt", "permanent": true },
+    { "source": "/static/tools/uuid_nanoid_snowflake_generator_tool.html", "destination": "/static/tools/developer_workspace_tool.html#uuid", "permanent": true },
+    { "source": "/static/tools/javascript_event_keycode_finder_tool.html", "destination": "/static/tools/developer_workspace_tool.html#keycode", "permanent": true },
+    
+    { "source": "/static/tools/json_formatter_and_validator_tool.html", "destination": "/static/tools/json_studio_tool.html#format", "permanent": true },
+    { "source": "/static/tools/json_schema_visual_generator_tool.html", "destination": "/static/tools/json_studio_tool.html#schema", "permanent": true },
+    { "source": "/static/tools/json_to_typescript_converter_tool.html", "destination": "/static/tools/json_studio_tool.html#ts", "permanent": true },
+    { "source": "/static/tools/yaml_to_json_converter_tool.html", "destination": "/static/tools/json_studio_tool.html#yaml", "permanent": true },
+    { "source": "/static/tools/csv_to_json_converter_tool.html", "destination": "/static/tools/json_studio_tool.html#csv", "permanent": true },
+    
+    { "source": "/static/tools/css_box_shadow_generator_tool.html", "destination": "/static/tools/css_design_lab_tool.html#shadow", "permanent": true },
+    { "source": "/static/tools/css_grid_layout_visual_generator_tool.html", "destination": "/static/tools/css_design_lab_tool.html#grid", "permanent": true },
+    { "source": "/static/tools/css_flexbox_cheat_sheet_tool.html", "destination": "/static/tools/css_design_lab_tool.html#flex", "permanent": true },
+    { "source": "/static/tools/tailwind_css_class_sorter_tool.html", "destination": "/static/tools/css_design_lab_tool.html#tailwind", "permanent": true },
+    
+    { "source": "/static/tools/meta_tag_generator_for_seo_tool.html", "destination": "/static/tools/seo_card_optimizer_tool.html#seo", "permanent": true },
+    { "source": "/static/tools/og_image_preview_tester_tool.html", "destination": "/static/tools/seo_card_optimizer_tool.html#og", "permanent": true },
+    { "source": "/static/tools/favicon_generator_from_text_tool.html", "destination": "/static/tools/seo_card_optimizer_tool.html#favicon", "permanent": true },
+    
+    { "source": "/static/tools/code_screenshot_generator_tool.html", "destination": "/static/tools/code_share_studio_tool.html#screenshot", "permanent": true },
+    { "source": "/static/tools/code_snippet_generator_tool.html", "destination": "/static/tools/code_share_studio_tool.html#snippet", "permanent": true }
+  ],
   "builds": [
     {
       "src": "index.html",
