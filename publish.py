@@ -1306,79 +1306,166 @@ def generate_sitemap(tools, articles):
 
 def publish_all():
     ensure_dirs()
-    if not HISTORY_FILE.exists():
-        print("No history found, skipping compile.")
-        return
-        
-    with open(HISTORY_FILE, "r") as f:
-        history = json.load(f)
-        
+    
     tools = []
     articles = []
     seen_tools = set()
     seen_articles = set()
     
-    for entry in history:
-        if entry.get("status") != "completed":
-            continue
-            
-        topic = entry.get("seed_topic")
-        
-        # 1. Gather tools
-        tool_path = entry.get("tool_path")
-        if tool_path and os.path.exists(BASE_DIR / tool_path):
-            if tool_path not in seen_tools:
-                seen_tools.add(tool_path)
-                desc = TOOL_DESCRIPTIONS.get(topic, "Interactive utility built to optimize frontend workflows and layouts.")
-                post_process_tool(BASE_DIR / tool_path, topic)
-                tools.append({
-                    "name": topic,
-                    "path": tool_path,
-                    "description": desc
-                })
-            
-        # 2. Gather & compile articles
-        article_text = entry.get("article")
-        if article_text:
-            topic_slug = topic.lower().replace(" ", "_")
-            if topic_slug.endswith("_tool"):
-                topic_slug = topic_slug[:-5]
-            article_file_name = f"{topic_slug}.html"
-            article_rel_path = f"static/articles/{article_file_name}"
-            article_abs_path = ARTICLES_DIR / article_file_name
-            
-            # Extract H1 title and first paragraph description
-            title = topic
-            match = re.search(r"^#\s+(.+)$", article_text, re.MULTILINE)
-            if match:
-                title = match.group(1).strip()
+    if HISTORY_FILE.exists():
+        try:
+            with open(HISTORY_FILE, "r") as f:
+                history = json.load(f)
                 
-            description = "Read our companion educational guide and resources targeting developer productivity."
-            paragraphs = [p.strip() for p in article_text.split("\n\n") if p.strip()]
-            for p in paragraphs:
-                if not p.startswith("#") and not p.startswith("---") and not p.startswith("|") and not p.startswith("*") and not p.startswith("!"):
-                    clean_p = re.sub(r"\*\*|__", "", p)
-                    clean_p = re.sub(r"\[([^\]]+)\]\([^)]+\)", r"\1", clean_p)
-                    if len(clean_p) > 160:
-                        description = clean_p[:157] + "..."
-                    else:
-                        description = clean_p
-                    break
-            
-            if article_rel_path not in seen_articles:
-                seen_articles.add(article_rel_path)
-                # Convert and save
-                html_content = simple_markdown_to_html(article_text)
-                full_html = generate_article_page(topic, html_content, article_rel_path)
-                
-                with open(article_abs_path, "w", encoding="utf-8") as art_f:
-                    art_f.write(full_html)
+            for entry in history:
+                if entry.get("status") != "completed":
+                    continue
                     
-                articles.append({
-                    "title": title,
-                    "path": article_rel_path,
-                    "description": description
-                })
+                topic = entry.get("seed_topic")
+                
+                # 1. Gather tools
+                tool_path = entry.get("tool_path")
+                if tool_path and os.path.exists(BASE_DIR / tool_path):
+                    if tool_path not in seen_tools:
+                        seen_tools.add(tool_path)
+                        desc = TOOL_DESCRIPTIONS.get(topic, "Interactive utility built to optimize frontend workflows and layouts.")
+                        post_process_tool(BASE_DIR / tool_path, topic)
+                        tools.append({
+                            "name": topic,
+                            "path": tool_path,
+                            "description": desc
+                        })
+                    
+                # 2. Gather & compile articles
+                article_text = entry.get("article")
+                if article_text:
+                    topic_slug = topic.lower().replace(" ", "_")
+                    if topic_slug.endswith("_tool"):
+                        topic_slug = topic_slug[:-5]
+                    article_file_name = f"{topic_slug}.html"
+                    article_rel_path = f"static/articles/{article_file_name}"
+                    article_abs_path = ARTICLES_DIR / article_file_name
+                    
+                    # Extract H1 title and first paragraph description
+                    title = topic
+                    match = re.search(r"^#\s+(.+)$", article_text, re.MULTILINE)
+                    if match:
+                        title = match.group(1).strip()
+                        
+                    description = "Read our companion educational guide and resources targeting developer productivity."
+                    paragraphs = [p.strip() for p in article_text.split("\n\n") if p.strip()]
+                    for p in paragraphs:
+                        if not p.startswith("#") and not p.startswith("---") and not p.startswith("|") and not p.startswith("*") and not p.startswith("!"):
+                            clean_p = re.sub(r"\*\*|__", "", p)
+                            clean_p = re.sub(r"\[([^\]]+)\]\([^)]+\)", r"\1", clean_p)
+                            if len(clean_p) > 160:
+                                description = clean_p[:157] + "..."
+                            else:
+                                description = clean_p
+                            break
+                    
+                    if article_rel_path not in seen_articles:
+                        seen_articles.add(article_rel_path)
+                        # Convert and save
+                        html_content = simple_markdown_to_html(article_text)
+                        full_html = generate_article_page(topic, html_content, article_rel_path)
+                        
+                        with open(article_abs_path, "w", encoding="utf-8") as art_f:
+                            art_f.write(full_html)
+                            
+                        articles.append({
+                            "title": title,
+                            "path": article_rel_path,
+                            "description": description
+                        })
+        except Exception as he:
+            print(f"Error loading or parsing history: {he}")
+
+    # 3. Scan directories for any missing tools and articles
+    if TOOLS_DIR.exists():
+        for f in TOOLS_DIR.glob("*.html"):
+            if f.name == "_tool.html":
+                continue
+            tool_rel_path = f"static/tools/{f.name}"
+            norm_rel_path = tool_rel_path.replace("\\", "/")
+            seen_normalized = {p.replace("\\", "/") for p in seen_tools}
+            if norm_rel_path not in seen_normalized:
+                seen_tools.add(tool_rel_path)
+                try:
+                    with open(f, "r", encoding="utf-8") as tf:
+                        tf_content = tf.read()
+                    
+                    title = f.name.replace("_tool.html", "").replace("_", " ").title()
+                    # Try to match in TOOL_DESCRIPTIONS case-insensitively
+                    matched_topic = None
+                    for key in TOOL_DESCRIPTIONS:
+                        if key.lower().replace(" ", "").replace("_", "") == title.lower().replace(" ", "").replace("_", ""):
+                            matched_topic = key
+                            break
+                    
+                    if matched_topic:
+                        topic = matched_topic
+                        desc = TOOL_DESCRIPTIONS[matched_topic]
+                    else:
+                        title_match = re.search(r"<title>(.*?)</title>", tf_content, re.IGNORECASE)
+                        if title_match:
+                            raw_title = title_match.group(1).strip()
+                            topic = re.split(r"\s+[\-|–|—]\s+", raw_title)[0].strip()
+                        else:
+                            topic = title
+                        
+                        desc_match = re.search(r'<meta\s+name="description"\s+content="(.*?)"', tf_content, re.IGNORECASE)
+                        if desc_match:
+                            desc = desc_match.group(1).strip()
+                        else:
+                            desc = "Interactive utility built to optimize frontend workflows and layouts."
+                    
+                    post_process_tool(f, topic)
+                    tools.append({
+                        "name": topic,
+                        "path": tool_rel_path,
+                        "description": desc
+                    })
+                except Exception as e:
+                    print(f"Error auto-discovering tool {f.name}: {e}")
+                    
+    # Scan articles
+    if ARTICLES_DIR.exists():
+        for f in ARTICLES_DIR.glob("*.html"):
+            if f.name.startswith("."):
+                continue
+            art_rel_path = f"static/articles/{f.name}"
+            norm_rel_path = art_rel_path.replace("\\", "/")
+            seen_normalized = {p.replace("\\", "/") for p in seen_articles}
+            if norm_rel_path not in seen_normalized:
+                seen_articles.add(art_rel_path)
+                try:
+                    with open(f, "r", encoding="utf-8") as af:
+                        af_content = af.read()
+                    
+                    title_match = re.search(r"<h1>(.*?)</h1>", af_content, re.IGNORECASE)
+                    if not title_match:
+                        title_match = re.search(r"<title>(.*?)</title>", af_content, re.IGNORECASE)
+                    
+                    if title_match:
+                        title = re.sub(r"<[^>]*>", "", title_match.group(1)).strip()
+                        title = re.split(r"\s+[\-|–|—]\s+", title)[0].strip()
+                    else:
+                        title = f.name.replace(".html", "").replace("_", " ").title()
+                        
+                    desc_match = re.search(r'<meta\s+name="description"\s+content="(.*?)"', af_content, re.IGNORECASE)
+                    if desc_match:
+                        description = desc_match.group(1).strip()
+                    else:
+                        description = "Read our companion educational guide and resources targeting developer productivity."
+                        
+                    articles.append({
+                        "title": title,
+                        "path": art_rel_path,
+                        "description": description
+                    })
+                except Exception as e:
+                    print(f"Error auto-discovering article {f.name}: {e}")
 
     # 3. Create root landing page
     index_html = generate_index_page(tools, articles)
