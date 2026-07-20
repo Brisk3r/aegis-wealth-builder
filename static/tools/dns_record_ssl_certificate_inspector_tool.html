@@ -1,12 +1,13 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DNS & SSL Inspector Pro</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&display=swap" rel="stylesheet">
-    <style>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>DNS &amp; SSL Inspector Pro</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&amp;display=swap" rel="stylesheet"/>
+<style>
         body { font-family: 'Outfit', sans-serif; background-color: #050505; color: #f8fafc; }
         .glass { background: rgba(15, 23, 42, 0.4); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.08); }
         .nav-link { transition: color 0.3s ease; }
@@ -16,24 +17,19 @@
         ::-webkit-scrollbar-track { background: #0f172a; }
         ::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
     </style>
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4750454395006570" crossorigin="anonymous"></script>
-
-    <script defer src="/_vercel/insights/script.js"></script>
-
-    <link rel="icon" type="image/png" href="/static/logo.png">
-
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-BZVWXPPG06"></script>
-    <script>
+<script async="" crossorigin="anonymous" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4750454395006570"></script>
+<script defer="" src="/_vercel/insights/script.js"></script>
+<link href="/static/logo.png" rel="icon" type="image/png"/>
+<!-- Google tag (gtag.js) -->
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-BZVWXPPG06"></script>
+<script>
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
       gtag('config', 'G-BZVWXPPG06');
     </script>
-
-    <script src="https://assets.lemonsqueezy.com/lemon.js" defer></script>
-
-    <style>
+<script defer="" src="https://assets.lemonsqueezy.com/lemon.js"></script>
+<style>
         /* Global accessibility & dark theme input fixes */
         input[type="text"], input[type="url"], input[type="number"], input[type="email"], input[type="password"], input[type="date"], select, textarea {
             color: #f8fafc !important;
@@ -43,63 +39,51 @@
             opacity: 0.8 !important;
         }
     </style>
-    
 </head>
 <body class="min-h-screen text-slate-200">
-
-    <div class="navbar" style="display: flex; justify-content: space-between; align-items: center; padding: 20px 40px; border-bottom: 1px solid rgba(255,255,255,0.08); background: rgba(11, 15, 25, 0.75); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); position: sticky; top: 0; z-index: 100; font-family: 'Outfit', sans-serif;">
-        <a href="/" style="display: flex; align-items: center; gap: 10px; color: #f3f4f6; text-decoration: none; font-weight: 600;">
-            <img src="/static/logo.png" alt="Aegis Hub Logo" style="height: 30px;">
-            <span>Aegis Developer Hub</span>
-        </a>
-        <a href="/" style="color: #60a5fa; text-decoration: none; font-size: 0.95rem; font-weight: 500;">&larr; Back to Hub</a>
-    </div>
-    
-
-    
-    
-
-    <nav class="glass flex items-center justify-between px-8 py-5 border-b border-white/5">
-        <div class="text-xl font-bold tracking-tight">DNS<span class="text-blue-500">Insp</span></div>
-        <div class="hidden md:flex gap-8 text-sm font-medium">
-            <a href="#" class="nav-link">Dashboard</a>
-            <a href="#" class="nav-link">API Docs</a>
-            <a href="#" class="nav-link">Upgrade</a>
-        </div>
-        <button class="bg-blue-600 hover:bg-blue-500 px-5 py-2 rounded-full text-xs font-semibold uppercase tracking-widest transition">Sign In</button>
-    </nav>
-
-    <main class="max-w-4xl mx-auto mt-12 px-4">
-        <header class="mb-10 text-center">
-            <h1 class="text-4xl md:text-5xl font-bold mb-4 gradient-text">Domain Health Intelligence</h1>
-            <p class="text-slate-400">Real-time DNS record analysis and SSL certificate validation.</p>
-        </header>
-
-        <section class="glass rounded-3xl p-8 shadow-2xl">
-            <div class="flex flex-col md:flex-row gap-4 mb-8">
-                <input id="domainInput" type="text" placeholder="Enter target domain (e.g. google.com)" class="flex-1 bg-black/30 border border-slate-700/50 rounded-xl px-6 py-4 focus:outline-none focus:ring-2 focus:ring-blue-500/50 transition">
-                <button onclick="performAudit()" class="bg-blue-600 hover:bg-blue-500 px-8 py-4 rounded-xl font-bold transition flex items-center justify-center gap-2">
+<div class="navbar" style="display: flex; justify-content: space-between; align-items: center; padding: 20px 40px; border-bottom: 1px solid rgba(255,255,255,0.08); background: rgba(11, 15, 25, 0.75); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); position: sticky; top: 0; z-index: 100; font-family: 'Outfit', sans-serif;">
+<a href="/" style="display: flex; align-items: center; gap: 10px; color: #f3f4f6; text-decoration: none; font-weight: 600;">
+<img alt="Aegis Hub Logo" src="/static/logo.png" style="height: 30px;"/>
+<span>Aegis Developer Hub</span>
+</a>
+<a href="/" style="color: #60a5fa; text-decoration: none; font-size: 0.95rem; font-weight: 500;">← Back to Hub</a>
+</div>
+<nav class="glass flex items-center justify-between px-8 py-5 border-b border-white/5">
+<div class="text-xl font-bold tracking-tight">DNS<span class="text-blue-500">Insp</span></div>
+<div class="hidden md:flex gap-8 text-sm font-medium">
+<a class="nav-link" href="/">Dashboard</a>
+<a class="nav-link" href="/">API Docs</a>
+<a class="nav-link lemonsqueezy-button" href="https://aegishub.lemonsqueezy.com/checkout/buy/22815780-b4e8-466d-a4eb-5bd71d121707?embed=1">Upgrade</a>
+</div>
+<button class="bg-blue-600 hover:bg-blue-500 px-5 py-2 rounded-full text-xs font-semibold uppercase tracking-widest transition">Sign In</button>
+</nav>
+<main class="max-w-4xl mx-auto mt-12 px-4">
+<header class="mb-10 text-center">
+<h1 class="text-4xl md:text-5xl font-bold mb-4 gradient-text">Domain Health Intelligence</h1>
+<p class="text-slate-400">Real-time DNS record analysis and SSL certificate validation.</p>
+</header>
+<section class="glass rounded-3xl p-8 shadow-2xl">
+<div class="flex flex-col md:flex-row gap-4 mb-8">
+<input class="flex-1 bg-black/30 border border-slate-700/50 rounded-xl px-6 py-4 focus:outline-none focus:ring-2 focus:ring-blue-500/50 transition" id="domainInput" placeholder="Enter target domain (e.g. google.com)" type="text"/>
+<button class="bg-blue-600 hover:bg-blue-500 px-8 py-4 rounded-xl font-bold transition flex items-center justify-center gap-2" onclick="performAudit()">
                     Start Audit
                 </button>
-            </div>
-
-            <div id="resultsArea" class="hidden grid grid-cols-1 md:grid-cols-2 gap-6">
-                <!-- DNS Section -->
-                <div class="p-6 rounded-2xl bg-white/5 border border-white/5">
-                    <h3 class="text-xs font-bold uppercase tracking-widest text-slate-400 mb-4">DNS (A Record)</h3>
-                    <div id="dnsContent" class="font-mono text-sm leading-relaxed space-y-2 text-blue-300"></div>
-                </div>
-
-                <!-- SSL Section -->
-                <div class="p-6 rounded-2xl bg-white/5 border border-white/5">
-                    <h3 class="text-xs font-bold uppercase tracking-widest text-slate-400 mb-4">Certificate Data</h3>
-                    <div id="sslContent" class="font-mono text-sm leading-relaxed space-y-2 text-emerald-300"></div>
-                </div>
-            </div>
-        </section>
-    </main>
-
-    <script>
+</div>
+<div class="hidden grid grid-cols-1 md:grid-cols-2 gap-6" id="resultsArea">
+<!-- DNS Section -->
+<div class="p-6 rounded-2xl bg-white/5 border border-white/5">
+<h3 class="text-xs font-bold uppercase tracking-widest text-slate-400 mb-4">DNS (A Record)</h3>
+<div class="font-mono text-sm leading-relaxed space-y-2 text-blue-300" id="dnsContent"></div>
+</div>
+<!-- SSL Section -->
+<div class="p-6 rounded-2xl bg-white/5 border border-white/5">
+<h3 class="text-xs font-bold uppercase tracking-widest text-slate-400 mb-4">Certificate Data</h3>
+<div class="font-mono text-sm leading-relaxed space-y-2 text-emerald-300" id="sslContent"></div>
+</div>
+</div>
+</section>
+</main>
+<script>
         async function performAudit() {
             const domain = document.getElementById('domainInput').value.trim().replace(/^(https?:\/\/)/, '');
             if (!domain) return;
@@ -138,18 +122,26 @@
             }
         }
     </script>
-
-    <footer style="text-align: center; padding: 60px 20px; color: #9ca3af; border-top: 1px solid rgba(255,255,255,0.08); font-size: 0.95rem; background: rgba(8, 11, 17, 0.4); font-family: 'Outfit', sans-serif; margin-top: 60px;">
-        <p>&copy; 2026 Aegis Developer Hub. All rights reserved.</p>
-        <p style="font-size: 0.85rem; max-width: 800px; margin: 15px auto; line-height: 1.5; color: #9ca3af;">
-            <strong>Disclaimer:</strong> The tools and content provided on this website are for educational and informational purposes only and do not constitute financial, investment, legal, or professional advice. Conforms to Australian Privacy Principles (APPs) under the Privacy Act 1988, GDPR rules on data protection, and ASIC regulatory guidelines.
+<footer style="text-align: center; padding: 60px 20px; color: #9ca3af; border-top: 1px solid rgba(255,255,255,0.08); font-size: 0.95rem; background: rgba(8, 11, 17, 0.4); font-family: 'Outfit', sans-serif; margin-top: 60px;">
+<p>© 2026 Aegis Developer Hub. All rights reserved.</p>
+<p style="font-size: 0.85rem; max-width: 800px; margin: 15px auto; line-height: 1.5; color: #9ca3af;">
+<strong>Disclaimer:</strong> The tools and content provided on this website are for educational and informational purposes only and do not constitute financial, investment, legal, or professional advice. Conforms to Australian Privacy Principles (APPs) under the Privacy Act 1988, GDPR rules on data protection, and ASIC regulatory guidelines.
         </p>
-        <p style="margin-top: 20px;">
-            <a href="/static/privacy.html" style="color: #9ca3af; text-decoration: underline; margin-right: 15px;">Privacy Policy</a>
-            <a href="/static/terms.html" style="color: #9ca3af; text-decoration: underline;">Terms of Service & Disclaimer</a>
+<p style="margin-top: 20px;">
+<a href="/static/privacy.html" style="color: #9ca3af; text-decoration: underline; margin-right: 15px;">Privacy Policy</a>
+<a href="/static/terms.html" style="color: #9ca3af; text-decoration: underline;">Terms of Service &amp; Disclaimer</a>
+</p>
+</footer>
+<footer style="text-align: center; padding: 60px 20px; color: #9ca3af; border-top: 1px solid rgba(255,255,255,0.08); font-size: 0.95rem; background: rgba(8, 11, 17, 0.4); font-family: 'Outfit', sans-serif; margin-top: 60px;">
+<p>© 2026 Aegis Developer Hub. All rights reserved.</p>
+<p style="font-size: 0.85rem; max-width: 800px; margin: 15px auto; line-height: 1.5; color: #9ca3af;">
+<strong>Disclaimer:</strong> The tools and content provided on this website are for educational and informational purposes only and do not constitute financial, investment, legal, or professional advice. Conforms to Australian Privacy Principles (APPs) under the Privacy Act 1988, GDPR rules on data protection, and ASIC regulatory guidelines.
         </p>
-    </footer>
-    
+<p style="margin-top: 20px;">
+<a href="/static/privacy.html" style="color: #9ca3af; text-decoration: underline; margin-right: 15px;">Privacy Policy</a>
+<a href="/static/terms.html" style="color: #9ca3af; text-decoration: underline;">Terms of Service &amp; Disclaimer</a>
+</p>
+</footer>
 
     <footer style="text-align: center; padding: 60px 20px; color: #9ca3af; border-top: 1px solid rgba(255,255,255,0.08); font-size: 0.95rem; background: rgba(8, 11, 17, 0.4); font-family: 'Outfit', sans-serif; margin-top: 60px;">
         <p>&copy; 2026 Aegis Developer Hub. All rights reserved.</p>

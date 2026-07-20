@@ -1,12 +1,13 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pro JWT Decoder & Debugger</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
-    <style>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Pro JWT Decoder &amp; Debugger</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&amp;family=Inter:wght@300;400;600&amp;display=swap" rel="stylesheet"/>
+<style>
         body { font-family: 'Outfit', sans-serif; background-color: #0c111d; color: #f8fafc; }
         .glass { 
             background: rgba(17, 24, 39, 0.7); 
@@ -23,24 +24,19 @@
         ::-webkit-scrollbar { width: 8px; }
         ::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
     </style>
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4750454395006570" crossorigin="anonymous"></script>
-
-    <script defer src="/_vercel/insights/script.js"></script>
-
-    <link rel="icon" type="image/png" href="/static/logo.png">
-
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-BZVWXPPG06"></script>
-    <script>
+<script async="" crossorigin="anonymous" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4750454395006570"></script>
+<script defer="" src="/_vercel/insights/script.js"></script>
+<link href="/static/logo.png" rel="icon" type="image/png"/>
+<!-- Google tag (gtag.js) -->
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-BZVWXPPG06"></script>
+<script>
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
       gtag('config', 'G-BZVWXPPG06');
     </script>
-
-    <script src="https://assets.lemonsqueezy.com/lemon.js" defer></script>
-
-    <style>
+<script defer="" src="https://assets.lemonsqueezy.com/lemon.js"></script>
+<style>
         /* Global accessibility & dark theme input fixes */
         input[type="text"], input[type="url"], input[type="number"], input[type="email"], input[type="password"], input[type="date"], select, textarea {
             color: #f8fafc !important;
@@ -50,51 +46,42 @@
             opacity: 0.8 !important;
         }
     </style>
-    
 </head>
 <body class="min-h-screen p-4 md:px-12 py-8">
-
-    <div class="navbar" style="display: flex; justify-content: space-between; align-items: center; padding: 20px 40px; border-bottom: 1px solid rgba(255,255,255,0.08); background: rgba(11, 15, 25, 0.75); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); position: sticky; top: 0; z-index: 100; font-family: 'Outfit', sans-serif;">
-        <a href="/" style="display: flex; align-items: center; gap: 10px; color: #f3f4f6; text-decoration: none; font-weight: 600;">
-            <img src="/static/logo.png" alt="Aegis Hub Logo" style="height: 30px;">
-            <span>Aegis Developer Hub</span>
-        </a>
-        <a href="/" style="color: #60a5fa; text-decoration: none; font-size: 0.95rem; font-weight: 500;">&larr; Back to Hub</a>
-    </div>
-    
-
-    
-    
-    <nav class="max-w-6xl mx-auto flex justify-between items-center mb-12">
-        <div class="text-2xl font-bold tracking-tight text-white">
+<div class="navbar" style="display: flex; justify-content: space-between; align-items: center; padding: 20px 40px; border-bottom: 1px solid rgba(255,255,255,0.08); background: rgba(11, 15, 25, 0.75); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); position: sticky; top: 0; z-index: 100; font-family: 'Outfit', sans-serif;">
+<a href="/" style="display: flex; align-items: center; gap: 10px; color: #f3f4f6; text-decoration: none; font-weight: 600;">
+<img alt="Aegis Hub Logo" src="/static/logo.png" style="height: 30px;"/>
+<span>Aegis Developer Hub</span>
+</a>
+<a href="/" style="color: #60a5fa; text-decoration: none; font-size: 0.95rem; font-weight: 500;">← Back to Hub</a>
+</div>
+<nav class="max-w-6xl mx-auto flex justify-between items-center mb-12">
+<div class="text-2xl font-bold tracking-tight text-white">
             JWT<span class="text-indigo-500">Debugger</span>
-        </div>
-        <div class="space-x-6 text-sm font-medium text-slate-400">
-            <a href="#" class="hover:text-white transition">Tool</a>
-            <a href="#" class="hover:text-white transition">Security Info</a>
-        </div>
-    </nav>
-
-    <div class="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-8">
-        <section class="flex flex-col gap-6">
-            <div class="glass p-8 rounded-3xl shadow-2xl">
-                <h2 class="text-xl font-semibold mb-4">Input JWT</h2>
-                <textarea id="jwt-input" class="w-full h-64 bg-slate-950 border border-slate-800 rounded-xl p-5 code-font text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 transition" placeholder="Paste your header.payload.signature here..."></textarea>
-                <div id="status" class="mt-4 text-sm font-medium"></div>
-            </div>
-        </section>
-
-        <section class="flex flex-col gap-6">
-            <div class="glass p-8 rounded-3xl shadow-2xl min-h-[400px]">
-                <h2 class="text-xl font-semibold mb-6 text-slate-200">Decoded Data</h2>
-                <div id="output" class="space-y-6">
-                    <p class="text-slate-500 italic">Waiting for input...</p>
-                </div>
-            </div>
-        </section>
-    </div>
-
-    <script>
+</div>
+<div class="space-x-6 text-sm font-medium text-slate-400">
+<a class="hover:text-white transition" href="/">Tool</a>
+<a class="hover:text-white transition" href="/">Security Info</a>
+</div>
+</nav>
+<div class="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-8">
+<section class="flex flex-col gap-6">
+<div class="glass p-8 rounded-3xl shadow-2xl">
+<h2 class="text-xl font-semibold mb-4">Input JWT</h2>
+<textarea class="w-full h-64 bg-slate-950 border border-slate-800 rounded-xl p-5 code-font text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 transition" id="jwt-input" placeholder="Paste your header.payload.signature here..."></textarea>
+<div class="mt-4 text-sm font-medium" id="status"></div>
+</div>
+</section>
+<section class="flex flex-col gap-6">
+<div class="glass p-8 rounded-3xl shadow-2xl min-h-[400px]">
+<h2 class="text-xl font-semibold mb-6 text-slate-200">Decoded Data</h2>
+<div class="space-y-6" id="output">
+<p class="text-slate-500 italic">Waiting for input...</p>
+</div>
+</div>
+</section>
+</div>
+<script>
         const input = document.getElementById('jwt-input');
         const output = document.getElementById('output');
         const status = document.getElementById('status');
@@ -155,18 +142,26 @@
 
         input.addEventListener('input', validateToken);
     </script>
-
-    <footer style="text-align: center; padding: 60px 20px; color: #9ca3af; border-top: 1px solid rgba(255,255,255,0.08); font-size: 0.95rem; background: rgba(8, 11, 17, 0.4); font-family: 'Outfit', sans-serif; margin-top: 60px;">
-        <p>&copy; 2026 Aegis Developer Hub. All rights reserved.</p>
-        <p style="font-size: 0.85rem; max-width: 800px; margin: 15px auto; line-height: 1.5; color: #9ca3af;">
-            <strong>Disclaimer:</strong> The tools and content provided on this website are for educational and informational purposes only and do not constitute financial, investment, legal, or professional advice. Conforms to Australian Privacy Principles (APPs) under the Privacy Act 1988, GDPR rules on data protection, and ASIC regulatory guidelines.
+<footer style="text-align: center; padding: 60px 20px; color: #9ca3af; border-top: 1px solid rgba(255,255,255,0.08); font-size: 0.95rem; background: rgba(8, 11, 17, 0.4); font-family: 'Outfit', sans-serif; margin-top: 60px;">
+<p>© 2026 Aegis Developer Hub. All rights reserved.</p>
+<p style="font-size: 0.85rem; max-width: 800px; margin: 15px auto; line-height: 1.5; color: #9ca3af;">
+<strong>Disclaimer:</strong> The tools and content provided on this website are for educational and informational purposes only and do not constitute financial, investment, legal, or professional advice. Conforms to Australian Privacy Principles (APPs) under the Privacy Act 1988, GDPR rules on data protection, and ASIC regulatory guidelines.
         </p>
-        <p style="margin-top: 20px;">
-            <a href="/static/privacy.html" style="color: #9ca3af; text-decoration: underline; margin-right: 15px;">Privacy Policy</a>
-            <a href="/static/terms.html" style="color: #9ca3af; text-decoration: underline;">Terms of Service & Disclaimer</a>
+<p style="margin-top: 20px;">
+<a href="/static/privacy.html" style="color: #9ca3af; text-decoration: underline; margin-right: 15px;">Privacy Policy</a>
+<a href="/static/terms.html" style="color: #9ca3af; text-decoration: underline;">Terms of Service &amp; Disclaimer</a>
+</p>
+</footer>
+<footer style="text-align: center; padding: 60px 20px; color: #9ca3af; border-top: 1px solid rgba(255,255,255,0.08); font-size: 0.95rem; background: rgba(8, 11, 17, 0.4); font-family: 'Outfit', sans-serif; margin-top: 60px;">
+<p>© 2026 Aegis Developer Hub. All rights reserved.</p>
+<p style="font-size: 0.85rem; max-width: 800px; margin: 15px auto; line-height: 1.5; color: #9ca3af;">
+<strong>Disclaimer:</strong> The tools and content provided on this website are for educational and informational purposes only and do not constitute financial, investment, legal, or professional advice. Conforms to Australian Privacy Principles (APPs) under the Privacy Act 1988, GDPR rules on data protection, and ASIC regulatory guidelines.
         </p>
-    </footer>
-    
+<p style="margin-top: 20px;">
+<a href="/static/privacy.html" style="color: #9ca3af; text-decoration: underline; margin-right: 15px;">Privacy Policy</a>
+<a href="/static/terms.html" style="color: #9ca3af; text-decoration: underline;">Terms of Service &amp; Disclaimer</a>
+</p>
+</footer>
 
     <footer style="text-align: center; padding: 60px 20px; color: #9ca3af; border-top: 1px solid rgba(255,255,255,0.08); font-size: 0.95rem; background: rgba(8, 11, 17, 0.4); font-family: 'Outfit', sans-serif; margin-top: 60px;">
         <p>&copy; 2026 Aegis Developer Hub. All rights reserved.</p>

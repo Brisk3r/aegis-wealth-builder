@@ -1,12 +1,13 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CronPro | Advanced Cron Generator</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
-    <style>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>CronPro | Advanced Cron Generator</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&amp;display=swap" rel="stylesheet"/>
+<style>
         body { font-family: 'Outfit', sans-serif; background: #0f172a; color: #f8fafc; }
         .glass { 
             background: rgba(30, 41, 59, 0.7); 
@@ -23,24 +24,19 @@
         .nav-link { transition: color 0.2s; }
         .nav-link:hover { color: #38bdf8; }
     </style>
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4750454395006570" crossorigin="anonymous"></script>
-
-    <script defer src="/_vercel/insights/script.js"></script>
-
-    <link rel="icon" type="image/png" href="/static/logo.png">
-
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-BZVWXPPG06"></script>
-    <script>
+<script async="" crossorigin="anonymous" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4750454395006570"></script>
+<script defer="" src="/_vercel/insights/script.js"></script>
+<link href="/static/logo.png" rel="icon" type="image/png"/>
+<!-- Google tag (gtag.js) -->
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-BZVWXPPG06"></script>
+<script>
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
       gtag('config', 'G-BZVWXPPG06');
     </script>
-
-    <script src="https://assets.lemonsqueezy.com/lemon.js" defer></script>
-
-    <style>
+<script defer="" src="https://assets.lemonsqueezy.com/lemon.js"></script>
+<style>
         /* Global accessibility & dark theme input fixes */
         input[type="text"], input[type="url"], input[type="number"], input[type="email"], input[type="password"], input[type="date"], select, textarea {
             color: #f8fafc !important;
@@ -50,76 +46,65 @@
             opacity: 0.8 !important;
         }
     </style>
-    
 </head>
 <body class="min-h-screen text-slate-200">
-
-    <div class="navbar" style="display: flex; justify-content: space-between; align-items: center; padding: 20px 40px; border-bottom: 1px solid rgba(255,255,255,0.08); background: rgba(11, 15, 25, 0.75); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); position: sticky; top: 0; z-index: 100; font-family: 'Outfit', sans-serif;">
-        <a href="/" style="display: flex; align-items: center; gap: 10px; color: #f3f4f6; text-decoration: none; font-weight: 600;">
-            <img src="/static/logo.png" alt="Aegis Hub Logo" style="height: 30px;">
-            <span>Aegis Developer Hub</span>
-        </a>
-        <a href="/" style="color: #60a5fa; text-decoration: none; font-size: 0.95rem; font-weight: 500;">&larr; Back to Hub</a>
-    </div>
-    
-
-    
-    
-    <!-- Navbar -->
-    <nav class="max-w-4xl mx-auto flex justify-between items-center py-6 px-4">
-        <div class="text-xl font-bold tracking-tight text-white italic">CronPro<span class="text-blue-500">.</span></div>
-        <div class="flex gap-6 text-sm font-medium text-slate-400">
-            <a href="#" class="nav-link">Generator</a>
-            <a href="#" class="nav-link">Validator</a>
-            <a href="#" class="nav-link">Cheatsheet</a>
-        </div>
-    </nav>
-
-    <main class="max-w-4xl mx-auto p-4 md:p-8">
-        <header class="mb-10">
-            <h1 class="text-5xl font-bold text-white mb-4">Cron Expression Generator</h1>
-            <p class="text-slate-400 text-lg">Generate reliable, production-ready cron schedules with live validation.</p>
-        </header>
-
-        <section class="glass p-8 rounded-3xl shadow-2xl">
-            <div class="grid grid-cols-2 md:grid-cols-5 gap-6 mb-10">
-                <div>
-                    <label class="block text-xs uppercase tracking-widest text-slate-500 mb-2 font-semibold">Minute</label>
-                    <input type="text" id="minute" value="*" class="w-full p-3 rounded-xl input-field text-center text-xl font-bold">
-                </div>
-                <div>
-                    <label class="block text-xs uppercase tracking-widest text-slate-500 mb-2 font-semibold">Hour</label>
-                    <input type="text" id="hour" value="*" class="w-full p-3 rounded-xl input-field text-center text-xl font-bold">
-                </div>
-                <div>
-                    <label class="block text-xs uppercase tracking-widest text-slate-500 mb-2 font-semibold">Day</label>
-                    <input type="text" id="dom" value="*" class="w-full p-3 rounded-xl input-field text-center text-xl font-bold">
-                </div>
-                <div>
-                    <label class="block text-xs uppercase tracking-widest text-slate-500 mb-2 font-semibold">Month</label>
-                    <input type="text" id="month" value="*" class="w-full p-3 rounded-xl input-field text-center text-xl font-bold">
-                </div>
-                <div>
-                    <label class="block text-xs uppercase tracking-widest text-slate-500 mb-2 font-semibold">Week</label>
-                    <input type="text" id="dow" value="*" class="w-full p-3 rounded-xl input-field text-center text-xl font-bold">
-                </div>
-            </div>
-
-            <div class="bg-slate-950/50 p-6 rounded-2xl border border-slate-800">
-                <div class="flex justify-between items-center mb-4">
-                    <span class="text-xs uppercase tracking-widest text-blue-400 font-bold">Result</span>
-                    <button onclick="copyToClipboard()" class="text-xs bg-slate-800 hover:bg-slate-700 text-white px-4 py-2 rounded-lg transition font-semibold">Copy</button>
-                </div>
-                <div id="display" class="text-4xl font-mono text-white tracking-widest py-2 break-all text-center md:text-left"> * * * * * </div>
-            </div>
-
-            <div id="explanation" class="mt-8 p-6 bg-blue-900/10 rounded-2xl border border-blue-900/30 text-blue-200">
+<div class="navbar" style="display: flex; justify-content: space-between; align-items: center; padding: 20px 40px; border-bottom: 1px solid rgba(255,255,255,0.08); background: rgba(11, 15, 25, 0.75); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); position: sticky; top: 0; z-index: 100; font-family: 'Outfit', sans-serif;">
+<a href="/" style="display: flex; align-items: center; gap: 10px; color: #f3f4f6; text-decoration: none; font-weight: 600;">
+<img alt="Aegis Hub Logo" src="/static/logo.png" style="height: 30px;"/>
+<span>Aegis Developer Hub</span>
+</a>
+<a href="/" style="color: #60a5fa; text-decoration: none; font-size: 0.95rem; font-weight: 500;">← Back to Hub</a>
+</div>
+<!-- Navbar -->
+<nav class="max-w-4xl mx-auto flex justify-between items-center py-6 px-4">
+<div class="text-xl font-bold tracking-tight text-white italic">CronPro<span class="text-blue-500">.</span></div>
+<div class="flex gap-6 text-sm font-medium text-slate-400">
+<a class="nav-link" href="/">Generator</a>
+<a class="nav-link" href="/">Validator</a>
+<a class="nav-link" href="/">Cheatsheet</a>
+</div>
+</nav>
+<main class="max-w-4xl mx-auto p-4 md:p-8">
+<header class="mb-10">
+<h1 class="text-5xl font-bold text-white mb-4">Cron Expression Generator</h1>
+<p class="text-slate-400 text-lg">Generate reliable, production-ready cron schedules with live validation.</p>
+</header>
+<section class="glass p-8 rounded-3xl shadow-2xl">
+<div class="grid grid-cols-2 md:grid-cols-5 gap-6 mb-10">
+<div>
+<label class="block text-xs uppercase tracking-widest text-slate-500 mb-2 font-semibold">Minute</label>
+<input class="w-full p-3 rounded-xl input-field text-center text-xl font-bold" id="minute" type="text" value="*"/>
+</div>
+<div>
+<label class="block text-xs uppercase tracking-widest text-slate-500 mb-2 font-semibold">Hour</label>
+<input class="w-full p-3 rounded-xl input-field text-center text-xl font-bold" id="hour" type="text" value="*"/>
+</div>
+<div>
+<label class="block text-xs uppercase tracking-widest text-slate-500 mb-2 font-semibold">Day</label>
+<input class="w-full p-3 rounded-xl input-field text-center text-xl font-bold" id="dom" type="text" value="*"/>
+</div>
+<div>
+<label class="block text-xs uppercase tracking-widest text-slate-500 mb-2 font-semibold">Month</label>
+<input class="w-full p-3 rounded-xl input-field text-center text-xl font-bold" id="month" type="text" value="*"/>
+</div>
+<div>
+<label class="block text-xs uppercase tracking-widest text-slate-500 mb-2 font-semibold">Week</label>
+<input class="w-full p-3 rounded-xl input-field text-center text-xl font-bold" id="dow" type="text" value="*"/>
+</div>
+</div>
+<div class="bg-slate-950/50 p-6 rounded-2xl border border-slate-800">
+<div class="flex justify-between items-center mb-4">
+<span class="text-xs uppercase tracking-widest text-blue-400 font-bold">Result</span>
+<button class="text-xs bg-slate-800 hover:bg-slate-700 text-white px-4 py-2 rounded-lg transition font-semibold" onclick="copyToClipboard()">Copy</button>
+</div>
+<div class="text-4xl font-mono text-white tracking-widest py-2 break-all text-center md:text-left" id="display"> * * * * * </div>
+</div>
+<div class="mt-8 p-6 bg-blue-900/10 rounded-2xl border border-blue-900/30 text-blue-200" id="explanation">
                 This job will run every minute of every hour, every day of the month, every month, and every day of the week.
             </div>
-        </section>
-    </main>
-
-    <script>
+</section>
+</main>
+<script>
         const inputs = ['minute', 'hour', 'dom', 'month', 'dow'];
         
         function update() {
@@ -152,18 +137,26 @@
 
         inputs.forEach(id => document.getElementById(id).addEventListener('input', update));
     </script>
-
-    <footer style="text-align: center; padding: 60px 20px; color: #9ca3af; border-top: 1px solid rgba(255,255,255,0.08); font-size: 0.95rem; background: rgba(8, 11, 17, 0.4); font-family: 'Outfit', sans-serif; margin-top: 60px;">
-        <p>&copy; 2026 Aegis Developer Hub. All rights reserved.</p>
-        <p style="font-size: 0.85rem; max-width: 800px; margin: 15px auto; line-height: 1.5; color: #9ca3af;">
-            <strong>Disclaimer:</strong> The tools and content provided on this website are for educational and informational purposes only and do not constitute financial, investment, legal, or professional advice. Conforms to Australian Privacy Principles (APPs) under the Privacy Act 1988, GDPR rules on data protection, and ASIC regulatory guidelines.
+<footer style="text-align: center; padding: 60px 20px; color: #9ca3af; border-top: 1px solid rgba(255,255,255,0.08); font-size: 0.95rem; background: rgba(8, 11, 17, 0.4); font-family: 'Outfit', sans-serif; margin-top: 60px;">
+<p>© 2026 Aegis Developer Hub. All rights reserved.</p>
+<p style="font-size: 0.85rem; max-width: 800px; margin: 15px auto; line-height: 1.5; color: #9ca3af;">
+<strong>Disclaimer:</strong> The tools and content provided on this website are for educational and informational purposes only and do not constitute financial, investment, legal, or professional advice. Conforms to Australian Privacy Principles (APPs) under the Privacy Act 1988, GDPR rules on data protection, and ASIC regulatory guidelines.
         </p>
-        <p style="margin-top: 20px;">
-            <a href="/static/privacy.html" style="color: #9ca3af; text-decoration: underline; margin-right: 15px;">Privacy Policy</a>
-            <a href="/static/terms.html" style="color: #9ca3af; text-decoration: underline;">Terms of Service & Disclaimer</a>
+<p style="margin-top: 20px;">
+<a href="/static/privacy.html" style="color: #9ca3af; text-decoration: underline; margin-right: 15px;">Privacy Policy</a>
+<a href="/static/terms.html" style="color: #9ca3af; text-decoration: underline;">Terms of Service &amp; Disclaimer</a>
+</p>
+</footer>
+<footer style="text-align: center; padding: 60px 20px; color: #9ca3af; border-top: 1px solid rgba(255,255,255,0.08); font-size: 0.95rem; background: rgba(8, 11, 17, 0.4); font-family: 'Outfit', sans-serif; margin-top: 60px;">
+<p>© 2026 Aegis Developer Hub. All rights reserved.</p>
+<p style="font-size: 0.85rem; max-width: 800px; margin: 15px auto; line-height: 1.5; color: #9ca3af;">
+<strong>Disclaimer:</strong> The tools and content provided on this website are for educational and informational purposes only and do not constitute financial, investment, legal, or professional advice. Conforms to Australian Privacy Principles (APPs) under the Privacy Act 1988, GDPR rules on data protection, and ASIC regulatory guidelines.
         </p>
-    </footer>
-    
+<p style="margin-top: 20px;">
+<a href="/static/privacy.html" style="color: #9ca3af; text-decoration: underline; margin-right: 15px;">Privacy Policy</a>
+<a href="/static/terms.html" style="color: #9ca3af; text-decoration: underline;">Terms of Service &amp; Disclaimer</a>
+</p>
+</footer>
 
     <footer style="text-align: center; padding: 60px 20px; color: #9ca3af; border-top: 1px solid rgba(255,255,255,0.08); font-size: 0.95rem; background: rgba(8, 11, 17, 0.4); font-family: 'Outfit', sans-serif; margin-top: 60px;">
         <p>&copy; 2026 Aegis Developer Hub. All rights reserved.</p>
