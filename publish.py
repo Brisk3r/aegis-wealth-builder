@@ -1172,16 +1172,17 @@ def post_process_tool(tool_abs_path: Path, topic: str):
                 html = html.replace(body_tag, f"{body_tag}\n{navbar_html}", 1)
                 modified = True
 
-    # Inject standard Footer right before </body>
-    aff_html = get_affiliate_html()
-    aff_wrapper = ""
-    if aff_html:
-        aff_wrapper = f"""
+    # Inject standard Footer right before </body> IF not already present
+    if "<footer" not in html and "Aegis Developer Hub. All rights reserved" not in html:
+        aff_html = get_affiliate_html()
+        aff_wrapper = ""
+        if aff_html and "tool-affiliate-wrapper" not in html:
+            aff_wrapper = f"""
     <div class="tool-affiliate-wrapper" style="max-width: 1200px; margin: 40px auto; padding: 0 20px; box-sizing: border-box;">
         {aff_html}
     </div>"""
 
-    footer_html = f"""{aff_wrapper}
+        footer_html = f"""{aff_wrapper}
     <footer style="text-align: center; padding: 60px 20px; color: #9ca3af; border-top: 1px solid rgba(255,255,255,0.08); font-size: 0.95rem; background: rgba(8, 11, 17, 0.4); font-family: 'Outfit', sans-serif; margin-top: 60px;">
         <p>&copy; 2026 Aegis Developer Hub. All rights reserved.</p>
         <p style="font-size: 0.85rem; max-width: 800px; margin: 15px auto; line-height: 1.5; color: #9ca3af;">
@@ -1193,10 +1194,10 @@ def post_process_tool(tool_abs_path: Path, topic: str):
         </p>
     </footer>
     """
-    
-    if "</body>" in html:
-        html = html.replace("</body>", f"{footer_html}\n</body>", 1)
-        modified = True
+        
+        if "</body>" in html:
+            html = html.replace("</body>", f"{footer_html}\n</body>", 1)
+            modified = True
 
     # 3. Inject default Outfit Font & basic styles only if the tool has no built-in styling system
     if "fonts.googleapis.com/css2?family=Outfit" not in html and "</head>" in html:
