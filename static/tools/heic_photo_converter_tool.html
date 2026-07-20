@@ -404,6 +404,11 @@
         }
         .file-item.done { border-color: rgba(16,185,129,0.3); }
         .file-item.error { border-color: rgba(239,68,68,0.35); }
+        .file-item.active-preview {
+            border-color: rgba(59, 130, 246, 0.6) !important;
+            background: rgba(59, 130, 246, 0.05) !important;
+            box-shadow: 0 0 10px rgba(59, 130, 246, 0.15);
+        }
 
         .file-item-head {
             display: flex;
@@ -748,8 +753,38 @@
         </div>
     </aside>
 
-    <!-- RIGHT: Results -->
-    <section>
+        <!-- Live Preview Block -->
+        <div id="previewBlock" class="card" style="display: flex; flex-direction: column; padding: 16px; margin-bottom: 24px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.06); padding-bottom: 12px; margin-bottom: 12px;">
+                <span style="font-size: 0.8rem; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.5px;">Live Quality Preview</span>
+                <span id="previewFilename" style="font-size: 0.75rem; color: var(--secondary-accent); font-family: monospace; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 250px;">select a file</span>
+            </div>
+            
+            <div id="compareContainer" class="bg-grid-pattern" style="position: relative; width: 100%; height: 320px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.05); background: #05070c; overflow: hidden;">
+                <div id="previewPlaceholder" style="position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; color: var(--muted); gap: 8px; text-align: center; padding: 20px;">
+                    <span style="font-size: 2rem;">🖼️</span>
+                    <p style="font-size: 0.82rem; margin: 0;">Select any file from the queue below to preview compression quality</p>
+                </div>
+                
+                <!-- Output Image (Base) -->
+                <img id="imgBase" alt="Output Preview" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: contain; padding: 8px; display: none;">
+                <!-- Original Image (Overlaid, clipped) -->
+                <img id="imgOver" alt="Original Image" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: contain; padding: 8px; display: none; clip-path: inset(0 50% 0 0);">
+                <!-- Interactive Slider Overlay -->
+                <input type="range" min="0" max="100" value="50" id="compareSlider" class="compare-slider-thumb" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; margin: 0; appearance: none; background: transparent; outline: none; z-index: 10; cursor: ew-resize; display: none;">
+                
+                <!-- Info Badges -->
+                <div id="badgeOriginalContainer" style="display: none; position: absolute; bottom: 12px; left: 12px; z-index: 20; background: rgba(8,11,17,0.85); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; padding: 6px 10px; pointer-events: none;">
+                    <p style="font-size: 9px; font-weight: 700; color: var(--muted); text-transform: uppercase; margin: 0 0 2px 0; letter-spacing: 0.3px;">Original</p>
+                    <p id="badgeOriginal" style="font-size: 0.72rem; font-family: monospace; margin: 0; color: #fff;">0 KB</p>
+                </div>
+                <div id="badgeOutputContainer" style="display: none; position: absolute; bottom: 12px; right: 12px; z-index: 20; background: rgba(8,11,17,0.85); border: 1px solid rgba(59,130,246,0.3); border-radius: 8px; padding: 6px 10px; pointer-events: none; text-align: right;">
+                    <p style="font-size: 9px; font-weight: 700; color: var(--secondary-accent); text-transform: uppercase; margin: 0 0 2px 0; letter-spacing: 0.3px;">Output Preview</p>
+                    <p id="badgeOutput" style="font-size: 0.72rem; font-family: monospace; margin: 0; color: #60a5fa;">0 KB</p>
+                </div>
+            </div>
+        </div>
+
         <!-- Stats Bar -->
         <div class="stats-bar" id="stats-bar" style="display:none;">
             <div class="stat-card">
@@ -808,8 +843,12 @@
 //  State
 // ──────────────────────────────────────────────
 let selectedFormat = 'jpg';
-let fileQueue = [];   // { file, id, status, origSize, blob, filename, origDataURL }
+let fileQueue = [];   // { file, id, status, origSize, blob, filename, origDataURL, previewImageObj }
 let convertedBlobs = [];
+let activePreviewId = null;
+let currentOverUrl = null;
+let currentBaseUrl = null;
+let debounceTimer = null;
 
 // ──────────────────────────────────────────────
 //  UI helpers
@@ -833,25 +872,36 @@ function selectFormat(fmt) {
     document.getElementById('tab-png').classList.toggle('active', fmt === 'png');
     // PNG is lossless — hide quality slider
     document.getElementById('quality-section').style.display = fmt === 'jpg' ? '' : 'none';
+    triggerPreviewUpdate();
 }
 
 // Quality slider
 const qualSlider = document.getElementById('quality-slider');
 const qualDisplay = document.getElementById('quality-display');
-qualSlider.addEventListener('input', () => qualDisplay.textContent = qualSlider.value + '%');
+qualSlider.addEventListener('input', () => {
+    qualDisplay.textContent = qualSlider.value + '%';
+    triggerPreviewUpdate();
+});
 
 // Resize slider
 const resizeSlider = document.getElementById('resize-slider');
 const resizeDisplay = document.getElementById('resize-display');
-resizeSlider.addEventListener('input', () => resizeDisplay.textContent = parseInt(resizeSlider.value).toLocaleString() + ' px');
+resizeSlider.addEventListener('input', () => {
+    resizeDisplay.textContent = parseInt(resizeSlider.value).toLocaleString() + ' px';
+    triggerPreviewUpdate();
+});
 
 // Toggles
 document.getElementById('size-mode-toggle').addEventListener('change', function() {
     document.getElementById('target-size-section').style.display = this.checked ? '' : 'none';
+    triggerPreviewUpdate();
 });
 document.getElementById('resize-toggle').addEventListener('change', function() {
     document.getElementById('resize-section').style.display = this.checked ? '' : 'none';
+    triggerPreviewUpdate();
 });
+document.getElementById('target-size-val').addEventListener('input', triggerPreviewUpdate);
+document.getElementById('target-size-unit').addEventListener('change', triggerPreviewUpdate);
 
 // ──────────────────────────────────────────────
 //  Drop zone
@@ -929,13 +979,17 @@ function handleFiles(files) {
 
     valid.forEach(file => {
         const id = 'f_' + Date.now() + '_' + Math.random().toString(36).slice(2,7);
-        fileQueue.push({ file, id, status: 'pending', origSize: file.size, blob: null, filename: null, origDataURL: null });
+        fileQueue.push({ file, id, status: 'pending', origSize: file.size, blob: null, filename: null, origDataURL: null, previewImageObj: null });
     });
 
     renderQueue();
     updateStats();
     document.getElementById('convert-btn').disabled = false;
     document.getElementById('empty-state').style.display = 'none';
+
+    if (fileQueue.length > 0 && !activePreviewId) {
+        selectForPreview(fileQueue[0].id);
+    }
 }
 
 // ──────────────────────────────────────────────
@@ -951,8 +1005,15 @@ function renderQueue() {
 
     fileQueue.forEach(item => {
         const div = document.createElement('div');
-        div.className = 'file-item' + (item.status === 'done' ? ' done' : '') + (item.status === 'error' ? ' error' : '');
+        const isActive = item.id === activePreviewId;
+        div.className = 'file-item' + (item.status === 'done' ? ' done' : '') + (item.status === 'error' ? ' error' : '') + (isActive ? ' active-preview' : '');
         div.id = 'item-' + item.id;
+        div.style.cursor = 'pointer';
+        div.onclick = (e) => {
+            if (e.target.tagName !== 'BUTTON' && !e.target.closest('button') && e.target.textContent !== '✕') {
+                selectForPreview(item.id);
+            }
+        };
 
         const ext = item.file.name.split('.').pop().toUpperCase();
         const thumbHTML = item.origDataURL
@@ -997,9 +1058,19 @@ function renderQueue() {
 }
 
 function removeFile(id) {
+    const wasActive = id === activePreviewId;
     fileQueue = fileQueue.filter(f => f.id !== id);
-    renderQueue();
-    updateStats();
+    if (wasActive) {
+        activePreviewId = null;
+        if (fileQueue.length > 0) {
+            selectForPreview(fileQueue[0].id);
+        } else {
+            clearPreview();
+        }
+    } else {
+        renderQueue();
+        updateStats();
+    }
     if (!fileQueue.length) {
         document.getElementById('convert-btn').disabled = true;
         document.getElementById('stats-bar').style.display = 'none';
@@ -1229,6 +1300,158 @@ function loadScript(src) {
         s.onerror = rej;
         document.head.appendChild(s);
     });
+}
+
+// ──────────────────────────────────────────────
+//  Preview & Comparison logic
+// ──────────────────────────────────────────────
+document.getElementById('compareSlider').addEventListener('input', function() {
+    document.getElementById('imgOver').style.clipPath = `inset(0 calc(100% - ${this.value}%) 0 0)`;
+});
+
+async function selectForPreview(id) {
+    activePreviewId = id;
+    renderQueue(); // Update highlights
+    
+    const item = fileQueue.find(q => q.id === id);
+    if (!item) return;
+
+    document.getElementById('previewFilename').textContent = item.file.name;
+    
+    // Show loading state in preview
+    const placeholder = document.getElementById('previewPlaceholder');
+    placeholder.style.display = 'flex';
+    placeholder.innerHTML = '<span>🔄</span><p style="font-size: 0.82rem; margin: 0; margin-top: 5px;">Loading preview data...</p>';
+    
+    document.getElementById('imgBase').style.display = 'none';
+    document.getElementById('imgOver').style.display = 'none';
+    document.getElementById('compareSlider').style.display = 'none';
+    document.getElementById('badgeOriginalContainer').style.display = 'none';
+    document.getElementById('badgeOutputContainer').style.display = 'none';
+
+    try {
+        if (!item.previewImageObj) {
+            item.previewImageObj = await decodeFileToImage(item.file);
+        }
+
+        const canvas = document.createElement('canvas');
+        canvas.width = item.previewImageObj.width;
+        canvas.height = item.previewImageObj.height;
+        canvas.getContext('2d').drawImage(item.previewImageObj, 0, 0);
+        
+        canvas.toBlob(blob => {
+            if (currentOverUrl) URL.revokeObjectURL(currentOverUrl);
+            currentOverUrl = URL.createObjectURL(blob);
+            
+            const imgOver = document.getElementById('imgOver');
+            imgOver.src = currentOverUrl;
+            document.getElementById('badgeOriginal').textContent = formatBytes(item.origSize);
+            
+            placeholder.style.display = 'none';
+            imgOver.style.display = 'block';
+            document.getElementById('imgBase').style.display = 'block';
+            document.getElementById('compareSlider').style.display = 'block';
+            document.getElementById('badgeOriginalContainer').style.display = 'block';
+            document.getElementById('badgeOutputContainer').style.display = 'block';
+            
+            triggerPreviewUpdate();
+        }, 'image/jpeg', 0.95);
+
+    } catch (e) {
+        console.error(e);
+        placeholder.innerHTML = '<span>⚠️</span><p style="font-size: 0.82rem; margin: 0; color: #f87171;">Failed to render preview.</p>';
+    }
+}
+
+function clearPreview() {
+    document.getElementById('imgBase').style.display = 'none';
+    document.getElementById('imgOver').style.display = 'none';
+    document.getElementById('compareSlider').style.display = 'none';
+    document.getElementById('badgeOriginalContainer').style.display = 'none';
+    document.getElementById('badgeOutputContainer').style.display = 'none';
+    
+    const placeholder = document.getElementById('previewPlaceholder');
+    placeholder.style.display = 'flex';
+    placeholder.innerHTML = '<span style="font-size: 2rem;">🖼️</span><p style="font-size: 0.82rem; margin: 0;">Select any file from the queue below to preview compression quality</p>';
+    document.getElementById('previewFilename').textContent = 'select a file';
+}
+
+async function decodeFileToImage(file) {
+    let blobUrl;
+    const lname = file.name.toLowerCase();
+    const isHEIC = lname.endsWith('.heic') || lname.endsWith('.heif') ||
+                   file.type === 'image/heic' || file.type === 'image/heif';
+
+    if (isHEIC) {
+        const cleanBlob = new Blob([file], { type: 'image/heic' });
+        let res = await heic2any({ blob: cleanBlob, toType: "image/jpeg", quality: 0.9 });
+        if (Array.isArray(res)) res = res[0];
+        blobUrl = URL.createObjectURL(res);
+    } else {
+        blobUrl = URL.createObjectURL(file);
+    }
+
+    return new Promise((resolve, reject) => {
+        const img = new Image();
+        img.onload = () => {
+            URL.revokeObjectURL(blobUrl);
+            resolve(img);
+        };
+        img.onerror = () => reject(new Error("Decoding failed"));
+        img.src = blobUrl;
+    });
+}
+
+function triggerPreviewUpdate() {
+    clearTimeout(debounceTimer);
+    debounceTimer = setTimeout(updateLivePreview, 400);
+}
+
+async function updateLivePreview() {
+    if (!activePreviewId) return;
+    const item = fileQueue.find(q => q.id === activePreviewId);
+    if (!item || !item.previewImageObj) return;
+
+    document.getElementById('badgeOutput').textContent = 'Processing...';
+    
+    try {
+        const format = selectedFormat;
+        const quality = format === 'png' ? 1.0 : parseInt(document.getElementById('quality-slider').value) / 100;
+        
+        let dims = null;
+        if (document.getElementById('resize-toggle').checked) {
+            const maxPx = parseInt(document.getElementById('resize-slider').value);
+            if (item.previewImageObj.width > maxPx || item.previewImageObj.height > maxPx) {
+                const scale = maxPx / Math.max(item.previewImageObj.width, item.previewImageObj.height);
+                dims = { width: Math.round(item.previewImageObj.width * scale), height: Math.round(item.previewImageObj.height * scale) };
+            }
+        }
+        
+        let optimizedBlob;
+        const sizeModeOn = document.getElementById('size-mode-toggle').checked;
+        if (sizeModeOn && format !== 'png') {
+            const targetVal = parseFloat(document.getElementById('target-size-val').value) || 500;
+            const unit = document.getElementById('target-size-unit').value;
+            const targetBytes = unit === 'MB' ? targetVal * 1024 * 1024 : targetVal * 1024;
+            
+            optimizedBlob = await binarySearchQuality(item.previewImageObj, dims, format, targetBytes);
+            if (!optimizedBlob) {
+                optimizedBlob = await bitmapToBlob(item.previewImageObj, dims, format, 0.01);
+            }
+        } else {
+            optimizedBlob = await bitmapToBlob(item.previewImageObj, dims, format, quality);
+        }
+        
+        if (currentBaseUrl) URL.revokeObjectURL(currentBaseUrl);
+        currentBaseUrl = URL.createObjectURL(optimizedBlob);
+        document.getElementById('imgBase').src = currentBaseUrl;
+        
+        const actualExt = optimizedBlob.type.split('/')[1].toUpperCase().replace('JPEG', 'JPG');
+        document.getElementById('badgeOutput').textContent = `${actualExt} | ${formatBytes(optimizedBlob.size)}`;
+    } catch(e) {
+        console.error(e);
+        document.getElementById('badgeOutput').textContent = 'Error';
+    }
 }
 </script>
 </body>
