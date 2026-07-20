@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BrandKit | SEO & Social Card Branding Studio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Outfit', sans-serif; background: #080b11; color: #f1f5f9; }
+        .glass { background: rgba(17, 24, 39, 0.55); backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.05); }
+        .tab-btn.active { background: rgba(59, 130, 246, 0.1); border-color: rgba(59, 130, 246, 0.3); color: #60a5fa; }
+    </style>
+
+    <style>
+        /* Global accessibility & dark theme input fixes */
+        input[type="text"], input[type="url"], input[type="number"], input[type="email"], input[type="password"], input[type="date"], select, textarea {
+            color: #f8fafc !important;
+        }
+        input::placeholder, textarea::placeholder {
+            color: #64748b !important;
+            opacity: 0.8 !important;
+        }
+    </style>
+    
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4750454395006570" crossorigin="anonymous"></script>
+
+    <script defer src="/_vercel/insights/script.js"></script>
+
+    <link rel="icon" type="image/png" href="/static/logo.png">
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-BZVWXPPG06"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-BZVWXPPG06');
+    </script>
+
+    <script src="https://assets.lemonsqueezy.com/lemon.js" defer></script>
+</head>
+<body class="min-h-screen flex flex-col justify-between">
+
+    <div class="navbar" style="display: flex; justify-content: space-between; align-items: center; padding: 20px 40px; border-bottom: 1px solid rgba(255,255,255,0.08); background: rgba(11, 15, 25, 0.75); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); position: sticky; top: 0; z-index: 100; font-family: 'Outfit', sans-serif;">
+        <a href="/" style="display: flex; align-items: center; gap: 10px; color: #f3f4f6; text-decoration: none; font-weight: 600;">
+            <img src="/static/logo.png" alt="Aegis Hub Logo" style="height: 30px;">
+            <span>Aegis Developer Hub</span>
+        </a>
+        <a href="/" style="color: #60a5fa; text-decoration: none; font-size: 0.95rem; font-weight: 500;">&larr; Back to Hub</a>
+    </div>
+    
+    
+    <div class="max-w-7xl w-full mx-auto px-6 py-10 flex-grow">
+        <header class="mb-8">
+            <h1 class="text-3xl font-extrabold text-white tracking-tight">SEO & Social Branding Studio</h1>
+            <p class="text-slate-400 text-sm mt-1">Configure search meta tags, preview social OpenGraph cards, and export text/emoji favicons instantly.</p>
+        </header>
+
+        <div class="flex gap-4 border-b border-white/5 pb-4 mb-8 overflow-x-auto">
+            <button onclick="switchTab('seo')" id="tab-seo" class="tab-btn active px-5 py-2.5 rounded-xl border border-transparent text-sm font-semibold text-slate-400 hover:text-white transition-all">
+                🔍 SEO Meta Optimizer
+            </button>
+            <button onclick="switchTab('og')" id="tab-og" class="tab-btn px-5 py-2.5 rounded-xl border border-transparent text-sm font-semibold text-slate-400 hover:text-white transition-all">
+                🖼️ Social OG Card Preview
+            </button>
+            <button onclick="switchTab('favicon')" id="tab-favicon" class="tab-btn px-5 py-2.5 rounded-xl border border-transparent text-sm font-semibold text-slate-400 hover:text-white transition-all">
+                ✨ Favicon Exporter
+            </button>
+        </div>
+
+        <!-- Tab: SEO -->
+        <div id="content-seo" class="grid md:grid-cols-2 gap-8">
+            <section class="glass p-8 rounded-3xl shadow-2xl space-y-6">
+                <h2 class="text-xl font-bold text-white flex items-center gap-2">
+                    <span class="w-1.5 h-6 bg-blue-500 rounded-full"></span> Metadata Inputs
+                </h2>
+                <div>
+                    <label class="block text-xs font-semibold text-slate-500 uppercase tracking-widest mb-2">Page Title</label>
+                    <input type="text" id="seoTitle" oninput="updateSeo()" placeholder="Enter page title..." class="w-full bg-slate-950 border border-slate-700 rounded-xl p-4 text-white focus:ring-2 focus:ring-blue-500 outline-none transition-all">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-slate-500 uppercase tracking-widest mb-2">Meta Description</label>
+                    <textarea id="seoDesc" oninput="updateSeo()" placeholder="Enter description..." class="w-full h-32 bg-slate-950 border border-slate-700 rounded-xl p-4 text-white focus:ring-2 focus:ring-blue-500 outline-none transition-all resize-none"></textarea>
+                </div>
+            </section>
+            <section class="glass p-8 rounded-3xl shadow-2xl flex flex-col justify-between">
+                <div>
+                    <h2 class="text-xs font-semibold text-slate-500 uppercase tracking-widest mb-4">Export Tags</h2>
+                    <pre id="seoOutput" class="text-xs text-blue-200 bg-slate-950 p-4 rounded-xl overflow-x-auto font-mono h-64"></pre>
+                </div>
+                <button onclick="copySeo()" class="w-full mt-4 py-3 bg-blue-600 hover:bg-blue-500 text-white rounded-xl font-semibold transition-all">Copy HTML Tags</button>
+            </section>
+        </div>
+
+        <!-- Tab: OG Social Card -->
+        <div id="content-og" class="hidden grid lg:grid-cols-12 gap-8">
+            <section class="lg:col-span-4 glass p-8 rounded-3xl shadow-2xl space-y-6">
+                <h2 class="text-xl font-bold text-white">Card Designer</h2>
+                <div>
+                    <label class="block text-xs font-semibold text-slate-500 uppercase tracking-widest mb-2">Card Title</label>
+                    <input type="text" id="ogTitle" oninput="updateOgCard()" value="Aegis Launch" class="w-full bg-slate-950 border border-slate-700 rounded-xl p-4 text-white focus:ring-2 focus:ring-blue-500 outline-none">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-slate-500 uppercase tracking-widest mb-2">Background Color</label>
+                    <input type="color" id="ogBg" oninput="updateOgCard()" value="#1e3a8a" class="w-full h-12 bg-transparent border-0 cursor-pointer">
+                </div>
+            </section>
+            <section class="lg:col-span-8 flex flex-col items-center justify-center">
+                <div id="ogCardCanvas" class="w-full aspect-[1.91/1] rounded-2xl flex items-center justify-center text-center p-8 border border-white/10 shadow-2xl" style="background: #1e3a8a;">
+                    <h1 id="ogCardTitle" class="text-3xl md:text-5xl font-extrabold text-white tracking-tight">Aegis Launch</h1>
+                </div>
+                <p class="text-xs text-slate-500 mt-4">This preview simulates standard OpenGraph (og:image) aspect ratio.</p>
+            </section>
+        </div>
+
+        <!-- Tab: Favicon Exporter -->
+        <div id="content-favicon" class="hidden grid md:grid-cols-2 gap-8">
+            <section class="glass p-8 rounded-3xl shadow-2xl space-y-6">
+                <h2 class="text-xl font-bold text-white">Favicon Settings</h2>
+                <div>
+                    <label class="block text-xs font-semibold text-slate-500 uppercase tracking-widest mb-2">Character / Emoji</label>
+                    <input type="text" id="favChar" oninput="updateFavicon()" value="🚀" class="w-full bg-slate-950 border border-slate-700 rounded-xl p-4 text-white focus:ring-2 focus:ring-blue-500 outline-none text-center text-3xl">
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-slate-500 uppercase tracking-widest mb-2">Background Circle Color</label>
+                    <input type="color" id="favBg" oninput="updateFavicon()" value="#3b82f6" class="w-full h-12 bg-transparent border-0 cursor-pointer">
+                </div>
+            </section>
+            <section class="glass p-8 rounded-3xl shadow-2xl flex flex-col items-center justify-between">
+                <div>
+                    <h2 class="text-xs font-semibold text-slate-500 uppercase tracking-widest mb-6">Favicon Output</h2>
+                    <canvas id="favCanvas" width="128" height="128" class="border border-white/10 rounded-full shadow-2xl bg-slate-950 p-2"></canvas>
+                </div>
+                <button onclick="downloadFavicon()" class="w-full mt-8 py-3 bg-blue-600 hover:bg-blue-500 text-white rounded-xl font-semibold transition-all">Download PNG Favicon</button>
+            </section>
+        </div>
+    </div>
+
+    <script>
+        function switchTab(tab) {
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            document.getElementById('tab-' + tab).classList.add('active');
+            
+            document.getElementById('content-seo').classList.add('hidden');
+            document.getElementById('content-og').classList.add('hidden');
+            document.getElementById('content-favicon').classList.add('hidden');
+            
+            document.getElementById('content-' + tab).classList.remove('hidden');
+            if (tab === 'favicon') updateFavicon();
+        }
+
+        // Tab 1: SEO
+        function updateSeo() {
+            const title = document.getElementById('seoTitle').value;
+            const desc = document.getElementById('seoDesc').value;
+            const output = document.getElementById('seoOutput');
+            
+            output.textContent = `<title>${title || 'My Page Title'}</title>\n` +
+                                 `<meta name="description" content="${desc || 'Enter page description here...'}">\n` +
+                                 `<meta property="og:title" content="${title || 'My Page Title'}">\n` +
+                                 `<meta property="og:description" content="${desc || 'Enter page description here...'}">`;
+        }
+
+        async function copySeo() {
+            const code = document.getElementById('seoOutput').textContent;
+            await navigator.clipboard.writeText(code);
+            showToast('Copied HTML tags!');
+        }
+
+        // Tab 2: OG Card
+        function updateOgCard() {
+            const title = document.getElementById('ogTitle').value;
+            const bg = document.getElementById('ogBg').value;
+            
+            document.getElementById('ogCardTitle').textContent = title;
+            document.getElementById('ogCardCanvas').style.background = bg;
+        }
+
+        // Tab 3: Favicon
+        function updateFavicon() {
+            const canvas = document.getElementById('favCanvas');
+            const ctx = canvas.getContext('2d');
+            const char = document.getElementById('favChar').value;
+            const bg = document.getElementById('favBg').value;
+            
+            // Clear
+            ctx.clearRect(0, 0, 128, 128);
+            
+            // Draw background circle
+            ctx.fillStyle = bg;
+            ctx.beginPath();
+            ctx.arc(64, 64, 60, 0, Math.PI * 2);
+            ctx.fill();
+            
+            // Draw text/emoji
+            ctx.fillStyle = '#ffffff';
+            ctx.font = '72px sans-serif';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText(char || 'A', 64, 66);
+        }
+
+        function downloadFavicon() {
+            const canvas = document.getElementById('favCanvas');
+            const link = document.createElement('a');
+            link.download = 'favicon.png';
+            link.href = canvas.toDataURL();
+            link.click();
+        }
+
+        function showToast(msg) {
+            const toast = document.createElement('div');
+            toast.className = 'fixed bottom-8 left-1/2 -translate-x-1/2 bg-blue-600 text-white font-bold py-2.5 px-6 rounded-full text-xs shadow-lg transition-opacity duration-300 z-50';
+            toast.textContent = msg;
+            document.body.appendChild(toast);
+            setTimeout(() => {
+                toast.style.opacity = '0';
+                setTimeout(() => document.body.removeChild(toast), 300);
+            }, 2000);
+        }
+
+        // Init
+        updateSeo();
+    </script>
+
+    <footer style="text-align: center; padding: 60px 20px; color: #9ca3af; border-top: 1px solid rgba(255,255,255,0.08); font-size: 0.95rem; background: rgba(8, 11, 17, 0.4); font-family: 'Outfit', sans-serif; margin-top: 60px;">
+        <p>&copy; 2026 Aegis Developer Hub. All rights reserved.</p>
+        <p style="font-size: 0.85rem; max-width: 800px; margin: 15px auto; line-height: 1.5; color: #9ca3af;">
+            <strong>Disclaimer:</strong> The tools and content provided on this website are for educational and informational purposes only and do not constitute financial, investment, legal, or professional advice. Conforms to Australian Privacy Principles (APPs) under the Privacy Act 1988, GDPR rules on data protection, and ASIC regulatory guidelines.
+        </p>
+        <p style="margin-top: 20px;">
+            <a href="/static/privacy.html" style="color: #9ca3af; text-decoration: underline; margin-right: 15px;">Privacy Policy</a>
+            <a href="/static/terms.html" style="color: #9ca3af; text-decoration: underline;">Terms of Service & Disclaimer</a>
+        </p>
+    </footer>
+    
+</body>
+</html>

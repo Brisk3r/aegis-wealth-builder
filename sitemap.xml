@@ -19,12 +19,6 @@
         <priority>0.3</priority>
     </url>
     <url>
-        <loc>https://aegishub.dev/static/tools/css_flexbox_cheat_sheet_tool.html</loc>
-        <lastmod>2026-07-20</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    <url>
         <loc>https://aegishub.dev/static/tools/developer_productivity_tool.html</loc>
         <lastmod>2026-07-20</lastmod>
         <changefreq>weekly</changefreq>
@@ -67,12 +61,6 @@
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://aegishub.dev/static/tools/json_formatter_and_validator_tool.html</loc>
-        <lastmod>2026-07-20</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    <url>
         <loc>https://aegishub.dev/static/tools/sql_query_formatter_tool.html</loc>
         <lastmod>2026-07-20</lastmod>
         <changefreq>weekly</changefreq>
@@ -85,31 +73,7 @@
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://aegishub.dev/static/tools/base64_encoder_decoder_tool.html</loc>
-        <lastmod>2026-07-20</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    <url>
-        <loc>https://aegishub.dev/static/tools/jwt_decoder_and_debugger_tool.html</loc>
-        <lastmod>2026-07-20</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    <url>
         <loc>https://aegishub.dev/static/tools/cron_job_schedule_expression_generator_tool.html</loc>
-        <lastmod>2026-07-20</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    <url>
-        <loc>https://aegishub.dev/static/tools/css_grid_layout_visual_generator_tool.html</loc>
-        <lastmod>2026-07-20</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    <url>
-        <loc>https://aegishub.dev/static/tools/url_parser_and_query_parameter_editor_tool.html</loc>
         <lastmod>2026-07-20</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.8</priority>
@@ -133,37 +97,7 @@
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://aegishub.dev/static/tools/json_to_typescript_converter_tool.html</loc>
-        <lastmod>2026-07-20</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    <url>
-        <loc>https://aegishub.dev/static/tools/code_screenshot_generator_tool.html</loc>
-        <lastmod>2026-07-20</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    <url>
-        <loc>https://aegishub.dev/static/tools/code_snippet_generator_tool.html</loc>
-        <lastmod>2026-07-20</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    <url>
         <loc>https://aegishub.dev/static/tools/dns_record_ssl_certificate_inspector_tool.html</loc>
-        <lastmod>2026-07-20</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    <url>
-        <loc>https://aegishub.dev/static/tools/uuid_nanoid_snowflake_generator_tool.html</loc>
-        <lastmod>2026-07-20</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    <url>
-        <loc>https://aegishub.dev/static/tools/html_entity_encoder_decoder_tool.html</loc>
         <lastmod>2026-07-20</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.8</priority>
@@ -175,37 +109,13 @@
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://aegishub.dev/static/tools/json_schema_visual_generator_tool.html</loc>
-        <lastmod>2026-07-20</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    <url>
         <loc>https://aegishub.dev/static/tools/svg_file_compressor_and_optimizer_tool.html</loc>
         <lastmod>2026-07-20</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://aegishub.dev/static/tools/css_box_shadow_generator_tool.html</loc>
-        <lastmod>2026-07-20</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    <url>
         <loc>https://aegishub.dev/static/tools/lorem_ipsum_generator_tool.html</loc>
-        <lastmod>2026-07-20</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    <url>
-        <loc>https://aegishub.dev/static/tools/tailwind_css_class_sorter_tool.html</loc>
-        <lastmod>2026-07-20</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    <url>
-        <loc>https://aegishub.dev/static/tools/meta_tag_generator_for_seo_tool.html</loc>
         <lastmod>2026-07-20</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.8</priority>
@@ -223,19 +133,7 @@
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://aegishub.dev/static/tools/javascript_event_keycode_finder_tool.html</loc>
-        <lastmod>2026-07-20</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    <url>
         <loc>https://aegishub.dev/static/tools/timestamp_and_epoch_converter_tool.html</loc>
-        <lastmod>2026-07-20</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    <url>
-        <loc>https://aegishub.dev/static/tools/yaml_to_json_converter_tool.html</loc>
         <lastmod>2026-07-20</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.8</priority>
@@ -254,24 +152,6 @@
     </url>
     <url>
         <loc>https://aegishub.dev/static/tools/markdown_table_generator_tool.html</loc>
-        <lastmod>2026-07-20</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    <url>
-        <loc>https://aegishub.dev/static/tools/favicon_generator_from_text_tool.html</loc>
-        <lastmod>2026-07-20</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    <url>
-        <loc>https://aegishub.dev/static/tools/og_image_preview_tester_tool.html</loc>
-        <lastmod>2026-07-20</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    <url>
-        <loc>https://aegishub.dev/static/tools/csv_to_json_converter_tool.html</loc>
         <lastmod>2026-07-20</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.8</priority>
@@ -301,13 +181,43 @@
         <priority>0.8</priority>
     </url>
     <url>
+        <loc>https://aegishub.dev/static/tools/code_share_studio_tool.html</loc>
+        <lastmod>2026-07-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://aegishub.dev/static/tools/css_design_lab_tool.html</loc>
+        <lastmod>2026-07-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
         <loc>https://aegishub.dev/static/tools/developer_tools_tool.html</loc>
         <lastmod>2026-07-20</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.8</priority>
     </url>
     <url>
+        <loc>https://aegishub.dev/static/tools/developer_workspace_tool.html</loc>
+        <lastmod>2026-07-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
         <loc>https://aegishub.dev/static/tools/heic_photo_converter_tool.html</loc>
+        <lastmod>2026-07-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://aegishub.dev/static/tools/json_studio_tool.html</loc>
+        <lastmod>2026-07-20</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
+        <loc>https://aegishub.dev/static/tools/seo_card_optimizer_tool.html</loc>
         <lastmod>2026-07-20</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.8</priority>

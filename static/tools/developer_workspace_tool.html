@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DevWorkspace | Pro Developer Encoder & Utility Studio</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Outfit', sans-serif; background: #080b11; color: #f1f5f9; }
+        pre, code, textarea { font-family: 'JetBrains Mono', monospace; }
+        .glass { background: rgba(17, 24, 39, 0.55); backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.05); }
+        .tab-btn.active { background: rgba(59, 130, 246, 0.1); border-color: rgba(59, 130, 246, 0.3); color: #60a5fa; }
+    </style>
+
+    <style>
+        /* Global accessibility & dark theme input fixes */
+        input[type="text"], input[type="url"], input[type="number"], input[type="email"], input[type="password"], input[type="date"], select, textarea {
+            color: #f8fafc !important;
+        }
+        input::placeholder, textarea::placeholder {
+            color: #64748b !important;
+            opacity: 0.8 !important;
+        }
+    </style>
+    
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4750454395006570" crossorigin="anonymous"></script>
+
+    <script defer src="/_vercel/insights/script.js"></script>
+
+    <link rel="icon" type="image/png" href="/static/logo.png">
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-BZVWXPPG06"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-BZVWXPPG06');
+    </script>
+
+    <script src="https://assets.lemonsqueezy.com/lemon.js" defer></script>
+</head>
+<body class="min-h-screen flex flex-col justify-between">
+
+    <div class="navbar" style="display: flex; justify-content: space-between; align-items: center; padding: 20px 40px; border-bottom: 1px solid rgba(255,255,255,0.08); background: rgba(11, 15, 25, 0.75); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); position: sticky; top: 0; z-index: 100; font-family: 'Outfit', sans-serif;">
+        <a href="/" style="display: flex; align-items: center; gap: 10px; color: #f3f4f6; text-decoration: none; font-weight: 600;">
+            <img src="/static/logo.png" alt="Aegis Hub Logo" style="height: 30px;">
+            <span>Aegis Developer Hub</span>
+        </a>
+        <a href="/" style="color: #60a5fa; text-decoration: none; font-size: 0.95rem; font-weight: 500;">&larr; Back to Hub</a>
+    </div>
+    
+    
+    <div class="max-w-7xl w-full mx-auto px-6 py-10 flex-grow">
+        <header class="mb-8">
+            <h1 class="text-3xl font-extrabold text-white tracking-tight">Code & Encoder Studio</h1>
+            <p class="text-slate-400 text-sm mt-1">Encode/decode Base64 or HTML entities, inspect URL parameters, debug JWT parameters, generate UUID keys, and check event keycodes.</p>
+        </header>
+
+        <div class="flex gap-4 border-b border-white/5 pb-4 mb-8 overflow-x-auto">
+            <button onclick="switchTab('base64')" id="tab-base64" class="tab-btn active px-5 py-2.5 rounded-xl border border-transparent text-sm font-semibold text-slate-400 hover:text-white transition-all whitespace-nowrap">
+                🔗 Base64 Converter
+            </button>
+            <button onclick="switchTab('html')" id="tab-html" class="tab-btn px-5 py-2.5 rounded-xl border border-transparent text-sm font-semibold text-slate-400 hover:text-white transition-all whitespace-nowrap">
+                📦 HTML Entities
+            </button>
+            <button onclick="switchTab('url')" id="tab-url" class="tab-btn px-5 py-2.5 rounded-xl border border-transparent text-sm font-semibold text-slate-400 hover:text-white transition-all whitespace-nowrap">
+                🔍 URL Inspector
+            </button>
+            <button onclick="switchTab('jwt')" id="tab-jwt" class="tab-btn px-5 py-2.5 rounded-xl border border-transparent text-sm font-semibold text-slate-400 hover:text-white transition-all whitespace-nowrap">
+                🎫 JWT Debugger
+            </button>
+            <button onclick="switchTab('uuid')" id="tab-uuid" class="tab-btn px-5 py-2.5 rounded-xl border border-transparent text-sm font-semibold text-slate-400 hover:text-white transition-all whitespace-nowrap">
+                ✨ Key Generator
+            </button>
+            <button onclick="switchTab('keycode')" id="tab-keycode" class="tab-btn px-5 py-2.5 rounded-xl border border-transparent text-sm font-semibold text-slate-400 hover:text-white transition-all whitespace-nowrap">
+                ⌨️ Keycode Finder
+            </button>
+        </div>
+
+        <!-- Tab: Base64 -->
+        <div id="content-base64" class="grid md:grid-cols-2 gap-8">
+            <section class="glass p-8 rounded-3xl shadow-2xl space-y-6">
+                <h2 class="text-xl font-bold text-white">Base64 Encoder</h2>
+                <textarea id="b64Raw" oninput="encodeB64()" placeholder="Text to encode..." class="w-full h-48 bg-slate-950 border border-slate-700 rounded-xl p-4 text-sm text-white resize-none outline-none"></textarea>
+                <pre id="b64Encoded" class="text-xs text-blue-200 bg-slate-950 p-4 rounded-xl overflow-auto h-24 border border-white/5 font-mono"></pre>
+            </section>
+            <section class="glass p-8 rounded-3xl shadow-2xl space-y-6">
+                <h2 class="text-xl font-bold text-white">Base64 Decoder</h2>
+                <textarea id="b64Cipher" oninput="decodeB64()" placeholder="Base64 to decode..." class="w-full h-48 bg-slate-950 border border-slate-700 rounded-xl p-4 text-sm text-white resize-none outline-none"></textarea>
+                <pre id="b64Decoded" class="text-xs text-blue-200 bg-slate-950 p-4 rounded-xl overflow-auto h-24 border border-white/5 font-mono"></pre>
+            </section>
+        </div>
+
+        <!-- Tab: HTML -->
+        <div id="content-html" class="hidden grid md:grid-cols-2 gap-8">
+            <section class="glass p-8 rounded-3xl shadow-2xl space-y-6">
+                <h2 class="text-xl font-bold text-white">HTML Entity Encoder</h2>
+                <textarea id="htmlRaw" oninput="encodeHtml()" placeholder="Text with <special> characters..." class="w-full h-48 bg-slate-950 border border-slate-700 rounded-xl p-4 text-sm text-white resize-none outline-none"></textarea>
+                <pre id="htmlEncoded" class="text-xs text-blue-200 bg-slate-950 p-4 rounded-xl overflow-auto h-24 border border-white/5 font-mono"></pre>
+            </section>
+            <section class="glass p-8 rounded-3xl shadow-2xl space-y-6">
+                <h2 class="text-xl font-bold text-white">HTML Entity Decoder</h2>
+                <textarea id="htmlCipher" oninput="decodeHtml()" placeholder="&lt;encoded&gt; text..." class="w-full h-48 bg-slate-950 border border-slate-700 rounded-xl p-4 text-sm text-white resize-none outline-none"></textarea>
+                <pre id="htmlDecoded" class="text-xs text-blue-200 bg-slate-950 p-4 rounded-xl overflow-auto h-24 border border-white/5 font-mono"></pre>
+            </section>
+        </div>
+
+        <!-- Tab: URL Inspector -->
+        <div id="content-url" class="hidden grid md:grid-cols-2 gap-8">
+            <section class="glass p-8 rounded-3xl shadow-2xl space-y-6">
+                <h2 class="text-xl font-bold text-white">URL Source</h2>
+                <input type="text" id="urlInput" oninput="parseUrl()" placeholder="https://example.com/path?utm_source=aegis&active=true" class="w-full bg-slate-950 border border-slate-700 rounded-xl p-4 text-white focus:ring-2 focus:ring-blue-500 outline-none">
+                <div class="space-y-2">
+                    <p class="text-xs text-slate-500 font-semibold uppercase">Protocol: <span id="urlProto" class="text-blue-400 font-mono"></span></p>
+                    <p class="text-xs text-slate-500 font-semibold uppercase">Host: <span id="urlHost" class="text-blue-400 font-mono"></span></p>
+                    <p class="text-xs text-slate-500 font-semibold uppercase">Pathname: <span id="urlPath" class="text-blue-400 font-mono"></span></p>
+                </div>
+            </section>
+            <section class="glass p-8 rounded-3xl shadow-2xl flex flex-col justify-between">
+                <div>
+                    <h2 class="text-xs font-semibold text-slate-500 uppercase tracking-widest mb-4">Query Parameters</h2>
+                    <pre id="urlParams" class="text-xs text-blue-200 bg-slate-950 p-4 rounded-xl overflow-auto h-64 border border-white/5 font-mono"></pre>
+                </div>
+            </section>
+        </div>
+
+        <!-- Tab: JWT -->
+        <div id="content-jwt" class="hidden grid md:grid-cols-2 gap-8">
+            <section class="glass p-8 rounded-3xl shadow-2xl space-y-6">
+                <h2 class="text-xl font-bold text-white">Paste JSON Web Token</h2>
+                <textarea id="jwtRaw" oninput="decodeJwt()" placeholder="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c" class="w-full h-64 bg-slate-950 border border-slate-700 rounded-xl p-4 text-sm text-white resize-none outline-none"></textarea>
+            </section>
+            <section class="glass p-8 rounded-3xl shadow-2xl flex flex-col justify-between">
+                <div>
+                    <h2 class="text-xs font-semibold text-slate-500 uppercase tracking-widest mb-4">Decoded Payload</h2>
+                    <pre id="jwtPayload" class="text-xs text-blue-200 bg-slate-950 p-4 rounded-xl overflow-auto h-64 border border-white/5 font-mono"></pre>
+                </div>
+            </section>
+        </div>
+
+        <!-- Tab: Unique Keys Generator -->
+        <div id="content-uuid" class="hidden grid md:grid-cols-2 gap-8">
+            <section class="glass p-8 rounded-3xl shadow-2xl space-y-6">
+                <h2 class="text-xl font-bold text-white">Key Specifications</h2>
+                <div>
+                    <label class="block text-xs text-slate-400 mb-2">Key Type</label>
+                    <select id="uuidType" class="w-full bg-slate-950 border border-slate-700 rounded-xl p-4 text-white">
+                        <option value="uuidv4">UUID v4</option>
+                        <option value="nanoid">NanoID (Compact)</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-xs text-slate-400 mb-2">Quantity</label>
+                    <input type="number" id="uuidCount" min="1" max="100" value="5" class="w-full bg-slate-950 border border-slate-700 rounded-xl p-4 text-white">
+                </div>
+                <button onclick="generateKeys()" class="w-full py-3 bg-blue-600 hover:bg-blue-500 text-white rounded-xl font-semibold">Generate Keys</button>
+            </section>
+            <section class="glass p-8 rounded-3xl shadow-2xl flex flex-col justify-between">
+                <div>
+                    <h2 class="text-xs font-semibold text-slate-500 uppercase tracking-widest mb-4">Generated Keys</h2>
+                    <pre id="uuidOutput" class="text-xs text-blue-200 bg-slate-950 p-4 rounded-xl overflow-auto h-64 border border-white/5 font-mono"></pre>
+                </div>
+                <button onclick="copyGeneratedKeys()" class="w-full mt-4 py-3 bg-blue-600/30 border border-blue-500/50 text-blue-300 rounded-xl font-semibold">Copy Key List</button>
+            </section>
+        </div>
+
+        <!-- Tab: Keyboard Keycode Finder -->
+        <div id="content-keycode" class="hidden flex flex-col items-center justify-center gap-6 py-12">
+            <div class="glass p-12 rounded-3xl shadow-2xl text-center max-w-md w-full">
+                <h2 class="text-lg font-semibold text-slate-400 uppercase mb-4">Press any keyboard key</h2>
+                <div id="kcDisplay" class="text-7xl font-extrabold text-blue-400 font-mono my-6">-</div>
+                <div class="grid grid-cols-2 gap-4 text-left border-t border-white/5 pt-6 mt-4">
+                    <p class="text-xs text-slate-500 font-semibold uppercase">Key: <span id="kcKey" class="text-slate-200 font-mono"></span></p>
+                    <p class="text-xs text-slate-500 font-semibold uppercase">Code: <span id="kcCode" class="text-slate-200 font-mono"></span></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function switchTab(tab) {
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            document.getElementById('tab-' + tab).classList.add('active');
+            
+            document.getElementById('content-base64').classList.add('hidden');
+            document.getElementById('content-html').classList.add('hidden');
+            document.getElementById('content-url').classList.add('hidden');
+            document.getElementById('content-jwt').classList.add('hidden');
+            document.getElementById('content-uuid').classList.add('hidden');
+            document.getElementById('content-keycode').classList.add('hidden');
+            
+            document.getElementById('content-' + tab).classList.remove('hidden');
+            
+            if (tab === 'keycode') {
+                window.addEventListener('keydown', handleKeyInput);
+            } else {
+                window.removeEventListener('keydown', handleKeyInput);
+            }
+        }
+
+        // Tab 1: Base64
+        function encodeB64() {
+            const raw = document.getElementById('b64Raw').value;
+            try {
+                document.getElementById('b64Encoded').textContent = btoa(raw);
+            } catch (e) {
+                document.getElementById('b64Encoded').textContent = "Encoding error.";
+            }
+        }
+        function decodeB64() {
+            const cipher = document.getElementById('b64Cipher').value;
+            try {
+                document.getElementById('b64Decoded').textContent = atob(cipher);
+            } catch (e) {
+                document.getElementById('b64Decoded').textContent = "Invalid Base64.";
+            }
+        }
+
+        // Tab 2: HTML Entities
+        function encodeHtml() {
+            const raw = document.getElementById('htmlRaw').value;
+            const output = raw.replace(/[\u00A0-\u9999<>\&]/g, function(i) {
+                return '&#' + i.charCodeAt(0) + ';';
+            });
+            document.getElementById('htmlEncoded').textContent = output;
+        }
+        function decodeHtml() {
+            const cipher = document.getElementById('htmlCipher').value;
+            const doc = new DOMParser().parseFromString(cipher, "text/html");
+            document.getElementById('htmlDecoded').textContent = doc.documentElement.textContent;
+        }
+
+        // Tab 3: URL Parser
+        function parseUrl() {
+            const val = document.getElementById('urlInput').value.trim();
+            try {
+                const url = new URL(val);
+                document.getElementById('urlProto').textContent = url.protocol;
+                document.getElementById('urlHost').textContent = url.host;
+                document.getElementById('urlPath').textContent = url.pathname;
+                
+                const params = {};
+                url.searchParams.forEach((v, k) => {
+                    params[k] = v;
+                });
+                document.getElementById('urlParams').textContent = JSON.stringify(params, null, 4);
+            } catch (e) {
+                document.getElementById('urlProto').textContent = '-';
+                document.getElementById('urlHost').textContent = '-';
+                document.getElementById('urlPath').textContent = '-';
+                document.getElementById('urlParams').textContent = 'Invalid URL';
+            }
+        }
+
+        // Tab 4: JWT
+        function decodeJwt() {
+            const raw = document.getElementById('jwtRaw').value.trim();
+            const output = document.getElementById('jwtPayload');
+            try {
+                const parts = raw.split('.');
+                if (parts.length < 2) throw new Error("Format error");
+                const payload = atob(parts[1].replace(/-/g, '+').replace(/_/g, '/'));
+                output.textContent = JSON.stringify(JSON.parse(payload), null, 4);
+                output.style.color = '#60a5fa';
+            } catch (e) {
+                output.textContent = "Failed to parse JWT payload structure.";
+                output.style.color = '#f87171';
+            }
+        }
+
+        // Tab 5: ID Generator
+        function generateKeys() {
+            const type = document.getElementById('uuidType').value;
+            const count = parseInt(document.getElementById('uuidCount').value) || 5;
+            const output = [];
+            
+            for (let i = 0; i < count; i++) {
+                if (type === 'uuidv4') {
+                    output.push('xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+                        const r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+                        return v.toString(16);
+                    }));
+                } else {
+                    // NanoID approximation
+                    const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789_-';
+                    let key = '';
+                    for (let j = 0; j < 21; j++) {
+                        key += chars.charAt(Math.floor(Math.random() * chars.length));
+                    }
+                    output.push(key);
+                }
+            }
+            document.getElementById('uuidOutput').textContent = output.join('\n');
+        }
+        async function copyGeneratedKeys() {
+            const val = document.getElementById('uuidOutput').textContent;
+            await navigator.clipboard.writeText(val);
+            showToast('Keys copied!');
+        }
+
+        // Tab 6: Keyboard Events Keycode
+        function handleKeyInput(e) {
+            e.preventDefault();
+            document.getElementById('kcDisplay').textContent = e.keyCode;
+            document.getElementById('kcKey').textContent = e.key;
+            document.getElementById('kcCode').textContent = e.code;
+        }
+
+        function showToast(msg) {
+            const toast = document.createElement('div');
+            toast.className = 'fixed bottom-8 left-1/2 -translate-x-1/2 bg-blue-600 text-white font-bold py-2.5 px-6 rounded-full text-xs shadow-lg transition-opacity duration-300 z-50';
+            toast.textContent = msg;
+            document.body.appendChild(toast);
+            setTimeout(() => {
+                toast.style.opacity = '0';
+                setTimeout(() => document.body.removeChild(toast), 300);
+            }, 2000);
+        }
+    </script>
+
+    <footer style="text-align: center; padding: 60px 20px; color: #9ca3af; border-top: 1px solid rgba(255,255,255,0.08); font-size: 0.95rem; background: rgba(8, 11, 17, 0.4); font-family: 'Outfit', sans-serif; margin-top: 60px;">
+        <p>&copy; 2026 Aegis Developer Hub. All rights reserved.</p>
+        <p style="font-size: 0.85rem; max-width: 800px; margin: 15px auto; line-height: 1.5; color: #9ca3af;">
+            <strong>Disclaimer:</strong> The tools and content provided on this website are for educational and informational purposes only and do not constitute financial, investment, legal, or professional advice. Conforms to Australian Privacy Principles (APPs) under the Privacy Act 1988, GDPR rules on data protection, and ASIC regulatory guidelines.
+        </p>
+        <p style="margin-top: 20px;">
+            <a href="/static/privacy.html" style="color: #9ca3af; text-decoration: underline; margin-right: 15px;">Privacy Policy</a>
+            <a href="/static/terms.html" style="color: #9ca3af; text-decoration: underline;">Terms of Service & Disclaimer</a>
+        </p>
+    </footer>
+    
+</body>
+</html>
