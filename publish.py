@@ -1090,41 +1090,6 @@ def generate_index_page(tools, articles) -> str:
 </html>
 """
 
-def strip_balanced_tag(html: str, start_tag_prefix: str) -> str:
-    """Removes a tag matching start_tag_prefix and its balanced closing tag (usually div)."""
-    while True:
-        idx = html.find(start_tag_prefix)
-        if idx == -1:
-            break
-        
-        pos = idx + len(start_tag_prefix)
-        tag_end = html.find('>', pos)
-        if tag_end == -1:
-            break
-        pos = tag_end + 1
-        
-        depth = 1
-        while depth > 0 and pos < len(html):
-            next_open = html.find('<div', pos)
-            next_close = html.find('</div>', pos)
-            
-            if next_close == -1:
-                break
-                
-            if next_open != -1 and next_open < next_close:
-                depth += 1
-                pos = next_open + 4
-            else:
-                depth -= 1
-                pos = next_close + 6
-                
-        if depth == 0:
-            html = html[:idx] + html[pos:]
-        else:
-            html = html[:idx] + html[next_close + 6:]
-            
-    return html
-
 def post_process_tool(tool_abs_path: Path, topic: str):
     if not tool_abs_path.exists():
         return
@@ -1186,29 +1151,9 @@ def post_process_tool(tool_abs_path: Path, topic: str):
         html = html.replace('</head>', f'{ls_script}\n</head>', 1)
         modified = True
 
-    # 2. Normalize Branding (header, navbar, footer and affiliates)
-    # Strip any existing headers/navbars containing "Back to Hub" or "Aegis"
-    for match in list(re.finditer(r'<header[^>]*>.*?</header>', html, flags=re.DOTALL | re.IGNORECASE)):
-        m_text = match.group(0)
-        if "back to" in m_text.lower() or "aegis" in m_text.lower():
-            html = html.replace(m_text, '')
-            
-    # Balanced div stripping for class navbar and class tool-affiliate-wrapper
-    html = strip_balanced_tag(html, '<div class="navbar"')
-    html = strip_balanced_tag(html, '<div class="tool-affiliate-wrapper"')
-
-    for match in list(re.finditer(r'<div[^>]*class="navbar"[^>]*>.*?</div>', html, flags=re.DOTALL | re.IGNORECASE)):
-        m_text = match.group(0)
-        html = html.replace(m_text, '')
-        
-    # Strip any existing footer elements
-    for match in list(re.finditer(r'<footer[^>]*>.*?</footer>', html, flags=re.DOTALL | re.IGNORECASE)):
-        m_text = match.group(0)
-        if "aegis" in m_text.lower() or "rights" in m_text.lower() or "disclaimer" in m_text.lower() or "privacy" in m_text.lower():
-            html = html.replace(m_text, '')
-
-    # Inject standard Navbar right after <body>
-    navbar_html = """
+    # 2. Inject standard Navbar right after <body> if not present
+    if 'class="navbar"' not in html and 'Aegis Hub Logo' not in html:
+        navbar_html = """
     <div class="navbar" style="display: flex; justify-content: space-between; align-items: center; padding: 20px 40px; border-bottom: 1px solid rgba(255,255,255,0.08); background: rgba(11, 15, 25, 0.75); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); position: sticky; top: 0; z-index: 100; font-family: 'Outfit', sans-serif;">
         <a href="/" style="display: flex; align-items: center; gap: 10px; color: #f3f4f6; text-decoration: none; font-weight: 600;">
             <img src="/static/logo.png" alt="Aegis Hub Logo" style="height: 30px;">
@@ -1217,16 +1162,15 @@ def post_process_tool(tool_abs_path: Path, topic: str):
         <a href="/" style="color: #60a5fa; text-decoration: none; font-size: 0.95rem; font-weight: 500;">&larr; Back to Hub</a>
     </div>
     """
-    
-    if "<body>" in html:
-        html = html.replace("<body>", f"<body>\n{navbar_html}", 1)
-        modified = True
-    elif "<body" in html:
-        match = re.search(r"<body[^>]*>", html)
-        if match:
-            body_tag = match.group(0)
-            html = html.replace(body_tag, f"{body_tag}\n{navbar_html}", 1)
+        if "<body>" in html:
+            html = html.replace("<body>", f"<body>\n{navbar_html}", 1)
             modified = True
+        elif "<body" in html:
+            match = re.search(r"<body[^>]*>", html)
+            if match:
+                body_tag = match.group(0)
+                html = html.replace(body_tag, f"{body_tag}\n{navbar_html}", 1)
+                modified = True
 
     # Inject standard Footer right before </body>
     aff_html = get_affiliate_html()
