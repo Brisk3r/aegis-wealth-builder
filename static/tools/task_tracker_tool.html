@@ -157,7 +157,7 @@
         </div>
 
         <!-- Filter & Preset Control Bar -->
-        <div class="glass-card rounded-2xl p-5 mb-8 flex flex-col md:flex-row md:items-center md:justify-between gap-4 border border-white/5">
+        <div class="glass-card rounded-2xl p-5 mb-8 flex flex-col md:flex-row md:items-center md:justify-between gap-4 border border-white/5 relative z-40">
             <!-- Category Tabs -->
             <div class="flex flex-wrap items-center gap-1.5 bg-slate-950/60 p-1.5 rounded-xl border border-white/5">
                 <button onclick="setFilterCategory('all')" id="tab-cat-all" class="category-tab px-3.5 py-1.5 rounded-lg text-xs font-semibold transition-all bg-blue-600 text-white shadow">All Categories</button>
@@ -191,13 +191,19 @@
                     </select>
                 </div>
 
+                <!-- Backup & Import Button -->
+                <button onclick="openImportModal()" class="px-3 py-1.5 rounded-xl glass-pill text-xs font-semibold text-indigo-300 hover:text-white transition-all border border-indigo-500/20 flex items-center gap-1.5">
+                    <svg class="w-3.5 h-3.5 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"></path></svg>
+                    Import / Restore
+                </button>
+
                 <!-- Template Loader -->
-                <div class="relative inline-block text-left">
+                <div class="relative inline-block text-left z-50">
                     <button onclick="toggleTemplateDropdown()" class="px-3 py-1.5 rounded-xl glass-pill text-xs font-semibold text-gray-300 hover:text-white transition-all border border-white/10 flex items-center gap-1.5">
                         <svg class="w-3.5 h-3.5 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
                         Presets
                     </button>
-                    <div id="template-dropdown" class="hidden absolute right-0 mt-2 w-56 rounded-xl glass-card border border-white/10 shadow-2xl p-2 z-30">
+                    <div id="template-dropdown" class="hidden absolute right-0 mt-2 w-56 rounded-xl glass-card border border-white/10 shadow-2xl p-2 z-50">
                         <div class="text-[10px] uppercase font-bold text-gray-500 px-3 py-1">Load Preset Template</div>
                         <button onclick="loadTemplate('incident')" class="w-full text-left px-3 py-2 text-xs font-medium text-gray-300 hover:bg-white/10 rounded-lg transition-all">🔥 Incident Response</button>
                         <button onclick="loadTemplate('launch')" class="w-full text-left px-3 py-2 text-xs font-medium text-gray-300 hover:bg-white/10 rounded-lg transition-all">🚀 Release Campaign</button>
@@ -373,6 +379,62 @@
                     <button type="submit" class="px-5 py-2 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-semibold text-xs shadow-lg">Save Task</button>
                 </div>
             </form>
+        </div>
+    </div>
+
+    <!-- Modal: Import / Restore Tasks -->
+    <div id="import-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm p-4">
+        <div class="glass-card w-full max-w-xl rounded-3xl p-6 border border-white/10 shadow-2xl relative">
+            <div class="flex items-center justify-between pb-4 mb-4 border-b border-white/5">
+                <div>
+                    <h3 class="text-lg font-bold text-white flex items-center gap-2">
+                        <svg class="w-5 h-5 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"></path></svg>
+                        Import & Restore Backup
+                    </h3>
+                    <p class="text-xs text-gray-400 mt-0.5">Upload or paste Markdown report files or JSON task backups</p>
+                </div>
+                <button onclick="closeImportModal()" class="text-gray-400 hover:text-white text-lg font-bold">&times;</button>
+            </div>
+            
+            <div class="space-y-4">
+                <!-- File Upload Dropzone -->
+                <div class="border-2 border-dashed border-white/10 rounded-2xl p-4 text-center hover:border-indigo-500/50 transition-all bg-slate-950/40">
+                    <input type="file" id="import-file-input" accept=".md,.json,.txt" onchange="handleFileUpload(event)" class="hidden">
+                    <label for="import-file-input" class="cursor-pointer flex flex-col items-center justify-center gap-2">
+                        <svg class="w-8 h-8 text-indigo-400 animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path></svg>
+                        <span class="text-xs font-semibold text-gray-200">Click to Upload Markdown (`.md`) or JSON (`.json`) File</span>
+                        <span class="text-[11px] text-gray-500">Supports exported Markdown reports & JSON task state files</span>
+                    </label>
+                </div>
+
+                <div class="flex items-center gap-3">
+                    <div class="h-px bg-white/5 flex-grow"></div>
+                    <span class="text-[10px] uppercase font-bold text-gray-500">Or Paste Backup Content</span>
+                    <div class="h-px bg-white/5 flex-grow"></div>
+                </div>
+
+                <div>
+                    <textarea id="import-text" rows="6" placeholder="Paste Markdown report text or JSON task array here..." class="w-full px-3.5 py-2.5 rounded-xl text-xs font-mono resize-none focus:outline-none focus:ring-1 focus:ring-indigo-500/50"></textarea>
+                </div>
+
+                <div class="flex items-center justify-between pt-3 border-t border-white/5">
+                    <div class="flex items-center gap-2">
+                        <label class="text-xs text-gray-400 font-medium">Import Mode:</label>
+                        <select id="import-mode" class="text-xs px-2.5 py-1.5 rounded-xl border">
+                            <option value="replace">Replace Workspace</option>
+                            <option value="append">Merge / Append Tasks</option>
+                        </select>
+                    </div>
+
+                    <div class="flex items-center gap-3">
+                        <button type="button" onclick="closeImportModal()" class="px-4 py-2 rounded-xl bg-white/5 hover:bg-white/10 text-xs font-semibold text-gray-300">Cancel</button>
+                        <button type="button" onclick="processImportContent()" class="px-5 py-2 rounded-xl bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white font-semibold text-xs shadow-lg flex items-center gap-1.5">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                            Restore Tasks
+                        </button>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -923,6 +985,140 @@
                 toast.classList.add('opacity-0', 'translate-x-5');
                 setTimeout(() => toast.remove(), 300);
             }, 3000);
+        }
+
+        // Import & Restore Engine
+        function openImportModal() {
+            document.getElementById('import-text').value = '';
+            document.getElementById('import-file-input').value = '';
+            document.getElementById('import-modal').classList.remove('hidden');
+        }
+
+        function closeImportModal() {
+            document.getElementById('import-modal').classList.add('hidden');
+        }
+
+        function handleFileUpload(e) {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = (event) => {
+                document.getElementById('import-text').value = event.target.result;
+                showToast(`Loaded ${file.name} into import preview`);
+            };
+            reader.readAsText(file);
+        }
+
+        function processImportContent() {
+            const rawContent = document.getElementById('import-text').value.trim();
+            const mode = document.getElementById('import-mode').value;
+
+            if (!rawContent) {
+                showToast('Please upload a file or paste content to restore', 'rose');
+                return;
+            }
+
+            let parsedTasks = [];
+
+            // Attempt JSON parse first
+            try {
+                const json = JSON.parse(rawContent);
+                if (Array.isArray(json)) {
+                    parsedTasks = json;
+                } else if (json && Array.isArray(json.tasks)) {
+                    parsedTasks = json.tasks;
+                }
+            } catch (err) {
+                // Fallback to Markdown Report parsing
+                parsedTasks = parseMarkdownTasks(rawContent);
+            }
+
+            if (!parsedTasks || parsedTasks.length === 0) {
+                showToast('Could not extract valid tasks from input', 'rose');
+                return;
+            }
+
+            // Sanitize & Format Parsed Tasks
+            const sanitized = parsedTasks.map((t, idx) => ({
+                id: t.id || ('imported-' + Date.now() + '-' + idx),
+                title: t.title || 'Untitled Restored Task',
+                pillar: (t.pillar || t.category || 'action').toLowerCase(),
+                priority: (t.priority || 'medium').toLowerCase(),
+                status: (t.status || 'in-progress').toLowerCase(),
+                assignee: t.assignee || t.owner || 'Restored',
+                desc: t.desc || t.description || '',
+                tags: Array.isArray(t.tags) ? t.tags : ['imported'],
+                createdAt: t.createdAt || Date.now()
+            }));
+
+            if (mode === 'replace') {
+                tasks = sanitized;
+                logHistoryEvent('Restore', `Replaced workspace with ${sanitized.length} imported tasks`);
+            } else {
+                tasks = [...sanitized, ...tasks];
+                logHistoryEvent('Restore', `Appended ${sanitized.length} imported tasks to workspace`);
+            }
+
+            saveTasksToStorage();
+            renderTasks();
+            updateExportPreview();
+            closeImportModal();
+            showToast(`Successfully restored ${sanitized.length} tasks!`);
+        }
+
+        // Markdown Report Task Extractor
+        function parseMarkdownTasks(markdownText) {
+            const extracted = [];
+            const lines = markdownText.split('\n');
+            let currentCategory = 'action';
+
+            lines.forEach(line => {
+                const trimmed = line.trim();
+                
+                // Track Category Headers
+                if (trimmed.startsWith('## Category:')) {
+                    const catMatch = trimmed.match(/## Category:\s*([A-Z]+)/i);
+                    if (catMatch) {
+                        const cStr = catMatch[1].toLowerCase();
+                        if (['comms', 'response', 'action', 'control'].includes(cStr)) {
+                            currentCategory = cStr;
+                        }
+                    }
+                }
+
+                // Match Markdown Task Line: - [x] **Title** (Priority: HIGH, Status: in-progress) - Owner: Dev
+                if (trimmed.startsWith('- [')) {
+                    const isDone = trimmed.startsWith('- [x]') || trimmed.startsWith('- [X]');
+                    const titleMatch = trimmed.match(/\*\*(.*?)\*\*/);
+                    const title = titleMatch ? titleMatch[1] : 'Restored Task';
+
+                    let priority = 'medium';
+                    const pMatch = trimmed.match(/Priority:\s*([A-Z]+)/i);
+                    if (pMatch) priority = pMatch[1].toLowerCase();
+
+                    let status = isDone ? 'done' : 'in-progress';
+                    const sMatch = trimmed.match(/Status:\s*([a-z\-]+)/i);
+                    if (sMatch && !isDone) status = sMatch[1].toLowerCase();
+
+                    let assignee = 'N/A';
+                    const aMatch = trimmed.match(/Owner:\s*(.+)$/i);
+                    if (aMatch) assignee = aMatch[1].trim();
+
+                    extracted.push({
+                        id: 'md-' + Date.now() + '-' + Math.random().toString(36).substr(2, 4),
+                        title: title,
+                        pillar: currentCategory,
+                        priority: priority,
+                        status: status,
+                        assignee: assignee,
+                        desc: 'Restored from Markdown report backup',
+                        tags: ['markdown-restore']
+                    });
+                }
+            });
+
+            return extracted;
         }
 
         function escapeHtml(str) {
