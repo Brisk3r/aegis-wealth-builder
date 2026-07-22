@@ -181,6 +181,12 @@
         <priority>0.8</priority>
     </url>
     <url>
+        <loc>https://aegishub.dev/static/tools/task_tracker_tool.html</loc>
+        <lastmod>2026-07-22</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
         <loc>https://aegishub.dev/static/tools/code_share_studio_tool.html</loc>
         <lastmod>2026-07-22</lastmod>
         <changefreq>weekly</changefreq>
@@ -218,12 +224,6 @@
     </url>
     <url>
         <loc>https://aegishub.dev/static/tools/seo_card_optimizer_tool.html</loc>
-        <lastmod>2026-07-22</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    <url>
-        <loc>https://aegishub.dev/static/tools/task_tracker_tool.html</loc>
         <lastmod>2026-07-22</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.8</priority>
@@ -511,6 +511,12 @@
         <priority>0.7</priority>
     </url>
     <url>
+        <loc>https://aegishub.dev/static/articles/task_tracker.html</loc>
+        <lastmod>2026-07-22</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.7</priority>
+    </url>
+    <url>
         <loc>https://aegishub.dev/static/articles/developer_tools.html</loc>
         <lastmod>2026-07-22</lastmod>
         <changefreq>weekly</changefreq>
@@ -518,12 +524,6 @@
     </url>
     <url>
         <loc>https://aegishub.dev/static/articles/dns_record_ssl_certificate_inspector.html</loc>
-        <lastmod>2026-07-22</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.7</priority>
-    </url>
-    <url>
-        <loc>https://aegishub.dev/static/articles/task_tracker.html</loc>
         <lastmod>2026-07-22</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.7</priority>

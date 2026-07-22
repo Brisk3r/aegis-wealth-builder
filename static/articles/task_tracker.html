@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Task Tracker Guide - Aegis Developer Hub</title>
+    <title>Task Tracker - Aegis Developer Hub</title>
     <link rel="icon" type="image/png" href="/static/logo.png">
     <link rel="canonical" href="https://aegishub.dev/static/articles/task_tracker.html">
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4750454395006570" crossorigin="anonymous"></script>
@@ -50,6 +50,15 @@
             display: flex;
             align-items: center;
             gap: 10px;
+            transition: opacity 0.2s;
+        }
+        .navbar a:hover {
+            opacity: 0.9;
+        }
+        .back-link {
+            color: var(--secondary-accent) !important;
+            font-size: 0.95rem;
+            font-weight: 500;
         }
         .container {
             max-width: 800px;
@@ -62,47 +71,82 @@
             border-radius: 20px;
             padding: 45px;
             box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
-            backdrop-filter: blur(12px);
+            backdrop-filter: blur(16px);
         }
         h1 {
-            font-size: 2.2rem;
+            font-size: 2.8rem;
             font-weight: 800;
             margin-top: 0;
-            background: linear-gradient(135deg, #ffffff, var(--secondary-accent));
+            margin-bottom: 25px;
+            background: linear-gradient(135deg, var(--text-main) 30%, var(--secondary-accent));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+            line-height: 1.25;
         }
-        h2 {
-            font-size: 1.4rem;
-            color: var(--secondary-accent);
-            margin-top: 35px;
-        }
-        p, li {
-            color: var(--text-muted);
+        p {
+            color: var(--text-main);
+            margin-bottom: 25px;
             font-size: 1.05rem;
         }
-        code {
-            background: rgba(255, 255, 255, 0.08);
-            padding: 2px 6px;
-            border-radius: 4px;
-            color: #60a5fa;
-            font-family: monospace;
-        }
-        .cta-btn {
-            display: inline-block;
-            background: linear-gradient(135deg, var(--primary-accent), #4f46e5);
-            color: #ffffff;
-            text-decoration: none;
-            padding: 12px 24px;
-            border-radius: 10px;
+        h2, h3 {
+            color: var(--secondary-accent);
+            margin-top: 40px;
             font-weight: 600;
-            margin-top: 25px;
-            transition: opacity 0.2s;
         }
-        .cta-btn:hover {
-            opacity: 0.9;
+        h2 {
+            font-size: 1.8rem;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 8px;
+        }
+        h3 {
+            font-size: 1.4rem;
+        }
+        ul, ol {
+            padding-left: 24px;
+            margin-bottom: 30px;
+        }
+        li {
+            margin-bottom: 12px;
+            font-size: 1.05rem;
+        }
+        pre {
+            background: rgba(0, 0, 0, 0.45);
+            border: 1px solid var(--border-color);
+            padding: 22px;
+            border-radius: 12px;
+            overflow-x: auto;
+            margin: 25px 0;
+        }
+        code {
+            font-family: 'Courier New', Courier, monospace;
+            color: #34d399;
+            font-size: 0.95rem;
+        }
+        footer {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            border-top: 1px solid var(--border-color);
+            margin-top: 100px;
+            background: rgba(8, 11, 17, 0.4);
+        }
+        .disclosure {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 15px;
+            margin-bottom: 30px;
         }
     </style>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-BZVWXPPG06"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-BZVWXPPG06');
+    </script>
 </head>
 <body>
     <div class="navbar">
@@ -110,47 +154,35 @@
             <img src="/static/logo.png" alt="Aegis Hub Logo" style="height: 30px;">
             <span>Aegis Developer Hub</span>
         </a>
-        <a href="/static/tools/task_tracker_tool.html" style="color: var(--secondary-accent); text-decoration: none; font-size: 0.95rem;">&larr; Open Tool</a>
+        <a href="/" class="back-link">&larr; Back to Hub</a>
     </div>
-
     <div class="container">
         <article>
-            <h1>Maximizing Developer Flow with Client-Side Task Tracking & Browser History State Sync</h1>
             
-            <p>Modern engineering teams and developers face constant context switching across incident triage, feature delivery, customer communications, and compliance audits. Centralized server-side issue trackers are essential for organizational oversight, but they often introduce unnecessary friction for rapid session-level task tracking.</p>
+        <div class="adsense-wrapper" style="margin: 20px auto 30px auto; max-width: 728px; min-height: 90px; text-align: center; overflow: hidden; display: flex; justify-content: center; align-items: center;">
+            <ins class="adsbygoogle"
+                 style="display:inline-block;width:728px;height:90px"
+                 data-ad-client="ca-pub-4750454395006570"
+                 data-ad-slot="8843950065"
+                 data-ad-format="horizontal"
+                 data-full-width-responsive="false"></ins>
+            <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+        </div>
+        
+            <h1>Maximizing Developer Flow with Client-Side Task Tracking &amp; Browser History State Sync</h1>
 
-            <h2>Why Client-Side Task Tracking Matters</h2>
-            <p>Using a client-side <code>Task Tracker</code> running entirely inside your browser's local Web Storage provides three distinct advantages:</p>
-            <ul>
-                <li><strong>Zero Latency:</strong> Task state updates, lane moves, and priority filtering execute instantly without waiting for network roundtrips.</li>
-                <li><strong>Privacy & Data Sovereignty:</strong> Confidential internal notes, draft patch details, and triage observations remain 100% private in browser memory.</li>
-                <li><strong>Session State Sync:</strong> Integrating the browser's <code>History API</code> ensures that active filter states (e.g. <code>?category=response&priority=urgent</code>) are bookmarkable and integrated with browser navigation buttons.</li>
-            </ul>
-
-            <h2>Key Operational Categories</h2>
-            <p>The Aegis Task Tracker organizes developer workflows into four core categories:</p>
-            <ul>
-                <li><strong>📢 Communications:</strong> Stakeholder notifications, customer status page updates, and release announcements.</li>
-                <li><strong>⚡ Incident Response:</strong> High-severity alert triage, latency investigations, and emergency hotfix deployments.</li>
-                <li><strong>🎯 Action Items:</strong> Active sprint deliverables, PR code reviews, and feature implementations.</li>
-                <li><strong>🎛️ Governance & Control:</strong> Security audits, license compliance checks, and deployment sign-offs.</li>
-            </ul>
-
-            <h2>Exporting Task Artifacts</h2>
-            <p>When completing a work session, you can instantly export your active workspace into structured JSON or Markdown summaries for easy team reporting or git post-mortems.</p>
-
-            <a href="/static/tools/task_tracker_tool.html" class="cta-btn">Launch Aegis Task Tracker &rarr;</a>
+<p>Modern engineering teams and developers face constant context switching across incident triage, feature delivery, customer communications, and compliance audits.</p>
+            <div style="margin-top: 40px; padding-top: 20px; border-top: 1px dashed var(--border-color); font-size: 0.85rem; color: var(--text-muted);">
+                <strong>Disclaimer:</strong> The tools and content provided on this website are for educational and informational purposes only and do not constitute financial, investment, legal, or professional advice.
+            </div>
         </article>
+        
     </div>
-
-    <footer style="text-align: center; padding: 60px 20px; color: #9ca3af; border-top: 1px solid rgba(255,255,255,0.08); font-size: 0.95rem; background: rgba(8, 11, 17, 0.4); font-family: 'Outfit', sans-serif; margin-top: 60px;">
+    <footer>
         <p>&copy; 2026 Aegis Developer Hub. All rights reserved.</p>
-        <p style="font-size: 0.85rem; max-width: 800px; margin: 15px auto; line-height: 1.5; color: #9ca3af;">
-            <strong>Disclaimer:</strong> Content and utilities provided on this website are for educational purposes. Conforms to APPs under Privacy Act 1988, GDPR rules, and ASIC guidelines.
-        </p>
-        <p style="margin-top: 20px;">
-            <a href="/static/privacy.html" style="color: #9ca3af; text-decoration: underline; margin-right: 15px;">Privacy Policy</a>
-            <a href="/static/terms.html" style="color: #9ca3af; text-decoration: underline;">Terms of Service & Disclaimer</a>
+        <p style="margin-top: 15px;">
+            <a href="/static/privacy.html" style="color: var(--text-muted); text-decoration: underline; margin-right: 15px;">Privacy Policy</a>
+            <a href="/static/terms.html" style="color: var(--text-muted); text-decoration: underline;">Terms of Service & Disclaimer</a>
         </p>
     </footer>
 </body>
