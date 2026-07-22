@@ -7,8 +7,8 @@ window.AegisPro = (function() {
     const STORAGE_KEY = 'aegis_license_tier';
     const KEY_STORAGE = 'aegis_license_key';
 
-    const DEFAULT_PRO_CHECKOUT = 'https://aegishub.lemonsqueezy.com/checkout/buy/pro?embed=1';
-    const DEFAULT_ENT_CHECKOUT = 'https://aegishub.lemonsqueezy.com/checkout/buy/enterprise?embed=1';
+    const DEFAULT_PRO_CHECKOUT = 'https://aegishub.lemonsqueezy.com/checkout/buy/22815780-b4e8-466d-a4eb-5bd71d121707?embed=1';
+    const DEFAULT_ENT_CHECKOUT = 'https://aegishub.lemonsqueezy.com/checkout/buy/0f7285e8-f8d2-4d19-8856-1e6d08ef423f?embed=1';
 
     const VALID_PRO_KEYS = ['AEGIS-PRO-2026', 'PRO-DEVELOPER-888', 'AEGIS-PRO-DEMO'];
     const VALID_ENT_KEYS = ['AEGIS-ENTERPRISE-2026', 'ENT-TEAM-999', 'AEGIS-ENT-DEMO'];
@@ -168,12 +168,12 @@ window.AegisPro = (function() {
 
                     <!-- Instant Checkout Buttons -->
                     <div class="grid grid-cols-2 gap-2 pt-1">
-                        <button onclick="AegisPro.openCheckout('pro')" class="lemonsqueezy-button py-2.5 px-3 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-bold text-xs shadow-lg text-center">
+                        <a href="https://aegishub.lemonsqueezy.com/checkout/buy/22815780-b4e8-466d-a4eb-5bd71d121707?embed=1" class="lemonsqueezy-button py-2.5 px-3 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-bold text-xs shadow-lg text-center block no-underline">
                             Upgrade Pro ($9/mo)
-                        </button>
-                        <button onclick="AegisPro.openCheckout('enterprise')" class="lemonsqueezy-button py-2.5 px-3 rounded-xl bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white font-bold text-xs shadow-lg text-center">
+                        </a>
+                        <a href="https://aegishub.lemonsqueezy.com/checkout/buy/0f7285e8-f8d2-4d19-8856-1e6d08ef423f?embed=1" class="lemonsqueezy-button py-2.5 px-3 rounded-xl bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white font-bold text-xs shadow-lg text-center block no-underline">
                             Enterprise ($29/mo)
-                        </button>
+                        </a>
                     </div>
 
                     <div class="space-y-3 bg-slate-950/60 p-4 rounded-2xl border border-white/5 text-xs text-gray-300">

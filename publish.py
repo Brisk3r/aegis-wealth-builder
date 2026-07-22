@@ -1273,7 +1273,7 @@ def generate_index_page(tools, articles) -> str:
                         <li><span style="color: #34d399;">✓</span> Bulk PDF OCR & batch webhook relays</li>
                     </ul>
                 </div>
-                <button onclick="AegisPro.openCheckout('pro')" data-aegis-pro-trigger="true" class="btn btn-pro-trigger lemonsqueezy-button" style="width: 100%; box-sizing: border-box; background: linear-gradient(135deg, #3b82f6, #6366f1); border: none; cursor: pointer;">Upgrade to Pro Membership ($9/mo) &rarr;</button>
+                <a href="https://aegishub.lemonsqueezy.com/checkout/buy/22815780-b4e8-466d-a4eb-5bd71d121707?embed=1" class="btn btn-pro-trigger lemonsqueezy-button" style="display: block; width: 100%; text-align: center; box-sizing: border-box; background: linear-gradient(135deg, #3b82f6, #6366f1); border: none; cursor: pointer; text-decoration: none; color: #ffffff;">Upgrade to Pro Membership ($9/mo) &rarr;</a>
             </div>
 
             <!-- Enterprise Plan -->
