@@ -1,6 +1,6 @@
 /**
  * Aegis Developer Hub - Client-Side Pro & Enterprise Membership Engine
- * Manages licensing state, key validation, watermark controls, and Pro feature unlocks.
+ * Manages licensing state, key validation, watermark controls, ad-free experience, and Pro feature unlocks.
  */
 
 window.AegisPro = (function() {
@@ -23,6 +23,14 @@ window.AegisPro = (function() {
         return getTier() === 'enterprise';
     }
 
+    function applyAdFreeExperience() {
+        if (isPro()) {
+            document.querySelectorAll('.adsense-wrapper, ins.adsbygoogle').forEach(el => {
+                el.style.display = 'none';
+            });
+        }
+    }
+
     function activateKey(rawKey) {
         const key = (rawKey || '').trim().toUpperCase();
         if (!key) return { success: false, message: 'Please enter a valid license key.' };
@@ -31,14 +39,16 @@ window.AegisPro = (function() {
             localStorage.setItem(STORAGE_KEY, 'pro');
             localStorage.setItem(KEY_STORAGE, key);
             updateUIBadge();
-            return { success: true, tier: 'pro', message: 'Pro Membership Activated! All Pro features unlocked.' };
+            applyAdFreeExperience();
+            return { success: true, tier: 'pro', message: 'Pro Membership Activated! All Pro features unlocked & Ads Removed.' };
         }
 
         if (VALID_ENT_KEYS.includes(key) || key.startsWith('AEGIS-ENT') || key.startsWith('AEGIS-ENTERPRISE')) {
             localStorage.setItem(STORAGE_KEY, 'enterprise');
             localStorage.setItem(KEY_STORAGE, key);
             updateUIBadge();
-            return { success: true, tier: 'enterprise', message: 'Enterprise License Activated! Docker & SSO features unlocked.' };
+            applyAdFreeExperience();
+            return { success: true, tier: 'enterprise', message: 'Enterprise License Activated! Docker & SSO features unlocked & Ads Removed.' };
         }
 
         return { success: false, message: 'Invalid Key. Try AEGIS-PRO-2026 or AEGIS-ENTERPRISE-2026' };
@@ -48,6 +58,7 @@ window.AegisPro = (function() {
         localStorage.removeItem(STORAGE_KEY);
         localStorage.removeItem(KEY_STORAGE);
         updateUIBadge();
+        window.location.reload();
     }
 
     function updateUIBadge() {
@@ -56,9 +67,9 @@ window.AegisPro = (function() {
 
         const tier = getTier();
         if (tier === 'pro') {
-            badge.innerHTML = `<span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-lg border border-blue-400/30 cursor-pointer" onclick="AegisPro.openModal()"><span class="w-2 h-2 rounded-full bg-blue-300 animate-pulse"></span>PRO MEMBER</span>`;
+            badge.innerHTML = `<span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-lg border border-blue-400/30 cursor-pointer" onclick="AegisPro.openModal()"><span class="w-2 h-2 rounded-full bg-blue-300 animate-pulse"></span>PRO MEMBER (AD-FREE)</span>`;
         } else if (tier === 'enterprise') {
-            badge.innerHTML = `<span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-gradient-to-r from-purple-600 to-pink-600 text-white shadow-lg border border-purple-400/30 cursor-pointer" onclick="AegisPro.openModal()"><span class="w-2 h-2 rounded-full bg-purple-300 animate-pulse"></span>ENTERPRISE UNLOCKED</span>`;
+            badge.innerHTML = `<span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-gradient-to-r from-purple-600 to-pink-600 text-white shadow-lg border border-purple-400/30 cursor-pointer" onclick="AegisPro.openModal()"><span class="w-2 h-2 rounded-full bg-purple-300 animate-pulse"></span>ENTERPRISE (AD-FREE)</span>`;
         } else {
             badge.innerHTML = `<button onclick="AegisPro.openModal()" class="text-xs font-semibold text-blue-400 hover:text-blue-300 underline">Activate License</button>`;
         }
@@ -69,7 +80,7 @@ window.AegisPro = (function() {
         if (!modal) {
             modal = document.createElement('div');
             modal.id = 'aegis-pro-modal';
-            modal.className = 'fixed inset-0 z-[200] flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-md transition-all duration-300';
+            modal.className = 'fixed inset-0 z-[300] flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-md transition-all duration-300';
             modal.innerHTML = `
                 <div class="glass-card max-w-md w-full rounded-3xl p-6 border border-white/10 shadow-2xl space-y-5 text-left relative bg-slate-900/95 text-white font-['Outfit']">
                     <button onclick="AegisPro.closeModal()" class="absolute top-4 right-4 text-gray-400 hover:text-white text-lg font-bold">&times;</button>
@@ -131,7 +142,7 @@ window.AegisPro = (function() {
         activateKey(key);
         const msg = document.getElementById('modal-msg');
         if (msg) {
-            msg.textContent = `Unlocked ${type.toUpperCase()} Demo Mode!`;
+            msg.textContent = `Unlocked ${type.toUpperCase()} Demo Mode (Ads Hidden)!`;
             msg.className = 'text-xs text-center font-semibold text-emerald-400';
         }
         document.getElementById('modal-current-tier').textContent = getTier().toUpperCase();
@@ -140,6 +151,15 @@ window.AegisPro = (function() {
 
     function init() {
         updateUIBadge();
+        applyAdFreeExperience();
+
+        // Event delegation for Pro triggers
+        document.addEventListener('click', (e) => {
+            if (e.target.closest('[data-aegis-pro-trigger="true"]') || e.target.closest('.btn-pro-trigger')) {
+                e.preventDefault();
+                openModal();
+            }
+        });
     }
 
     document.addEventListener('DOMContentLoaded', init);
