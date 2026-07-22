@@ -1,0 +1,934 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task Tracker | Aegis Hub</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Outfit', sans-serif;
+            background-color: #080b11;
+            color: #f3f4f6;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(59, 130, 246, 0.04) 0%, transparent 40%),
+                radial-gradient(circle at 90% 80%, rgba(99, 102, 241, 0.03) 0%, transparent 40%);
+            background-attachment: fixed;
+        }
+        .glass-card {
+            background: rgba(17, 24, 39, 0.55);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        .glass-pill {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .task-card {
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .task-card:hover {
+            transform: translateY(-2px);
+            border-color: rgba(255, 255, 255, 0.15);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5);
+        }
+        /* Global input dark theme fixes */
+        input[type="text"], input[type="url"], input[type="number"], input[type="email"], select, textarea {
+            color: #f8fafc !important;
+            background-color: rgba(15, 23, 42, 0.6) !important;
+            border-color: rgba(255, 255, 255, 0.1) !important;
+        }
+        input::placeholder, textarea::placeholder {
+            color: #64748b !important;
+            opacity: 0.8 !important;
+        }
+        /* Custom scrollbars */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: rgba(15, 23, 42, 0.5);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+    </style>
+    <!-- AdSense & Analytics tags -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4750454395006570" crossorigin="anonymous"></script>
+    <script defer src="/_vercel/insights/script.js"></script>
+    <link rel="icon" type="image/png" href="/static/logo.png">
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-BZVWXPPG06"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-BZVWXPPG06');
+    </script>
+
+    <style>
+        /* Global accessibility & dark theme input fixes */
+        input[type="text"], input[type="url"], input[type="number"], input[type="email"], input[type="password"], input[type="date"], select, textarea {
+            color: #f8fafc !important;
+        }
+        input::placeholder, textarea::placeholder {
+            color: #64748b !important;
+            opacity: 0.8 !important;
+        }
+    </style>
+    
+
+    <script src="https://assets.lemonsqueezy.com/lemon.js" defer></script>
+</head>
+<body class="min-h-screen flex flex-col justify-between">
+
+    <!-- Sticky Navigation Bar -->
+    <div class="navbar" style="display: flex; justify-content: space-between; align-items: center; padding: 18px 40px; border-bottom: 1px solid rgba(255,255,255,0.08); background: rgba(8, 11, 17, 0.85); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); position: sticky; top: 0; z-index: 100; font-family: 'Outfit', sans-serif;">
+        <a href="/" style="display: flex; align-items: center; gap: 10px; color: #f3f4f6; text-decoration: none; font-weight: 600;">
+            <img src="/static/logo.png" alt="Aegis Hub Logo" style="height: 30px;">
+            <span>Aegis Developer Hub</span>
+        </a>
+        <a href="/" style="color: #60a5fa; text-decoration: none; font-size: 0.95rem; font-weight: 500;">&larr; Back to Hub</a>
+    </div>
+
+    <!-- Toast Notification Container -->
+    <div id="toast-container" class="fixed top-20 right-6 z-50 flex flex-col gap-2 pointer-events-none"></div>
+
+    <!-- Main Wrapper Container -->
+    <main class="max-w-7xl w-full mx-auto px-4 py-8 flex-grow">
+        
+        <!-- Header & Title -->
+        <div class="mb-8 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+            <div>
+                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-blue-500/10 border border-blue-500/20 text-blue-400 mb-3">
+                    <span class="w-2 h-2 rounded-full bg-blue-400 animate-pulse"></span>
+                    Local Browser History Engine Enabled
+                </div>
+                <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight bg-gradient-to-r from-blue-400 via-indigo-300 to-purple-400 bg-clip-text text-transparent">
+                    Aegis Task Tracker
+                </h1>
+                <p class="text-gray-400 text-sm mt-1 max-w-2xl">
+                    Client-side task management hub. State and session filters synchronize live with your browser history and local storage.
+                </p>
+            </div>
+            
+            <!-- Quick Action Toolbar -->
+            <div class="flex flex-wrap items-center gap-2">
+                <button onclick="openHistoryDrawer()" class="px-4 py-2 rounded-xl glass-pill hover:bg-white/10 text-xs font-semibold text-gray-200 transition-all flex items-center gap-2 border border-white/10">
+                    <svg class="w-4 h-4 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                    History Log (<span id="history-count">0</span>)
+                </button>
+                <button onclick="openNewTaskModal()" class="px-4 py-2 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-semibold text-xs transition-all shadow-lg shadow-blue-950/50 flex items-center gap-1.5">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
+                    New Task
+                </button>
+            </div>
+        </div>
+
+        <!-- Telemetry Summary Cards -->
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+            <div class="glass-card rounded-2xl p-4 border border-white/5">
+                <div class="text-xs uppercase font-bold text-gray-500 tracking-wider mb-1">Total Tasks</div>
+                <div id="stat-total" class="text-2xl font-extrabold text-white font-mono">0</div>
+                <div class="text-[11px] text-gray-400 mt-1">Active in board</div>
+            </div>
+            <div class="glass-card rounded-2xl p-4 border border-white/5">
+                <div class="text-xs uppercase font-bold text-rose-400 tracking-wider mb-1">Urgent Priority</div>
+                <div id="stat-urgent" class="text-2xl font-extrabold text-rose-400 font-mono">0</div>
+                <div class="text-[11px] text-rose-300/70 mt-1">High priority items</div>
+            </div>
+            <div class="glass-card rounded-2xl p-4 border border-white/5">
+                <div class="text-xs uppercase font-bold text-emerald-400 tracking-wider mb-1">Completed</div>
+                <div id="stat-done" class="text-2xl font-extrabold text-emerald-400 font-mono">0</div>
+                <div class="text-[11px] text-emerald-300/70 mt-1">Resolved in session</div>
+            </div>
+            <div class="glass-card rounded-2xl p-4 border border-white/5">
+                <div class="text-xs uppercase font-bold text-indigo-400 tracking-wider mb-1">Browser Session</div>
+                <div id="stat-history-state" class="text-2xl font-extrabold text-indigo-400 font-mono">Synced</div>
+                <div class="text-[11px] text-indigo-300/70 mt-1">Web Storage & History API</div>
+            </div>
+        </div>
+
+        <!-- Filter & Preset Control Bar -->
+        <div class="glass-card rounded-2xl p-5 mb-8 flex flex-col md:flex-row md:items-center md:justify-between gap-4 border border-white/5">
+            <!-- Category Tabs -->
+            <div class="flex flex-wrap items-center gap-1.5 bg-slate-950/60 p-1.5 rounded-xl border border-white/5">
+                <button onclick="setFilterCategory('all')" id="tab-cat-all" class="category-tab px-3.5 py-1.5 rounded-lg text-xs font-semibold transition-all bg-blue-600 text-white shadow">All Categories</button>
+                <button onclick="setFilterCategory('comms')" id="tab-cat-comms" class="category-tab px-3.5 py-1.5 rounded-lg text-xs font-semibold text-gray-400 hover:text-white transition-all">📢 Comms</button>
+                <button onclick="setFilterCategory('response')" id="tab-cat-response" class="category-tab px-3.5 py-1.5 rounded-lg text-xs font-semibold text-gray-400 hover:text-white transition-all">⚡ Response</button>
+                <button onclick="setFilterCategory('action')" id="tab-cat-action" class="category-tab px-3.5 py-1.5 rounded-lg text-xs font-semibold text-gray-400 hover:text-white transition-all">🎯 Action</button>
+                <button onclick="setFilterCategory('control')" id="tab-cat-control" class="category-tab px-3.5 py-1.5 rounded-lg text-xs font-semibold text-gray-400 hover:text-white transition-all">🎛️ Governance</button>
+            </div>
+
+            <!-- Priority & Status Dropdown Filters -->
+            <div class="flex flex-wrap items-center gap-3">
+                <div class="flex items-center gap-2">
+                    <label class="text-xs text-gray-400 font-medium">Priority:</label>
+                    <select id="filter-priority" onchange="applyFilters()" class="text-xs px-3 py-1.5 rounded-xl border">
+                        <option value="all">All Priorities</option>
+                        <option value="urgent">Urgent 🔥</option>
+                        <option value="high">High ⚡</option>
+                        <option value="medium">Medium 📌</option>
+                        <option value="low">Low ☕</option>
+                    </select>
+                </div>
+                
+                <div class="flex items-center gap-2">
+                    <label class="text-xs text-gray-400 font-medium">Status:</label>
+                    <select id="filter-status" onchange="applyFilters()" class="text-xs px-3 py-1.5 rounded-xl border">
+                        <option value="all">All Statuses</option>
+                        <option value="backlog">Backlog</option>
+                        <option value="in-progress">In Progress</option>
+                        <option value="review">Under Review</option>
+                        <option value="done">Completed</option>
+                    </select>
+                </div>
+
+                <!-- Template Loader -->
+                <div class="relative inline-block text-left">
+                    <button onclick="toggleTemplateDropdown()" class="px-3 py-1.5 rounded-xl glass-pill text-xs font-semibold text-gray-300 hover:text-white transition-all border border-white/10 flex items-center gap-1.5">
+                        <svg class="w-3.5 h-3.5 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+                        Presets
+                    </button>
+                    <div id="template-dropdown" class="hidden absolute right-0 mt-2 w-56 rounded-xl glass-card border border-white/10 shadow-2xl p-2 z-30">
+                        <div class="text-[10px] uppercase font-bold text-gray-500 px-3 py-1">Load Preset Template</div>
+                        <button onclick="loadTemplate('incident')" class="w-full text-left px-3 py-2 text-xs font-medium text-gray-300 hover:bg-white/10 rounded-lg transition-all">🔥 Incident Response</button>
+                        <button onclick="loadTemplate('launch')" class="w-full text-left px-3 py-2 text-xs font-medium text-gray-300 hover:bg-white/10 rounded-lg transition-all">🚀 Release Campaign</button>
+                        <button onclick="loadTemplate('audit')" class="w-full text-left px-3 py-2 text-xs font-medium text-gray-300 hover:bg-white/10 rounded-lg transition-all">🛡️ Compliance Audit</button>
+                        <div class="border-t border-white/5 my-1"></div>
+                        <button onclick="resetToDefaults()" class="w-full text-left px-3 py-2 text-xs font-medium text-rose-400 hover:bg-rose-500/10 rounded-lg transition-all">⚠️ Reset Workspace</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Task Board Matrix (Columns for Status) -->
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-12">
+            
+            <!-- Column: Backlog -->
+            <div class="glass-card rounded-2xl p-4 flex flex-col min-h-[480px]">
+                <div class="flex items-center justify-between pb-3 mb-4 border-b border-white/5">
+                    <div class="flex items-center gap-2">
+                        <span class="w-2.5 h-2.5 rounded-full bg-gray-400"></span>
+                        <h3 class="text-sm font-bold text-gray-200 uppercase tracking-wider">Backlog</h3>
+                    </div>
+                    <span id="count-backlog" class="text-xs px-2 py-0.5 rounded-full bg-white/5 text-gray-400 font-mono font-bold">0</span>
+                </div>
+                <div id="col-backlog" class="flex-grow flex flex-col gap-3">
+                    <!-- Task cards rendered dynamically -->
+                </div>
+            </div>
+
+            <!-- Column: In Progress -->
+            <div class="glass-card rounded-2xl p-4 flex flex-col min-h-[480px]">
+                <div class="flex items-center justify-between pb-3 mb-4 border-b border-white/5">
+                    <div class="flex items-center gap-2">
+                        <span class="w-2.5 h-2.5 rounded-full bg-blue-500"></span>
+                        <h3 class="text-sm font-bold text-blue-300 uppercase tracking-wider">In Progress</h3>
+                    </div>
+                    <span id="count-in-progress" class="text-xs px-2 py-0.5 rounded-full bg-blue-500/10 text-blue-400 font-mono font-bold">0</span>
+                </div>
+                <div id="col-in-progress" class="flex-grow flex flex-col gap-3">
+                    <!-- Task cards rendered dynamically -->
+                </div>
+            </div>
+
+            <!-- Column: Under Review -->
+            <div class="glass-card rounded-2xl p-4 flex flex-col min-h-[480px]">
+                <div class="flex items-center justify-between pb-3 mb-4 border-b border-white/5">
+                    <div class="flex items-center gap-2">
+                        <span class="w-2.5 h-2.5 rounded-full bg-amber-500"></span>
+                        <h3 class="text-sm font-bold text-amber-300 uppercase tracking-wider">Under Review</h3>
+                    </div>
+                    <span id="count-review" class="text-xs px-2 py-0.5 rounded-full bg-amber-500/10 text-amber-400 font-mono font-bold">0</span>
+                </div>
+                <div id="col-review" class="flex-grow flex flex-col gap-3">
+                    <!-- Task cards rendered dynamically -->
+                </div>
+            </div>
+
+            <!-- Column: Completed -->
+            <div class="glass-card rounded-2xl p-4 flex flex-col min-h-[480px]">
+                <div class="flex items-center justify-between pb-3 mb-4 border-b border-white/5">
+                    <div class="flex items-center gap-2">
+                        <span class="w-2.5 h-2.5 rounded-full bg-emerald-500"></span>
+                        <h3 class="text-sm font-bold text-emerald-300 uppercase tracking-wider">Completed</h3>
+                    </div>
+                    <span id="count-done" class="text-xs px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 font-mono font-bold">0</span>
+                </div>
+                <div id="col-done" class="flex-grow flex flex-col gap-3">
+                    <!-- Task cards rendered dynamically -->
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Export & Code Exporter Section -->
+        <div class="glass-card rounded-3xl p-6 md:p-8 mb-12 border border-white/5">
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6">
+                <div>
+                    <h2 class="text-xl font-extrabold text-white tracking-tight flex items-center gap-2">
+                        <svg class="w-5 h-5 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"></path></svg>
+                        Export & Report Exporter
+                    </h2>
+                    <p class="text-gray-400 text-xs mt-1">Export active tasks into JSON format or Markdown summary for team handovers.</p>
+                </div>
+                
+                <div class="flex items-center gap-2">
+                    <button onclick="exportAsFormat('json')" class="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-semibold text-xs transition-all border border-white/10 flex items-center gap-1.5">
+                        <svg class="w-4 h-4 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+                        Export JSON
+                    </button>
+                    <button onclick="exportAsFormat('markdown')" class="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-semibold text-xs transition-all border border-white/10 flex items-center gap-1.5">
+                        <svg class="w-4 h-4 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                        Export Markdown
+                    </button>
+                    <button onclick="copyExportedContent()" class="px-4 py-2 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-semibold text-xs transition-all shadow-lg flex items-center gap-1.5">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3"></path></svg>
+                        Copy to Clipboard
+                    </button>
+                </div>
+            </div>
+
+            <!-- Export Code Preview Box -->
+            <div class="relative">
+                <textarea id="export-preview" readonly class="w-full h-48 rounded-xl p-4 font-mono text-xs text-blue-200 border resize-none focus:outline-none focus:ring-1 focus:ring-blue-500/50"></textarea>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- Modal: New/Edit Task -->
+    <div id="task-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm p-4">
+        <div class="glass-card w-full max-w-lg rounded-3xl p-6 border border-white/10 shadow-2xl relative">
+            <div class="flex items-center justify-between pb-4 mb-4 border-b border-white/5">
+                <h3 id="modal-title" class="text-lg font-bold text-white">Create Task</h3>
+                <button onclick="closeTaskModal()" class="text-gray-400 hover:text-white text-lg font-bold">&times;</button>
+            </div>
+            
+            <form id="task-form" onsubmit="saveTask(event)" class="space-y-4">
+                <input type="hidden" id="form-task-id">
+                
+                <div>
+                    <label class="block text-xs font-semibold text-gray-300 mb-1">Task Title *</label>
+                    <input type="text" id="form-title" required placeholder="e.g. Publish Hotfix Security Patch Notes" class="w-full px-3.5 py-2.5 rounded-xl text-xs">
+                </div>
+
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-300 mb-1">Category *</label>
+                        <select id="form-category" class="w-full px-3.5 py-2.5 rounded-xl text-xs">
+                            <option value="comms">📢 Communications</option>
+                            <option value="response">⚡ Response</option>
+                            <option value="action">🎯 Action Items</option>
+                            <option value="control">🎛️ Governance</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-300 mb-1">Priority *</label>
+                        <select id="form-priority" class="w-full px-3.5 py-2.5 rounded-xl text-xs">
+                            <option value="urgent">Urgent 🔥</option>
+                            <option value="high">High ⚡</option>
+                            <option value="medium" selected>Medium 📌</option>
+                            <option value="low">Low ☕</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-300 mb-1">Initial Status</label>
+                        <select id="form-status" class="w-full px-3.5 py-2.5 rounded-xl text-xs">
+                            <option value="backlog">Backlog</option>
+                            <option value="in-progress" selected>In Progress</option>
+                            <option value="review">Under Review</option>
+                            <option value="done">Completed</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-300 mb-1">Assignee / Owner</label>
+                        <input type="text" id="form-assignee" placeholder="e.g. DevOps Team" class="w-full px-3.5 py-2.5 rounded-xl text-xs">
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-semibold text-gray-300 mb-1">Description / Details</label>
+                    <textarea id="form-desc" rows="3" placeholder="Provide context, links, or verification steps..." class="w-full px-3.5 py-2 rounded-xl text-xs resize-none"></textarea>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-semibold text-gray-300 mb-1">Tags (Comma-separated)</label>
+                    <input type="text" id="form-tags" placeholder="e.g. security, v1.2, release" class="w-full px-3.5 py-2.5 rounded-xl text-xs">
+                </div>
+
+                <div class="flex items-center justify-end gap-3 pt-3 border-t border-white/5">
+                    <button type="button" onclick="closeTaskModal()" class="px-4 py-2 rounded-xl bg-white/5 hover:bg-white/10 text-xs font-semibold text-gray-300">Cancel</button>
+                    <button type="submit" class="px-5 py-2 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-semibold text-xs shadow-lg">Save Task</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Drawer: Local History Audit Log -->
+    <div id="history-drawer" class="hidden fixed inset-0 z-50 flex justify-end bg-black/60 backdrop-blur-xs">
+        <div class="glass-card w-full max-w-md h-full p-6 border-l border-white/10 flex flex-col shadow-2xl">
+            <div class="flex items-center justify-between pb-4 mb-4 border-b border-white/5">
+                <div>
+                    <h3 class="text-base font-bold text-white flex items-center gap-2">
+                        <svg class="w-4 h-4 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                        Browser History Log
+                    </h3>
+                    <p class="text-[11px] text-gray-400">Timestamped event record saved in browser storage</p>
+                </div>
+                <button onclick="closeHistoryDrawer()" class="text-gray-400 hover:text-white text-lg font-bold">&times;</button>
+            </div>
+
+            <div id="history-list" class="flex-grow overflow-y-auto space-y-3 pr-1">
+                <!-- Log entries rendered dynamically -->
+            </div>
+
+            <div class="pt-4 border-t border-white/5 mt-4 flex items-center justify-between">
+                <button onclick="clearHistoryLog()" class="px-3 py-1.5 rounded-lg bg-rose-500/10 hover:bg-rose-500/20 text-rose-300 text-xs font-semibold transition-all">Clear History Log</button>
+                <button onclick="closeHistoryDrawer()" class="px-4 py-1.5 rounded-lg bg-white/10 text-gray-200 text-xs font-semibold">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer style="text-align: center; padding: 60px 20px; color: #9ca3af; border-top: 1px solid rgba(255,255,255,0.08); font-size: 0.95rem; background: rgba(8, 11, 17, 0.4); font-family: 'Outfit', sans-serif; margin-top: 60px;">
+        <p>&copy; 2026 Aegis Developer Hub. All rights reserved.</p>
+        <p style="font-size: 0.85rem; max-width: 800px; margin: 15px auto; line-height: 1.5; color: #9ca3af;">
+            <strong>Disclaimer:</strong> The Aegis Task Tracker runs locally inside your browser's Web Storage engine. Data persists locally without external server transmission. Conforms to APPs, GDPR, and privacy best practices.
+        </p>
+        <p style="margin-top: 20px;">
+            <a href="/static/privacy.html" style="color: #9ca3af; text-decoration: underline; margin-right: 15px;">Privacy Policy</a>
+            <a href="/static/terms.html" style="color: #9ca3af; text-decoration: underline;">Terms of Service & Disclaimer</a>
+        </p>
+    </footer>
+
+    <!-- Application JavaScript Engine -->
+    <script>
+        // Core Storage Keys
+        const STORAGE_TASKS_KEY = 'aegis_tasks_v1';
+        const STORAGE_HISTORY_KEY = 'aegis_task_history_v1';
+
+        // Initial State
+        let tasks = [];
+        let historyLog = [];
+        let activeCategoryFilter = 'all';
+        let currentExportFormat = 'json';
+
+        // Preset Templates
+        const TEMPLATES = {
+            incident: [
+                { id: 'inc-1', title: 'Triage High Severity API Latency Alert', pillar: 'response', priority: 'urgent', status: 'in-progress', assignee: 'SRE Team', desc: 'Investigate 504 gateway timeouts on primary EU cluster.', tags: ['incident', 'api', 'sev-1'], createdAt: Date.now() - 3600000 },
+                { id: 'inc-2', title: 'Broadcast Customer Status Page Announcement', pillar: 'comms', priority: 'urgent', status: 'in-progress', assignee: 'Comms Lead', desc: 'Publish incident notice on status page and developer channel.', tags: ['status-page', 'public-comms'], createdAt: Date.now() - 2500000 },
+                { id: 'inc-3', title: 'Apply DB Index Fix & Rollout Patch', pillar: 'action', priority: 'high', status: 'review', assignee: 'Backend Dev', desc: 'Add composite index to query parameters to resolve lock wait timeouts.', tags: ['patch', 'database'], createdAt: Date.now() - 1800000 },
+                { id: 'inc-4', title: 'Conduct Post-Mortem & Authorize Incident Closure', pillar: 'control', priority: 'medium', status: 'backlog', assignee: 'SecOps', desc: 'Schedule Root Cause Analysis (RCA) review with team leads.', tags: ['rca', 'governance'], createdAt: Date.now() - 900000 }
+            ],
+            launch: [
+                { id: 'lnc-1', title: 'Draft v2.0 Platform Release Notes & Press Kit', pillar: 'comms', priority: 'high', status: 'in-progress', assignee: 'Marketing Lead', desc: 'Finalize feature highlights, screenshot graphics, and media release.', tags: ['launch', 'press'], createdAt: Date.now() - 7200000 },
+                { id: 'lnc-2', title: 'Monitor Initial User Onboarding Telemetry', pillar: 'response', priority: 'medium', status: 'backlog', assignee: 'Product Analytics', desc: 'Track conversion funnel drop-offs and error rates during launch hour.', tags: ['telemetry', 'ux'], createdAt: Date.now() - 5400000 },
+                { id: 'lnc-3', title: 'Execute Staging Smoke Tests & Final Production Deploy', pillar: 'action', priority: 'urgent', status: 'review', assignee: 'DevOps', desc: 'Verify container health checks and DNS failover readiness.', tags: ['deploy', 'production'], createdAt: Date.now() - 3600000 },
+                { id: 'lnc-4', title: 'Perform Security & License Compliance Sign-off', pillar: 'control', priority: 'high', status: 'done', assignee: 'Legal & InfoSec', desc: 'Complete SBOM audit and verify third-party dependency licenses.', tags: ['compliance', 'audit'], createdAt: Date.now() - 1800000 }
+            ],
+            audit: [
+                { id: 'aud-1', title: 'Audit User Permission Access Controls (RBAC)', pillar: 'control', priority: 'urgent', status: 'in-progress', assignee: 'Security Team', desc: 'Verify multi-factor authentication enforcement for admin roles.', tags: ['security', 'rbac'], createdAt: Date.now() - 86400000 },
+                { id: 'aud-2', title: 'Revoke Deprecated API Keys & Tokens', pillar: 'action', priority: 'high', status: 'in-progress', assignee: 'Infra Ops', desc: 'Purge stale service account tokens older than 90 days.', tags: ['tokens', 'cleanup'], createdAt: Date.now() - 43200000 },
+                { id: 'aud-3', title: 'Notify Enterprise Clients of Updated Privacy Policy', pillar: 'comms', priority: 'medium', status: 'review', assignee: 'Compliance Lead', desc: 'Send mandatory APPs and GDPR privacy update email notification.', tags: ['privacy', 'legal'], createdAt: Date.now() - 21600000 },
+                { id: 'aud-4', title: 'Resolve Vulnerability Scanner Dependency Flags', pillar: 'response', priority: 'high', status: 'done', assignee: 'SecOps', desc: 'Upgrade package versions matching CVE advisories.', tags: ['cve', 'patch'], createdAt: Date.now() - 10800000 }
+            ]
+        };
+
+        // DOM Initialization
+        document.addEventListener('DOMContentLoaded', () => {
+            loadStateFromStorage();
+            parseUrlState();
+            renderTasks();
+            renderHistoryLog();
+            updateStats();
+            updateExportPreview();
+
+            // Listen to browser Back/Forward navigation
+            window.addEventListener('popstate', (e) => {
+                parseUrlState();
+                renderTasks();
+                updateExportPreview();
+            });
+        });
+
+        // Local Storage Handlers
+        function loadStateFromStorage() {
+            try {
+                const savedTasks = localStorage.getItem(STORAGE_TASKS_KEY);
+                if (savedTasks) {
+                    tasks = JSON.parse(savedTasks);
+                } else {
+                    // Default initial dataset
+                    tasks = [...TEMPLATES.incident];
+                    saveTasksToStorage();
+                    logHistoryEvent('System', 'Initialized default Aegis task tracker workspace');
+                }
+
+                const savedHistory = localStorage.getItem(STORAGE_HISTORY_KEY);
+                if (savedHistory) {
+                    historyLog = JSON.parse(savedHistory);
+                }
+            } catch (e) {
+                console.error("Storage loading error:", e);
+                tasks = [...TEMPLATES.incident];
+            }
+        }
+
+        function saveTasksToStorage() {
+            try {
+                localStorage.setItem(STORAGE_TASKS_KEY, JSON.stringify(tasks));
+            } catch (e) {
+                console.error("Storage save error:", e);
+            }
+        }
+
+        function saveHistoryToStorage() {
+            try {
+                localStorage.setItem(STORAGE_HISTORY_KEY, JSON.stringify(historyLog));
+            } catch (e) {
+                console.error("History save error:", e);
+            }
+        }
+
+        function logHistoryEvent(action, details) {
+            const entry = {
+                id: 'log-' + Date.now() + '-' + Math.random().toString(36).substr(2, 4),
+                timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' }),
+                action: action,
+                details: details
+            };
+            historyLog.unshift(entry);
+            if (historyLog.length > 50) historyLog.pop(); // keep last 50
+            saveHistoryToStorage();
+            renderHistoryLog();
+        }
+
+        // Browser History API & URL Hash Sync
+        function updateUrlState() {
+            const priority = document.getElementById('filter-priority').value;
+            const status = document.getElementById('filter-status').value;
+            
+            const params = new URLSearchParams();
+            if (activeCategoryFilter !== 'all') params.set('category', activeCategoryFilter);
+            if (priority !== 'all') params.set('priority', priority);
+            if (status !== 'all') params.set('status', status);
+
+            const queryString = params.toString();
+            const newRelativePathQuery = window.location.pathname + (queryString ? '?' + queryString : '');
+            
+            if (window.location.search !== (queryString ? '?' + queryString : '')) {
+                window.history.pushState({ category: activeCategoryFilter, priority, status }, '', newRelativePathQuery);
+            }
+        }
+
+        function parseUrlState() {
+            const params = new URLSearchParams(window.location.search);
+            const category = params.get('category') || 'all';
+            const priority = params.get('priority') || 'all';
+            const status = params.get('status') || 'all';
+
+            activeCategoryFilter = category;
+            document.getElementById('filter-priority').value = priority;
+            document.getElementById('filter-status').value = status;
+
+            // Highlight Category Tabs
+            document.querySelectorAll('.category-tab').forEach(btn => {
+                btn.className = 'category-tab px-3.5 py-1.5 rounded-lg text-xs font-semibold text-gray-400 hover:text-white transition-all';
+            });
+            const activeBtn = document.getElementById(`tab-cat-${category}`);
+            if (activeBtn) {
+                activeBtn.className = 'category-tab px-3.5 py-1.5 rounded-lg text-xs font-semibold transition-all bg-blue-600 text-white shadow';
+            }
+        }
+
+        // Filter Controls
+        function setFilterCategory(category) {
+            activeCategoryFilter = category;
+            updateUrlState();
+            applyFilters();
+            logHistoryEvent('Filter', `Switched category view to [${category.toUpperCase()}]`);
+        }
+
+        function applyFilters() {
+            updateUrlState();
+            renderTasks();
+            updateExportPreview();
+        }
+
+        // Render Task Cards & Matrix Columns
+        function renderTasks() {
+            const priorityFilter = document.getElementById('filter-priority').value;
+            const statusFilter = document.getElementById('filter-status').value;
+
+            // Clear Column Containers
+            const cols = {
+                'backlog': document.getElementById('col-backlog'),
+                'in-progress': document.getElementById('col-in-progress'),
+                'review': document.getElementById('col-review'),
+                'done': document.getElementById('col-done')
+            };
+
+            Object.values(cols).forEach(col => col.innerHTML = '');
+
+            const counts = { 'backlog': 0, 'in-progress': 0, 'review': 0, 'done': 0 };
+
+            // Filter tasks
+            const filteredTasks = tasks.filter(t => {
+                if (activeCategoryFilter !== 'all' && t.pillar !== activeCategoryFilter) return false;
+                if (priorityFilter !== 'all' && t.priority !== priorityFilter) return false;
+                if (statusFilter !== 'all' && t.status !== statusFilter) return false;
+                return true;
+            });
+
+            filteredTasks.forEach(task => {
+                if (counts.hasOwnProperty(task.status)) {
+                    counts[task.status]++;
+                }
+                const card = createTaskCardHtml(task);
+                if (cols[task.status]) {
+                    cols[task.status].appendChild(card);
+                }
+            });
+
+            // Update column badges
+            document.getElementById('count-backlog').textContent = counts['backlog'];
+            document.getElementById('count-in-progress').textContent = counts['in-progress'];
+            document.getElementById('count-review').textContent = counts['review'];
+            document.getElementById('count-done').textContent = counts['done'];
+
+            // Empty state check
+            Object.keys(cols).forEach(statusKey => {
+                if (cols[statusKey].children.length === 0) {
+                    cols[statusKey].innerHTML = `
+                        <div class="flex flex-col items-center justify-center h-32 border border-dashed border-white/5 rounded-xl p-4 text-center">
+                            <span class="text-xs text-gray-500 font-medium">No tasks in this lane</span>
+                        </div>
+                    `;
+                }
+            });
+
+            updateStats();
+        }
+
+        function createTaskCardHtml(task) {
+            const div = document.createElement('div');
+            div.className = 'task-card glass-card rounded-xl p-4 border border-white/5 flex flex-col gap-3 relative';
+            
+            // Priority & Category badges
+            const categoryBadges = {
+                'comms': { label: '📢 Comms', color: 'bg-purple-500/10 text-purple-300 border-purple-500/20' },
+                'response': { label: '⚡ Response', color: 'bg-rose-500/10 text-rose-300 border-rose-500/20' },
+                'action': { label: '🎯 Action', color: 'bg-blue-500/10 text-blue-300 border-blue-500/20' },
+                'control': { label: '🎛️ Governance', color: 'bg-amber-500/10 text-amber-300 border-amber-500/20' }
+            };
+
+            const priorityBadges = {
+                'urgent': { label: 'Urgent 🔥', color: 'bg-rose-500/20 text-rose-400 border-rose-500/40' },
+                'high': { label: 'High ⚡', color: 'bg-amber-500/20 text-amber-400 border-amber-500/40' },
+                'medium': { label: 'Medium 📌', color: 'bg-blue-500/10 text-blue-400 border-blue-500/20' },
+                'low': { label: 'Low ☕', color: 'bg-slate-500/10 text-gray-400 border-slate-500/20' }
+            };
+
+            const pBadge = priorityBadges[task.priority] || priorityBadges['medium'];
+            const catBadge = categoryBadges[task.pillar] || categoryBadges['action'];
+
+            const tagHtml = (task.tags || []).map(tg => `<span class="text-[10px] px-2 py-0.5 rounded bg-white/5 text-gray-400 border border-white/5">#${tg}</span>`).join(' ');
+
+            div.innerHTML = `
+                <div class="flex items-center justify-between gap-2">
+                    <span class="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-md border ${catBadge.color}">${catBadge.label}</span>
+                    <span class="text-[10px] font-bold px-2 py-0.5 rounded-md border ${pBadge.color}">${pBadge.label}</span>
+                </div>
+
+                <div class="font-bold text-sm text-white leading-snug">${escapeHtml(task.title)}</div>
+                
+                ${task.desc ? `<p class="text-xs text-gray-400 line-clamp-2 leading-relaxed">${escapeHtml(task.desc)}</p>` : ''}
+
+                ${tagHtml ? `<div class="flex flex-wrap gap-1 mt-1">${tagHtml}</div>` : ''}
+
+                <div class="pt-3 border-t border-white/5 flex items-center justify-between text-[11px] text-gray-400">
+                    <span class="font-medium text-gray-400">👤 ${escapeHtml(task.assignee || 'Unassigned')}</span>
+                    
+                    <!-- Quick Action buttons -->
+                    <div class="flex items-center gap-1">
+                        <button onclick="editTask('${task.id}')" title="Edit Task" class="p-1 hover:bg-white/10 rounded text-gray-300">
+                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
+                        </button>
+                        
+                        <select onchange="changeTaskStatus('${task.id}', this.value)" class="text-[10px] px-2 py-0.5 rounded bg-slate-900 border border-white/10 text-gray-300">
+                            <option value="backlog" ${task.status === 'backlog' ? 'selected' : ''}>Backlog</option>
+                            <option value="in-progress" ${task.status === 'in-progress' ? 'selected' : ''}>In Progress</option>
+                            <option value="review" ${task.status === 'review' ? 'selected' : ''}>Review</option>
+                            <option value="done" ${task.status === 'done' ? 'selected' : ''}>Done</option>
+                        </select>
+
+                        <button onclick="deleteTask('${task.id}')" title="Delete Task" class="p-1 hover:bg-rose-500/20 text-rose-400 rounded">
+                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+                        </button>
+                    </div>
+                </div>
+            `;
+            return div;
+        }
+
+        // Stats Counter
+        function updateStats() {
+            document.getElementById('stat-total').textContent = tasks.length;
+            const urgentCount = tasks.filter(t => t.priority === 'urgent' && t.status !== 'done').length;
+            const doneCount = tasks.filter(t => t.status === 'done').length;
+            document.getElementById('stat-urgent').textContent = urgentCount;
+            document.getElementById('stat-done').textContent = doneCount;
+            document.getElementById('history-count').textContent = historyLog.length;
+        }
+
+        // Task CRUD Actions
+        function openNewTaskModal() {
+            document.getElementById('modal-title').textContent = 'Create Task';
+            document.getElementById('form-task-id').value = '';
+            document.getElementById('task-form').reset();
+            document.getElementById('task-modal').classList.remove('hidden');
+        }
+
+        function editTask(id) {
+            const task = tasks.find(t => t.id === id);
+            if (!task) return;
+
+            document.getElementById('modal-title').textContent = 'Edit Task';
+            document.getElementById('form-task-id').value = task.id;
+            document.getElementById('form-title').value = task.title;
+            document.getElementById('form-category').value = task.pillar;
+            document.getElementById('form-priority').value = task.priority;
+            document.getElementById('form-status').value = task.status;
+            document.getElementById('form-assignee').value = task.assignee || '';
+            document.getElementById('form-desc').value = task.desc || '';
+            document.getElementById('form-tags').value = (task.tags || []).join(', ');
+
+            document.getElementById('task-modal').classList.remove('hidden');
+        }
+
+        function closeTaskModal() {
+            document.getElementById('task-modal').classList.add('hidden');
+        }
+
+        function saveTask(e) {
+            e.preventDefault();
+            const id = document.getElementById('form-task-id').value;
+            const title = document.getElementById('form-title').value.trim();
+            const pillar = document.getElementById('form-category').value;
+            const priority = document.getElementById('form-priority').value;
+            const status = document.getElementById('form-status').value;
+            const assignee = document.getElementById('form-assignee').value.trim();
+            const desc = document.getElementById('form-desc').value.trim();
+            const tagsRaw = document.getElementById('form-tags').value;
+            const tags = tagsRaw ? tagsRaw.split(',').map(t => t.trim()).filter(Boolean) : [];
+
+            if (id) {
+                // Update
+                const index = tasks.findIndex(t => t.id === id);
+                if (index !== -1) {
+                    tasks[index] = { ...tasks[index], title, pillar, priority, status, assignee, desc, tags };
+                    logHistoryEvent('Updated', `Updated task [${title}]`);
+                    showToast('Task updated successfully');
+                }
+            } else {
+                // Create
+                const newTask = {
+                    id: 'task-' + Date.now(),
+                    title,
+                    pillar,
+                    priority,
+                    status,
+                    assignee,
+                    desc,
+                    tags,
+                    createdAt: Date.now()
+                };
+                tasks.unshift(newTask);
+                logHistoryEvent('Created', `Created new task [${title}]`);
+                showToast('New task added to workspace');
+            }
+
+            saveTasksToStorage();
+            renderTasks();
+            updateExportPreview();
+            closeTaskModal();
+        }
+
+        function changeTaskStatus(id, newStatus) {
+            const task = tasks.find(t => t.id === id);
+            if (!task) return;
+            const oldStatus = task.status;
+            task.status = newStatus;
+            saveTasksToStorage();
+            renderTasks();
+            updateExportPreview();
+            logHistoryEvent('Status Change', `Moved [${task.title}] from ${oldStatus} -> ${newStatus}`);
+            showToast(`Task moved to ${newStatus}`);
+        }
+
+        function deleteTask(id) {
+            const task = tasks.find(t => t.id === id);
+            if (!task) return;
+            tasks = tasks.filter(t => t.id !== id);
+            saveTasksToStorage();
+            renderTasks();
+            updateExportPreview();
+            logHistoryEvent('Deleted', `Deleted task [${task.title}]`);
+            showToast('Task removed from board', 'rose');
+        }
+
+        // Preset Template Switcher
+        function loadTemplate(key) {
+            if (TEMPLATES[key]) {
+                tasks = JSON.parse(JSON.stringify(TEMPLATES[key]));
+                saveTasksToStorage();
+                renderTasks();
+                updateExportPreview();
+                toggleTemplateDropdown();
+                logHistoryEvent('Template', `Loaded [${key.toUpperCase()}] preset template`);
+                showToast(`Loaded ${key.toUpperCase()} template`);
+            }
+        }
+
+        function resetToDefaults() {
+            if (confirm("Reset task board to initial state?")) {
+                tasks = [...TEMPLATES.incident];
+                saveTasksToStorage();
+                renderTasks();
+                updateExportPreview();
+                toggleTemplateDropdown();
+                logHistoryEvent('Reset', 'Reset workspace to default template');
+                showToast('Workspace reset to defaults');
+            }
+        }
+
+        function toggleTemplateDropdown() {
+            const drop = document.getElementById('template-dropdown');
+            drop.classList.toggle('hidden');
+        }
+
+        // History Drawer
+        function openHistoryDrawer() {
+            document.getElementById('history-drawer').classList.remove('hidden');
+        }
+
+        function closeHistoryDrawer() {
+            document.getElementById('history-drawer').classList.add('hidden');
+        }
+
+        function renderHistoryLog() {
+            const container = document.getElementById('history-list');
+            if (historyLog.length === 0) {
+                container.innerHTML = `<div class="text-xs text-gray-500 text-center py-8">No history events recorded yet</div>`;
+                return;
+            }
+
+            container.innerHTML = historyLog.map(item => `
+                <div class="glass-card rounded-xl p-3 border border-white/5 text-xs flex flex-col gap-1">
+                    <div class="flex items-center justify-between text-[10px] text-gray-400">
+                        <span class="font-bold text-indigo-400">${escapeHtml(item.action)}</span>
+                        <span>${item.timestamp}</span>
+                    </div>
+                    <div class="text-gray-200 font-medium">${escapeHtml(item.details)}</div>
+                </div>
+            `).join('');
+        }
+
+        function clearHistoryLog() {
+            historyLog = [];
+            saveHistoryToStorage();
+            renderHistoryLog();
+            updateStats();
+            showToast('History log cleared');
+        }
+
+        // Export Engine
+        function exportAsFormat(format) {
+            currentExportFormat = format;
+            updateExportPreview();
+        }
+
+        function updateExportPreview() {
+            const preview = document.getElementById('export-preview');
+            if (currentExportFormat === 'json') {
+                const payload = {
+                    version: "1.0.0",
+                    exportedAt: new Date().toISOString(),
+                    activeCategoryFilter,
+                    totalTasks: tasks.length,
+                    tasks: tasks
+                };
+                preview.value = JSON.stringify(payload, null, 2);
+            } else {
+                let md = `# Aegis Task Tracker Report\n`;
+                md += `Generated: ${new Date().toLocaleString()}\n`;
+                md += `Active Tasks: ${tasks.length}\n\n`;
+
+                const categories = ['comms', 'response', 'action', 'control'];
+                categories.forEach(cat => {
+                    const catTasks = tasks.filter(t => t.pillar === cat);
+                    md += `## Category: ${cat.toUpperCase()} (${catTasks.length})\n`;
+                    if (catTasks.length === 0) {
+                        md += `*No tasks recorded*\n\n`;
+                    } else {
+                        catTasks.forEach(t => {
+                            md += `- [${t.status === 'done' ? 'x' : ' '}] **${t.title}** (Priority: ${t.priority.toUpperCase()}, Status: ${t.status}) - Owner: ${t.assignee || 'N/A'}\n`;
+                            if (t.desc) md += `  > ${t.desc}\n`;
+                        });
+                        md += `\n`;
+                    }
+                });
+                preview.value = md;
+            }
+        }
+
+        function copyExportedContent() {
+            const preview = document.getElementById('export-preview');
+            navigator.clipboard.writeText(preview.value).then(() => {
+                showToast('Copied export payload to clipboard!');
+            }).catch(() => {
+                showToast('Failed to copy. Please select text manually.');
+            });
+        }
+
+        // Utility: Toast Notification
+        function showToast(message, type = 'blue') {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            toast.className = `px-4 py-2.5 rounded-xl glass-card text-xs font-semibold text-white shadow-2xl border border-white/10 flex items-center gap-2 transition-all duration-300 transform translate-x-5 opacity-0`;
+            toast.innerHTML = `
+                <span class="w-2 h-2 rounded-full ${type === 'rose' ? 'bg-rose-400' : 'bg-blue-400'}"></span>
+                <span>${escapeHtml(message)}</span>
+            `;
+            container.appendChild(toast);
+
+            setTimeout(() => {
+                toast.classList.remove('translate-x-5', 'opacity-0');
+            }, 10);
+
+            setTimeout(() => {
+                toast.classList.add('opacity-0', 'translate-x-5');
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
+        }
+
+        function escapeHtml(str) {
+            if (!str) return '';
+            return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
+        }
+    </script>
+</body>
+</html>

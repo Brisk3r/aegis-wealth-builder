@@ -223,6 +223,12 @@
         <priority>0.8</priority>
     </url>
     <url>
+        <loc>https://aegishub.dev/static/tools/task_tracker_tool.html</loc>
+        <lastmod>2026-07-22</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.8</priority>
+    </url>
+    <url>
         <loc>https://aegishub.dev/static/articles/css_flexbox_cheat_sheet.html</loc>
         <lastmod>2026-07-22</lastmod>
         <changefreq>weekly</changefreq>
@@ -512,6 +518,12 @@
     </url>
     <url>
         <loc>https://aegishub.dev/static/articles/dns_record_ssl_certificate_inspector.html</loc>
+        <lastmod>2026-07-22</lastmod>
+        <changefreq>weekly</changefreq>
+        <priority>0.7</priority>
+    </url>
+    <url>
+        <loc>https://aegishub.dev/static/articles/task_tracker.html</loc>
         <lastmod>2026-07-22</lastmod>
         <changefreq>weekly</changefreq>
         <priority>0.7</priority>

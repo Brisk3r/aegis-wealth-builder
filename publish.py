@@ -40,7 +40,8 @@ TOOL_DESCRIPTIONS = {
     "Code Snippet Generator": "Create and export syntax-highlighted code snippets with customizable themes, padding, and watermark-free image downloads.",
     "DNS Record and SSL Certificate Inspector": "Look up DNS records (A, AAAA, MX, TXT, CNAME) and inspect SSL certificate details for any domain directly in-browser.",
     "UUID NanoID and Snowflake Generator": "Generate UUID v4, NanoID, and Snowflake IDs with configurable lengths, bulk generation, and one-click copy to clipboard.",
-    "HEIC Photo Converter": "Convert HEIC, HEIF, PNG, WebP, BMP, and TIFF photos to JPG or PNG instantly in-browser. Set quality, target file size, and bulk-download a ZIP — 100% private, no uploads."
+    "HEIC Photo Converter": "Convert HEIC, HEIF, PNG, WebP, BMP, and TIFF photos to JPG or PNG instantly in-browser. Set quality, target file size, and bulk-download a ZIP — 100% private, no uploads.",
+    "Task Tracker": "Client-side Task Tracker with local browser history session sync, customizable task lanes, and privacy-first local storage persistence."
 }
 
 AFFILIATE_DESCRIPTIONS = {
