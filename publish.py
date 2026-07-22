@@ -41,7 +41,20 @@ TOOL_DESCRIPTIONS = {
     "DNS Record and SSL Certificate Inspector": "Look up DNS records (A, AAAA, MX, TXT, CNAME) and inspect SSL certificate details for any domain directly in-browser.",
     "UUID NanoID and Snowflake Generator": "Generate UUID v4, NanoID, and Snowflake IDs with configurable lengths, bulk generation, and one-click copy to clipboard.",
     "HEIC Photo Converter": "Convert HEIC, HEIF, PNG, WebP, BMP, and TIFF photos to JPG or PNG instantly in-browser. Set quality, target file size, and bulk-download a ZIP — 100% private, no uploads.",
-    "Task Tracker": "Client-side Task Tracker with local browser history session sync, customizable task lanes, and privacy-first local storage persistence."
+    "Task Tracker": "Client-side Task Tracker with local browser history session sync, customizable task lanes, and privacy-first local storage persistence.",
+    "SEO Card Optimizer": "Build and preview OpenGraph cards, Twitter preview cards, and Google SERP snippets with 1200x630 PNG canvas downloads.",
+    "SVG File Compressor and Optimizer": "Minify SVG vectors, strip Inkscape bloat and comments, round path float values, and export clean markup.",
+    "HTTP Header Inspector": "Probe HTTP response headers, audit security policies (CSP, HSTS, X-Frame-Options), and copy cURL commands.",
+    "Lorem Ipsum Generator": "Generate industry-tailored placeholder text (SaaS, Fintech, E-commerce, Medical, Legal) for UI wireframes.",
+    "Git Command Cheat Sheet": "Interactive scenario wizard to resolve botched git merges, submodule syncs, uncommitted undos, and rebase conflicts.",
+    "Responsive Breakpoint Tester": "Test web application layouts against common device viewports (Mobile, Tablet, Desktop) and copy CSS @media queries.",
+    "Timestamp and Epoch Converter": "Convert Unix epoch seconds and milliseconds to ISO 8601 timestamps with live epoch ticker and dev code snippets.",
+    "Password Strength Checker": "Calculate password entropy bits, estimate brute-force cracking resistance, and generate cryptographically secure passwords.",
+    "UTM Campaign Parameter Builder": "Build clean, standardized campaign tracking URLs with automatic lowercase slugification and UTM parameter sanitation.",
+    "Markdown Table Generator": "Convert raw CSV spreadsheets or tab-delimited text into clean, formatted Markdown tables.",
+    "QR Code Generator": "Generate high-resolution QR codes for website URLs, contact cards, or text payloads with PNG image downloads.",
+    "ROAS Break-Even Calculator": "Calculate break-even Return on Ad Spend (ROAS), unit gross margin percentages, and max Customer Acquisition Cost (CAC).",
+    "Daily Marketing Consistency Timer": "Sprint focus timer for daily marketing outreach, social posting consistency, and developer log tracking."
 }
 
 AFFILIATE_DESCRIPTIONS = {
