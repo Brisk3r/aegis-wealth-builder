@@ -1,11 +1,14 @@
 /**
  * Aegis Developer Hub - Client-Side Pro & Enterprise Membership Engine
- * Manages licensing state, key validation, watermark controls, ad-free experience, and Pro feature unlocks.
+ * Manages licensing state, Lemon Squeezy payment overlay, key validation, watermark controls, ad-free experience, and Pro feature unlocks.
  */
 
 window.AegisPro = (function() {
     const STORAGE_KEY = 'aegis_license_tier';
     const KEY_STORAGE = 'aegis_license_key';
+
+    const DEFAULT_PRO_CHECKOUT = 'https://aegishub.lemonsqueezy.com/checkout/buy/pro?embed=1';
+    const DEFAULT_ENT_CHECKOUT = 'https://aegishub.lemonsqueezy.com/checkout/buy/enterprise?embed=1';
 
     const VALID_PRO_KEYS = ['AEGIS-PRO-2026', 'PRO-DEVELOPER-888', 'AEGIS-PRO-DEMO'];
     const VALID_ENT_KEYS = ['AEGIS-ENTERPRISE-2026', 'ENT-TEAM-999', 'AEGIS-ENT-DEMO'];
@@ -31,10 +34,45 @@ window.AegisPro = (function() {
         }
     }
 
-    function activateKey(rawKey) {
-        const key = (rawKey || '').trim().toUpperCase();
-        if (!key) return { success: false, message: 'Please enter a valid license key.' };
+    /**
+     * Initializes Lemon Squeezy JS Overlay
+     */
+    function initLemonSqueezy() {
+        if (window.createLemonSqueezy) {
+            try {
+                window.createLemonSqueezy();
+            } catch (err) {
+                console.warn('Lemon Squeezy overlay init error:', err);
+            }
+        }
+    }
 
+    /**
+     * Programmatically opens Lemon Squeezy checkout overlay or URL
+     */
+    function openCheckout(target) {
+        let checkoutUrl = target;
+        if (target === 'pro' || !target) {
+            checkoutUrl = window.LEMON_SQUEEZY_PRO_URL || DEFAULT_PRO_CHECKOUT;
+        } else if (target === 'enterprise') {
+            checkoutUrl = window.LEMON_SQUEEZY_ENT_URL || DEFAULT_ENT_CHECKOUT;
+        }
+
+        if (window.LemonSqueezy && window.LemonSqueezy.Url) {
+            try {
+                window.LemonSqueezy.Url.Open(checkoutUrl);
+                return;
+            } catch (e) {
+                console.warn('LemonSqueezy.Url.Open failed, falling back to window.open', e);
+            }
+        }
+        window.open(checkoutUrl, '_blank');
+    }
+
+    /**
+     * Local fallback activation check
+     */
+    function activateKeyLocal(key) {
         if (VALID_PRO_KEYS.includes(key) || key.startsWith('AEGIS-PRO')) {
             localStorage.setItem(STORAGE_KEY, 'pro');
             localStorage.setItem(KEY_STORAGE, key);
@@ -51,7 +89,42 @@ window.AegisPro = (function() {
             return { success: true, tier: 'enterprise', message: 'Enterprise License Activated! Docker & SSO features unlocked & Ads Removed.' };
         }
 
-        return { success: false, message: 'Invalid Key. Try AEGIS-PRO-2026 or AEGIS-ENTERPRISE-2026' };
+        return { success: false, message: 'Invalid Key. Check your license key or try AEGIS-PRO-2026' };
+    }
+
+    /**
+     * Validates key asynchronously against /api/validate-key serverless endpoint, with local fallback
+     */
+    async function activateKey(rawKey) {
+        const key = (rawKey || '').trim().toUpperCase();
+        if (!key) return { success: false, message: 'Please enter a valid license key.' };
+
+        try {
+            const response = await fetch('/api/validate-key', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ key: key })
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                if (data.valid && (data.tier === 'pro' || data.tier === 'enterprise')) {
+                    localStorage.setItem(STORAGE_KEY, data.tier);
+                    localStorage.setItem(KEY_STORAGE, key);
+                    updateUIBadge();
+                    applyAdFreeExperience();
+                    return {
+                        success: true,
+                        tier: data.tier,
+                        message: data.message || `${data.tier.toUpperCase()} License Verified & Unlocked!`
+                    };
+                }
+            }
+        } catch (err) {
+            console.warn('Network key validation endpoint unavailable, falling back to local validation:', err);
+        }
+
+        return activateKeyLocal(key);
     }
 
     function resetLicense() {
@@ -93,11 +166,21 @@ window.AegisPro = (function() {
                         </div>
                     </div>
 
+                    <!-- Instant Checkout Buttons -->
+                    <div class="grid grid-cols-2 gap-2 pt-1">
+                        <button onclick="AegisPro.openCheckout('pro')" class="lemonsqueezy-button py-2.5 px-3 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-bold text-xs shadow-lg text-center">
+                            Upgrade Pro ($9/mo)
+                        </button>
+                        <button onclick="AegisPro.openCheckout('enterprise')" class="lemonsqueezy-button py-2.5 px-3 rounded-xl bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white font-bold text-xs shadow-lg text-center">
+                            Enterprise ($29/mo)
+                        </button>
+                    </div>
+
                     <div class="space-y-3 bg-slate-950/60 p-4 rounded-2xl border border-white/5 text-xs text-gray-300">
-                        <div class="font-bold text-white text-xs mb-1">Enter Pro or Enterprise License Key:</div>
+                        <div class="font-bold text-white text-xs mb-1">Have a License Key? Enter it below:</div>
                         <input type="text" id="aegis-key-input" placeholder="e.g. AEGIS-PRO-2026 or AEGIS-ENTERPRISE-2026" class="w-full px-3.5 py-2.5 rounded-xl bg-slate-900 border border-white/10 text-white font-mono text-xs focus:outline-none focus:border-blue-500">
                         <div class="flex gap-2 pt-1">
-                            <button onclick="AegisPro.handleKeySubmit()" class="flex-grow py-2.5 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-bold text-xs shadow-lg">Activate Key</button>
+                            <button onclick="AegisPro.handleKeySubmit()" class="flex-grow py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-blue-400 font-bold text-xs border border-white/10 shadow-lg">Activate Key</button>
                             <button onclick="AegisPro.demoUnlock('pro')" class="px-3 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-blue-300 font-semibold text-xs border border-white/10">Demo Pro</button>
                         </div>
                     </div>
@@ -111,6 +194,7 @@ window.AegisPro = (function() {
                 </div>
             `;
             document.body.appendChild(modal);
+            initLemonSqueezy();
         }
 
         document.getElementById('modal-current-tier').textContent = getTier().toUpperCase();
@@ -122,12 +206,15 @@ window.AegisPro = (function() {
         if (modal) modal.classList.add('hidden');
     }
 
-    function handleKeySubmit() {
+    async function handleKeySubmit() {
         const input = document.getElementById('aegis-key-input');
         const msg = document.getElementById('modal-msg');
         if (!input) return;
 
-        const res = activateKey(input.value);
+        msg.textContent = 'Verifying key...';
+        msg.className = 'text-xs text-center font-semibold text-blue-400';
+
+        const res = await activateKey(input.value);
         msg.textContent = res.message;
         msg.className = `text-xs text-center font-semibold ${res.success ? 'text-emerald-400' : 'text-rose-400'}`;
 
@@ -139,19 +226,21 @@ window.AegisPro = (function() {
 
     function demoUnlock(type) {
         const key = type === 'enterprise' ? 'AEGIS-ENTERPRISE-2026' : 'AEGIS-PRO-2026';
-        activateKey(key);
-        const msg = document.getElementById('modal-msg');
-        if (msg) {
-            msg.textContent = `Unlocked ${type.toUpperCase()} Demo Mode (Ads Hidden)!`;
-            msg.className = 'text-xs text-center font-semibold text-emerald-400';
-        }
-        document.getElementById('modal-current-tier').textContent = getTier().toUpperCase();
-        setTimeout(() => closeModal(), 1200);
+        activateKey(key).then(res => {
+            const msg = document.getElementById('modal-msg');
+            if (msg) {
+                msg.textContent = `Unlocked ${type.toUpperCase()} Demo Mode (Ads Hidden)!`;
+                msg.className = 'text-xs text-center font-semibold text-emerald-400';
+            }
+            document.getElementById('modal-current-tier').textContent = getTier().toUpperCase();
+            setTimeout(() => closeModal(), 1200);
+        });
     }
 
     function init() {
         updateUIBadge();
         applyAdFreeExperience();
+        initLemonSqueezy();
 
         // Event delegation for Pro triggers
         document.addEventListener('click', (e) => {
@@ -168,6 +257,7 @@ window.AegisPro = (function() {
         getTier: getTier,
         isPro: isPro,
         isEnterprise: isEnterprise,
+        openCheckout: openCheckout,
         activateKey: activateKey,
         resetLicense: resetLicense,
         openModal: openModal,

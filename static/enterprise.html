@@ -34,6 +34,7 @@
     <!-- AdSense & Analytics tags -->
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4750454395006570" crossorigin="anonymous"></script>
     <script defer src="/_vercel/insights/script.js"></script>
+    <script src="https://assets.lemonsqueezy.com/lemon.js" defer></script>
     <link rel="icon" type="image/png" href="/static/logo.png">
     <script src="/static/js/aegis-pro.js"></script>
 </head>
@@ -135,8 +136,11 @@ docker run -d --name aegis-hub -p 80:80 aegis-hub:latest</pre>
                         <textarea id="entNotes" rows="3" placeholder="SAML / Okta SSO, Docker air-gapped image, SLA..." class="w-full p-3 rounded-xl text-xs resize-none"></textarea>
                     </div>
 
-                    <button type="submit" class="w-full py-3 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white font-bold text-xs shadow-lg transition-all">
-                        Request Enterprise Quote & Access Key
+                    <button type="submit" class="w-full py-3 rounded-xl bg-slate-800 hover:bg-slate-700 text-purple-300 font-bold text-xs border border-purple-500/20 shadow-lg transition-all mb-2">
+                        Request Enterprise Quote & Custom Invoice
+                    </button>
+                    <button type="button" onclick="AegisPro.openCheckout('enterprise')" class="lemonsqueezy-button w-full py-3 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 text-white font-bold text-xs shadow-lg transition-all">
+                        Buy Enterprise License Immediately ($29/mo) &rarr;
                     </button>
                 </form>
             </div>

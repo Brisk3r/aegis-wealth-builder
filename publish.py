@@ -484,6 +484,7 @@ def generate_index_page(tools, articles) -> str:
     <link rel="icon" type="image/png" href="/static/logo.png">
     <link rel="canonical" href="https://{DOMAIN}/">{adsense_tag}
     <script defer src="/_vercel/insights/script.js"></script>
+    <script src="https://assets.lemonsqueezy.com/lemon.js" defer></script>
     <script src="/static/js/aegis-pro.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     
@@ -1264,7 +1265,7 @@ def generate_index_page(tools, articles) -> str:
                         <li><span style="color: #34d399;">✓</span> Bulk PDF OCR & batch webhook relays</li>
                     </ul>
                 </div>
-                <button onclick="AegisPro.openModal()" data-aegis-pro-trigger="true" class="btn btn-pro-trigger" style="width: 100%; box-sizing: border-box; background: linear-gradient(135deg, #3b82f6, #6366f1); border: none; cursor: pointer;">Upgrade to Pro Membership &rarr;</button>
+                <button onclick="AegisPro.openCheckout('pro')" data-aegis-pro-trigger="true" class="btn btn-pro-trigger lemonsqueezy-button" style="width: 100%; box-sizing: border-box; background: linear-gradient(135deg, #3b82f6, #6366f1); border: none; cursor: pointer;">Upgrade to Pro Membership ($9/mo) &rarr;</button>
             </div>
 
             <!-- Enterprise Plan -->
