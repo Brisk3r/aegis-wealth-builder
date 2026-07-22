@@ -163,12 +163,6 @@
         <priority>0.8</priority>
     </url>
     <url>
-        <loc>https://aegishub.dev/static/tools/_tool.html</loc>
-        <lastmod>2026-07-22</lastmod>
-        <changefreq>weekly</changefreq>
-        <priority>0.8</priority>
-    </url>
-    <url>
         <loc>https://aegishub.dev/static/tools/roas_calculator_tool.html</loc>
         <lastmod>2026-07-22</lastmod>
         <changefreq>weekly</changefreq>
