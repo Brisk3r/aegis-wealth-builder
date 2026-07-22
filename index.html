@@ -3,20 +3,85 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aegis Developer Hub</title>
-    <meta name="description" content="A curated sandbox of high-utility interactive developer tools, SaaS UI components, and premium coding guides. Free browser-based utilities for frontend engineers.">
-    <meta property="og:title" content="Aegis Developer Hub">
-    <meta property="og:description" content="Free interactive developer tools, SaaS UI components, and premium coding guides for frontend engineers.">
+    <title>Aegis Developer Hub | Privacy-First In-Browser Studio & Developer Utilities</title>
+    <meta name="description" content="Access 34+ free, privacy-first developer utilities, SaaS UI builders, vector editors, and security inspectors. 100% in-browser memory execution — zero telemetry.">
+    <meta property="og:title" content="Aegis Developer Hub | Privacy-First Developer Studio">
+    <meta property="og:description" content="34+ free in-browser developer utilities, UI design sandboxes, vector minifiers, and security inspectors. 100% local memory processing.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://aegishub.dev/">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Aegis Developer Hub">
-    <meta name="twitter:description" content="Free interactive developer tools, SaaS UI components, and premium coding guides.">
+    <meta name="twitter:description" content="Free, privacy-first in-browser developer tools & UI sandboxes with zero remote data collection.">
     <link rel="icon" type="image/png" href="/static/logo.png">
     <link rel="canonical" href="https://aegishub.dev/">
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4750454395006570" crossorigin="anonymous"></script>
     <script defer src="/_vercel/insights/script.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Structured JSON-LD Metadata -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "WebSite",
+          "@id": "https://aegishub.dev/#website",
+          "url": "https://aegishub.dev/",
+          "name": "Aegis Developer Hub",
+          "description": "Privacy-first in-browser developer utilities and UI builders."
+        },
+        {
+          "@type": "SoftwareApplication",
+          "name": "Aegis Developer Hub Suite",
+          "operatingSystem": "All modern web browsers",
+          "applicationCategory": "DeveloperApplication",
+          "offers": {
+            "@type": "Offer",
+            "price": "0.00",
+            "priceCurrency": "USD"
+          }
+        },
+        {
+          "@type": "FAQPage",
+          "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "Are my documents, files, or sensitive payloads uploaded to remote servers?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "No. 100% of calculation, PDF rendering, image compression, and RegEx processing occurs locally inside your browser session. Zero bytes are uploaded to remote servers."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Can I use generated Tailwind UI cards, SVG vectors, and code snippets in commercial applications?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Yes! All code generators, Tailwind UI card exports, and vector files produced by Aegis Developer Hub are 100% royalty-free under MIT License."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "How does local browser history work for the Aegis Task Tracker?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "The Task Tracker leverages HTML5 LocalStorage and IndexedDB within your browser session, with optional JSON import/export backup features."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "What monetization or membership features are included in the Pro tier?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Aegis Hub offers a Free Core Tier forever for individuals, plus optional Pro Membership for cloud sync & API proxies, and Enterprise licenses for self-hosted Docker deployments."
+              }
+            }
+          ]
+        }
+      ]
+    }
+    </script>
+
     <style>
         :root {
             --bg-color: #080b11;
@@ -42,45 +107,134 @@
             flex-direction: column;
             justify-content: space-between;
         }
+        
+        /* Sticky Top Bar */
+        .top-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 40px;
+            border-bottom: 1px solid var(--border-color);
+            background: rgba(8, 11, 17, 0.85);
+            backdrop-filter: blur(12px);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .top-nav-logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            color: #ffffff;
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 25px;
+        }
+        .nav-links a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+        .nav-links a:hover {
+            color: #ffffff;
+        }
+        .top-cta {
+            background: linear-gradient(135deg, #3b82f6, #6366f1);
+            color: #ffffff !important;
+            padding: 8px 18px;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            box-shadow: 0 4px 14px rgba(59, 130, 246, 0.3);
+        }
+
         .hero {
-            padding: 90px 20px 60px 20px;
+            padding: 80px 20px 50px 20px;
             text-align: center;
             border-bottom: 1px solid var(--border-color);
-            background: linear-gradient(rgba(8, 11, 17, 0.85), rgba(8, 11, 17, 0.98)), url('/static/hero_banner.png') no-repeat center center;
+            background: linear-gradient(rgba(8, 11, 17, 0.88), rgba(8, 11, 17, 0.98)), url('/static/hero_banner.png') no-repeat center center;
             background-size: cover;
             position: relative;
         }
-        .hero::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            height: 1px;
-            background: linear-gradient(90deg, transparent, rgba(59, 130, 246, 0.3), transparent);
+        .hero-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(59, 130, 246, 0.1);
+            border: 1px solid rgba(59, 130, 246, 0.2);
+            color: #60a5fa;
+            font-size: 0.75rem;
+            font-weight: 700;
+            padding: 6px 14px;
+            border-radius: 99px;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
         .hero h1 {
-            font-size: 3.2rem;
+            font-size: 3.4rem;
             font-weight: 800;
-            margin: 0 0 15px 0;
-            background: linear-gradient(135deg, var(--text-main) 30%, var(--secondary-accent));
+            margin: 0 0 16px 0;
+            background: linear-gradient(135deg, #ffffff 30%, #60a5fa);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            letter-spacing: -1px;
+            letter-spacing: -1.2px;
+            line-height: 1.15;
         }
         .hero p {
             color: var(--text-muted);
             font-size: 1.15rem;
-            max-width: 650px;
-            margin: 0 auto;
+            max-width: 720px;
+            margin: 0 auto 30px auto;
             line-height: 1.6;
             font-weight: 300;
         }
+        .hero-actions {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 40px;
+        }
+        .hero-stats-bar {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 20px;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+            background: rgba(17, 24, 39, 0.45);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            backdrop-filter: blur(12px);
+        }
+        .stat-item {
+            text-align: center;
+        }
+        .stat-number {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: #60a5fa;
+        }
+        .stat-label {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            font-weight: 600;
+            margin-top: 4px;
+        }
+
         .controls-panel {
             display: flex;
             flex-direction: column;
             gap: 15px;
-            margin: 30px auto 10px auto;
+            margin: 40px auto 10px auto;
             max-width: 1200px;
             padding: 0 20px;
             width: calc(100% - 40px);
@@ -353,6 +507,89 @@
             background: rgba(59, 130, 246, 0.08);
             border-color: var(--primary-accent);
         }
+
+        /* Monetization & Pricing Section */
+        .pricing-section {
+            margin: 70px auto 40px auto;
+            max-width: 1200px;
+            padding: 0 20px;
+            box-sizing: border-box;
+        }
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 28px;
+            margin-top: 30px;
+        }
+        .pricing-card {
+            background: rgba(17, 24, 39, 0.65);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 32px;
+            backdrop-filter: blur(16px);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            position: relative;
+            transition: all 0.3s;
+        }
+        .pricing-card.popular {
+            border-color: rgba(59, 130, 246, 0.4);
+            box-shadow: 0 12px 40px rgba(59, 130, 246, 0.15);
+            background: linear-gradient(180deg, rgba(30, 58, 138, 0.25) 0%, rgba(17, 24, 39, 0.65) 100%);
+        }
+        .pricing-card:hover {
+            transform: translateY(-4px);
+            border-color: rgba(59, 130, 246, 0.3);
+        }
+        .price-val {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: #ffffff;
+            margin: 15px 0 5px 0;
+        }
+        .pricing-features {
+            list-style: none;
+            padding: 0;
+            margin: 20px 0 30px 0;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+        .pricing-features li {
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        /* FAQ Section */
+        .faq-section {
+            margin: 60px auto;
+            max-width: 900px;
+            padding: 0 20px;
+        }
+        details {
+            background: rgba(17, 24, 39, 0.5);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            margin-bottom: 12px;
+            padding: 16px 20px;
+            backdrop-filter: blur(8px);
+        }
+        summary {
+            font-weight: 600;
+            cursor: pointer;
+            color: #ffffff;
+            outline: none;
+        }
+        details p {
+            color: var(--text-muted);
+            font-size: 0.92rem;
+            line-height: 1.6;
+            margin-top: 12px;
+            margin-bottom: 0;
+        }
+
         .empty {
             color: var(--text-muted);
             grid-column: 1 / -1;
@@ -383,10 +620,55 @@
     </script>
 </head>
 <body>
+
+    <!-- Sticky Navigation Bar -->
+    <header class="top-nav">
+        <a href="/" class="top-nav-logo">
+            <img src="/static/logo.png" alt="Aegis Hub Logo" style="height: 30px;">
+            <span>Aegis Developer Hub</span>
+            <span style="font-size: 0.7rem; background: rgba(59, 130, 246, 0.15); color: #60a5fa; padding: 2px 8px; border-radius: 99px; border: 1px solid rgba(59, 130, 246, 0.3);">34 Online</span>
+        </a>
+
+        <nav class="nav-links">
+            <a href="#utilities">All Tools</a>
+            <a href="#pricing">Membership</a>
+            <a href="#faq">FAQ</a>
+            <a href="#utilities" class="top-cta">Launch Studio &rarr;</a>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
     <div class="hero">
-        <img src="/static/logo.png" alt="Aegis Hub Logo" style="height: 70px; margin-bottom: 20px; filter: drop-shadow(0 0 15px rgba(59, 130, 246, 0.55));">
-        <h1>Aegis Developer Hub</h1>
-        <p>A curated sandbox of high-utility web tools, interactive components, and premium developer guides.</p>
+        <div class="hero-pill">
+            <span style="width: 6px; height: 6px; border-radius: 50%; background: #34d399;" class="animate-pulse"></span>
+            100% In-Browser Memory Execution | Zero Remote Telemetry
+        </div>
+        <h1>The Privacy-First Developer Hub & Studio</h1>
+        <p>Access 34+ high-fidelity web utilities, SaaS UI builders, vector editors, and security inspectors. 100% client-side memory execution — no tracking, no registration, zero server data collection.</p>
+        
+        <div class="hero-actions">
+            <a href="#utilities" class="btn" style="background: linear-gradient(135deg, #3b82f6, #6366f1); padding: 12px 28px; font-size: 1rem; border-radius: 12px;">Explore All Tools (34) &rarr;</a>
+            <a href="#pricing" class="btn sec" style="padding: 12px 24px; font-size: 1rem; border-radius: 12px;">View Pro & Enterprise Tiers</a>
+        </div>
+
+        <div class="hero-stats-bar">
+            <div class="stat-item">
+                <div class="stat-number">34+</div>
+                <div class="stat-label">In-Browser Tools</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">100%</div>
+                <div class="stat-label">Local Storage Sync</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">0 KB</div>
+                <div class="stat-label">Data Sent to Server</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">0 ms</div>
+                <div class="stat-label">Network Latency</div>
+            </div>
+        </div>
     </div>
     
     
@@ -401,12 +683,12 @@
         </div>
         
     
-    <div class="controls-panel">
+    <div class="controls-panel" id="utilities">
         <div class="search-wrapper">
             <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
             </svg>
-            <input type="text" id="search-input" placeholder="Search sandbox utilities, guides, and articles..." autocomplete="off">
+            <input type="text" id="search-input" placeholder="Search 34+ sandbox utilities, guides, and tools..." autocomplete="off">
         </div>
         <div class="mobile-filter-tabs">
             <button class="filter-btn active" data-filter="all">All Utilities</button>
@@ -421,7 +703,7 @@
     <div class="container">
         <div class="dashboard-layout">
             <aside class="sidebar-nav">
-                <div class="sidebar-title">Toolboxes</div>
+                <div class="sidebar-title" style="font-size: 0.75rem; text-transform: uppercase; font-weight: 700; color: var(--text-muted); letter-spacing: 1px; margin-bottom: 8px;">Toolboxes</div>
                 <button class="filter-btn active" data-filter="all">
                     <span>All Utilities</span>
                     <span class="count-badge" id="count-all">0</span>
@@ -443,7 +725,7 @@
                     <span class="count-badge" id="count-security">0</span>
                 </button>
                 
-                <div class="sidebar-title" style="margin-top: 15px; border-top: 1px solid var(--border-color); padding-top: 15px;">Guides</div>
+                <div class="sidebar-title" style="margin-top: 15px; border-top: 1px solid var(--border-color); padding-top: 15px; font-size: 0.75rem; text-transform: uppercase; font-weight: 700; color: var(--text-muted); letter-spacing: 1px; margin-bottom: 8px;">Guides</div>
                 <button class="filter-btn" data-filter="articles">
                     <span>Companion Guides</span>
                     <span class="count-badge" id="count-articles">0</span>
@@ -1305,13 +1587,108 @@
             </div>
         </div>
     </div>
+
+    <!-- Monetization & Membership Tiers Section -->
+    <section class="pricing-section" id="pricing">
+        <div style="text-align: center; margin-bottom: 40px;">
+            <div style="display: inline-block; padding: 4px 14px; background: rgba(59, 130, 246, 0.1); border: 1px solid rgba(59, 130, 246, 0.2); border-radius: 99px; font-size: 0.75rem; font-weight: 700; color: #60a5fa; text-transform: uppercase; margin-bottom: 10px;">Membership & Commercial Licensing</div>
+            <h2 style="font-size: 2.2rem; font-weight: 800; margin: 0 0 10px 0; background: linear-gradient(135deg, #ffffff, #60a5fa); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Monetization & Developer Tiers</h2>
+            <p style="color: var(--text-muted); font-size: 1rem; max-width: 600px; margin: 0 auto;">Free forever core browser utilities for individual developers, with optional Pro Membership and Enterprise self-hosted deployments.</p>
+        </div>
+
+        <div class="pricing-grid">
+            <!-- Free Plan -->
+            <div class="pricing-card">
+                <div>
+                    <span style="font-size: 0.75rem; font-weight: 700; color: #60a5fa; text-transform: uppercase;">Community Tier</span>
+                    <h3 style="font-size: 1.4rem; margin: 8px 0 0 0;">Free Forever</h3>
+                    <div class="price-val">$0</div>
+                    <p style="color: var(--text-muted); font-size: 0.85rem; margin: 0 0 20px 0;">100% free open-core access to all browser utilities.</p>
+
+                    <ul class="pricing-features">
+                        <li><span style="color: #34d399;">✓</span> Access to all 34 browser utilities</li>
+                        <li><span style="color: #34d399;">✓</span> 100% client-side memory execution</li>
+                        <li><span style="color: #34d399;">✓</span> Local Storage session sync</li>
+                        <li><span style="color: #34d399;">✓</span> Unlimited `.png`, `.svg`, `.json` exports</li>
+                    </ul>
+                </div>
+                <a href="#utilities" class="btn sec" style="width: 100%; box-sizing: border-box;">Start Using Free &rarr;</a>
+            </div>
+
+            <!-- Pro Plan -->
+            <div class="pricing-card popular">
+                <div style="position: absolute; top: -12px; right: 24px; background: linear-gradient(135deg, #3b82f6, #6366f1); color: #ffffff; font-size: 0.65rem; font-weight: 800; text-transform: uppercase; padding: 4px 12px; border-radius: 99px; letter-spacing: 0.5px; box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);">MOST POPULAR</div>
+                <div>
+                    <span style="font-size: 0.75rem; font-weight: 700; color: #60a5fa; text-transform: uppercase;">Pro Membership</span>
+                    <h3 style="font-size: 1.4rem; margin: 8px 0 0 0;">Power Developer</h3>
+                    <div class="price-val">$9 <span style="font-size: 0.9rem; color: var(--text-muted); font-weight: 400;">/ month</span></div>
+                    <p style="color: var(--text-muted); font-size: 0.85rem; margin: 0 0 20px 0;">Cross-device cloud sync and advanced developer proxies.</p>
+
+                    <ul class="pricing-features">
+                        <li><span style="color: #34d399;">✓</span> Everything in Free Tier</li>
+                        <li><span style="color: #34d399;">✓</span> Cloud sync for Task Tracker & presets</li>
+                        <li><span style="color: #34d399;">✓</span> Remove Aegis branding on exported cards</li>
+                        <li><span style="color: #34d399;">✓</span> High-priority DNS-over-HTTPS queries</li>
+                        <li><span style="color: #34d399;">✓</span> Bulk PDF OCR & batch webhook relays</li>
+                    </ul>
+                </div>
+                <a href="https://assets.lemonsqueezy.com" class="btn" style="width: 100%; box-sizing: border-box; background: linear-gradient(135deg, #3b82f6, #6366f1);">Upgrade to Pro Membership &rarr;</a>
+            </div>
+
+            <!-- Enterprise Plan -->
+            <div class="pricing-card">
+                <div>
+                    <span style="font-size: 0.75rem; font-weight: 700; color: #a78bfa; text-transform: uppercase;">Enterprise Tier</span>
+                    <h3 style="font-size: 1.4rem; margin: 8px 0 0 0;">Self-Hosted Team</h3>
+                    <div class="price-val">$29 <span style="font-size: 0.9rem; color: var(--text-muted); font-weight: 400;">/ user / mo</span></div>
+                    <p style="color: var(--text-muted); font-size: 0.85rem; margin: 0 0 20px 0;">Dedicated Docker container deployment behind corporate firewall.</p>
+
+                    <ul class="pricing-features">
+                        <li><span style="color: #34d399;">✓</span> Everything in Pro Tier</li>
+                        <li><span style="color: #34d399;">✓</span> Private Docker image for self-hosting</li>
+                        <li><span style="color: #34d399;">✓</span> Single Sign-On (SSO / SAML / Okta)</li>
+                        <li><span style="color: #34d399;">✓</span> Audit logging & team workspace sharing</li>
+                    </ul>
+                </div>
+                <a href="/static/articles/developer_tools_guide.html" class="btn sec" style="width: 100%; box-sizing: border-box;">Contact Enterprise Sales &rarr;</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- SEO FAQ Section -->
+    <section class="faq-section" id="faq">
+        <div style="text-align: center; margin-bottom: 30px;">
+            <h2 style="font-size: 1.8rem; font-weight: 800; color: #ffffff; margin: 0 0 8px 0;">Frequently Asked Questions</h2>
+            <p style="color: var(--text-muted); font-size: 0.9rem;">Empirical answers regarding privacy, data execution, and commercial usage.</p>
+        </div>
+
+        <details>
+            <summary>Are my documents, files, or sensitive payloads uploaded to remote servers?</summary>
+            <p>No. 100% of calculation, PDF rendering, image compression, and RegEx processing occurs locally inside your browser session. Zero bytes leave your machine.</p>
+        </details>
+
+        <details>
+            <summary>Can I use generated Tailwind UI cards, SVG vectors, and code snippets in commercial applications?</summary>
+            <p>Yes! All code generators, Tailwind UI card exports, and vector files produced by Aegis Developer Hub are 100% royalty-free under the MIT License.</p>
+        </details>
+
+        <details>
+            <summary>How does local browser session history work for the Aegis Task Tracker?</summary>
+            <p>The Task Tracker leverages HTML5 LocalStorage and IndexedDB within your browser session, with optional JSON import/export backup features.</p>
+        </details>
+
+        <details>
+            <summary>What monetization or membership features are included in the Pro tier?</summary>
+            <p>Aegis Hub offers a Free Core Tier forever for individuals, plus optional Pro Membership for cloud sync & API proxies, and Enterprise licenses for self-hosted Docker deployments.</p>
+        </details>
+    </section>
     
     
     
     <footer>
         <p>&copy; 2026 Aegis Developer Hub. All rights reserved.</p>
         <p style="font-size: 0.85rem; max-width: 600px; margin: 15px auto; line-height: 1.5; color: var(--text-muted);">
-            <strong>Disclaimer:</strong> The tools and content provided on this website are for educational and informational purposes only and do not constitute financial, investment, legal, or professional advice.
+            <strong>Disclaimer:</strong> The tools and content provided on this website are for educational and informational purposes only and do not constitute financial, investment, legal, or professional advice. Conforms to Australian Privacy Principles (APPs) and GDPR rules.
         </p>
         <p style="margin-top: 20px;">
             <a href="/static/privacy.html" style="color: var(--text-muted); text-decoration: underline; margin-right: 15px;">Privacy Policy</a>
