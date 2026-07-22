@@ -352,7 +352,7 @@ def get_category_for_tool(topic: str) -> str:
     topic_lower = topic.lower()
     if any(x in topic_lower for x in ["flex", "color", "wheel", "card", "svg", "breakpoint", "screenshot", "snippet", "shadow", "gradient", "css", "favicon"]):
         return "ui"
-    elif any(x in topic_lower for x in ["cron", "dns", "ssl", "webhook", "openapi", "http", "header", "url", "parameter", "utm", "query"]):
+    elif any(x in topic_lower for x in ["cron", "dns", "ssl", "webhook", "openapi", "http", "header", "url", "parameter", "utm", "query", "task", "tracker"]):
         return "devops"
     elif any(x in topic_lower for x in ["json", "yaml", "sql", "typescript", "csv", "diff", "markdown", "table", "formatter", "parser", "entity"]):
         return "data"
@@ -362,7 +362,7 @@ def get_category_for_article(title: str) -> str:
     title_lower = title.lower()
     if any(x in title_lower for x in ["flexbox", "color", "wheel", "card", "svg", "breakpoint", "screenshot", "snippet", "shadow", "gradient", "css", "favicon"]):
         return "ui"
-    elif any(x in title_lower for x in ["cron", "dns", "ssl", "webhook", "openapi", "http", "header", "url", "parameter", "utm", "query"]):
+    elif any(x in title_lower for x in ["cron", "dns", "ssl", "webhook", "openapi", "http", "header", "url", "parameter", "utm", "query", "task", "tracker"]):
         return "devops"
     elif any(x in title_lower for x in ["json", "yaml", "sql", "typescript", "csv", "diff", "markdown", "table", "formatter", "parser", "entity"]):
         return "data"
@@ -370,6 +370,7 @@ def get_category_for_article(title: str) -> str:
 
 def generate_index_page(tools, articles) -> str:
     featured_tool_names = [
+        "Task Tracker",
         "SaaS UI Boilerplate Exporter", 
         "LegalRedact.io", 
         "Visual Color Wheel & Palette Generator", 
