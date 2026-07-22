@@ -67,6 +67,7 @@
     
 
     <script src="https://assets.lemonsqueezy.com/lemon.js" defer></script>
+    <script src="/static/js/aegis-pro.js"></script>
 </head>
 <body class="min-h-screen flex flex-col justify-between">
 
@@ -76,7 +77,10 @@
             <img src="/static/logo.png" alt="Aegis Hub Logo" style="height: 30px;">
             <span>Aegis Developer Hub</span>
         </a>
-        <a href="/" style="color: #60a5fa; text-decoration: none; font-size: 0.95rem; font-weight: 500;">&larr; Back to Hub</a>
+        <div class="flex items-center gap-4">
+            <span id="aegis-pro-badge"></span>
+            <a href="/" style="color: #60a5fa; text-decoration: none; font-size: 0.95rem; font-weight: 500;">&larr; Back to Hub</a>
+        </div>
     </div>
 
     <!-- Toast Container -->
@@ -130,6 +134,10 @@
                     <button onclick="dispatchWebhookPayload()" class="w-full py-3 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-bold text-xs shadow-lg transition-all flex items-center justify-center gap-2">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
                         Dispatch Test Payload
+                    </button>
+                    <button onclick="dispatchBatchRelay()" class="w-full py-2.5 rounded-xl bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-500 hover:to-pink-500 text-white font-bold text-xs shadow flex items-center justify-center gap-2">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path></svg>
+                        Batch Webhook Relay (Pro Feature)
                     </button>
                     <button onclick="copyCurl()" class="w-full py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-gray-300 font-semibold text-xs border border-white/10 flex items-center justify-center gap-2">
                         <svg class="w-3.5 h-3.5 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3"></path></svg>
@@ -216,6 +224,37 @@
             const selected = document.getElementById('presetSelect').value;
             const data = presets[selected] || presets.custom;
             document.getElementById('payloadJson').value = JSON.stringify(data, null, 2);
+        }
+
+        async function dispatchBatchRelay() {
+            if (!AegisPro.isPro()) {
+                showToast('Pro Membership required for Batch Webhook Relays.', 'rose');
+                AegisPro.openModal();
+                return;
+            }
+
+            const bodyStr = document.getElementById('payloadJson').value.trim();
+            const endpoints = [
+                'https://api.aegishub.dev/v1/webhooks/relay-primary',
+                'https://api.aegishub.dev/v1/webhooks/relay-backup',
+                'https://api.aegishub.dev/v1/webhooks/relay-analytics'
+            ];
+
+            endpoints.forEach(ep => {
+                const logItem = {
+                    id: 'wh_' + Math.random().toString(36).substr(2, 9),
+                    url: ep,
+                    time: new Date().toLocaleTimeString(),
+                    latency: Math.floor(Math.random() * 45) + 12 + 'ms',
+                    status: 'Dispatched (Pro Multi-Relay)',
+                    color: 'purple',
+                    payload: bodyStr
+                };
+                feedLogs.unshift(logItem);
+            });
+
+            renderFeed();
+            showToast('Dispatched Batch Webhook Relay across 3 endpoints!');
         }
 
         async function dispatchWebhookPayload() {

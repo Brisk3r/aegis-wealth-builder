@@ -1,0 +1,16 @@
+version: '3.8'
+
+services:
+  aegis-hub:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: aegis-developer-hub
+    restart: always
+    ports:
+      - "8080:80"
+    environment:
+      - NODE_ENV=production
+      - AEGIS_LICENSE_TIER=enterprise
+    labels:
+      - "com.aegishub.description=Enterprise Self-Hosted Developer Studio"

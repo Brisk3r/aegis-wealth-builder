@@ -484,6 +484,7 @@ def generate_index_page(tools, articles) -> str:
     <link rel="icon" type="image/png" href="/static/logo.png">
     <link rel="canonical" href="https://{DOMAIN}/">{adsense_tag}
     <script defer src="/_vercel/insights/script.js"></script>
+    <script src="/static/js/aegis-pro.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     
     <!-- Structured JSON-LD Metadata -->
@@ -1263,7 +1264,7 @@ def generate_index_page(tools, articles) -> str:
                         <li><span style="color: #34d399;">✓</span> Bulk PDF OCR & batch webhook relays</li>
                     </ul>
                 </div>
-                <a href="https://assets.lemonsqueezy.com" class="btn" style="width: 100%; box-sizing: border-box; background: linear-gradient(135deg, #3b82f6, #6366f1);">Upgrade to Pro Membership &rarr;</a>
+                <button onclick="AegisPro.openModal()" class="btn" style="width: 100%; box-sizing: border-box; background: linear-gradient(135deg, #3b82f6, #6366f1); border: none; cursor: pointer;">Upgrade to Pro Membership &rarr;</button>
             </div>
 
             <!-- Enterprise Plan -->
@@ -1281,7 +1282,7 @@ def generate_index_page(tools, articles) -> str:
                         <li><span style="color: #34d399;">✓</span> Audit logging & team workspace sharing</li>
                     </ul>
                 </div>
-                <a href="/static/articles/developer_tools_guide.html" class="btn sec" style="width: 100%; box-sizing: border-box;">Contact Enterprise Sales &rarr;</a>
+                <a href="/README_DOCKER.md" target="_blank" class="btn sec" style="width: 100%; box-sizing: border-box;">View Enterprise Docker Guide &rarr;</a>
             </div>
         </div>
     </section>
