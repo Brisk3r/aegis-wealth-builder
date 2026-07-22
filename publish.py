@@ -1099,36 +1099,44 @@ def generate_index_page(tools, articles) -> str:
         </nav>
     </header>
 
-    <!-- Hero Section -->
+    <!-- Under Construction / System Maintenance Front -->
     <div class="hero">
-        <div class="hero-pill">
-            <span style="width: 6px; height: 6px; border-radius: 50%; background: #34d399;" class="animate-pulse"></span>
-            100% In-Browser Memory Execution | Zero Remote Telemetry
+        <div class="hero-pill" style="background: rgba(245, 158, 11, 0.15); border: 1px solid rgba(245, 158, 11, 0.3); color: #fbbf24;">
+            <span style="width: 8px; height: 8px; border-radius: 50%; background: #f59e0b;" class="animate-pulse"></span>
+            🚧 UNDER CONSTRUCTION | Platform Maintenance & Upgrade v2.0
         </div>
-        <h1>The Privacy-First Developer Hub & Studio</h1>
-        <p>Access 34+ high-fidelity web utilities, SaaS UI builders, vector editors, and security inspectors. 100% client-side memory execution — no tracking, no registration, zero server data collection.</p>
+        <h1 style="background: linear-gradient(135deg, #ffffff 0%, #fbbf24 50%, #f59e0b 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
+            Aegis Hub is Currently Under Construction
+        </h1>
+        <p style="max-width: 720px; margin: 15px auto; color: #cbd5e1; font-size: 1.15rem; line-height: 1.6;">
+            We are actively upgrading our core infrastructure, payment gateways, and enterprise Docker suites. All 34 client-side developer utilities remain <strong>100% operational</strong> in local sandbox mode below.
+        </p>
         
-        <div class="hero-actions">
-            <a href="#utilities" class="btn" style="background: linear-gradient(135deg, #3b82f6, #6366f1); padding: 12px 28px; font-size: 1rem; border-radius: 12px;">Explore All Tools (34) &rarr;</a>
-            <a href="#pricing" class="btn sec" style="padding: 12px 24px; font-size: 1rem; border-radius: 12px;">View Pro & Enterprise Tiers</a>
+        <div class="hero-actions" style="margin-top: 25px;">
+            <a href="#utilities" class="btn" style="background: linear-gradient(135deg, #f59e0b, #d97706); padding: 14px 32px; font-size: 1rem; border-radius: 12px; font-weight: 700; color: #ffffff; text-decoration: none; box-shadow: 0 10px 25px rgba(245, 158, 11, 0.3);">
+                Access Developer Utilities Sandbox &darr;
+            </a>
+            <a href="/static/enterprise.html" class="btn sec" style="padding: 14px 24px; font-size: 1rem; border-radius: 12px;">
+                Enterprise Self-Hosting Status
+            </a>
         </div>
 
-        <div class="hero-stats-bar">
+        <div class="hero-stats-bar" style="margin-top: 40px;">
+            <div class="stat-item">
+                <div class="stat-number" style="color: #fbbf24;">v2.0</div>
+                <div class="stat-label">Upgrade In Progress</div>
+            </div>
             <div class="stat-item">
                 <div class="stat-number">34+</div>
-                <div class="stat-label">In-Browser Tools</div>
+                <div class="stat-label">Active Utilities</div>
             </div>
             <div class="stat-item">
                 <div class="stat-number">100%</div>
-                <div class="stat-label">Local Storage Sync</div>
+                <div class="stat-label">In-Browser Memory</div>
             </div>
             <div class="stat-item">
                 <div class="stat-number">0 KB</div>
                 <div class="stat-label">Data Sent to Server</div>
-            </div>
-            <div class="stat-item">
-                <div class="stat-number">0 ms</div>
-                <div class="stat-label">Network Latency</div>
             </div>
         </div>
     </div>
