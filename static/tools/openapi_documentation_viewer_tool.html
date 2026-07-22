@@ -3,38 +3,61 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DocuPaste | Professional OpenAPI Dashboard</title>
+    <title>OpenAPI Documentation Viewer & Studio | Aegis Hub</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/swagger-ui-dist@4.15.5/swagger-ui-bundle.js"></script>
     <link rel="stylesheet" href="https://unpkg.com/swagger-ui-dist@4.15.5/swagger-ui.css" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/js-yaml/4.1.0/js-yaml.min.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
-        :root { --bg-color: #0f172a; }
-        body { font-family: 'Outfit', sans-serif; background-color: var(--bg-color); color: #e2e8f0; }
-        .glass { background: rgba(30, 41, 59, 0.4); backdrop-filter: blur(16px); border: 1px solid rgba(255,255,255,0.08); box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37); transition: all 0.3s ease; }
-        
-        /* Swagger Overrides for Dark Mode Theme */
+        body {
+            font-family: 'Outfit', sans-serif;
+            background-color: #080b11;
+            color: #f3f4f6;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(59, 130, 246, 0.04) 0%, transparent 40%),
+                radial-gradient(circle at 90% 80%, rgba(99, 102, 241, 0.03) 0%, transparent 40%);
+            background-attachment: fixed;
+        }
+        .glass-card {
+            background: rgba(17, 24, 39, 0.55);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        /* Swagger UI Custom Dark Theme Overrides */
         .swagger-ui .topbar { display: none; }
-        .swagger-ui { background: transparent !important; }
+        .swagger-ui { background: transparent !important; color: #cbd5e1 !important; }
         .swagger-ui .info .title, .swagger-ui .info li, .swagger-ui .info p, .swagger-ui .info table, .swagger-ui .info a { color: #f8fafc !important; }
         .swagger-ui .opblock .opblock-summary-path { font-weight: 600; color: #fff; }
         .swagger-ui .opblock.opblock-get { background: rgba(56, 189, 248, 0.1); border-color: rgba(56, 189, 248, 0.2); }
         .swagger-ui .opblock.opblock-post { background: rgba(74, 222, 128, 0.1); border-color: rgba(74, 222, 128, 0.2); }
         .swagger-ui .btn { border-color: #475569 !important; background: #1e293b !important; color: #cbd5e1 !important; }
 
-        #spec-input::placeholder { color: #64748b; }
-        .custom-scrollbar::-webkit-scrollbar { width: 8px; }
-        .custom-scrollbar::-webkit-scrollbar-track { background: #0f172a; }
-        .custom-scrollbar::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
+        input[type="text"], textarea {
+            color: #f8fafc !important;
+            background-color: rgba(15, 23, 42, 0.6) !important;
+            border-color: rgba(255, 255, 255, 0.1) !important;
+        }
+        input::placeholder, textarea::placeholder {
+            color: #64748b !important;
+        }
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: rgba(15, 23, 42, 0.5);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+        }
     </style>
+    <!-- AdSense & Analytics tags -->
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4750454395006570" crossorigin="anonymous"></script>
-
     <script defer src="/_vercel/insights/script.js"></script>
-
     <link rel="icon" type="image/png" href="/static/logo.png">
-
-    <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-BZVWXPPG06"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
@@ -42,8 +65,6 @@
       gtag('js', new Date());
       gtag('config', 'G-BZVWXPPG06');
     </script>
-
-    <script src="https://assets.lemonsqueezy.com/lemon.js" defer></script>
 
     <style>
         /* Global accessibility & dark theme input fixes */
@@ -56,77 +77,119 @@
         }
     </style>
     
-</head>
-<body class="min-h-screen p-4 md:p-10">
 
-    <div class="navbar" style="display: flex; justify-content: space-between; align-items: center; padding: 20px 40px; border-bottom: 1px solid rgba(255,255,255,0.08); background: rgba(11, 15, 25, 0.75); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); position: sticky; top: 0; z-index: 100; font-family: 'Outfit', sans-serif;">
+    <script src="https://assets.lemonsqueezy.com/lemon.js" defer></script>
+</head>
+<body class="min-h-screen flex flex-col justify-between">
+
+    <!-- Sticky Navigation Bar -->
+    <div class="navbar" style="display: flex; justify-content: space-between; align-items: center; padding: 18px 40px; border-bottom: 1px solid rgba(255,255,255,0.08); background: rgba(8, 11, 17, 0.85); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); position: sticky; top: 0; z-index: 100; font-family: 'Outfit', sans-serif;">
         <a href="/" style="display: flex; align-items: center; gap: 10px; color: #f3f4f6; text-decoration: none; font-weight: 600;">
             <img src="/static/logo.png" alt="Aegis Hub Logo" style="height: 30px;">
             <span>Aegis Developer Hub</span>
         </a>
         <a href="/" style="color: #60a5fa; text-decoration: none; font-size: 0.95rem; font-weight: 500;">&larr; Back to Hub</a>
     </div>
-    
 
-    
-    
+    <!-- Toast Container -->
+    <div id="toast-container" class="fixed top-20 right-6 z-50 flex flex-col gap-2 pointer-events-none"></div>
 
-    <div class="max-w-7xl mx-auto">
-        <header class="mb-10 flex flex-col md:flex-row md:items-center justify-between gap-4">
+    <!-- Main Container -->
+    <main class="max-w-7xl w-full mx-auto px-4 py-8 flex-grow">
+        
+        <!-- Header -->
+        <div class="mb-8 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
             <div>
-                <h1 class="text-3xl font-semibold bg-gradient-to-r from-blue-400 to-cyan-300 bg-clip-text text-transparent">DocuPaste</h1>
-                <p class="text-slate-400">Professional-grade OpenAPI/Swagger documentation generator</p>
+                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-blue-500/10 border border-blue-500/20 text-blue-400 mb-3">
+                    <span class="w-2 h-2 rounded-full bg-blue-400 animate-pulse"></span>
+                    OpenAPI 3.0 & Swagger Spec Renderer
+                </div>
+                <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight bg-gradient-to-r from-blue-400 via-indigo-300 to-purple-400 bg-clip-text text-transparent">
+                    OpenAPI Documentation Viewer
+                </h1>
+                <p class="text-gray-400 text-sm mt-1 max-w-2xl">
+                    Paste JSON/YAML API specifications to render interactive Swagger documentation and test API endpoints locally.
+                </p>
             </div>
-            <div class="flex items-center gap-2">
-                <span class="px-3 py-1 rounded-full glass text-xs text-blue-300 border border-blue-900/50">Ready</span>
+
+            <button onclick="loadSampleSpec()" class="px-4 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-xs font-semibold text-gray-300 border border-white/10 flex items-center gap-1.5 self-start md:self-auto">
+                <svg class="w-3.5 h-3.5 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
+                Load Sample Spec
+            </button>
+        </div>
+
+        <!-- Split Screen Workspace (2 Cols) -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 mb-12">
+            
+            <!-- Left Input Column (5 cols) -->
+            <div class="lg:col-span-5 glass-card rounded-3xl p-6 border border-white/5 flex flex-col space-y-4 min-h-[600px]">
+                <div class="flex items-center justify-between">
+                    <label class="text-xs font-bold text-gray-300 uppercase tracking-wider">Source Specification (JSON or YAML)</label>
+                </div>
+
+                <textarea id="spec-input" class="w-full flex-grow p-4 rounded-xl font-mono text-xs text-blue-200 resize-none" placeholder="Paste OpenAPI 3.0 JSON or YAML spec here..."></textarea>
+
+                <div class="flex items-center gap-3 pt-2">
+                    <button id="render-btn" onclick="renderDoc()" class="flex-grow py-3 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-bold text-xs shadow-lg transition-all flex items-center justify-center gap-2">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"></path></svg>
+                        Render Interactive Documentation
+                    </button>
+                </div>
             </div>
-        </header>
 
-        <div class="grid lg:grid-cols-2 gap-8">
-            <section class="glass p-6 rounded-3xl flex flex-col h-[70vh]">
-                <h2 class="text-sm font-semibold mb-4 uppercase tracking-widest text-slate-500">Source Specification</h2>
-                <textarea id="spec-input" class="w-full flex-grow bg-slate-950/50 border border-slate-700/50 rounded-2xl p-6 text-sm font-mono text-cyan-100 focus:ring-2 focus:ring-blue-500/50 outline-none resize-none custom-scrollbar" placeholder="Paste JSON or YAML here..."></textarea>
-                <button id="render-btn" class="mt-6 w-full bg-blue-600 hover:bg-blue-500 active:scale-[0.99] transform text-white font-semibold py-4 rounded-2xl transition-all shadow-lg shadow-blue-900/20">Render Documentation</button>
-            </section>
-
-            <section class="glass p-6 rounded-3xl h-[70vh] overflow-y-auto custom-scrollbar" id="output-container">
-                <h2 class="text-sm font-semibold mb-6 uppercase tracking-widest text-slate-500">Live Preview</h2>
-                <div id="render-area" class="h-full">
-                    <div class="h-full flex flex-col items-center justify-center text-slate-600 opacity-60">
-                        <svg class="w-16 h-16 mb-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
-                        <p class="text-lg">Waiting for input...</p>
+            <!-- Right Preview Column (7 cols) -->
+            <div class="lg:col-span-7 glass-card rounded-3xl p-6 border border-white/5 flex flex-col min-h-[600px]">
+                <div class="flex items-center justify-between pb-3 border-b border-white/5 mb-4">
+                    <h3 class="text-xs font-bold text-gray-300 uppercase tracking-wider">Interactive Live Preview</h3>
+                    <div class="flex items-center gap-2">
+                        <button onclick="copySpecJson()" class="px-3 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-white font-semibold text-xs border border-white/10">Copy JSON</button>
                     </div>
                 </div>
-            </section>
+
+                <div id="render-area" class="flex-grow overflow-y-auto">
+                    <div class="h-full flex flex-col items-center justify-center text-gray-500 space-y-3 py-20">
+                        <svg class="w-12 h-12 text-slate-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                        <div class="text-xs font-semibold">Paste an OpenAPI spec or click "Load Sample Spec" to view docs</div>
+                    </div>
+                </div>
+            </div>
+
         </div>
-    </div>
 
+    </main>
+
+    <!-- Footer -->
+    <footer style="text-align: center; padding: 60px 20px; color: #9ca3af; border-top: 1px solid rgba(255,255,255,0.08); font-size: 0.95rem; background: rgba(8, 11, 17, 0.4); font-family: 'Outfit', sans-serif; margin-top: 60px;">
+        <p>&copy; 2026 Aegis Developer Hub. All rights reserved.</p>
+        <p style="font-size: 0.85rem; max-width: 800px; margin: 15px auto; line-height: 1.5; color: #9ca3af;">
+            <strong>Disclaimer:</strong> OpenAPI parsing executes client-side using Swagger-UI and JS-YAML. Conforms to APPs, GDPR, and privacy guidelines.
+        </p>
+        <p style="margin-top: 20px;">
+            <a href="/static/privacy.html" style="color: #9ca3af; text-decoration: underline; margin-right: 15px;">Privacy Policy</a>
+            <a href="/static/terms.html" style="color: #9ca3af; text-decoration: underline;">Terms of Service & Disclaimer</a>
+        </p>
+    </footer>
+
+    <!-- JavaScript Engine -->
     <script>
-        const input = document.getElementById('spec-input');
-        const btn = document.getElementById('render-btn');
-        const renderArea = document.getElementById('render-area');
+        let parsedSpecObj = null;
 
-        btn.addEventListener('click', () => {
-            const raw = input.value.trim();
-            if(!raw) {
-                alert("Please provide an OpenAPI specification.");
+        function renderDoc() {
+            const raw = document.getElementById('spec-input').value.trim();
+            const renderArea = document.getElementById('render-area');
+
+            if (!raw) {
+                showToast('Please paste an OpenAPI JSON or YAML spec', 'rose');
                 return;
             }
 
-            let specParsed;
             try {
-                try {
-                    specParsed = typeof raw === 'string' && (raw.startsWith('{') || raw.startsWith('[')) 
-                        ? JSON.parse(raw) 
-                        : jsyaml.load(raw);
-                } catch (e) {
-                    throw new Error("Unable to parse. Please check if your JSON/YAML is valid.");
-                }
-
-                renderArea.innerHTML = '<div id="swagger-ui"></div>';
+                parsedSpecObj = raw.startsWith('{') || raw.startsWith('[') ? JSON.parse(raw) : jsyaml.load(raw);
                 
+                renderArea.innerHTML = '<div id="swagger-ui"></div>';
+
                 SwaggerUIBundle({
-                    spec: specParsed,
+                    spec: parsedSpecObj,
                     dom_id: '#swagger-ui',
                     deepLinking: true,
                     presets: [
@@ -136,34 +199,77 @@
                     layout: "BaseLayout",
                     docExpansion: "list"
                 });
+
+                showToast('Rendered OpenAPI Documentation successfully!');
             } catch (err) {
                 renderArea.innerHTML = `
-                    <div class="h-full flex flex-col items-center justify-center text-red-400 p-8 text-center bg-red-950/20 rounded-2xl border border-red-900/30">
-                        <p class="font-bold mb-2">Error Parsing Specification</p>
-                        <p class="text-sm">${err.message}</p>
+                    <div class="p-6 bg-rose-950/30 border border-rose-800/50 rounded-2xl text-rose-300 text-xs space-y-2">
+                        <div class="font-bold text-sm text-rose-400">Spec Syntax Error</div>
+                        <div>${escapeHtml(err.message)}</div>
                     </div>
                 `;
+                showToast('Failed to parse OpenAPI spec', 'rose');
             }
-        });
+        }
+
+        function loadSampleSpec() {
+            const sample = {
+                openapi: "3.0.0",
+                info: {
+                    title: "Aegis Wealth API",
+                    version: "1.0.0",
+                    description: "High-utility developer microservice endpoints for portfolio telemetry."
+                },
+                paths: {
+                    "/api/v1/health": {
+                        get: {
+                            summary: "Health Check",
+                            responses: {
+                                "200": { description: "Service is online and operational" }
+                            }
+                        }
+                    },
+                    "/api/v1/telemetry": {
+                        post: {
+                            summary: "Ingest Metrics Payload",
+                            responses: {
+                                "200": { description: "Telemetry payload ingested" }
+                            }
+                        }
+                    }
+                }
+            };
+            document.getElementById('spec-input').value = JSON.stringify(sample, null, 2);
+            renderDoc();
+        }
+
+        function copySpecJson() {
+            if (!parsedSpecObj) return;
+            navigator.clipboard.writeText(JSON.stringify(parsedSpecObj, null, 2)).then(() => {
+                showToast('Copied OpenAPI JSON to clipboard!');
+            });
+        }
+
+        function showToast(message, type = 'blue') {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            toast.className = `px-4 py-2.5 rounded-xl glass-card text-xs font-semibold text-white shadow-2xl border border-white/10 flex items-center gap-2 transition-all duration-300 transform translate-x-5 opacity-0`;
+            toast.innerHTML = `
+                <span class="w-2 h-2 rounded-full ${type === 'rose' ? 'bg-rose-400' : 'bg-blue-400'}"></span>
+                <span>${escapeHtml(message)}</span>
+            `;
+            container.appendChild(toast);
+            setTimeout(() => toast.classList.remove('translate-x-5', 'opacity-0'), 10);
+            setTimeout(() => {
+                toast.classList.add('opacity-0', 'translate-x-5');
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
+        }
+
+        function escapeHtml(str) {
+            if (!str) return '';
+            return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
+        }
     </script>
-
-    
-    
-
-    
-    
-
-    
-    
-<footer style="text-align: center; padding: 60px 20px; color: #9ca3af; border-top: 1px solid rgba(255,255,255,0.08); font-size: 0.95rem; background: rgba(8, 11, 17, 0.4); font-family: 'Outfit', sans-serif; margin-top: 60px;">
-        <p>&copy; 2026 Aegis Developer Hub. All rights reserved.</p>
-        <p style="font-size: 0.85rem; max-width: 800px; margin: 15px auto; line-height: 1.5; color: #9ca3af;">
-            <strong>Disclaimer:</strong> The tools and content provided on this website are for educational and informational purposes only and do not constitute financial, investment, legal, or professional advice. Conforms to Australian Privacy Principles (APPs) under the Privacy Act 1988, GDPR rules on data protection, and ASIC regulatory guidelines.
-        </p>
-        <p style="margin-top: 20px;">
-            <a href="/static/privacy.html" style="color: #9ca3af; text-decoration: underline; margin-right: 15px;">Privacy Policy</a>
-            <a href="/static/terms.html" style="color: #9ca3af; text-decoration: underline;">Terms of Service & Disclaimer</a>
-        </p>
-    </footer>
 </body>
 </html>

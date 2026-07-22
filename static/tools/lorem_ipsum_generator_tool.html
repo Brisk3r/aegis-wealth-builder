@@ -3,29 +3,49 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Contextual Content Placeholder Generator</title>
+    <title>Contextual Lorem Ipsum Generator | Aegis Hub</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Outfit', sans-serif; background: #0c0f16; color: #e2e8f0; }
-        .glass { 
-            background: rgba(18, 24, 38, 0.6); 
-            backdrop-filter: blur(20px); 
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+        body {
+            font-family: 'Outfit', sans-serif;
+            background-color: #080b11;
+            color: #f3f4f6;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(59, 130, 246, 0.04) 0%, transparent 40%),
+                radial-gradient(circle at 90% 80%, rgba(99, 102, 241, 0.03) 0%, transparent 40%);
+            background-attachment: fixed;
         }
-        .gradient-text { background: linear-gradient(135deg, #38bdf8, #818cf8); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        textarea { resize: vertical; min-height: 240px; }
-        input, select, textarea { background: rgba(30, 41, 59, 0.5) !important; color: white !important; }
-        select option { background: #1e293b; color: white; }
+        .glass-card {
+            background: rgba(17, 24, 39, 0.55);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        input[type="number"], select, textarea {
+            color: #f8fafc !important;
+            background-color: rgba(15, 23, 42, 0.6) !important;
+            border-color: rgba(255, 255, 255, 0.1) !important;
+        }
+        input::placeholder, textarea::placeholder {
+            color: #64748b !important;
+        }
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: rgba(15, 23, 42, 0.5);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+        }
     </style>
+    <!-- AdSense & Analytics tags -->
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4750454395006570" crossorigin="anonymous"></script>
-
     <script defer src="/_vercel/insights/script.js"></script>
-
     <link rel="icon" type="image/png" href="/static/logo.png">
-
-    <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-BZVWXPPG06"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
@@ -33,8 +53,6 @@
       gtag('js', new Date());
       gtag('config', 'G-BZVWXPPG06');
     </script>
-
-    <script src="https://assets.lemonsqueezy.com/lemon.js" defer></script>
 
     <style>
         /* Global accessibility & dark theme input fixes */
@@ -47,95 +65,139 @@
         }
     </style>
     
-</head>
-<body class="min-h-screen p-4 md:p-12">
 
-    <div class="navbar" style="display: flex; justify-content: space-between; align-items: center; padding: 20px 40px; border-bottom: 1px solid rgba(255,255,255,0.08); background: rgba(11, 15, 25, 0.75); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); position: sticky; top: 0; z-index: 100; font-family: 'Outfit', sans-serif;">
+    <script src="https://assets.lemonsqueezy.com/lemon.js" defer></script>
+</head>
+<body class="min-h-screen flex flex-col justify-between">
+
+    <!-- Sticky Navigation Bar -->
+    <div class="navbar" style="display: flex; justify-content: space-between; align-items: center; padding: 18px 40px; border-bottom: 1px solid rgba(255,255,255,0.08); background: rgba(8, 11, 17, 0.85); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); position: sticky; top: 0; z-index: 100; font-family: 'Outfit', sans-serif;">
         <a href="/" style="display: flex; align-items: center; gap: 10px; color: #f3f4f6; text-decoration: none; font-weight: 600;">
             <img src="/static/logo.png" alt="Aegis Hub Logo" style="height: 30px;">
             <span>Aegis Developer Hub</span>
         </a>
         <a href="/" style="color: #60a5fa; text-decoration: none; font-size: 0.95rem; font-weight: 500;">&larr; Back to Hub</a>
     </div>
-    
 
-    
-    
+    <!-- Toast Container -->
+    <div id="toast-container" class="fixed top-20 right-6 z-50 flex flex-col gap-2 pointer-events-none"></div>
 
-    <div class="max-w-5xl mx-auto">
-        <header class="mb-12 text-center md:text-left">
-            <h1 class="text-5xl font-bold mb-4 gradient-text">Contextual Content Generator</h1>
-            <p class="text-slate-400 text-lg">Generate industry-specific placeholder text for high-fidelity wireframes.</p>
-        </header>
+    <!-- Main Container -->
+    <main class="max-w-6xl w-full mx-auto px-4 py-8 flex-grow">
+        
+        <!-- Header -->
+        <div class="mb-8">
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-blue-500/10 border border-blue-500/20 text-blue-400 mb-3">
+                <span class="w-2 h-2 rounded-full bg-blue-400 animate-pulse"></span>
+                Domain-Specific Mock Text Generator
+            </div>
+            <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight bg-gradient-to-r from-blue-400 via-indigo-300 to-purple-400 bg-clip-text text-transparent">
+                Contextual Lorem Ipsum Generator
+            </h1>
+            <p class="text-gray-400 text-sm mt-1 max-w-2xl">
+                Generate realistic placeholder text tailored for Fintech, E-commerce, Medical, Legal, and SaaS wireframes.
+            </p>
+        </div>
 
-        <main class="grid md:grid-cols-3 gap-8">
-            <section class="md:col-span-1 glass p-8 rounded-3xl">
-                <div class="space-y-6">
-                    <div>
-                        <label class="block text-sm font-semibold mb-2 text-slate-400 uppercase tracking-wider">Industry Niche</label>
-                        <select id="niche" class="w-full border border-slate-700/50 rounded-xl p-4 outline-none focus:ring-2 focus:ring-sky-500/50 transition">
-                            <option value="medical">Medical Dashboard</option>
-                            <option value="ecommerce">E-commerce Product</option>
-                            <option value="legal">Legal Document</option>
-                            <option value="fintech">Fintech App</option>
-                            <option value="saas">SaaS Landing Page</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label class="block text-sm font-semibold mb-2 text-slate-400 uppercase tracking-wider">Paragraph Count</label>
-                        <input type="number" id="count" value="3" min="1" max="20" class="w-full border border-slate-700/50 rounded-xl p-4 outline-none focus:ring-2 focus:ring-sky-500/50 transition">
-                    </div>
-                    <button onclick="generateText()" class="w-full bg-sky-600 hover:bg-sky-500 text-white font-bold py-4 rounded-xl transition duration-300 shadow-xl shadow-sky-900/20 active:scale-[0.98]">Generate Content</button>
-                    <button onclick="copyToClipboard()" class="w-full bg-slate-800 hover:bg-slate-700 text-slate-300 font-medium py-4 rounded-xl transition active:scale-[0.98]">Copy to Clipboard</button>
+        <!-- 2 Column Workspace -->
+        <div class="grid grid-cols-1 md:grid-cols-12 gap-8 mb-12">
+            
+            <!-- Controls (4 cols) -->
+            <div class="md:col-span-4 glass-card rounded-3xl p-6 border border-white/5 space-y-5">
+                <h3 class="text-xs font-bold text-white uppercase tracking-wider">Generator Controls</h3>
+                
+                <div>
+                    <label class="block text-xs font-semibold text-gray-300 mb-1">Industry Niche</label>
+                    <select id="niche" onchange="generateText()" class="w-full px-3.5 py-2.5 rounded-xl text-xs">
+                        <option value="saas">SaaS Landing Page</option>
+                        <option value="fintech">Fintech & Banking</option>
+                        <option value="ecommerce">E-commerce Product</option>
+                        <option value="medical">Medical Dashboard</option>
+                        <option value="legal">Legal Contract</option>
+                    </select>
                 </div>
-            </section>
 
-            <section class="md:col-span-2 glass p-8 rounded-3xl">
-                <textarea id="output" readonly class="w-full h-full border-none outline-none text-slate-200 leading-relaxed text-sm md:text-base font-light"></textarea>
-            </section>
-        </main>
-    </div>
+                <div>
+                    <label class="block text-xs font-semibold text-gray-300 mb-1">Paragraph Count</label>
+                    <input type="number" id="count" value="3" min="1" max="20" oninput="generateText()" class="w-full px-3.5 py-2.5 rounded-xl text-xs font-mono">
+                </div>
 
+                <div class="flex flex-col gap-2 pt-2">
+                    <button onclick="generateText()" class="w-full py-3 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-bold text-xs shadow-lg transition-all">
+                        Re-generate Content
+                    </button>
+                    <button onclick="copyToClipboard()" class="w-full py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-semibold text-xs border border-white/10 flex items-center justify-center gap-1.5">
+                        <svg class="w-3.5 h-3.5 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3"></path></svg>
+                        Copy Text
+                    </button>
+                    <button onclick="downloadTextFile()" class="w-full py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-gray-300 font-semibold text-xs border border-white/10 flex items-center justify-center gap-1.5">
+                        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+                        Download .txt
+                    </button>
+                </div>
+            </div>
+
+            <!-- Output View (8 cols) -->
+            <div class="md:col-span-8 glass-card rounded-3xl p-6 border border-white/5 flex flex-col h-[500px]">
+                <textarea id="output" readonly class="w-full h-full p-4 rounded-xl font-sans text-sm text-gray-200 resize-none leading-relaxed border-0 bg-transparent focus:outline-none"></textarea>
+            </div>
+
+        </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer style="text-align: center; padding: 60px 20px; color: #9ca3af; border-top: 1px solid rgba(255,255,255,0.08); font-size: 0.95rem; background: rgba(8, 11, 17, 0.4); font-family: 'Outfit', sans-serif; margin-top: 60px;">
+        <p>&copy; 2026 Aegis Developer Hub. All rights reserved.</p>
+        <p style="font-size: 0.85rem; max-width: 800px; margin: 15px auto; line-height: 1.5; color: #9ca3af;">
+            <strong>Disclaimer:</strong> Contextual content generation operates 100% in client browser memory. Conforms to APPs, GDPR, and privacy guidelines.
+        </p>
+        <p style="margin-top: 20px;">
+            <a href="/static/privacy.html" style="color: #9ca3af; text-decoration: underline; margin-right: 15px;">Privacy Policy</a>
+            <a href="/static/terms.html" style="color: #9ca3af; text-decoration: underline;">Terms of Service & Disclaimer</a>
+        </p>
+    </footer>
+
+    <!-- JavaScript Engine -->
     <script>
         const contentLibrary = {
             medical: [
                 "Patient Vitals: Heart rate stable at 72 bpm. O2 saturation at 98%. Observed slight arrhythmias in the late morning shift, currently being monitored under protocol B-12.",
                 "EHR Update: Medical records for accession #4492-X have been updated. Ensure the radiology department is notified of the pending MRI scan scheduled for 14:00.",
-                "Treatment Plan: Initiate standard post-operative recovery checklist. Check inflammation markers every 4 hours and adjust dosage per the Attending Physician's latest assessment.",
-                "Clinical Notes: Patient demonstrates improved range of motion in the right shoulder after therapeutic intervention. Schedule follow-up physical therapy for Tuesday next week."
+                "Treatment Plan: Initiate standard post-operative recovery checklist. Check inflammation markers every 4 hours and adjust dosage per the Attending Physician's latest assessment."
             ],
             ecommerce: [
-                "Product Specs: Crafted from premium 100% organic cotton, this item features moisture-wicking technology and reinforced stitching for maximum durability in high-intensity activities.",
-                "Shipping & Returns: Orders are processed within 24 hours. We offer a 30-day hassle-free return policy if packaging remains unopened. Track your shipment via the link provided in your confirmation email.",
-                "Dynamic Price Adjustment: Current market price reflects a 15% discount for early adopters. Apply code 'SAVINGS20' at checkout for additional platform-wide benefits.",
+                "Product Specs: Crafted from premium 100% organic cotton, this item features moisture-wicking technology and reinforced stitching for maximum durability.",
+                "Shipping & Returns: Orders are processed within 24 hours. We offer a 30-day hassle-free return policy if packaging remains unopened.",
                 "Customer Review: Verified buyer noted that the sizing fits true to form, with particular praise for the vibrant color fastness after multiple wash cycles."
             ],
             legal: [
-                "Article IV, Section 2: Parties agree to binding arbitration for any disputes arising from this contract. Venue shall be strictly limited to the jurisdiction defined in the primary agreement.",
-                "Confidentiality Clause: All proprietary information, including but not limited to trade secrets and source code, must be kept secure for a period of no less than five years post-termination.",
-                "Liability Waiver: The Service Provider assumes no responsibility for consequential or incidental damages caused by third-party vendor failure within the integration infrastructure.",
+                "Article IV, Section 2: Parties agree to binding arbitration for any disputes arising from this contract. Venue shall be strictly limited to the jurisdiction defined.",
+                "Confidentiality Clause: All proprietary information, including but not limited to trade secrets and source code, must be kept secure for five years.",
                 "Indemnification: Client agrees to hold the provider harmless from any claims arising from misuse of the platform outside of the defined Acceptable Use Policy."
             ],
             fintech: [
                 "Transaction Settlement: Your ACH transfer request for $4,500.00 is currently pending verification. Expect funds in your primary account by EOD Wednesday.",
-                "Portfolio Analytics: Your asset allocation has shifted slightly towards high-yield ETF positions over the last 30 days, resulting in a net gain of 2.4% against the benchmark index.",
-                "Security Alert: A login attempt was detected from an unrecognized IP address located in a different geolocation. Please review your active devices and update your MFA configuration immediately.",
-                "Market Insight: Inflation expectations for the coming quarter have normalized, suggesting a stable outlook for core asset classes within your diversified portfolio."
+                "Portfolio Analytics: Your asset allocation has shifted slightly towards high-yield ETF positions over the last 30 days, resulting in a net gain of 2.4%.",
+                "Security Alert: A login attempt was detected from an unrecognized IP address. Please review active devices and update MFA configuration."
             ],
             saas: [
-                "Value Proposition: Stop wasting time on repetitive workflows. Our AI-powered automation engine integrates seamlessly with your current stack, reducing manual task delegation by 60%.",
-                "Pricing Tiers: Choose the Professional Plan to unlock team-wide collaboration features, custom reporting hooks, and priority 24/7 support. Scale your operations without increasing headcount.",
-                "Onboarding: Get started in under 3 minutes with our intuitive dashboard. Import your existing project data via CSV, API, or direct cloud synchronization.",
+                "Value Proposition: Stop wasting time on repetitive workflows. Our AI-powered automation engine integrates seamlessly with your current stack.",
+                "Pricing Tiers: Choose the Professional Plan to unlock team-wide collaboration features, custom reporting hooks, and priority 24/7 support.",
                 "Technical Support: Our documentation portal provides exhaustive API references and SDK integration guides to ensure your development team hits the ground running."
             ]
         };
 
+        document.addEventListener('DOMContentLoaded', () => {
+            generateText();
+        });
+
         function generateText() {
             const niche = document.getElementById('niche').value;
-            const count = parseInt(document.getElementById('count').value);
-            const array = contentLibrary[niche];
-            let result = "";
+            const count = parseInt(document.getElementById('count').value) || 3;
+            const array = contentLibrary[niche] || contentLibrary.saas;
 
+            let result = "";
             for (let i = 0; i < count; i++) {
                 result += array[i % array.length] + "\n\n";
             }
@@ -143,38 +205,47 @@
             document.getElementById('output').value = result.trim();
         }
 
-        async function copyToClipboard() {
-            const output = document.getElementById('output');
-            if (!output.value) return;
-            try {
-                await navigator.clipboard.writeText(output.value);
-                alert("Copied to clipboard!");
-            } catch (err) {
-                console.error('Failed to copy: ', err);
-            }
+        function copyToClipboard() {
+            const val = document.getElementById('output').value;
+            if (!val) return;
+            navigator.clipboard.writeText(val).then(() => {
+                showToast('Copied placeholder text to clipboard!');
+            });
         }
 
-        // Initialize display
-        generateText();
+        function downloadTextFile() {
+            const val = document.getElementById('output').value;
+            if (!val) return;
+            const blob = new Blob([val], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'placeholder_text.txt';
+            a.click();
+            URL.revokeObjectURL(url);
+            showToast('Downloaded placeholder_text.txt');
+        }
+
+        function showToast(message, type = 'blue') {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            toast.className = `px-4 py-2.5 rounded-xl glass-card text-xs font-semibold text-white shadow-2xl border border-white/10 flex items-center gap-2 transition-all duration-300 transform translate-x-5 opacity-0`;
+            toast.innerHTML = `
+                <span class="w-2 h-2 rounded-full ${type === 'rose' ? 'bg-rose-400' : 'bg-blue-400'}"></span>
+                <span>${escapeHtml(message)}</span>
+            `;
+            container.appendChild(toast);
+            setTimeout(() => toast.classList.remove('translate-x-5', 'opacity-0'), 10);
+            setTimeout(() => {
+                toast.classList.add('opacity-0', 'translate-x-5');
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
+        }
+
+        function escapeHtml(str) {
+            if (!str) return '';
+            return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
+        }
     </script>
-
-    
-    
-
-    
-    
-
-    
-    
-<footer style="text-align: center; padding: 60px 20px; color: #9ca3af; border-top: 1px solid rgba(255,255,255,0.08); font-size: 0.95rem; background: rgba(8, 11, 17, 0.4); font-family: 'Outfit', sans-serif; margin-top: 60px;">
-        <p>&copy; 2026 Aegis Developer Hub. All rights reserved.</p>
-        <p style="font-size: 0.85rem; max-width: 800px; margin: 15px auto; line-height: 1.5; color: #9ca3af;">
-            <strong>Disclaimer:</strong> The tools and content provided on this website are for educational and informational purposes only and do not constitute financial, investment, legal, or professional advice. Conforms to Australian Privacy Principles (APPs) under the Privacy Act 1988, GDPR rules on data protection, and ASIC regulatory guidelines.
-        </p>
-        <p style="margin-top: 20px;">
-            <a href="/static/privacy.html" style="color: #9ca3af; text-decoration: underline; margin-right: 15px;">Privacy Policy</a>
-            <a href="/static/terms.html" style="color: #9ca3af; text-decoration: underline;">Terms of Service & Disclaimer</a>
-        </p>
-    </footer>
 </body>
 </html>

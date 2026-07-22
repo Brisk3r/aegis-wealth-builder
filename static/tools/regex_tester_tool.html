@@ -3,103 +3,63 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RegEx Tester Tool</title>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;700&display=swap" rel="stylesheet">
+    <title>RegEx Tester & Pattern Studio | Aegis Hub</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         body {
             font-family: 'Outfit', sans-serif;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-            margin: 0;
-            background-color: #1A202C;
-            color: #fff;
+            background-color: #080b11;
+            color: #f3f4f6;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(59, 130, 246, 0.04) 0%, transparent 40%),
+                radial-gradient(circle at 90% 80%, rgba(99, 102, 241, 0.03) 0%, transparent 40%);
+            background-attachment: fixed;
         }
-        .container {
-            width: 90%;
-            max-width: 600px;
-            padding: 20px;
-            background-color: rgba(34, 43, 52, 0.8);
-            border-radius: 12px;
-            backdrop-filter: blur(10px);
+        .glass-card {
+            background: rgba(17, 24, 39, 0.55);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
         }
-        h1 {
-            text-align: center;
-            margin-bottom: 20px;
-            color: #A0AEC0;
+        input[type="text"], select, textarea {
+            color: #f8fafc !important;
+            background-color: rgba(15, 23, 42, 0.6) !important;
+            border-color: rgba(255, 255, 255, 0.1) !important;
         }
-        textarea {
-            width: 100%;
-            height: 100px;
-            padding: 10px;
-            font-size: 16px;
+        input::placeholder, textarea::placeholder {
+            color: #64748b !important;
+        }
+        .match-highlight {
+            background-color: rgba(59, 130, 246, 0.3);
+            border-bottom: 2px solid #3b82f6;
+            color: #60a5fa;
+            font-weight: bold;
+            border-radius: 2px;
+        }
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: rgba(15, 23, 42, 0.5);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.1);
             border-radius: 4px;
-            border: 2px solid rgba(255, 255, 255, 0.1);
-            background-color: #2D3748;
-            color: #fff;
-            outline: none;
-            resize: vertical;
-            margin-bottom: 10px;
-        }
-        input {
-            width: calc(100% - 22px);
-            padding: 10px;
-            font-size: 16px;
-            border-radius: 4px;
-            border: 2px solid rgba(255, 255, 255, 0.1);
-            background-color: #2D3748;
-            color: #fff;
-            outline: none;
-            margin-right: 10px;
-        }
-        button {
-            padding: 10px 20px;
-            background-color: #6FCDFF;
-            color: #fff;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 16px;
-            transition: background-color 0.3s ease;
-        }
-        button:hover {
-            background-color: #3A738D;
-        }
-        .results {
-            margin-top: 20px;
-            width: 100%;
-            max-height: 300px;
-            overflow-y: auto;
-            border-radius: 4px;
-            border: 2px solid rgba(255, 255, 255, 0.1);
-            background-color: #2D3748;
-            padding: 10px;
-            color: #fff;
         }
     </style>
-
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <!-- AdSense & Analytics tags -->
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4750454395006570" crossorigin="anonymous"></script>
-    <style>
-        :root {
-            --bg-color: #0b0f19;
-            --card-bg: rgba(255, 255, 255, 0.03);
-            --border-color: rgba(255, 255, 255, 0.08);
-            --primary-accent: #3b82f6;
-            --secondary-accent: #60a5fa;
-            --text-main: #f3f4f6;
-            --text-muted: #9ca3af;
-        }
-        body {
-            background-color: var(--bg-color) !important;
-            color: var(--text-main) !important;
-            font-family: 'Outfit', sans-serif !important;
-        }
-    </style>
-
     <script defer src="/_vercel/insights/script.js"></script>
+    <link rel="icon" type="image/png" href="/static/logo.png">
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-BZVWXPPG06"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-BZVWXPPG06');
+    </script>
 
     <style>
         /* Global accessibility & dark theme input fixes */
@@ -113,87 +73,229 @@
     </style>
     
 
-    <link rel="icon" type="image/png" href="/static/logo.png">
-
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-BZVWXPPG06"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'G-BZVWXPPG06');
-    </script>
-
     <script src="https://assets.lemonsqueezy.com/lemon.js" defer></script>
 </head>
+<body class="min-h-screen flex flex-col justify-between">
 
-<body>
-
-    <div class="navbar" style="display: flex; justify-content: space-between; align-items: center; padding: 20px 40px; border-bottom: 1px solid rgba(255,255,255,0.08); background: rgba(11, 15, 25, 0.75); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); position: sticky; top: 0; z-index: 100; font-family: 'Outfit', sans-serif;">
+    <!-- Sticky Navigation Bar -->
+    <div class="navbar" style="display: flex; justify-content: space-between; align-items: center; padding: 18px 40px; border-bottom: 1px solid rgba(255,255,255,0.08); background: rgba(8, 11, 17, 0.85); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); position: sticky; top: 0; z-index: 100; font-family: 'Outfit', sans-serif;">
         <a href="/" style="display: flex; align-items: center; gap: 10px; color: #f3f4f6; text-decoration: none; font-weight: 600;">
             <img src="/static/logo.png" alt="Aegis Hub Logo" style="height: 30px;">
             <span>Aegis Developer Hub</span>
         </a>
         <a href="/" style="color: #60a5fa; text-decoration: none; font-size: 0.95rem; font-weight: 500;">&larr; Back to Hub</a>
     </div>
-    
 
-    
-    
-    <div class="container">
-        <h1>RegEx Tester Tool</h1>
-        <textarea id="regex-pattern" placeholder="Enter your regex pattern here"></textarea>
-        <input type="text" id="test-string" placeholder="Enter the test string">
-        <button onclick="testRegex()">Test Regex</button>
-        <div class="results" id="results-container"></div>
-    </div>
+    <!-- Toast Container -->
+    <div id="toast-container" class="fixed top-20 right-6 z-50 flex flex-col gap-2 pointer-events-none"></div>
 
-    <script>
-        function testRegex() {
-            const regexPattern = document.getElementById('regex-pattern').value;
-            const testString = document.getElementById('test-string').value;
+    <!-- Main Container -->
+    <main class="max-w-6xl w-full mx-auto px-4 py-8 flex-grow">
+        
+        <!-- Header -->
+        <div class="mb-8">
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-blue-500/10 border border-blue-500/20 text-blue-400 mb-3">
+                <span class="w-2 h-2 rounded-full bg-blue-400 animate-pulse"></span>
+                Real-Time Regular Expression Evaluator
+            </div>
+            <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight bg-gradient-to-r from-blue-400 via-indigo-300 to-purple-400 bg-clip-text text-transparent">
+                RegEx Tester & Code Generator
+            </h1>
+            <p class="text-gray-400 text-sm mt-1 max-w-2xl">
+                Test regular expression patterns live, view match groups, export matches to JSON/CSV, and generate copy-pasteable JavaScript & Python code snippets.
+            </p>
+        </div>
 
-            let resultsContainer = document.getElementById('results-container');
-            resultsContainer.innerHTML = '';
+        <!-- Pattern Controls Card -->
+        <div class="glass-card rounded-3xl p-6 border border-white/5 mb-8 space-y-4">
+            
+            <div class="grid grid-cols-1 md:grid-cols-12 gap-4 items-center">
+                <!-- RegEx Pattern Input -->
+                <div class="md:col-span-8 flex items-center gap-2">
+                    <span class="text-lg font-mono text-gray-500">/</span>
+                    <input type="text" id="regexInput" oninput="testRegex()" placeholder="e.g. ([a-zA-Z0-9._%+-]+)@([a-zA-Z0-9.-]+)\.([a-zA-Z]{2,})" value="([a-zA-Z0-9._%+-]+)@([a-zA-Z0-9.-]+)\.([a-zA-Z]{2,})" class="flex-grow px-4 py-3 rounded-xl font-mono text-sm">
+                    <span class="text-lg font-mono text-gray-500">/</span>
+                </div>
 
-            try {
-                const regex = new RegExp(regexPattern);
-                let match = regex.exec(testString);
+                <!-- Flags Checkboxes -->
+                <div class="md:col-span-4 flex items-center gap-3 bg-slate-950/60 p-2.5 rounded-xl border border-white/5 text-xs font-mono">
+                    <label class="flex items-center gap-1 cursor-pointer">
+                        <input type="checkbox" id="flag-g" checked onchange="testRegex()" class="rounded border-gray-700"> g
+                    </label>
+                    <label class="flex items-center gap-1 cursor-pointer">
+                        <input type="checkbox" id="flag-i" checked onchange="testRegex()" class="rounded border-gray-700"> i
+                    </label>
+                    <label class="flex items-center gap-1 cursor-pointer">
+                        <input type="checkbox" id="flag-m" onchange="testRegex()" class="rounded border-gray-700"> m
+                    </label>
+                    <label class="flex items-center gap-1 cursor-pointer">
+                        <input type="checkbox" id="flag-s" onchange="testRegex()" class="rounded border-gray-700"> s
+                    </label>
+                </div>
+            </div>
 
-                if (match) {
-                    resultsContainer.innerHTML += `<p>Match found: ${match[0]}</p>`;
-                    if (match.length > 1) {
-                        for (let i = 1; i < match.length; i++) {
-                            resultsContainer.innerHTML += `<p>Capturing group ${i}: ${match[i]}</p>`;
-                        }
-                    }
-                } else {
-                    resultsContainer.innerHTML += '<p>No match found</p>';
-                }
+            <!-- Test String Input -->
+            <div>
+                <label class="block text-xs font-semibold text-gray-300 mb-1">Test Input Text</label>
+                <textarea id="textInput" oninput="testRegex()" rows="4" placeholder="Enter text to match against pattern..." class="w-full p-4 rounded-xl font-mono text-xs resize-none">Contact developer team at dev@aegishub.dev or support@company.org for assistance.</textarea>
+            </div>
 
-            } catch (error) {
-                resultsContainer.innerHTML = `<p>Error in regex: ${error.message}</p>`;
-            }
-        }
-    </script>
+        </div>
 
-    
-    
+        <!-- Results Grid (2 cols) -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 mb-12">
+            
+            <!-- Left: Highlighted Match Box (6 cols) -->
+            <div class="lg:col-span-6 glass-card rounded-3xl p-6 border border-white/5 space-y-4">
+                <div class="flex items-center justify-between">
+                    <h3 class="text-xs font-bold text-gray-300 uppercase tracking-wider">Live Pattern Match Highlighting</h3>
+                    <span id="match-count-badge" class="text-[10px] font-mono px-2 py-0.5 rounded bg-blue-500/10 text-blue-400 border border-blue-500/20">0 Matches</span>
+                </div>
 
-    
-    
+                <div id="highlightBox" class="w-full h-48 bg-slate-950/70 border border-white/5 rounded-xl p-4 font-mono text-xs text-gray-200 overflow-y-auto whitespace-pre-wrap leading-relaxed"></div>
+            </div>
 
-    
-    
-<footer style="text-align: center; padding: 60px 20px; color: #9ca3af; border-top: 1px solid rgba(255,255,255,0.08); font-size: 0.95rem; background: rgba(8, 11, 17, 0.4); font-family: 'Outfit', sans-serif; margin-top: 60px;">
+            <!-- Right: Code Snippets & Export Box (6 cols) -->
+            <div class="lg:col-span-6 glass-card rounded-3xl p-6 border border-white/5 space-y-4">
+                <div class="flex items-center justify-between">
+                    <h3 class="text-xs font-bold text-gray-300 uppercase tracking-wider">Export Code Snippets</h3>
+                    <div class="flex items-center gap-2">
+                        <button onclick="copySnippet('js')" class="px-3 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-white font-semibold text-xs border border-white/10">JS Code</button>
+                        <button onclick="copySnippet('python')" class="px-3 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-white font-semibold text-xs border border-white/10">Python Code</button>
+                    </div>
+                </div>
+
+                <textarea id="codeSnippet" readonly class="w-full h-48 rounded-xl p-4 font-mono text-xs text-indigo-300 border resize-none focus:outline-none focus:ring-1 focus:ring-indigo-500/50"></textarea>
+            </div>
+
+        </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer style="text-align: center; padding: 60px 20px; color: #9ca3af; border-top: 1px solid rgba(255,255,255,0.08); font-size: 0.95rem; background: rgba(8, 11, 17, 0.4); font-family: 'Outfit', sans-serif; margin-top: 60px;">
         <p>&copy; 2026 Aegis Developer Hub. All rights reserved.</p>
         <p style="font-size: 0.85rem; max-width: 800px; margin: 15px auto; line-height: 1.5; color: #9ca3af;">
-            <strong>Disclaimer:</strong> The tools and content provided on this website are for educational and informational purposes only and do not constitute financial, investment, legal, or professional advice. Conforms to Australian Privacy Principles (APPs) under the Privacy Act 1988, GDPR rules on data protection, and ASIC regulatory guidelines.
+            <strong>Disclaimer:</strong> RegEx pattern testing executes entirely in client browser memory. Conforms to APPs, GDPR, and privacy guidelines.
         </p>
         <p style="margin-top: 20px;">
             <a href="/static/privacy.html" style="color: #9ca3af; text-decoration: underline; margin-right: 15px;">Privacy Policy</a>
             <a href="/static/terms.html" style="color: #9ca3af; text-decoration: underline;">Terms of Service & Disclaimer</a>
         </p>
     </footer>
+
+    <!-- JavaScript Engine -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            testRegex();
+        });
+
+        function testRegex() {
+            const pattern = document.getElementById('regexInput').value;
+            const text = document.getElementById('textInput').value;
+
+            let flags = '';
+            if (document.getElementById('flag-g').checked) flags += 'g';
+            if (document.getElementById('flag-i').checked) flags += 'i';
+            if (document.getElementById('flag-m').checked) flags += 'm';
+            if (document.getElementById('flag-s').checked) flags += 's';
+
+            const highlightBox = document.getElementById('highlightBox');
+            const badge = document.getElementById('match-count-badge');
+            const codeBox = document.getElementById('codeSnippet');
+
+            if (!pattern) {
+                highlightBox.textContent = text;
+                badge.textContent = '0 Matches';
+                updateCodeSnippet(pattern, flags);
+                return;
+            }
+
+            try {
+                const regex = new RegExp(pattern, flags);
+                let matches = [];
+                let match;
+
+                if (flags.includes('g')) {
+                    while ((match = regex.exec(text)) !== null) {
+                        matches.push({ text: match[0], index: match.index });
+                        if (match.index === regex.lastIndex) regex.lastIndex++;
+                    }
+                } else {
+                    match = regex.exec(text);
+                    if (match) matches.push({ text: match[0], index: match.index });
+                }
+
+                badge.textContent = `${matches.length} Match(es)`;
+
+                // Render Highlighted HTML
+                let lastIndex = 0;
+                let html = '';
+                matches.forEach(m => {
+                    html += escapeHtml(text.substring(lastIndex, m.index));
+                    html += `<span class="match-highlight">${escapeHtml(m.text)}</span>`;
+                    lastIndex = m.index + m.text.length;
+                });
+                html += escapeHtml(text.substring(lastIndex));
+                highlightBox.innerHTML = html;
+
+                updateCodeSnippet(pattern, flags);
+
+            } catch (err) {
+                highlightBox.innerHTML = `<span class="text-rose-400 font-bold">[RegEx Syntax Error] ${escapeHtml(err.message)}</span>`;
+                badge.textContent = 'Syntax Error';
+            }
+        }
+
+        function updateCodeSnippet(pattern, flags) {
+            const snippet = 
+`// JavaScript RegEx Example
+const pattern = /${pattern.replace(/\//g, '\\/')}/${flags};
+const text = "Your text here...";
+const matches = text.match(pattern);
+console.log(matches);`;
+            document.getElementById('codeSnippet').value = snippet;
+        }
+
+        function copySnippet(lang) {
+            const pattern = document.getElementById('regexInput').value;
+            let flags = '';
+            if (document.getElementById('flag-g').checked) flags += 'g';
+            if (document.getElementById('flag-i').checked) flags += 'i';
+            if (document.getElementById('flag-m').checked) flags += 'm';
+
+            let snippet = '';
+            if (lang === 'js') {
+                snippet = `const regex = /${pattern}/${flags};\nconst matches = text.match(regex);`;
+            } else {
+                snippet = `import re\npattern = r"${pattern}"\nmatches = re.findall(pattern, text)`;
+            }
+
+            navigator.clipboard.writeText(snippet).then(() => {
+                showToast(`Copied ${lang.toUpperCase()} code snippet!`);
+            });
+        }
+
+        function showToast(message, type = 'blue') {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            toast.className = `px-4 py-2.5 rounded-xl glass-card text-xs font-semibold text-white shadow-2xl border border-white/10 flex items-center gap-2 transition-all duration-300 transform translate-x-5 opacity-0`;
+            toast.innerHTML = `
+                <span class="w-2 h-2 rounded-full ${type === 'rose' ? 'bg-rose-400' : 'bg-blue-400'}"></span>
+                <span>${escapeHtml(message)}</span>
+            `;
+            container.appendChild(toast);
+            setTimeout(() => toast.classList.remove('translate-x-5', 'opacity-0'), 10);
+            setTimeout(() => {
+                toast.classList.add('opacity-0', 'translate-x-5');
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
+        }
+
+        function escapeHtml(str) {
+            if (!str) return '';
+            return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
+        }
+    </script>
 </body>
 </html>

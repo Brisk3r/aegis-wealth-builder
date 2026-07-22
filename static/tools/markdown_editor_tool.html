@@ -3,32 +3,55 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AuditTrailMD | Compliance-Ready Documentation</title>
+    <title>Markdown Editor & Live Preview Studio | Aegis Hub</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
-        :root { --font-main: 'Outfit', sans-serif; --font-body: 'Inter', sans-serif; }
-        body { font-family: var(--font-body); background-color: #020617; color: #f8fafc; }
-        h1, h2, .font-heading { font-family: var(--font-main); }
-        .glass { 
-            background: rgba(15, 23, 42, 0.6); 
-            backdrop-filter: blur(12px); 
-            border: 1px solid rgba(255, 255, 255, 0.08); 
+        body {
+            font-family: 'Outfit', sans-serif;
+            background-color: #080b11;
+            color: #f3f4f6;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(59, 130, 246, 0.04) 0%, transparent 40%),
+                radial-gradient(circle at 90% 80%, rgba(99, 102, 241, 0.03) 0%, transparent 40%);
+            background-attachment: fixed;
         }
-        .audit-entry { border-left: 3px solid #3b82f6; background: rgba(30, 41, 59, 0.4); }
-        textarea:focus { outline: none; border-color: #3b82f6; box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.3); }
-        .scrollbar-custom::-webkit-scrollbar { width: 6px; }
-        .scrollbar-custom::-webkit-scrollbar-track { background: #0f172a; }
-        .scrollbar-custom::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
+        .glass-card {
+            background: rgba(17, 24, 39, 0.55);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        textarea {
+            color: #f8fafc !important;
+            background-color: rgba(15, 23, 42, 0.6) !important;
+            border-color: rgba(255, 255, 255, 0.1) !important;
+        }
+        textarea::placeholder {
+            color: #64748b !important;
+        }
+        .markdown-body h1 { font-size: 1.75rem; font-weight: 800; color: #60a5fa; margin-bottom: 0.75rem; }
+        .markdown-body h2 { font-size: 1.35rem; font-weight: 700; color: #f3f4f6; margin-top: 1rem; margin-bottom: 0.5rem; }
+        .markdown-body p { color: #cbd5e1; line-height: 1.6; margin-bottom: 0.75rem; }
+        .markdown-body code { background: rgba(15, 23, 42, 0.8); color: #38bdf8; padding: 2px 6px; border-radius: 4px; font-family: monospace; }
+        .markdown-body ul { list-style-type: disc; padding-left: 1.25rem; margin-bottom: 0.75rem; color: #cbd5e1; }
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: rgba(15, 23, 42, 0.5);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+        }
     </style>
+    <!-- AdSense & Analytics tags -->
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4750454395006570" crossorigin="anonymous"></script>
-
     <script defer src="/_vercel/insights/script.js"></script>
-
     <link rel="icon" type="image/png" href="/static/logo.png">
-
-    <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-BZVWXPPG06"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
@@ -36,8 +59,6 @@
       gtag('js', new Date());
       gtag('config', 'G-BZVWXPPG06');
     </script>
-
-    <script src="https://assets.lemonsqueezy.com/lemon.js" defer></script>
 
     <style>
         /* Global accessibility & dark theme input fixes */
@@ -50,150 +71,160 @@
         }
     </style>
     
-</head>
-<body class="flex flex-col h-screen overflow-hidden text-slate-200">
 
-    <div class="navbar" style="display: flex; justify-content: space-between; align-items: center; padding: 20px 40px; border-bottom: 1px solid rgba(255,255,255,0.08); background: rgba(11, 15, 25, 0.75); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); position: sticky; top: 0; z-index: 100; font-family: 'Outfit', sans-serif;">
+    <script src="https://assets.lemonsqueezy.com/lemon.js" defer></script>
+</head>
+<body class="min-h-screen flex flex-col justify-between">
+
+    <!-- Sticky Navigation Bar -->
+    <div class="navbar" style="display: flex; justify-content: space-between; align-items: center; padding: 18px 40px; border-bottom: 1px solid rgba(255,255,255,0.08); background: rgba(8, 11, 17, 0.85); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); position: sticky; top: 0; z-index: 100; font-family: 'Outfit', sans-serif;">
         <a href="/" style="display: flex; align-items: center; gap: 10px; color: #f3f4f6; text-decoration: none; font-weight: 600;">
             <img src="/static/logo.png" alt="Aegis Hub Logo" style="height: 30px;">
             <span>Aegis Developer Hub</span>
         </a>
         <a href="/" style="color: #60a5fa; text-decoration: none; font-size: 0.95rem; font-weight: 500;">&larr; Back to Hub</a>
     </div>
-    
 
-    
-    
+    <!-- Toast Container -->
+    <div id="toast-container" class="fixed top-20 right-6 z-50 flex flex-col gap-2 pointer-events-none"></div>
 
-    <header class="h-16 glass flex items-center justify-between px-6 border-b border-slate-800">
-        <div class="flex items-center gap-3">
-            <div class="w-9 h-9 bg-blue-600 rounded-xl flex items-center justify-center font-bold text-white shadow-lg shadow-blue-500/20">A</div>
-            <h1 class="text-xl font-bold tracking-tight text-white">AuditTrail<span class="text-blue-500">MD</span></h1>
+    <!-- Main Container -->
+    <main class="max-w-7xl w-full mx-auto px-4 py-8 flex-grow">
+        
+        <!-- Header -->
+        <div class="mb-8 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+            <div>
+                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-blue-500/10 border border-blue-500/20 text-blue-400 mb-3">
+                    <span class="w-2 h-2 rounded-full bg-blue-400 animate-pulse"></span>
+                    Live Split-Screen Markdown Editor
+                </div>
+                <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight bg-gradient-to-r from-blue-400 via-indigo-300 to-purple-400 bg-clip-text text-transparent">
+                    Markdown Editor & Live Preview
+                </h1>
+                <p class="text-gray-400 text-sm mt-1 max-w-2xl">
+                    Write Markdown documentation, preview rendered HTML live, export `.md` files, or copy compiled HTML.
+                </p>
+            </div>
+
+            <div class="flex items-center gap-2">
+                <button onclick="copyHtml()" class="px-3.5 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-semibold text-xs border border-white/10 flex items-center gap-1.5">
+                    <svg class="w-3.5 h-3.5 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3"></path></svg>
+                    Copy HTML
+                </button>
+                <button onclick="downloadMd()" class="px-4 py-1.5 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-semibold text-xs shadow flex items-center gap-1.5">
+                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+                    Download .md File
+                </button>
+            </div>
         </div>
-        <div class="flex gap-3">
-            <button onclick="clearLogs()" class="px-4 py-2 text-sm font-medium hover:bg-slate-800 rounded-lg transition text-slate-400 hover:text-white">Clear History</button>
-            <button onclick="exportAudit()" class="px-4 py-2 bg-blue-600 hover:bg-blue-500 text-white rounded-lg text-sm font-semibold transition shadow-lg shadow-blue-600/20">Export Audit Report</button>
+
+        <!-- 2 Column Editor Grid -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 mb-12">
+            
+            <!-- Left Input (6 cols) -->
+            <div class="lg:col-span-6 glass-card rounded-3xl p-6 border border-white/5 flex flex-col h-[600px]">
+                <div class="flex items-center justify-between mb-3">
+                    <label class="text-xs font-bold text-gray-300 uppercase tracking-wider">Markdown Input Source</label>
+                    <span id="charCount" class="text-xs font-mono text-gray-400">0 chars</span>
+                </div>
+
+                <textarea id="editor" oninput="renderMarkdown()" class="w-full flex-grow p-4 rounded-xl font-mono text-xs text-blue-200 resize-none" placeholder="Type Markdown here..."></textarea>
+            </div>
+
+            <!-- Right Render (6 cols) -->
+            <div class="lg:col-span-6 glass-card rounded-3xl p-6 border border-white/5 flex flex-col h-[600px]">
+                <div class="flex items-center justify-between pb-3 border-b border-white/5 mb-3">
+                    <h3 class="text-xs font-bold text-emerald-400 uppercase tracking-wider">Rendered Live Preview</h3>
+                </div>
+
+                <div id="preview" class="w-full flex-grow p-4 rounded-xl bg-slate-950/70 border border-white/5 overflow-y-auto markdown-body"></div>
+            </div>
+
         </div>
-    </header>
 
-    <main class="flex-1 flex overflow-hidden p-6 gap-6">
-        <!-- Editor Section -->
-        <section class="flex-1 flex flex-col glass rounded-3xl p-6 shadow-2xl">
-            <div class="flex justify-between items-center mb-4">
-                <h2 class="text-lg font-semibold text-slate-200">Policy Editor</h2>
-                <span id="charCount" class="text-xs text-slate-500">0 characters</span>
-            </div>
-            <textarea id="editor" 
-                class="flex-1 w-full bg-transparent resize-none text-base leading-relaxed text-slate-300"
-                placeholder="Document your compliance policies here. Every keystroke is logged for the audit trail..."></textarea>
-        </section>
-
-        <!-- Audit Log Sidebar -->
-        <aside class="w-80 glass rounded-3xl flex flex-col overflow-hidden shadow-2xl">
-            <div class="p-6 border-b border-white/5">
-                <h2 class="text-sm font-bold uppercase tracking-widest text-slate-500">Audit Trail</h2>
-                <p class="text-xs text-slate-600 mt-1">Immutable change history</p>
-            </div>
-            <div id="logContainer" class="flex-1 overflow-y-auto scrollbar-custom p-4 flex flex-col gap-3">
-                <!-- Logs injected here -->
-            </div>
-        </aside>
     </main>
 
-    <script>
-        const editor = document.getElementById('editor');
-        const logContainer = document.getElementById('logContainer');
-        const charCount = document.getElementById('charCount');
-        
-        let auditLog = JSON.parse(localStorage.getItem('auditLogs_v1') || '[]');
-
-        function updateStats() {
-            charCount.textContent = `${editor.value.length} characters`;
-        }
-
-        function renderLogs() {
-            logContainer.innerHTML = auditLog.length === 0 
-                ? '<div class="text-center py-10 text-slate-600 text-sm italic">No records yet</div>' 
-                : '';
-            
-            [...auditLog].reverse().forEach(log => {
-                const div = document.createElement('div');
-                div.className = 'audit-entry p-3 rounded-lg text-xs animate-in fade-in slide-in-from-right-4 duration-300';
-                div.innerHTML = `
-                    <div class="font-bold text-blue-400 mb-1 font-mono">${log.timestamp}</div>
-                    <div class="text-slate-400 truncate">${log.snippet}</div>
-                `;
-                logContainer.appendChild(div);
-            });
-        }
-
-        editor.addEventListener('input', (e) => {
-            const val = e.target.value;
-            const now = new Date().toLocaleTimeString('en-GB', { hour12: false });
-            
-            // Only log if significant change or initial start
-            if (val.length % 20 === 0 || val.length === 1) {
-                const entry = {
-                    timestamp: now,
-                    snippet: val.substring(0, 100) + (val.length > 100 ? '...' : '')
-                };
-                auditLog.push(entry);
-                localStorage.setItem('auditLogs_v1', JSON.stringify(auditLog));
-                renderLogs();
-            }
-            updateStats();
-        });
-
-        function clearLogs() {
-            if(confirm('Are you sure you want to clear your local audit trail?')) {
-                auditLog = [];
-                localStorage.removeItem('auditLogs_v1');
-                renderLogs();
-            }
-        }
-
-        async function exportAudit() {
-            if (auditLog.length === 0) { alert('No data to export'); return; }
-            const { jsPDF } = window.jspdf;
-            const doc = new jsPDF();
-            
-            doc.setFont("helvetica", "bold");
-            doc.text("Compliance Audit Trail Report", 20, 20);
-            doc.setFont("helvetica", "normal");
-            doc.setFontSize(10);
-            
-            let y = 30;
-            auditLog.forEach((log) => {
-                if (y > 280) { doc.addPage(); y = 20; }
-                doc.text(`${log.timestamp} - ${log.snippet}`, 20, y);
-                y += 8;
-            });
-            
-            doc.save(`audit_trail_${new Date().toISOString().split('T')[0]}.pdf`);
-        }
-
-        // Initialize display
-        renderLogs();
-        updateStats();
-    </script>
-
-    
-    
-
-    
-    
-
-    
-    
-<footer style="text-align: center; padding: 60px 20px; color: #9ca3af; border-top: 1px solid rgba(255,255,255,0.08); font-size: 0.95rem; background: rgba(8, 11, 17, 0.4); font-family: 'Outfit', sans-serif; margin-top: 60px;">
+    <!-- Footer -->
+    <footer style="text-align: center; padding: 60px 20px; color: #9ca3af; border-top: 1px solid rgba(255,255,255,0.08); font-size: 0.95rem; background: rgba(8, 11, 17, 0.4); font-family: 'Outfit', sans-serif; margin-top: 60px;">
         <p>&copy; 2026 Aegis Developer Hub. All rights reserved.</p>
         <p style="font-size: 0.85rem; max-width: 800px; margin: 15px auto; line-height: 1.5; color: #9ca3af;">
-            <strong>Disclaimer:</strong> The tools and content provided on this website are for educational and informational purposes only and do not constitute financial, investment, legal, or professional advice. Conforms to Australian Privacy Principles (APPs) under the Privacy Act 1988, GDPR rules on data protection, and ASIC regulatory guidelines.
+            <strong>Disclaimer:</strong> Markdown parsing executes client-side. Conforms to APPs, GDPR, and privacy guidelines.
         </p>
         <p style="margin-top: 20px;">
             <a href="/static/privacy.html" style="color: #9ca3af; text-decoration: underline; margin-right: 15px;">Privacy Policy</a>
             <a href="/static/terms.html" style="color: #9ca3af; text-decoration: underline;">Terms of Service & Disclaimer</a>
         </p>
     </footer>
+
+    <!-- JavaScript Engine -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const initial = 
+`# Welcome to Aegis Markdown Studio
+
+Build **compliance documentation**, technical notes, and blog posts with real-time preview.
+
+## Features
+- Split-screen live preview
+- Clean HTML rendering
+- 100% client-side data privacy
+
+\`\`\`javascript
+const greeting = "Hello Aegis Hub!";
+console.log(greeting);
+\`\`\``;
+            document.getElementById('editor').value = initial;
+            renderMarkdown();
+        });
+
+        function renderMarkdown() {
+            const raw = document.getElementById('editor').value;
+            document.getElementById('charCount').textContent = `${raw.length} chars`;
+
+            const html = marked.parse(raw);
+            document.getElementById('preview').innerHTML = html;
+        }
+
+        function copyHtml() {
+            const raw = document.getElementById('editor').value;
+            const html = marked.parse(raw);
+            navigator.clipboard.writeText(html).then(() => {
+                showToast('Copied compiled HTML to clipboard!');
+            });
+        }
+
+        function downloadMd() {
+            const raw = document.getElementById('editor').value;
+            const blob = new Blob([raw], { type: 'text/markdown' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'document.md';
+            a.click();
+            URL.revokeObjectURL(url);
+            showToast('Downloaded document.md');
+        }
+
+        function showToast(message, type = 'blue') {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            toast.className = `px-4 py-2.5 rounded-xl glass-card text-xs font-semibold text-white shadow-2xl border border-white/10 flex items-center gap-2 transition-all duration-300 transform translate-x-5 opacity-0`;
+            toast.innerHTML = `
+                <span class="w-2 h-2 rounded-full ${type === 'rose' ? 'bg-rose-400' : 'bg-blue-400'}"></span>
+                <span>${escapeHtml(message)}</span>
+            `;
+            container.appendChild(toast);
+            setTimeout(() => toast.classList.remove('translate-x-5', 'opacity-0'), 10);
+            setTimeout(() => {
+                toast.classList.add('opacity-0', 'translate-x-5');
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
+        }
+
+        function escapeHtml(str) {
+            if (!str) return '';
+            return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
+        }
+    </script>
 </body>
 </html>

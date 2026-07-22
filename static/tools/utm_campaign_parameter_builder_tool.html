@@ -3,24 +3,49 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>UTM Pro | Governance-First Builder</title>
+    <title>UTM Campaign Parameter Builder | Aegis Hub</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Outfit', sans-serif; background: #0f172a; color: #f1f5f9; }
-        .glass { background: rgba(30, 41, 59, 0.7); backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.08); }
-        input:focus { outline: none; border-color: #38bdf8 !important; box-shadow: 0 0 0 1px #38bdf8; }
-        ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: #0f172a; }
-        ::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
+        body {
+            font-family: 'Outfit', sans-serif;
+            background-color: #080b11;
+            color: #f3f4f6;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(59, 130, 246, 0.04) 0%, transparent 40%),
+                radial-gradient(circle at 90% 80%, rgba(99, 102, 241, 0.03) 0%, transparent 40%);
+            background-attachment: fixed;
+        }
+        .glass-card {
+            background: rgba(17, 24, 39, 0.55);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        input[type="text"], input[type="url"], select {
+            color: #f8fafc !important;
+            background-color: rgba(15, 23, 42, 0.6) !important;
+            border-color: rgba(255, 255, 255, 0.1) !important;
+        }
+        input::placeholder {
+            color: #64748b !important;
+        }
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: rgba(15, 23, 42, 0.5);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+        }
     </style>
+    <!-- AdSense & Analytics tags -->
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4750454395006570" crossorigin="anonymous"></script>
-
     <script defer src="/_vercel/insights/script.js"></script>
-
     <link rel="icon" type="image/png" href="/static/logo.png">
-
-    <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-BZVWXPPG06"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
@@ -28,8 +53,6 @@
       gtag('js', new Date());
       gtag('config', 'G-BZVWXPPG06');
     </script>
-
-    <script src="https://assets.lemonsqueezy.com/lemon.js" defer></script>
 
     <style>
         /* Global accessibility & dark theme input fixes */
@@ -42,128 +65,181 @@
         }
     </style>
     
-</head>
-<body class="min-h-screen p-4 md:p-8">
 
-    <div class="navbar" style="display: flex; justify-content: space-between; align-items: center; padding: 20px 40px; border-bottom: 1px solid rgba(255,255,255,0.08); background: rgba(11, 15, 25, 0.75); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); position: sticky; top: 0; z-index: 100; font-family: 'Outfit', sans-serif;">
+    <script src="https://assets.lemonsqueezy.com/lemon.js" defer></script>
+</head>
+<body class="min-h-screen flex flex-col justify-between">
+
+    <!-- Sticky Navigation Bar -->
+    <div class="navbar" style="display: flex; justify-content: space-between; align-items: center; padding: 18px 40px; border-bottom: 1px solid rgba(255,255,255,0.08); background: rgba(8, 11, 17, 0.85); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); position: sticky; top: 0; z-index: 100; font-family: 'Outfit', sans-serif;">
         <a href="/" style="display: flex; align-items: center; gap: 10px; color: #f3f4f6; text-decoration: none; font-weight: 600;">
             <img src="/static/logo.png" alt="Aegis Hub Logo" style="height: 30px;">
             <span>Aegis Developer Hub</span>
         </a>
         <a href="/" style="color: #60a5fa; text-decoration: none; font-size: 0.95rem; font-weight: 500;">&larr; Back to Hub</a>
     </div>
-    
 
-    
-    
+    <!-- Toast Container -->
+    <div id="toast-container" class="fixed top-20 right-6 z-50 flex flex-col gap-2 pointer-events-none"></div>
 
-    <nav class="max-w-4xl mx-auto mb-10 p-4 glass rounded-2xl flex items-center justify-between">
-        <div class="flex items-center gap-2">
-            <div class="w-8 h-8 bg-sky-500 rounded-lg flex items-center justify-center font-bold">U</div>
-            <span class="font-bold text-lg tracking-tight">UTM Pro</span>
+    <!-- Main Container -->
+    <main class="max-w-5xl w-full mx-auto px-4 py-8 flex-grow">
+        
+        <!-- Header -->
+        <div class="mb-8">
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-blue-500/10 border border-blue-500/20 text-blue-400 mb-3">
+                <span class="w-2 h-2 rounded-full bg-blue-400 animate-pulse"></span>
+                Standardized Analytics & Campaign URL Generator
+            </div>
+            <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight bg-gradient-to-r from-blue-400 via-indigo-300 to-purple-400 bg-clip-text text-transparent">
+                UTM Campaign Parameter Builder
+            </h1>
+            <p class="text-gray-400 text-sm mt-1 max-w-2xl">
+                Build clean, standardized campaign tracking URLs with automatic lowercase slugification and UTM parameter sanitation.
+            </p>
         </div>
-        <div class="text-xs text-slate-400">Standardized Analytics Governance</div>
-    </nav>
 
-    <main class="max-w-4xl mx-auto">
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <!-- Form Grid -->
-            <section class="glass p-6 md:p-8 rounded-3xl shadow-2xl">
-                <h2 class="text-xl font-semibold mb-6">Configuration</h2>
-                <form id="utm-form" class="space-y-5">
+        <!-- 2 Column Workspace -->
+        <div class="grid grid-cols-1 md:grid-cols-12 gap-8 mb-12">
+            
+            <!-- Controls (6 cols) -->
+            <div class="md:col-span-6 glass-card rounded-3xl p-6 border border-white/5 space-y-4">
+                <h3 class="text-xs font-bold text-white uppercase tracking-wider">UTM Parameters Input</h3>
+                
+                <div>
+                    <label class="block text-xs font-semibold text-gray-300 mb-1">Target Website URL *</label>
+                    <input type="url" id="url" oninput="buildUtm()" placeholder="https://aegishub.dev/tools" value="https://aegishub.dev" class="w-full px-3.5 py-2.5 rounded-xl text-xs font-mono">
+                </div>
+
+                <div class="grid grid-cols-2 gap-3">
                     <div>
-                        <label class="block text-xs uppercase tracking-wider text-slate-500 mb-1.5 font-bold">Website URL *</label>
-                        <input type="url" id="url" required placeholder="https://example.com" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-sm transition-all focus:border-sky-500">
-                    </div>
-                    <div class="grid grid-cols-2 gap-4">
-                        <div>
-                            <label class="block text-xs uppercase tracking-wider text-slate-500 mb-1.5 font-bold">Source *</label>
-                            <input type="text" id="source" required placeholder="newsletter" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-sm focus:border-sky-500">
-                        </div>
-                        <div>
-                            <label class="block text-xs uppercase tracking-wider text-slate-500 mb-1.5 font-bold">Medium *</label>
-                            <input type="text" id="medium" required placeholder="email" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-sm focus:border-sky-500">
-                        </div>
+                        <label class="block text-xs font-semibold text-gray-300 mb-1">UTM Source *</label>
+                        <input type="text" id="source" oninput="buildUtm()" placeholder="e.g. google, newsletter" value="newsletter" class="w-full px-3.5 py-2.5 rounded-xl text-xs">
                     </div>
                     <div>
-                        <label class="block text-xs uppercase tracking-wider text-slate-500 mb-1.5 font-bold">Campaign Name</label>
-                        <input type="text" id="campaign" placeholder="spring_refresh_2026" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-sm focus:border-sky-500">
+                        <label class="block text-xs font-semibold text-gray-300 mb-1">UTM Medium *</label>
+                        <input type="text" id="medium" oninput="buildUtm()" placeholder="e.g. cpc, email" value="email" class="w-full px-3.5 py-2.5 rounded-xl text-xs">
                     </div>
-                    <button type="submit" class="w-full bg-sky-600 hover:bg-sky-500 text-white font-semibold py-3.5 rounded-xl mt-4 transition-all">Generate & Standardize</button>
-                    <button type="reset" id="reset-btn" class="w-full text-slate-500 hover:text-rose-400 py-2 text-sm transition-colors">Reset Form</button>
-                </form>
-            </section>
+                </div>
 
-            <!-- Output Side -->
-            <section class="flex flex-col gap-6">
-                <div class="glass p-6 md:p-8 rounded-3xl shadow-xl flex-1">
-                    <h2 class="text-xl font-semibold mb-6">Result</h2>
-                    <div id="output-box" class="bg-slate-950 p-6 rounded-2xl border border-slate-800 break-all text-sm text-sky-300 font-mono min-h-[120px] flex items-center">
-                        <span class="text-slate-600 italic">Enter details to generate your URL...</span>
+                <div>
+                    <label class="block text-xs font-semibold text-gray-300 mb-1">Campaign Name (utm_campaign)</label>
+                    <input type="text" id="campaign" oninput="buildUtm()" placeholder="e.g. launch_2026" value="spring_launch" class="w-full px-3.5 py-2.5 rounded-xl text-xs">
+                </div>
+
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-300 mb-1">Term (utm_term)</label>
+                        <input type="text" id="term" oninput="buildUtm()" placeholder="e.g. dev_tools" class="w-full px-3.5 py-2.5 rounded-xl text-xs">
                     </div>
-                    <button id="copy-btn" class="mt-6 w-full border border-slate-700 hover:border-slate-500 py-3 rounded-xl text-sm text-slate-300 transition-all active:scale-[0.98]">
-                        Copy to Clipboard
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-300 mb-1">Content (utm_content)</label>
+                        <input type="text" id="content" oninput="buildUtm()" placeholder="e.g. banner_cta" class="w-full px-3.5 py-2.5 rounded-xl text-xs">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Output Side (6 cols) -->
+            <div class="md:col-span-6 glass-card rounded-3xl p-6 border border-white/5 space-y-4 flex flex-col justify-between">
+                <div class="space-y-3">
+                    <h3 class="text-xs font-bold text-emerald-400 uppercase tracking-wider">Generated Campaign URL</h3>
+
+                    <div class="bg-slate-950/80 p-4 rounded-2xl border border-white/5 font-mono text-xs text-emerald-300 break-all leading-relaxed">
+                        <span id="outputUrl">https://aegishub.dev?utm_source=newsletter&utm_medium=email&utm_campaign=spring_launch</span>
+                    </div>
+                </div>
+
+                <div class="space-y-2">
+                    <button onclick="copyUtmUrl()" class="w-full py-3 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-bold text-xs shadow-lg transition-all flex items-center justify-center gap-2">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3"></path></svg>
+                        Copy Clean Campaign URL
                     </button>
                 </div>
-            </section>
+            </div>
+
         </div>
+
     </main>
 
-    <script>
-        const form = document.getElementById('utm-form');
-        const output = document.getElementById('output-box');
-        const copyBtn = document.getElementById('copy-btn');
-
-        form.addEventListener('submit', (e) => {
-            e.preventDefault();
-            const baseUrl = document.getElementById('url').value.trim();
-            const source = document.getElementById('source').value.trim().toLowerCase().replace(/\s+/g, '_');
-            const medium = document.getElementById('medium').value.trim().toLowerCase().replace(/\s+/g, '_');
-            const campaign = document.getElementById('campaign').value.trim().toLowerCase().replace(/\s+/g, '_');
-
-            const url = new URL(baseUrl);
-            url.searchParams.set('utm_source', source);
-            url.searchParams.set('utm_medium', medium);
-            if (campaign) url.searchParams.set('utm_campaign', campaign);
-
-            output.innerText = url.toString();
-        });
-
-        copyBtn.addEventListener('click', () => {
-            if (output.innerText.startsWith('http')) {
-                navigator.clipboard.writeText(output.innerText);
-                const originalText = copyBtn.innerText;
-                copyBtn.innerText = "✓ Copied to clipboard";
-                copyBtn.classList.add('text-emerald-400', 'border-emerald-800');
-                setTimeout(() => {
-                    copyBtn.innerText = originalText;
-                    copyBtn.classList.remove('text-emerald-400', 'border-emerald-800');
-                }, 2000);
-            }
-        });
-
-        document.getElementById('reset-btn').addEventListener('click', () => {
-             output.innerHTML = '<span class="text-slate-600 italic">Enter details to generate your URL...</span>';
-        });
-    </script>
-
-    
-    
-
-    
-    
-
-    
-    
-<footer style="text-align: center; padding: 60px 20px; color: #9ca3af; border-top: 1px solid rgba(255,255,255,0.08); font-size: 0.95rem; background: rgba(8, 11, 17, 0.4); font-family: 'Outfit', sans-serif; margin-top: 60px;">
+    <!-- Footer -->
+    <footer style="text-align: center; padding: 60px 20px; color: #9ca3af; border-top: 1px solid rgba(255,255,255,0.08); font-size: 0.95rem; background: rgba(8, 11, 17, 0.4); font-family: 'Outfit', sans-serif; margin-top: 60px;">
         <p>&copy; 2026 Aegis Developer Hub. All rights reserved.</p>
         <p style="font-size: 0.85rem; max-width: 800px; margin: 15px auto; line-height: 1.5; color: #9ca3af;">
-            <strong>Disclaimer:</strong> The tools and content provided on this website are for educational and informational purposes only and do not constitute financial, investment, legal, or professional advice. Conforms to Australian Privacy Principles (APPs) under the Privacy Act 1988, GDPR rules on data protection, and ASIC regulatory guidelines.
+            <strong>Disclaimer:</strong> UTM parameter builder operates 100% in client browser memory. Conforms to APPs, GDPR, and privacy guidelines.
         </p>
         <p style="margin-top: 20px;">
             <a href="/static/privacy.html" style="color: #9ca3af; text-decoration: underline; margin-right: 15px;">Privacy Policy</a>
             <a href="/static/terms.html" style="color: #9ca3af; text-decoration: underline;">Terms of Service & Disclaimer</a>
         </p>
     </footer>
+
+    <!-- JavaScript Engine -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            buildUtm();
+        });
+
+        function slugify(text) {
+            return text.toString().toLowerCase().trim()
+                .replace(/\s+/g, '_')
+                .replace(/[^\w\-]+/g, '')
+                .replace(/\-\-+/g, '_');
+        }
+
+        function buildUtm() {
+            let baseUrl = document.getElementById('url').value.trim() || 'https://aegishub.dev';
+            if (!baseUrl.startsWith('http://') && !baseUrl.startsWith('https://')) {
+                baseUrl = 'https://' + baseUrl;
+            }
+
+            const source = slugify(document.getElementById('source').value);
+            const medium = slugify(document.getElementById('medium').value);
+            const campaign = slugify(document.getElementById('campaign').value);
+            const term = slugify(document.getElementById('term').value);
+            const content = slugify(document.getElementById('content').value);
+
+            try {
+                const urlObj = new URL(baseUrl);
+                if (source) urlObj.searchParams.set('utm_source', source);
+                if (medium) urlObj.searchParams.set('utm_medium', medium);
+                if (campaign) urlObj.searchParams.set('utm_campaign', campaign);
+                if (term) urlObj.searchParams.set('utm_term', term);
+                if (content) urlObj.searchParams.set('utm_content', content);
+
+                document.getElementById('outputUrl').textContent = urlObj.toString();
+            } catch (e) {
+                document.getElementById('outputUrl').textContent = 'Invalid URL Format';
+            }
+        }
+
+        function copyUtmUrl() {
+            const url = document.getElementById('outputUrl').textContent;
+            if (url === 'Invalid URL Format') return;
+            navigator.clipboard.writeText(url).then(() => {
+                showToast('Copied Campaign URL to clipboard!');
+            });
+        }
+
+        function showToast(message, type = 'blue') {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            toast.className = `px-4 py-2.5 rounded-xl glass-card text-xs font-semibold text-white shadow-2xl border border-white/10 flex items-center gap-2 transition-all duration-300 transform translate-x-5 opacity-0`;
+            toast.innerHTML = `
+                <span class="w-2 h-2 rounded-full ${type === 'rose' ? 'bg-rose-400' : 'bg-blue-400'}"></span>
+                <span>${escapeHtml(message)}</span>
+            `;
+            container.appendChild(toast);
+            setTimeout(() => toast.classList.remove('translate-x-5', 'opacity-0'), 10);
+            setTimeout(() => {
+                toast.classList.add('opacity-0', 'translate-x-5');
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
+        }
+
+        function escapeHtml(str) {
+            if (!str) return '';
+            return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
+        }
+    </script>
 </body>
 </html>

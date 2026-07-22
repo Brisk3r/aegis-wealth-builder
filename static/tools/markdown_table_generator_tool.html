@@ -3,28 +3,49 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DevTable Pro | Professional Markdown Table Transformer</title>
+    <title>Markdown Table Generator & CSV Converter | Aegis Hub</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Outfit:wght@300;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
-        :root { --bg: #0f172a; --glass: rgba(30, 41, 59, 0.7); --accent: #38bdf8; }
-        body { font-family: 'Inter', sans-serif; background-color: var(--bg); color: #f1f5f9; background-image: radial-gradient(at 0% 0%, rgba(56, 189, 248, 0.05) 0px, transparent 50%); }
-        h1, h2 { font-family: 'Outfit', sans-serif; }
-        .glass { background: var(--glass); backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.08); }
-        .input-area { min-height: 300px; }
-        .btn-glow:hover { box-shadow: 0 0 20px rgba(56, 189, 248, 0.4); }
-        ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: #1e293b; }
-        ::-webkit-scrollbar-thumb { background: #475569; border-radius: 4px; }
-        ::-webkit-scrollbar-thumb:hover { background: var(--accent); }
+        body {
+            font-family: 'Outfit', sans-serif;
+            background-color: #080b11;
+            color: #f3f4f6;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(59, 130, 246, 0.04) 0%, transparent 40%),
+                radial-gradient(circle at 90% 80%, rgba(99, 102, 241, 0.03) 0%, transparent 40%);
+            background-attachment: fixed;
+        }
+        .glass-card {
+            background: rgba(17, 24, 39, 0.55);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        textarea {
+            color: #f8fafc !important;
+            background-color: rgba(15, 23, 42, 0.6) !important;
+            border-color: rgba(255, 255, 255, 0.1) !important;
+        }
+        textarea::placeholder {
+            color: #64748b !important;
+        }
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: rgba(15, 23, 42, 0.5);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+        }
     </style>
+    <!-- AdSense & Analytics tags -->
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4750454395006570" crossorigin="anonymous"></script>
-
     <script defer src="/_vercel/insights/script.js"></script>
-
     <link rel="icon" type="image/png" href="/static/logo.png">
-
-    <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-BZVWXPPG06"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
@@ -32,8 +53,6 @@
       gtag('js', new Date());
       gtag('config', 'G-BZVWXPPG06');
     </script>
-
-    <script src="https://assets.lemonsqueezy.com/lemon.js" defer></script>
 
     <style>
         /* Global accessibility & dark theme input fixes */
@@ -46,133 +65,140 @@
         }
     </style>
     
-</head>
-<body class="min-h-screen p-4 md:p-8">
 
-    <div class="navbar" style="display: flex; justify-content: space-between; align-items: center; padding: 20px 40px; border-bottom: 1px solid rgba(255,255,255,0.08); background: rgba(11, 15, 25, 0.75); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); position: sticky; top: 0; z-index: 100; font-family: 'Outfit', sans-serif;">
+    <script src="https://assets.lemonsqueezy.com/lemon.js" defer></script>
+</head>
+<body class="min-h-screen flex flex-col justify-between">
+
+    <!-- Sticky Navigation Bar -->
+    <div class="navbar" style="display: flex; justify-content: space-between; align-items: center; padding: 18px 40px; border-bottom: 1px solid rgba(255,255,255,0.08); background: rgba(8, 11, 17, 0.85); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); position: sticky; top: 0; z-index: 100; font-family: 'Outfit', sans-serif;">
         <a href="/" style="display: flex; align-items: center; gap: 10px; color: #f3f4f6; text-decoration: none; font-weight: 600;">
             <img src="/static/logo.png" alt="Aegis Hub Logo" style="height: 30px;">
             <span>Aegis Developer Hub</span>
         </a>
         <a href="/" style="color: #60a5fa; text-decoration: none; font-size: 0.95rem; font-weight: 500;">&larr; Back to Hub</a>
     </div>
-    
 
-    
-    
+    <!-- Toast Container -->
+    <div id="toast-container" class="fixed top-20 right-6 z-50 flex flex-col gap-2 pointer-events-none"></div>
 
-    <div class="max-w-6xl mx-auto">
-        <header class="mb-12 text-center">
-            <div class="inline-block p-1 rounded-full bg-slate-800/50 border border-slate-700 mb-4">
-                <span class="px-4 py-1 text-xs font-semibold text-sky-400 uppercase tracking-widest">Enterprise Utility</span>
+    <!-- Main Container -->
+    <main class="max-w-6xl w-full mx-auto px-4 py-8 flex-grow">
+        
+        <!-- Header -->
+        <div class="mb-8">
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-blue-500/10 border border-blue-500/20 text-blue-400 mb-3">
+                <span class="w-2 h-2 rounded-full bg-blue-400 animate-pulse"></span>
+                CSV-to-Markdown Table Conversion Engine
             </div>
-            <h1 class="text-5xl md:text-6xl font-bold mb-4 text-white tracking-tight">DevTable <span class="text-sky-500">Pro</span></h1>
-            <p class="text-slate-400 text-lg">Industrial-grade precision for technical documentation formatting.</p>
-        </header>
+            <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight bg-gradient-to-r from-blue-400 via-indigo-300 to-purple-400 bg-clip-text text-transparent">
+                Markdown Table Generator & Converter
+            </h1>
+            <p class="text-gray-400 text-sm mt-1 max-w-2xl">
+                Convert CSV rows, TSV spreadsheets, or tabular data into formatted Markdown tables with aligned headers.
+            </p>
+        </div>
 
-        <main class="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            <section class="glass p-8 rounded-3xl shadow-2xl relative overflow-hidden">
-                <h2 class="text-xl font-semibold mb-6 text-slate-100 flex items-center gap-2">
-                    <span class="w-2 h-6 bg-sky-500 rounded-full"></span>
-                    Raw Data Source (CSV)
-                </h2>
-                <textarea id="csvInput" class="w-full bg-slate-950/50 p-6 rounded-2xl border border-slate-700 focus:border-sky-500 focus:ring-1 focus:ring-sky-500 transition-all font-mono text-sm leading-relaxed text-slate-300 input-area" placeholder="Paste your CSV content here...&#10;Columns should be comma-separated.&#10;&#10;ID,Feature,Status&#10;1,CSV Sync,Active&#10;2,Markdown Export,Active"></textarea>
-                <div class="mt-6 flex gap-4">
-                    <button onclick="processTable()" class="flex-grow px-8 py-3 bg-sky-600 hover:bg-sky-500 text-white rounded-xl font-semibold btn-glow transition-all">Generate Markdown</button>
-                    <button onclick="clearAll()" class="px-6 py-3 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-xl font-medium transition-all">Clear</button>
-                </div>
-            </section>
-
-            <section class="glass p-8 rounded-3xl shadow-2xl">
-                <div class="flex justify-between items-center mb-6">
-                    <h2 class="text-xl font-semibold text-slate-100 flex items-center gap-2">
-                        <span class="w-2 h-6 bg-emerald-500 rounded-full"></span>
-                        Formatted Output
-                    </h2>
-                    <button onclick="copyOutput()" id="copyBtn" class="text-sm bg-slate-800 hover:bg-slate-700 px-4 py-2 rounded-lg text-slate-300 transition-all flex items-center gap-2 border border-slate-700">
-                        Copy to Clipboard
-                    </button>
-                </div>
-                <textarea id="markdownOutput" readonly class="w-full bg-slate-950/80 p-6 rounded-2xl border border-slate-700 font-mono text-sm text-sky-200 input-area" placeholder="Formatted table will appear here..."></textarea>
-                <p id="statusMsg" class="mt-4 text-xs text-slate-500 font-medium h-4"></p>
-            </section>
-        </main>
-    </div>
-
-    <script>
-        function processTable() {
-            const input = document.getElementById('csvInput').value.trim();
-            const output = document.getElementById('markdownOutput');
-            const status = document.getElementById('statusMsg');
-
-            if (!input) {
-                status.innerText = "Error: Input field is empty.";
-                return;
-            }
-
-            try {
-                // Parse CSV logic: Split by lines then commas, handle quotes if necessary
-                const rows = input.split('\n').map(line => line.split(',').map(c => c.trim()));
-                if (rows.length < 1) return;
-
-                let table = '| ' + rows[0].join(' | ') + ' |\n';
-                table += '| ' + rows[0].map(() => '---').join(' | ') + ' |\n';
-
-                for (let i = 1; i < rows.length; i++) {
-                    if (rows[i].length === rows[0].length) {
-                        table += '| ' + rows[i].join(' | ') + ' |\n';
-                    }
-                }
-
-                output.value = table;
-                status.innerText = "Success: Table generated successfully.";
-            } catch (e) {
-                status.innerText = "Error: Unable to parse CSV data.";
-            }
-        }
-
-        async function copyOutput() {
-            const output = document.getElementById('markdownOutput');
-            if(!output.value) return;
+        <!-- 2 Column Workspace -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 mb-12">
             
-            try {
-                await navigator.clipboard.writeText(output.value);
-                const btn = document.getElementById('copyBtn');
-                btn.innerText = "Copied!";
-                btn.classList.add('bg-emerald-900', 'border-emerald-700', 'text-emerald-300');
-                setTimeout(() => {
-                    btn.innerText = "Copy to Clipboard";
-                    btn.classList.remove('bg-emerald-900', 'border-emerald-700', 'text-emerald-300');
-                }, 2000);
-            } catch (err) {
-                alert("Failed to copy text.");
-            }
-        }
+            <!-- Left Input (6 cols) -->
+            <div class="lg:col-span-6 glass-card rounded-3xl p-6 border border-white/5 flex flex-col h-[500px]">
+                <div class="flex items-center justify-between mb-3">
+                    <label class="text-xs font-bold text-gray-300 uppercase tracking-wider">Raw CSV Data Input</label>
+                    <button onclick="processTable()" class="px-4 py-1.5 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-bold text-xs shadow">Generate Markdown</button>
+                </div>
 
-        function clearAll() {
-            document.getElementById('csvInput').value = '';
-            document.getElementById('markdownOutput').value = '';
-            document.getElementById('statusMsg').innerText = '';
-        }
-    </script>
+                <textarea id="csvInput" class="w-full flex-grow p-4 rounded-xl font-mono text-xs text-blue-200 resize-none" placeholder="ID, Feature, Status&#10;1, CSV Converter, Active&#10;2, Markdown Table, Active"></textarea>
+            </div>
 
-    
-    
+            <!-- Right Output (6 cols) -->
+            <div class="lg:col-span-6 glass-card rounded-3xl p-6 border border-white/5 flex flex-col h-[500px]">
+                <div class="flex items-center justify-between mb-3">
+                    <label class="text-xs font-bold text-emerald-400 uppercase tracking-wider">Formatted Markdown Table</label>
+                    <div class="flex items-center gap-2">
+                        <button onclick="copyOutput()" class="px-3.5 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-semibold text-xs border border-white/10">Copy Table</button>
+                    </div>
+                </div>
 
-    
-    
+                <textarea id="markdownOutput" readonly class="w-full flex-grow p-4 rounded-xl font-mono text-xs text-emerald-200 bg-slate-950/70 border border-white/5 resize-none"></textarea>
+            </div>
 
-    
-    
-<footer style="text-align: center; padding: 60px 20px; color: #9ca3af; border-top: 1px solid rgba(255,255,255,0.08); font-size: 0.95rem; background: rgba(8, 11, 17, 0.4); font-family: 'Outfit', sans-serif; margin-top: 60px;">
+        </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer style="text-align: center; padding: 60px 20px; color: #9ca3af; border-top: 1px solid rgba(255,255,255,0.08); font-size: 0.95rem; background: rgba(8, 11, 17, 0.4); font-family: 'Outfit', sans-serif; margin-top: 60px;">
         <p>&copy; 2026 Aegis Developer Hub. All rights reserved.</p>
         <p style="font-size: 0.85rem; max-width: 800px; margin: 15px auto; line-height: 1.5; color: #9ca3af;">
-            <strong>Disclaimer:</strong> The tools and content provided on this website are for educational and informational purposes only and do not constitute financial, investment, legal, or professional advice. Conforms to Australian Privacy Principles (APPs) under the Privacy Act 1988, GDPR rules on data protection, and ASIC regulatory guidelines.
+            <strong>Disclaimer:</strong> Markdown table generation operates 100% in client browser memory. Conforms to APPs, GDPR, and privacy guidelines.
         </p>
         <p style="margin-top: 20px;">
             <a href="/static/privacy.html" style="color: #9ca3af; text-decoration: underline; margin-right: 15px;">Privacy Policy</a>
             <a href="/static/terms.html" style="color: #9ca3af; text-decoration: underline;">Terms of Service & Disclaimer</a>
         </p>
     </footer>
+
+    <!-- JavaScript Engine -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('csvInput').value = "ID, Feature, Status\n1, CSV Converter, Active\n2, Markdown Table, Active\n3, Client-Side Export, Active";
+            processTable();
+        });
+
+        function processTable() {
+            const csv = document.getElementById('csvInput').value.trim();
+            if (!csv) {
+                showToast('Please enter CSV data', 'rose');
+                return;
+            }
+
+            const lines = csv.split('\n').filter(l => l.trim() !== '');
+            if (!lines.length) return;
+
+            const rows = lines.map(line => line.split(',').map(cell => cell.trim()));
+            const headers = rows[0];
+
+            let md = '| ' + headers.join(' | ') + ' |\n';
+            md += '| ' + headers.map(() => '---').join(' | ') + ' |\n';
+
+            for (let i = 1; i < rows.length; i++) {
+                md += '| ' + rows[i].join(' | ') + ' |\n';
+            }
+
+            document.getElementById('markdownOutput').value = md;
+            showToast('Generated Markdown Table!');
+        }
+
+        function copyOutput() {
+            const md = document.getElementById('markdownOutput').value;
+            if (!md) return;
+            navigator.clipboard.writeText(md).then(() => {
+                showToast('Copied Markdown table to clipboard!');
+            });
+        }
+
+        function showToast(message, type = 'blue') {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            toast.className = `px-4 py-2.5 rounded-xl glass-card text-xs font-semibold text-white shadow-2xl border border-white/10 flex items-center gap-2 transition-all duration-300 transform translate-x-5 opacity-0`;
+            toast.innerHTML = `
+                <span class="w-2 h-2 rounded-full ${type === 'rose' ? 'bg-rose-400' : 'bg-blue-400'}"></span>
+                <span>${escapeHtml(message)}</span>
+            `;
+            container.appendChild(toast);
+            setTimeout(() => toast.classList.remove('translate-x-5', 'opacity-0'), 10);
+            setTimeout(() => {
+                toast.classList.add('opacity-0', 'translate-x-5');
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
+        }
+
+        function escapeHtml(str) {
+            if (!str) return '';
+            return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
+        }
+    </script>
 </body>
 </html>

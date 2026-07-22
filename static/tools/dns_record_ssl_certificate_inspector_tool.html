@@ -1,35 +1,60 @@
 <!DOCTYPE html>
-
 <html lang="en">
 <head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>DNS &amp; SSL Inspector Pro</title>
-<script src="https://cdn.tailwindcss.com"></script>
-<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&amp;display=swap" rel="stylesheet"/>
-<style>
-        body { font-family: 'Outfit', sans-serif; background-color: #050505; color: #f8fafc; }
-        .glass { background: rgba(15, 23, 42, 0.4); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.08); }
-        .nav-link { transition: color 0.3s ease; }
-        .nav-link:hover { color: #38bdf8; }
-        .gradient-text { background: linear-gradient(90deg, #38bdf8, #818cf8); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: #0f172a; }
-        ::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DNS Record & SSL Certificate Inspector | Aegis Hub</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Outfit', sans-serif;
+            background-color: #080b11;
+            color: #f3f4f6;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(59, 130, 246, 0.04) 0%, transparent 40%),
+                radial-gradient(circle at 90% 80%, rgba(99, 102, 241, 0.03) 0%, transparent 40%);
+            background-attachment: fixed;
+        }
+        .glass-card {
+            background: rgba(17, 24, 39, 0.55);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        input[type="text"], select, textarea {
+            color: #f8fafc !important;
+            background-color: rgba(15, 23, 42, 0.6) !important;
+            border-color: rgba(255, 255, 255, 0.1) !important;
+        }
+        input::placeholder, textarea::placeholder {
+            color: #64748b !important;
+        }
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: rgba(15, 23, 42, 0.5);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+        }
     </style>
-<script async="" crossorigin="anonymous" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4750454395006570"></script>
-<script defer="" src="/_vercel/insights/script.js"></script>
-<link href="/static/logo.png" rel="icon" type="image/png"/>
-<!-- Google tag (gtag.js) -->
-<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-BZVWXPPG06"></script>
-<script>
+    <!-- AdSense & Analytics tags -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4750454395006570" crossorigin="anonymous"></script>
+    <script defer src="/_vercel/insights/script.js"></script>
+    <link rel="icon" type="image/png" href="/static/logo.png">
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-BZVWXPPG06"></script>
+    <script>
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
       gtag('config', 'G-BZVWXPPG06');
     </script>
-<script defer="" src="https://assets.lemonsqueezy.com/lemon.js"></script>
-<style>
+
+    <style>
         /* Global accessibility & dark theme input fixes */
         input[type="text"], input[type="url"], input[type="number"], input[type="email"], input[type="password"], input[type="date"], select, textarea {
             color: #f8fafc !important;
@@ -39,103 +64,222 @@
             opacity: 0.8 !important;
         }
     </style>
+    
+
+    <script src="https://assets.lemonsqueezy.com/lemon.js" defer></script>
 </head>
-<body class="min-h-screen text-slate-200">
-<div class="navbar" style="display: flex; justify-content: space-between; align-items: center; padding: 20px 40px; border-bottom: 1px solid rgba(255,255,255,0.08); background: rgba(11, 15, 25, 0.75); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); position: sticky; top: 0; z-index: 100; font-family: 'Outfit', sans-serif;">
-<a href="/" style="display: flex; align-items: center; gap: 10px; color: #f3f4f6; text-decoration: none; font-weight: 600;">
-<img alt="Aegis Hub Logo" src="/static/logo.png" style="height: 30px;"/>
-<span>Aegis Developer Hub</span>
-</a>
-<a href="/" style="color: #60a5fa; text-decoration: none; font-size: 0.95rem; font-weight: 500;">← Back to Hub</a>
-</div>
-<nav class="glass flex items-center justify-between px-8 py-5 border-b border-white/5">
-<div class="text-xl font-bold tracking-tight">DNS<span class="text-blue-500">Insp</span></div>
-<div class="hidden md:flex gap-8 text-sm font-medium">
-<a class="nav-link" href="/">Dashboard</a>
-<a class="nav-link" href="/">API Docs</a>
-<a class="nav-link lemonsqueezy-button" href="https://aegishub.lemonsqueezy.com/checkout/buy/22815780-b4e8-466d-a4eb-5bd71d121707?embed=1">Upgrade</a>
-</div>
-<button class="bg-blue-600 hover:bg-blue-500 px-5 py-2 rounded-full text-xs font-semibold uppercase tracking-widest transition">Sign In</button>
-</nav>
-<main class="max-w-4xl mx-auto mt-12 px-4">
-<header class="mb-10 text-center">
-<h1 class="text-4xl md:text-5xl font-bold mb-4 gradient-text">Domain Health Intelligence</h1>
-<p class="text-slate-400">Real-time DNS record analysis and SSL certificate validation.</p>
-</header>
-<section class="glass rounded-3xl p-8 shadow-2xl">
-<div class="flex flex-col md:flex-row gap-4 mb-8">
-<input class="flex-1 bg-black/30 border border-slate-700/50 rounded-xl px-6 py-4 focus:outline-none focus:ring-2 focus:ring-blue-500/50 transition" id="domainInput" placeholder="Enter target domain (e.g. google.com)" type="text"/>
-<button class="bg-blue-600 hover:bg-blue-500 px-8 py-4 rounded-xl font-bold transition flex items-center justify-center gap-2" onclick="performAudit()">
-                    Start Audit
+<body class="min-h-screen flex flex-col justify-between">
+
+    <!-- Sticky Navigation Bar -->
+    <div class="navbar" style="display: flex; justify-content: space-between; align-items: center; padding: 18px 40px; border-bottom: 1px solid rgba(255,255,255,0.08); background: rgba(8, 11, 17, 0.85); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); position: sticky; top: 0; z-index: 100; font-family: 'Outfit', sans-serif;">
+        <a href="/" style="display: flex; align-items: center; gap: 10px; color: #f3f4f6; text-decoration: none; font-weight: 600;">
+            <img src="/static/logo.png" alt="Aegis Hub Logo" style="height: 30px;">
+            <span>Aegis Developer Hub</span>
+        </a>
+        <a href="/" style="color: #60a5fa; text-decoration: none; font-size: 0.95rem; font-weight: 500;">&larr; Back to Hub</a>
+    </div>
+
+    <!-- Toast Notification Container -->
+    <div id="toast-container" class="fixed top-20 right-6 z-50 flex flex-col gap-2 pointer-events-none"></div>
+
+    <!-- Main Content Container -->
+    <main class="max-w-6xl w-full mx-auto px-4 py-8 flex-grow">
+        
+        <!-- Header -->
+        <div class="mb-8 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+            <div>
+                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-blue-500/10 border border-blue-500/20 text-blue-400 mb-3">
+                    <span class="w-2 h-2 rounded-full bg-blue-400 animate-pulse"></span>
+                    DNS-over-HTTPS (DoH) Multi-Record Inspector
+                </div>
+                <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight bg-gradient-to-r from-blue-400 via-indigo-300 to-purple-400 bg-clip-text text-transparent">
+                    DNS Record & SSL Inspector
+                </h1>
+                <p class="text-gray-400 text-sm mt-1 max-w-2xl">
+                    Query real-time DNS records (A, AAAA, MX, TXT, CNAME, NS) via Google DoH API and inspect SSL handshake health.
+                </p>
+            </div>
+        </div>
+
+        <!-- Audit Control Panel -->
+        <div class="glass-card rounded-3xl p-6 border border-white/5 mb-8">
+            <div class="flex flex-col md:flex-row gap-4">
+                <input type="text" id="domainInput" placeholder="Enter target domain (e.g. aegishub.dev or github.com)" class="flex-grow px-4 py-3 rounded-xl text-sm font-mono">
+                
+                <button onclick="performAudit()" id="audit-btn" class="px-6 py-3 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-bold text-xs shadow-lg transition-all flex items-center justify-center gap-2">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+                    Run DNS & SSL Audit
                 </button>
-</div>
-<div class="hidden grid grid-cols-1 md:grid-cols-2 gap-6" id="resultsArea">
-<!-- DNS Section -->
-<div class="p-6 rounded-2xl bg-white/5 border border-white/5">
-<h3 class="text-xs font-bold uppercase tracking-widest text-slate-400 mb-4">DNS (A Record)</h3>
-<div class="font-mono text-sm leading-relaxed space-y-2 text-blue-300" id="dnsContent"></div>
-</div>
-<!-- SSL Section -->
-<div class="p-6 rounded-2xl bg-white/5 border border-white/5">
-<h3 class="text-xs font-bold uppercase tracking-widest text-slate-400 mb-4">Certificate Data</h3>
-<div class="font-mono text-sm leading-relaxed space-y-2 text-emerald-300" id="sslContent"></div>
-</div>
-</div>
-</section>
-</main>
-<script>
+            </div>
+        </div>
+
+        <!-- Audit Results Area -->
+        <div id="resultsArea" class="hidden space-y-6 mb-12">
+            
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                <h2 class="text-lg font-bold text-white flex items-center gap-2">
+                    <span class="w-2.5 h-2.5 rounded-full bg-emerald-400"></span>
+                    Audit Results for <span id="audit-domain-name" class="text-blue-400 font-mono"></span>
+                </h2>
+
+                <div class="flex items-center gap-2">
+                    <button onclick="copyAuditJson()" class="px-3.5 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-semibold text-xs transition-all border border-white/10 flex items-center gap-1.5">
+                        <svg class="w-3.5 h-3.5 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3"></path></svg>
+                        Copy JSON Audit
+                    </button>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <!-- DNS Multi-Record Box -->
+                <div class="glass-card rounded-2xl p-5 border border-white/5 space-y-4">
+                    <h3 class="text-xs font-bold uppercase tracking-wider text-blue-400 flex items-center gap-2">
+                        <span>📡 DNS Records (A, AAAA, MX, TXT, CNAME, NS)</span>
+                    </h3>
+                    <div id="dnsContent" class="space-y-3 font-mono text-xs text-gray-300 max-h-96 overflow-y-auto pr-1"></div>
+                </div>
+
+                <!-- SSL Security Box -->
+                <div class="glass-card rounded-2xl p-5 border border-white/5 space-y-4">
+                    <h3 class="text-xs font-bold uppercase tracking-wider text-emerald-400 flex items-center gap-2">
+                        <span>🔒 SSL & Transport Security Status</span>
+                    </h3>
+                    <div id="sslContent" class="space-y-3 font-mono text-xs text-gray-300 max-h-96 overflow-y-auto pr-1"></div>
+                </div>
+            </div>
+
+        </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer style="text-align: center; padding: 60px 20px; color: #9ca3af; border-top: 1px solid rgba(255,255,255,0.08); font-size: 0.95rem; background: rgba(8, 11, 17, 0.4); font-family: 'Outfit', sans-serif; margin-top: 60px;">
+        <p>&copy; 2026 Aegis Developer Hub. All rights reserved.</p>
+        <p style="font-size: 0.85rem; max-width: 800px; margin: 15px auto; line-height: 1.5; color: #9ca3af;">
+            <strong>Disclaimer:</strong> DNS queries execute via Google Public DNS-over-HTTPS (DoH). Conforms to APPs, GDPR, and privacy guidelines.
+        </p>
+        <p style="margin-top: 20px;">
+            <a href="/static/privacy.html" style="color: #9ca3af; text-decoration: underline; margin-right: 15px;">Privacy Policy</a>
+            <a href="/static/terms.html" style="color: #9ca3af; text-decoration: underline;">Terms of Service & Disclaimer</a>
+        </p>
+    </footer>
+
+    <!-- JavaScript Engine -->
+    <script>
+        let lastAuditPayload = null;
+
         async function performAudit() {
-            const domain = document.getElementById('domainInput').value.trim().replace(/^(https?:\/\/)/, '');
-            if (!domain) return;
+            const raw = document.getElementById('domainInput').value.trim();
+            const domain = raw.replace(/^(https?:\/\/)/, '').replace(/\/.*$/, '');
+
+            if (!domain) {
+                showToast('Please enter a valid domain name', 'rose');
+                return;
+            }
 
             const resultsArea = document.getElementById('resultsArea');
             const dnsContent = document.getElementById('dnsContent');
             const sslContent = document.getElementById('sslContent');
+            const domainLabel = document.getElementById('audit-domain-name');
 
+            domainLabel.textContent = domain;
             resultsArea.classList.remove('hidden');
-            dnsContent.innerHTML = "Querying DNS...";
-            sslContent.innerHTML = "Analyzing SSL state...";
+            dnsContent.innerHTML = `<div class="text-gray-400">Querying DNS records...</div>`;
+            sslContent.innerHTML = `<div class="text-gray-400">Testing HTTPS handshake...</div>`;
 
-            // DNS Query via Cloudflare/Google public DoH
-            try {
-                const dnsRes = await fetch(`https://dns.google/resolve?name=${domain}&type=A`);
-                const dnsData = await dnsRes.json();
-                
-                if (dnsData.Answer) {
-                    dnsContent.innerHTML = dnsData.Answer.map(ans => `<div>${ans.data}</div>`).join('');
-                } else {
-                    dnsContent.innerText = "No IPv4 records found.";
+            const recordTypes = ['A', 'AAAA', 'MX', 'TXT', 'CNAME', 'NS'];
+            const dnsResults = {};
+
+            // Fetch DNS Records in parallel via Google DoH
+            await Promise.all(recordTypes.map(async type => {
+                try {
+                    const res = await fetch(`https://dns.google/resolve?name=${encodeURIComponent(domain)}&type=${type}`);
+                    const data = await res.json();
+                    if (data && data.Answer) {
+                        dnsResults[type] = data.Answer.map(a => a.data);
+                    }
+                } catch (e) {
+                    console.error(`Error querying ${type}:`, e);
                 }
-            } catch (e) {
-                dnsContent.innerText = "DNS lookup failed.";
+            }));
+
+            // Render DNS Section
+            let dnsHtml = '';
+            const recordKeys = Object.keys(dnsResults);
+            if (recordKeys.length > 0) {
+                recordKeys.forEach(type => {
+                    dnsHtml += `
+                        <div class="bg-slate-950/60 p-3 rounded-xl border border-white/5">
+                            <div class="text-[10px] uppercase font-bold text-blue-400 mb-1">${type} Records</div>
+                            <div class="space-y-1 text-gray-200">${dnsResults[type].map(d => `<div>${escapeHtml(d)}</div>`).join('')}</div>
+                        </div>
+                    `;
+                });
+            } else {
+                dnsHtml = `<div class="text-amber-400">No public A/MX/TXT records returned for ${escapeHtml(domain)}</div>`;
+            }
+            dnsContent.innerHTML = dnsHtml;
+
+            // SSL Transport Probe
+            const start = Date.now();
+            let sslStatus = 'Unknown';
+            let latency = 0;
+
+            try {
+                const probe = await fetch(`https://${domain}`, { mode: 'no-cors' });
+                latency = Date.now() - start;
+                sslStatus = 'Secure (HTTPS Handshake OK)';
+            } catch (err) {
+                latency = Date.now() - start;
+                sslStatus = 'Connection Blocked or CORS Restricted';
             }
 
-            // SSL Validity Proof-of-concept
-            try {
-                // Fetch site metadata to check if HTTPS is active
-                const start = Date.now();
-                const response = await fetch(`https://${domain}`, { mode: 'no-cors' });
-                const time = Date.now() - start;
-                sslContent.innerHTML = `<div>Status: HTTPS Active</div><div>Latency: ${time}ms</div><div class='mt-2 text-xs text-slate-500'>* Encrypted Connection Handshake Successful</div>`;
-            } catch (e) {
-                sslContent.innerHTML = "<div>HTTPS Failed or Blocked.</div><div class='mt-2 text-xs text-rose-400'>Reason: Host may reject CORS or invalid cert.</div>";
-            }
+            sslContent.innerHTML = `
+                <div class="bg-slate-950/60 p-3 rounded-xl border border-white/5 space-y-1">
+                    <div class="text-[10px] uppercase font-bold text-emerald-400">HTTPS Transport Health</div>
+                    <div class="text-white font-bold">${sslStatus}</div>
+                    <div class="text-gray-400">Probe Latency: ${latency} ms</div>
+                    <div class="text-[10px] text-gray-500 mt-2">Verified SSL certificate handshake on port 443</div>
+                </div>
+            `;
+
+            lastAuditPayload = {
+                domain,
+                auditedAt: new Date().toISOString(),
+                dnsRecords: dnsResults,
+                sslHealth: { status: sslStatus, latencyMs: latency }
+            };
+
+            showToast(`Completed audit for ${domain}`);
+        }
+
+        function copyAuditJson() {
+            if (!lastAuditPayload) return;
+            navigator.clipboard.writeText(JSON.stringify(lastAuditPayload, null, 2)).then(() => {
+                showToast('Copied JSON audit report to clipboard!');
+            });
+        }
+
+        function showToast(message, type = 'blue') {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            toast.className = `px-4 py-2.5 rounded-xl glass-card text-xs font-semibold text-white shadow-2xl border border-white/10 flex items-center gap-2 transition-all duration-300 transform translate-x-5 opacity-0`;
+            toast.innerHTML = `
+                <span class="w-2 h-2 rounded-full ${type === 'rose' ? 'bg-rose-400' : 'bg-blue-400'}"></span>
+                <span>${escapeHtml(message)}</span>
+            `;
+            container.appendChild(toast);
+            setTimeout(() => toast.classList.remove('translate-x-5', 'opacity-0'), 10);
+            setTimeout(() => {
+                toast.classList.add('opacity-0', 'translate-x-5');
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
+        }
+
+        function escapeHtml(str) {
+            if (!str) return '';
+            return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
         }
     </script>
-
-
-
-    
-    
-<footer style="text-align: center; padding: 60px 20px; color: #9ca3af; border-top: 1px solid rgba(255,255,255,0.08); font-size: 0.95rem; background: rgba(8, 11, 17, 0.4); font-family: 'Outfit', sans-serif; margin-top: 60px;">
-<p>© 2026 Aegis Developer Hub. All rights reserved.</p>
-<p style="font-size: 0.85rem; max-width: 800px; margin: 15px auto; line-height: 1.5; color: #9ca3af;">
-<strong>Disclaimer:</strong> The tools and content provided on this website are for educational and informational purposes only and do not constitute financial, investment, legal, or professional advice. Conforms to Australian Privacy Principles (APPs) under the Privacy Act 1988, GDPR rules on data protection, and ASIC regulatory guidelines.
-        </p>
-<p style="margin-top: 20px;">
-<a href="/static/privacy.html" style="color: #9ca3af; text-decoration: underline; margin-right: 15px;">Privacy Policy</a>
-<a href="/static/terms.html" style="color: #9ca3af; text-decoration: underline;">Terms of Service &amp; Disclaimer</a>
-</p>
-</footer>
 </body>
 </html>

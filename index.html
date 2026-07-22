@@ -513,15 +513,6 @@
                 <a href="/static/tools/json_studio_tool.html" class="btn" style="background: linear-gradient(135deg, #3b82f6, #6366f1); border: none;">Launch Utility &rarr;</a>
             </div>
             
-            <div class="card featured-card" data-category="security" style="border-color: rgba(59, 130, 246, 0.2); background: rgba(17, 24, 39, 0.7); box-shadow: 0 10px 30px rgba(59, 130, 246, 0.08);">
-                <div class="card-header">
-                    <span class="badge" style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.15), rgba(99, 102, 241, 0.15)); color: #60a5fa; border: 1px solid rgba(59, 130, 246, 0.3);">Featured Spotlight</span>
-                </div>
-                <h3>BrandKit</h3>
-                <p>${desc || 'Enter page description here...'}</p>
-                <a href="/static/tools/seo_card_optimizer_tool.html" class="btn" style="background: linear-gradient(135deg, #3b82f6, #6366f1); border: none;">Launch Utility &rarr;</a>
-            </div>
-            
                     </div>
                 </div>
                 
@@ -830,12 +821,12 @@
             <a href="/static/tools/json_studio_tool.html" class="btn">Launch Tool &rarr;</a>
         </div>
         
-        <div class="card" data-category="security">
+        <div class="card" data-category="ui">
             <div class="card-header">
                 <span class="badge badge-tool">Interactive Tool</span>
             </div>
-            <h3>BrandKit</h3>
-            <p>${desc || 'Enter page description here...'}</p>
+            <h3>SEO & Social Card Branding Studio</h3>
+            <p>${escapeHtml(desc)}</p>
             <a href="/static/tools/seo_card_optimizer_tool.html" class="btn">Launch Tool &rarr;</a>
         </div>
         

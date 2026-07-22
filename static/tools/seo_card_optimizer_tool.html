@@ -3,14 +3,61 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BrandKit | SEO & Social Card Branding Studio</title>
+    <title>SEO & Social Card Branding Studio | Aegis Hub</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Outfit', sans-serif; background: #080b11; color: #f1f5f9; }
-        .glass { background: rgba(17, 24, 39, 0.55); backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.05); }
-        .tab-btn.active { background: rgba(59, 130, 246, 0.1); border-color: rgba(59, 130, 246, 0.3); color: #60a5fa; }
+        body {
+            font-family: 'Outfit', sans-serif;
+            background-color: #080b11;
+            color: #f3f4f6;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(59, 130, 246, 0.04) 0%, transparent 40%),
+                radial-gradient(circle at 90% 80%, rgba(99, 102, 241, 0.03) 0%, transparent 40%);
+            background-attachment: fixed;
+        }
+        .glass-card {
+            background: rgba(17, 24, 39, 0.55);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        .glass-pill {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        input[type="text"], input[type="url"], input[type="number"], select, textarea {
+            color: #f8fafc !important;
+            background-color: rgba(15, 23, 42, 0.6) !important;
+            border-color: rgba(255, 255, 255, 0.1) !important;
+        }
+        input::placeholder, textarea::placeholder {
+            color: #64748b !important;
+        }
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: rgba(15, 23, 42, 0.5);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+        }
     </style>
+    <!-- AdSense & Analytics tags -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4750454395006570" crossorigin="anonymous"></script>
+    <script defer src="/_vercel/insights/script.js"></script>
+    <link rel="icon" type="image/png" href="/static/logo.png">
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-BZVWXPPG06"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-BZVWXPPG06');
+    </script>
 
     <style>
         /* Global accessibility & dark theme input fixes */
@@ -23,226 +70,393 @@
         }
     </style>
     
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4750454395006570" crossorigin="anonymous"></script>
-
-    <script defer src="/_vercel/insights/script.js"></script>
-
-    <link rel="icon" type="image/png" href="/static/logo.png">
-
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-BZVWXPPG06"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'G-BZVWXPPG06');
-    </script>
 
     <script src="https://assets.lemonsqueezy.com/lemon.js" defer></script>
 </head>
 <body class="min-h-screen flex flex-col justify-between">
 
-    <div class="navbar" style="display: flex; justify-content: space-between; align-items: center; padding: 20px 40px; border-bottom: 1px solid rgba(255,255,255,0.08); background: rgba(11, 15, 25, 0.75); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); position: sticky; top: 0; z-index: 100; font-family: 'Outfit', sans-serif;">
+    <!-- Sticky Navigation Bar -->
+    <div class="navbar" style="display: flex; justify-content: space-between; align-items: center; padding: 18px 40px; border-bottom: 1px solid rgba(255,255,255,0.08); background: rgba(8, 11, 17, 0.85); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); position: sticky; top: 0; z-index: 100; font-family: 'Outfit', sans-serif;">
         <a href="/" style="display: flex; align-items: center; gap: 10px; color: #f3f4f6; text-decoration: none; font-weight: 600;">
             <img src="/static/logo.png" alt="Aegis Hub Logo" style="height: 30px;">
             <span>Aegis Developer Hub</span>
         </a>
         <a href="/" style="color: #60a5fa; text-decoration: none; font-size: 0.95rem; font-weight: 500;">&larr; Back to Hub</a>
     </div>
-    
-    
-    <div class="max-w-7xl w-full mx-auto px-6 py-10 flex-grow">
-        <header class="mb-8">
-            <h1 class="text-3xl font-extrabold text-white tracking-tight">SEO & Social Branding Studio</h1>
-            <p class="text-slate-400 text-sm mt-1">Configure search meta tags, preview social OpenGraph cards, and export text/emoji favicons instantly.</p>
-        </header>
 
-        <div class="flex gap-4 border-b border-white/5 pb-4 mb-8 overflow-x-auto">
-            <button onclick="switchTab('seo')" id="tab-seo" class="tab-btn active px-5 py-2.5 rounded-xl border border-transparent text-sm font-semibold text-slate-400 hover:text-white transition-all">
-                🔍 SEO Meta Optimizer
+    <!-- Toast Notification Container -->
+    <div id="toast-container" class="fixed top-20 right-6 z-50 flex flex-col gap-2 pointer-events-none"></div>
+
+    <!-- Main Container -->
+    <main class="max-w-7xl w-full mx-auto px-4 py-8 flex-grow">
+        
+        <!-- Header -->
+        <div class="mb-8 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+            <div>
+                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-blue-500/10 border border-blue-500/20 text-blue-400 mb-3">
+                    <span class="w-2 h-2 rounded-full bg-blue-400 animate-pulse"></span>
+                    SEO & Social Graph Optimization Engine
+                </div>
+                <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight bg-gradient-to-r from-blue-400 via-indigo-300 to-purple-400 bg-clip-text text-transparent">
+                    SEO & Social Card Branding Studio
+                </h1>
+                <p class="text-gray-400 text-sm mt-1 max-w-2xl">
+                    Configure search meta tags, test Google SERP previews, render OpenGraph/Twitter social cards, and generate text/emoji favicons.
+                </p>
+            </div>
+        </div>
+
+        <!-- Mode Navigation Tabs -->
+        <div class="glass-card rounded-2xl p-2 mb-8 flex flex-wrap gap-2 border border-white/5">
+            <button onclick="switchTab('seo')" id="tab-seo" class="tab-btn px-4 py-2.5 rounded-xl text-xs font-bold transition-all bg-blue-600 text-white shadow">
+                🔍 Meta Tags & SERP Preview
             </button>
-            <button onclick="switchTab('og')" id="tab-og" class="tab-btn px-5 py-2.5 rounded-xl border border-transparent text-sm font-semibold text-slate-400 hover:text-white transition-all">
-                🖼️ Social OG Card Preview
+            <button onclick="switchTab('og')" id="tab-og" class="tab-btn px-4 py-2.5 rounded-xl text-xs font-bold text-gray-400 hover:text-white transition-all">
+                🖼️ Social OG Card Studio
             </button>
-            <button onclick="switchTab('favicon')" id="tab-favicon" class="tab-btn px-5 py-2.5 rounded-xl border border-transparent text-sm font-semibold text-slate-400 hover:text-white transition-all">
-                ✨ Favicon Exporter
+            <button onclick="switchTab('favicon')" id="tab-favicon" class="tab-btn px-4 py-2.5 rounded-xl text-xs font-bold text-gray-400 hover:text-white transition-all">
+                ✨ Emoji Favicon Generator
             </button>
         </div>
 
-        <!-- Tab: SEO -->
-        <div id="content-seo" class="grid md:grid-cols-2 gap-8">
-            <section class="glass p-8 rounded-3xl shadow-2xl space-y-6">
-                <h2 class="text-xl font-bold text-white flex items-center gap-2">
-                    <span class="w-1.5 h-6 bg-blue-500 rounded-full"></span> Metadata Inputs
-                </h2>
+        <!-- TAB 1: SEO META TAGS & SERP -->
+        <div id="content-seo" class="grid grid-cols-1 lg:grid-cols-12 gap-8 mb-12">
+            
+            <!-- Inputs Column (5 cols) -->
+            <div class="lg:col-span-5 glass-card rounded-3xl p-6 border border-white/5 space-y-5">
+                <h3 class="text-sm font-bold text-white uppercase tracking-wider">Search Engine Metadata</h3>
+                
                 <div>
-                    <label class="block text-xs font-semibold text-slate-500 uppercase tracking-widest mb-2">Page Title</label>
-                    <input type="text" id="seoTitle" oninput="updateSeo()" placeholder="Enter page title..." class="w-full bg-slate-950 border border-slate-700 rounded-xl p-4 text-white focus:ring-2 focus:ring-blue-500 outline-none transition-all">
+                    <div class="flex justify-between items-center mb-1">
+                        <label class="text-xs font-semibold text-gray-300">Page Title *</label>
+                        <span id="title-counter" class="text-[11px] font-mono text-gray-400">0 / 60 chars</span>
+                    </div>
+                    <input type="text" id="seoTitle" oninput="updateSeo()" placeholder="e.g. Next.js 14 Performance Audit & Optimization Guide" value="Aegis Developer Hub | High-Utility SaaS Tools" class="w-full px-3.5 py-2.5 rounded-xl text-xs">
                 </div>
+
                 <div>
-                    <label class="block text-xs font-semibold text-slate-500 uppercase tracking-widest mb-2">Meta Description</label>
-                    <textarea id="seoDesc" oninput="updateSeo()" placeholder="Enter description..." class="w-full h-32 bg-slate-950 border border-slate-700 rounded-xl p-4 text-white focus:ring-2 focus:ring-blue-500 outline-none transition-all resize-none"></textarea>
+                    <div class="flex justify-between items-center mb-1">
+                        <label class="text-xs font-semibold text-gray-300">Meta Description *</label>
+                        <span id="desc-counter" class="text-[11px] font-mono text-gray-400">0 / 160 chars</span>
+                    </div>
+                    <textarea id="seoDesc" oninput="updateSeo()" rows="3" placeholder="Enter concise page summary for search engine results..." class="w-full px-3.5 py-2.5 rounded-xl text-xs resize-none">A curated sandbox of high-utility web tools, interactive components, and premium developer guides. 100% private in-browser utilities.</textarea>
                 </div>
-            </section>
-            <section class="glass p-8 rounded-3xl shadow-2xl flex flex-col justify-between">
+
                 <div>
-                    <h2 class="text-xs font-semibold text-slate-500 uppercase tracking-widest mb-4">Export Tags</h2>
-                    <pre id="seoOutput" class="text-xs text-blue-200 bg-slate-950 p-4 rounded-xl overflow-x-auto font-mono h-64"></pre>
+                    <label class="block text-xs font-semibold text-gray-300 mb-1">Canonical URL</label>
+                    <input type="text" id="seoUrl" oninput="updateSeo()" placeholder="https://aegishub.dev/tools/example" value="https://aegishub.dev" class="w-full px-3.5 py-2.5 rounded-xl text-xs">
                 </div>
-                <button onclick="copySeo()" class="w-full mt-4 py-3 bg-blue-600 hover:bg-blue-500 text-white rounded-xl font-semibold transition-all">Copy HTML Tags</button>
-            </section>
+
+                <div>
+                    <label class="block text-xs font-semibold text-gray-300 mb-1">OG / Twitter Card Image URL</label>
+                    <input type="text" id="seoImage" oninput="updateSeo()" placeholder="https://aegishub.dev/static/og-image.png" value="https://aegishub.dev/static/hero_banner.png" class="w-full px-3.5 py-2.5 rounded-xl text-xs">
+                </div>
+            </div>
+
+            <!-- Preview & Code Output Column (7 cols) -->
+            <div class="lg:col-span-7 space-y-6">
+                <!-- SERP Preview Card -->
+                <div class="glass-card rounded-3xl p-6 border border-white/5 space-y-3">
+                    <h3 class="text-xs font-bold text-gray-400 uppercase tracking-wider">Google Search Result (SERP Preview)</h3>
+                    
+                    <div class="bg-white p-4 rounded-xl shadow-lg border border-gray-200">
+                        <div id="serp-url" class="text-xs text-emerald-700 font-sans truncate">https://aegishub.dev</div>
+                        <div id="serp-title" class="text-base font-medium text-blue-800 hover:underline cursor-pointer leading-snug mt-0.5 truncate">Aegis Developer Hub | High-Utility SaaS Tools</div>
+                        <div id="serp-desc" class="text-xs text-gray-600 line-clamp-2 mt-1 leading-normal">A curated sandbox of high-utility web tools, interactive components, and premium developer guides. 100% private in-browser utilities.</div>
+                    </div>
+                </div>
+
+                <!-- Export HTML Meta Tags Box -->
+                <div class="glass-card rounded-3xl p-6 border border-white/5 space-y-3">
+                    <div class="flex items-center justify-between">
+                        <h3 class="text-xs font-bold text-gray-300 uppercase tracking-wider">Generated HTML Meta Tags</h3>
+                        <button onclick="copySeoTags()" class="px-3.5 py-1.5 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-semibold text-xs transition-all flex items-center gap-1.5">
+                            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3"></path></svg>
+                            Copy HTML Tags
+                        </button>
+                    </div>
+                    <textarea id="seoOutput" readonly class="w-full h-48 rounded-xl p-4 font-mono text-xs text-blue-200 border resize-none focus:outline-none focus:ring-1 focus:ring-blue-500/50"></textarea>
+                </div>
+            </div>
+
         </div>
 
-        <!-- Tab: OG Social Card -->
-        <div id="content-og" class="hidden grid lg:grid-cols-12 gap-8">
-            <section class="lg:col-span-4 glass p-8 rounded-3xl shadow-2xl space-y-6">
-                <h2 class="text-xl font-bold text-white">Card Designer</h2>
+        <!-- TAB 2: SOCIAL OG CARD STUDIO -->
+        <div id="content-og" class="hidden grid grid-cols-1 lg:grid-cols-12 gap-8 mb-12">
+            
+            <!-- Controls (5 cols) -->
+            <div class="lg:col-span-5 glass-card rounded-3xl p-6 border border-white/5 space-y-5">
+                <h3 class="text-sm font-bold text-white uppercase tracking-wider">Social Card Designer</h3>
+                
                 <div>
-                    <label class="block text-xs font-semibold text-slate-500 uppercase tracking-widest mb-2">Card Title</label>
-                    <input type="text" id="ogTitle" oninput="updateOgCard()" value="Aegis Launch" class="w-full bg-slate-950 border border-slate-700 rounded-xl p-4 text-white focus:ring-2 focus:ring-blue-500 outline-none">
+                    <label class="block text-xs font-semibold text-gray-300 mb-1">Headline Text</label>
+                    <input type="text" id="ogTitleInput" oninput="renderOgCard()" value="Aegis Developer Hub" class="w-full px-3.5 py-2.5 rounded-xl text-xs">
                 </div>
+
                 <div>
-                    <label class="block text-xs font-semibold text-slate-500 uppercase tracking-widest mb-2">Background Color</label>
-                    <input type="color" id="ogBg" oninput="updateOgCard()" value="#1e3a8a" class="w-full h-12 bg-transparent border-0 cursor-pointer">
+                    <label class="block text-xs font-semibold text-gray-300 mb-1">Subhead / Tagline</label>
+                    <input type="text" id="ogSubInput" oninput="renderOgCard()" value="High-Utility Developer Sandbox & Tooling" class="w-full px-3.5 py-2.5 rounded-xl text-xs">
                 </div>
-            </section>
-            <section class="lg:col-span-8 flex flex-col items-center justify-center">
-                <div id="ogCardCanvas" class="w-full aspect-[1.91/1] rounded-2xl flex items-center justify-center text-center p-8 border border-white/10 shadow-2xl" style="background: #1e3a8a;">
-                    <h1 id="ogCardTitle" class="text-3xl md:text-5xl font-extrabold text-white tracking-tight">Aegis Launch</h1>
+
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-300 mb-1">Gradient Start</label>
+                        <input type="color" id="ogColorStart" onchange="renderOgCard()" value="#1e3a8a" class="w-full h-10 bg-transparent cursor-pointer rounded-xl">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-300 mb-1">Gradient End</label>
+                        <input type="color" id="ogColorEnd" onchange="renderOgCard()" value="#4c1d95" class="w-full h-10 bg-transparent cursor-pointer rounded-xl">
+                    </div>
                 </div>
-                <p class="text-xs text-slate-500 mt-4">This preview simulates standard OpenGraph (og:image) aspect ratio.</p>
-            </section>
+
+                <button onclick="downloadOgCard()" class="w-full py-3 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-bold text-xs shadow-lg transition-all flex items-center justify-center gap-2">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+                    Download OG Image (1200 x 630 PNG)
+                </button>
+            </div>
+
+            <!-- Live Canvas Preview (7 cols) -->
+            <div class="lg:col-span-7 flex flex-col items-center justify-center space-y-4">
+                <div class="text-xs font-bold text-gray-400 uppercase tracking-wider">Live Canvas Rendering (1200x630 Aspect Ratio)</div>
+                <div class="w-full aspect-[1.91/1] glass-card rounded-2xl p-2 flex items-center justify-center overflow-hidden border border-white/10 shadow-2xl">
+                    <canvas id="ogCanvas" width="1200" height="630" class="w-full h-full rounded-xl object-contain"></canvas>
+                </div>
+            </div>
+
         </div>
 
-        <!-- Tab: Favicon Exporter -->
-        <div id="content-favicon" class="hidden grid md:grid-cols-2 gap-8">
-            <section class="glass p-8 rounded-3xl shadow-2xl space-y-6">
-                <h2 class="text-xl font-bold text-white">Favicon Settings</h2>
+        <!-- TAB 3: FAVICON GENERATOR -->
+        <div id="content-favicon" class="hidden grid grid-cols-1 lg:grid-cols-12 gap-8 mb-12">
+            
+            <div class="lg:col-span-5 glass-card rounded-3xl p-6 border border-white/5 space-y-5">
+                <h3 class="text-sm font-bold text-white uppercase tracking-wider">Emoji & Text Favicon Config</h3>
+                
                 <div>
-                    <label class="block text-xs font-semibold text-slate-500 uppercase tracking-widest mb-2">Character / Emoji</label>
-                    <input type="text" id="favChar" oninput="updateFavicon()" value="🚀" class="w-full bg-slate-950 border border-slate-700 rounded-xl p-4 text-white focus:ring-2 focus:ring-blue-500 outline-none text-center text-3xl">
+                    <label class="block text-xs font-semibold text-gray-300 mb-1">Character / Emoji *</label>
+                    <input type="text" id="favChar" oninput="renderFavicon()" value="🚀" class="w-full px-3.5 py-2.5 rounded-xl text-center text-2xl font-bold">
                 </div>
+
                 <div>
-                    <label class="block text-xs font-semibold text-slate-500 uppercase tracking-widest mb-2">Background Circle Color</label>
-                    <input type="color" id="favBg" oninput="updateFavicon()" value="#3b82f6" class="w-full h-12 bg-transparent border-0 cursor-pointer">
+                    <label class="block text-xs font-semibold text-gray-300 mb-1">Background Circle Color</label>
+                    <input type="color" id="favBg" onchange="renderFavicon()" value="#3b82f6" class="w-full h-10 bg-transparent cursor-pointer rounded-xl">
                 </div>
-            </section>
-            <section class="glass p-8 rounded-3xl shadow-2xl flex flex-col items-center justify-between">
-                <div>
-                    <h2 class="text-xs font-semibold text-slate-500 uppercase tracking-widest mb-6">Favicon Output</h2>
-                    <canvas id="favCanvas" width="128" height="128" class="border border-white/10 rounded-full shadow-2xl bg-slate-950 p-2"></canvas>
+
+                <button onclick="downloadFavicon()" class="w-full py-3 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-bold text-xs shadow-lg transition-all flex items-center justify-center gap-2">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+                    Download Favicon PNG (128x128)
+                </button>
+            </div>
+
+            <div class="lg:col-span-7 flex flex-col items-center justify-center space-y-4">
+                <div class="text-xs font-bold text-gray-400 uppercase tracking-wider">128x128 High Resolution Canvas Preview</div>
+                <div class="glass-card p-8 rounded-3xl border border-white/10 flex items-center justify-center shadow-2xl">
+                    <canvas id="favCanvas" width="128" height="128" class="w-32 h-32 rounded-full border border-white/10 bg-slate-950 shadow-2xl"></canvas>
                 </div>
-                <button onclick="downloadFavicon()" class="w-full mt-8 py-3 bg-blue-600 hover:bg-blue-500 text-white rounded-xl font-semibold transition-all">Download PNG Favicon</button>
-            </section>
+            </div>
+
         </div>
-    </div>
 
-    <script>
-        function switchTab(tab) {
-            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-            document.getElementById('tab-' + tab).classList.add('active');
-            
-            document.getElementById('content-seo').classList.add('hidden');
-            document.getElementById('content-og').classList.add('hidden');
-            document.getElementById('content-favicon').classList.add('hidden');
-            
-            document.getElementById('content-' + tab).classList.remove('hidden');
-            if (tab === 'favicon') updateFavicon();
-        }
+    </main>
 
-        // Tab 1: SEO
-        function updateSeo() {
-            const title = document.getElementById('seoTitle').value;
-            const desc = document.getElementById('seoDesc').value;
-            const output = document.getElementById('seoOutput');
-            
-            output.textContent = `<title>${title || 'My Page Title'}</title>\n` +
-                                 `<meta name="description" content="${desc || 'Enter page description here...'}">\n` +
-                                 `<meta property="og:title" content="${title || 'My Page Title'}">\n` +
-                                 `<meta property="og:description" content="${desc || 'Enter page description here...'}">`;
-        }
-
-        async function copySeo() {
-            const code = document.getElementById('seoOutput').textContent;
-            await navigator.clipboard.writeText(code);
-            showToast('Copied HTML tags!');
-        }
-
-        // Tab 2: OG Card
-        function updateOgCard() {
-            const title = document.getElementById('ogTitle').value;
-            const bg = document.getElementById('ogBg').value;
-            
-            document.getElementById('ogCardTitle').textContent = title;
-            document.getElementById('ogCardCanvas').style.background = bg;
-        }
-
-        // Tab 3: Favicon
-        function updateFavicon() {
-            const canvas = document.getElementById('favCanvas');
-            const ctx = canvas.getContext('2d');
-            const char = document.getElementById('favChar').value;
-            const bg = document.getElementById('favBg').value;
-            
-            // Clear
-            ctx.clearRect(0, 0, 128, 128);
-            
-            // Draw background circle
-            ctx.fillStyle = bg;
-            ctx.beginPath();
-            ctx.arc(64, 64, 60, 0, Math.PI * 2);
-            ctx.fill();
-            
-            // Draw text/emoji
-            ctx.fillStyle = '#ffffff';
-            ctx.font = '72px sans-serif';
-            ctx.textAlign = 'center';
-            ctx.textBaseline = 'middle';
-            ctx.fillText(char || 'A', 64, 66);
-        }
-
-        function downloadFavicon() {
-            const canvas = document.getElementById('favCanvas');
-            const link = document.createElement('a');
-            link.download = 'favicon.png';
-            link.href = canvas.toDataURL();
-            link.click();
-        }
-
-        function showToast(msg) {
-            const toast = document.createElement('div');
-            toast.className = 'fixed bottom-8 left-1/2 -translate-x-1/2 bg-blue-600 text-white font-bold py-2.5 px-6 rounded-full text-xs shadow-lg transition-opacity duration-300 z-50';
-            toast.textContent = msg;
-            document.body.appendChild(toast);
-            setTimeout(() => {
-                toast.style.opacity = '0';
-                setTimeout(() => document.body.removeChild(toast), 300);
-            }, 2000);
-        }
-
-        // Init
-        updateSeo();
-    
-        // Handle hash anchor routing for consolidated tabs
-        window.addEventListener("DOMContentLoaded", () => {
-            const hash = window.location.hash.substring(1);
-            const validTabs = ['seo', 'og', 'favicon'];
-            if (validTabs.includes(hash)) {
-                switchTab(hash);
-            }
-        });
-    </script>
-
+    <!-- Footer -->
     <footer style="text-align: center; padding: 60px 20px; color: #9ca3af; border-top: 1px solid rgba(255,255,255,0.08); font-size: 0.95rem; background: rgba(8, 11, 17, 0.4); font-family: 'Outfit', sans-serif; margin-top: 60px;">
         <p>&copy; 2026 Aegis Developer Hub. All rights reserved.</p>
         <p style="font-size: 0.85rem; max-width: 800px; margin: 15px auto; line-height: 1.5; color: #9ca3af;">
-            <strong>Disclaimer:</strong> The tools and content provided on this website are for educational and informational purposes only and do not constitute financial, investment, legal, or professional advice. Conforms to Australian Privacy Principles (APPs) under the Privacy Act 1988, GDPR rules on data protection, and ASIC regulatory guidelines.
+            <strong>Disclaimer:</strong> The SEO & Social Card Branding Studio executes entirely in local browser memory. Conforms to APPs, GDPR, and privacy best practices.
         </p>
         <p style="margin-top: 20px;">
             <a href="/static/privacy.html" style="color: #9ca3af; text-decoration: underline; margin-right: 15px;">Privacy Policy</a>
             <a href="/static/terms.html" style="color: #9ca3af; text-decoration: underline;">Terms of Service & Disclaimer</a>
         </p>
     </footer>
-    
+
+    <!-- JavaScript Engine -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            updateSeo();
+            renderOgCard();
+            renderFavicon();
+        });
+
+        function switchTab(tab) {
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.className = 'tab-btn px-4 py-2.5 rounded-xl text-xs font-bold text-gray-400 hover:text-white transition-all';
+            });
+            document.getElementById(`tab-${tab}`).className = 'tab-btn px-4 py-2.5 rounded-xl text-xs font-bold transition-all bg-blue-600 text-white shadow';
+
+            document.getElementById('content-seo').classList.add('hidden');
+            document.getElementById('content-og').classList.add('hidden');
+            document.getElementById('content-favicon').classList.add('hidden');
+
+            document.getElementById(`content-${tab}`).classList.remove('hidden');
+            if (tab === 'og') renderOgCard();
+            if (tab === 'favicon') renderFavicon();
+        }
+
+        function updateSeo() {
+            const title = document.getElementById('seoTitle').value.trim() || 'Page Title';
+            const desc = document.getElementById('seoDesc').value.trim() || 'Page Description...';
+            const url = document.getElementById('seoUrl').value.trim() || 'https://aegishub.dev';
+            const image = document.getElementById('seoImage').value.trim() || 'https://aegishub.dev/static/og-image.png';
+
+            document.getElementById('title-counter').textContent = `${title.length} / 60 chars`;
+            document.getElementById('desc-counter').textContent = `${desc.length} / 160 chars`;
+
+            document.getElementById('serp-title').textContent = title;
+            document.getElementById('serp-desc').textContent = desc;
+            document.getElementById('serp-url').textContent = url;
+
+            const html = 
+`<!-- Standard Metadata -->
+<title>${escapeHtml(title)}</title>
+<meta name="description" content="${escapeHtml(desc)}">
+<link rel="canonical" href="${escapeHtml(url)}">
+
+<!-- OpenGraph / Facebook Social Graph -->
+<meta property="og:type" content="website">
+<meta property="og:url" content="${escapeHtml(url)}">
+<meta property="og:title" content="${escapeHtml(title)}">
+<meta property="og:description" content="${escapeHtml(desc)}">
+<meta property="og:image" content="${escapeHtml(image)}">
+
+<!-- Twitter Card Metadata -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:url" content="${escapeHtml(url)}">
+<meta name="twitter:title" content="${escapeHtml(title)}">
+<meta name="twitter:description" content="${escapeHtml(desc)}">
+<meta name="twitter:image" content="${escapeHtml(image)}">`;
+
+            document.getElementById('seoOutput').value = html;
+        }
+
+        function copySeoTags() {
+            const output = document.getElementById('seoOutput');
+            navigator.clipboard.writeText(output.value).then(() => {
+                showToast('Copied HTML Meta Tags to clipboard!');
+            });
+        }
+
+        function renderOgCard() {
+            const canvas = document.getElementById('ogCanvas');
+            const ctx = canvas.getContext('2d');
+
+            const title = document.getElementById('ogTitleInput').value || 'Aegis Developer Hub';
+            const sub = document.getElementById('ogSubInput').value || 'High-Utility Developer Sandbox';
+            const colorStart = document.getElementById('ogColorStart').value;
+            const colorEnd = document.getElementById('ogColorEnd').value;
+
+            // Draw Background Gradient
+            const grad = ctx.createLinearGradient(0, 0, 1200, 630);
+            grad.addColorStop(0, colorStart);
+            grad.addColorStop(1, colorEnd);
+            ctx.fillStyle = grad;
+            ctx.fillRect(0, 0, 1200, 630);
+
+            // Subtle Grid Overlay Pattern
+            ctx.strokeStyle = 'rgba(255, 255, 255, 0.05)';
+            ctx.lineWidth = 2;
+            for (let x = 0; x < 1200; x += 60) {
+                ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, 630); ctx.stroke();
+            }
+            for (let y = 0; y < 630; y += 60) {
+                ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(1200, y); ctx.stroke();
+            }
+
+            // Draw Accent Brand Badge
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.1)';
+            ctx.roundRect(80, 100, 240, 48, 24);
+            ctx.fill();
+
+            ctx.fillStyle = '#60a5fa';
+            ctx.font = 'bold 20px Outfit, sans-serif';
+            ctx.fillText('AEGIS DEVELOPER HUB', 105, 131);
+
+            // Title Text
+            ctx.fillStyle = '#ffffff';
+            ctx.font = 'bold 56px Outfit, sans-serif';
+            wrapText(ctx, title, 80, 260, 1040, 68);
+
+            // Subhead Text
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.7)';
+            ctx.font = '28px Outfit, sans-serif';
+            ctx.fillText(sub, 80, 520);
+        }
+
+        function downloadOgCard() {
+            const canvas = document.getElementById('ogCanvas');
+            const link = document.createElement('a');
+            link.download = 'og-card-1200x630.png';
+            link.href = canvas.toDataURL('image/png');
+            link.click();
+            showToast('Downloaded OpenGraph PNG Image');
+        }
+
+        function renderFavicon() {
+            const canvas = document.getElementById('favCanvas');
+            const ctx = canvas.getContext('2d');
+            const char = document.getElementById('favChar').value.trim() || '🚀';
+            const bg = document.getElementById('favBg').value;
+
+            ctx.clearRect(0, 0, 128, 128);
+            ctx.fillStyle = bg;
+            ctx.beginPath();
+            ctx.arc(64, 64, 60, 0, Math.PI * 2);
+            ctx.fill();
+
+            ctx.fillStyle = '#ffffff';
+            ctx.font = '72px sans-serif';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText(char, 64, 66);
+        }
+
+        function downloadFavicon() {
+            const canvas = document.getElementById('favCanvas');
+            const link = document.createElement('a');
+            link.download = 'favicon-128x128.png';
+            link.href = canvas.toDataURL('image/png');
+            link.click();
+            showToast('Downloaded Favicon PNG');
+        }
+
+        function wrapText(ctx, text, x, y, maxWidth, lineHeight) {
+            const words = text.split(' ');
+            let line = '';
+            for (let n = 0; n < words.length; n++) {
+                const testLine = line + words[n] + ' ';
+                const metrics = ctx.measureText(testLine);
+                const testWidth = metrics.width;
+                if (testWidth > maxWidth && n > 0) {
+                    ctx.fillText(line, x, y);
+                    line = words[n] + ' ';
+                    y += lineHeight;
+                } else {
+                    line = testLine;
+                }
+            }
+            ctx.fillText(line, x, y);
+        }
+
+        function showToast(message, type = 'blue') {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            toast.className = `px-4 py-2.5 rounded-xl glass-card text-xs font-semibold text-white shadow-2xl border border-white/10 flex items-center gap-2 transition-all duration-300 transform translate-x-5 opacity-0`;
+            toast.innerHTML = `
+                <span class="w-2 h-2 rounded-full ${type === 'rose' ? 'bg-rose-400' : 'bg-blue-400'}"></span>
+                <span>${escapeHtml(message)}</span>
+            `;
+            container.appendChild(toast);
+            setTimeout(() => toast.classList.remove('translate-x-5', 'opacity-0'), 10);
+            setTimeout(() => {
+                toast.classList.add('opacity-0', 'translate-x-5');
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
+        }
+
+        function escapeHtml(str) {
+            if (!str) return '';
+            return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
+        }
+    </script>
 </body>
 </html>
