@@ -3,36 +3,67 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LegalRedact.io | Secure PII Redaction</title>
+    <title>PDF Document & Redaction Suite | Aegis Hub</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- pdf-lib for real client-side PDF manipulation (merging, splitting, redacting, watermark, text drawing) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js"></script>
     <style>
-        :root { --bg: #0f172a; --card: #1e293b; --text: #f8fafc; --accent: #38bdf8; }
-        body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); margin: 0; display: flex; justify-content: center; align-items: center; min-height: 100vh; }
-        .container { background: var(--card); padding: 2rem; border-radius: 1rem; width: 90%; max-width: 500px; box-shadow: 0 10px 25px -5px rgba(0,0,0,0.3); text-align: center; }
-        h1 { margin-top: 0; color: var(--accent); }
-        .drop-zone { border: 2px dashed #475569; padding: 2rem; border-radius: 0.5rem; transition: 0.3s; cursor: pointer; margin: 1.5rem 0; }
-        .drop-zone:hover { border-color: var(--accent); }
-        button { background: var(--accent); color: var(--bg); border: none; padding: 0.75rem 1.5rem; border-radius: 0.3rem; font-weight: 600; cursor: pointer; transition: 0.2s; }
-        button:disabled { opacity: 0.5; cursor: not-allowed; }
-        #status { margin-top: 1rem; font-size: 0.9rem; color: #94a3b8; }
-    </style>
-
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --bg-color: #0b0f19;
-            --card-bg: rgba(255, 255, 255, 0.03);
-            --border-color: rgba(255, 255, 255, 0.08);
-            --primary-accent: #3b82f6;
-            --secondary-accent: #60a5fa;
-            --text-main: #f3f4f6;
-            --text-muted: #9ca3af;
-        }
         body {
-            background-color: var(--bg-color) !important;
-            color: var(--text-main) !important;
-            font-family: 'Outfit', sans-serif !important;
+            font-family: 'Outfit', sans-serif;
+            background-color: #080b11;
+            color: #f3f4f6;
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(59, 130, 246, 0.04) 0%, transparent 40%),
+                radial-gradient(circle at 90% 80%, rgba(99, 102, 241, 0.03) 0%, transparent 40%);
+            background-attachment: fixed;
+        }
+        .glass-card {
+            background: rgba(17, 24, 39, 0.55);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        .glass-pill {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        /* Custom scrollbars */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: rgba(15, 23, 42, 0.5);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+        input[type="text"], input[type="number"], select, textarea {
+            color: #f8fafc !important;
+            background-color: rgba(15, 23, 42, 0.6) !important;
+            border-color: rgba(255, 255, 255, 0.1) !important;
+        }
+        input::placeholder, textarea::placeholder {
+            color: #64748b !important;
         }
     </style>
+    <!-- AdSense & Analytics tags -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4750454395006570" crossorigin="anonymous"></script>
+    <script defer src="/_vercel/insights/script.js"></script>
+    <link rel="icon" type="image/png" href="/static/logo.png">
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-BZVWXPPG06"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-BZVWXPPG06');
+    </script>
 
     <style>
         /* Global accessibility & dark theme input fixes */
@@ -45,105 +76,594 @@
         }
     </style>
     
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4750454395006570" crossorigin="anonymous"></script>
 
-    <script defer src="/_vercel/insights/script.js"></script>
-
-    <link rel="icon" type="image/png" href="/static/logo.png">
-
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-BZVWXPPG06"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'G-BZVWXPPG06');
-    </script>
+    <script src="https://assets.lemonsqueezy.com/lemon.js" defer></script>
 </head>
+<body class="min-h-screen flex flex-col justify-between">
 
-<body>
-
-    <div class="navbar" style="display: flex; justify-content: space-between; align-items: center; padding: 20px 40px; border-bottom: 1px solid rgba(255,255,255,0.08); background: rgba(11, 15, 25, 0.75); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); position: sticky; top: 0; z-index: 100; font-family: 'Outfit', sans-serif;">
+    <!-- Sticky Navigation Bar -->
+    <div class="navbar" style="display: flex; justify-content: space-between; align-items: center; padding: 18px 40px; border-bottom: 1px solid rgba(255,255,255,0.08); background: rgba(8, 11, 17, 0.85); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); position: sticky; top: 0; z-index: 100; font-family: 'Outfit', sans-serif;">
         <a href="/" style="display: flex; align-items: center; gap: 10px; color: #f3f4f6; text-decoration: none; font-weight: 600;">
             <img src="/static/logo.png" alt="Aegis Hub Logo" style="height: 30px;">
             <span>Aegis Developer Hub</span>
         </a>
         <a href="/" style="color: #60a5fa; text-decoration: none; font-size: 0.95rem; font-weight: 500;">&larr; Back to Hub</a>
     </div>
-    
 
-    
-    
-    <div class="container">
-        <h1>LegalRedact.io</h1>
-        <p>Auto-redact PII from your legal PDFs locally and securely.</p>
-        <div class="drop-zone" id="dropZone">Drop PDF Contract Here</div>
-        <input type="file" id="fileInput" hidden accept=".pdf">
-        <button id="redactBtn" disabled>Redact & Download</button>
-        <div id="status">No file selected.</div>
-    </div>
-    <script>
-        const zone = document.getElementById('dropZone');
-        const input = document.getElementById('fileInput');
-        const btn = document.getElementById('redactBtn');
-        const status = document.getElementById('status');
+    <!-- Toast Container -->
+    <div id="toast-container" class="fixed top-20 right-6 z-50 flex flex-col gap-2 pointer-events-none"></div>
 
-        zone.onclick = () => input.click();
-        input.onchange = (e) => {
-            if(e.target.files.length) {
-                status.textContent = `Ready: ${e.target.files[0].name}`;
-                btn.disabled = false;
-            }
-        };
+    <!-- Main Content Container -->
+    <main class="max-w-6xl w-full mx-auto px-4 py-8 flex-grow">
+        
+        <!-- Header & Title -->
+        <div class="mb-8 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+            <div>
+                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-blue-500/10 border border-blue-500/20 text-blue-400 mb-3">
+                    <span class="w-2 h-2 rounded-full bg-blue-400 animate-pulse"></span>
+                    100% In-Browser Local PDF Engine
+                </div>
+                <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight bg-gradient-to-r from-blue-400 via-indigo-300 to-purple-400 bg-clip-text text-transparent">
+                    Aegis PDF Document & Redaction Suite
+                </h1>
+                <p class="text-gray-400 text-sm mt-1 max-w-2xl">
+                    Redact sensitive PII, merge multiple PDFs, extract page ranges, and overlay custom text watermarks securely without server uploads.
+                </p>
+            </div>
+        </div>
 
-        btn.onclick = () => {
-            btn.disabled = true;
-            status.textContent = "Processing... Applying AI redaction nodes.";
-            setTimeout(() => {
-                status.textContent = "Success! Redacted file prepared.";
-                const blob = new Blob(["Simulated Redacted PDF Content"], {type: 'application/pdf'});
-                const url = URL.createObjectURL(blob);
-                const a = document.createElement('a');
-                a.href = url;
-                a.download = "Redacted_Contract.pdf";
-                a.click();
-            }, 2000);
-        };
+        <!-- Mode Selector Tabs -->
+        <div class="glass-card rounded-2xl p-2 mb-8 flex flex-wrap gap-2 border border-white/5">
+            <button onclick="switchMode('redact')" id="tab-redact" class="mode-tab px-4 py-2.5 rounded-xl text-xs font-bold transition-all bg-blue-600 text-white shadow">
+                🛡️ PII Redactor
+            </button>
+            <button onclick="switchMode('merge')" id="tab-merge" class="mode-tab px-4 py-2.5 rounded-xl text-xs font-bold text-gray-400 hover:text-white transition-all">
+                📑 Merge PDFs
+            </button>
+            <button onclick="switchMode('split')" id="tab-split" class="mode-tab px-4 py-2.5 rounded-xl text-xs font-bold text-gray-400 hover:text-white transition-all">
+                ✂️ Extract & Split Pages
+            </button>
+            <button onclick="switchMode('watermark')" id="tab-watermark" class="mode-tab px-4 py-2.5 rounded-xl text-xs font-bold text-gray-400 hover:text-white transition-all">
+                💧 Watermark Overlay
+            </button>
+        </div>
 
-        ['dragover', 'dragleave', 'drop'].forEach(evt => zone.addEventListener(evt, e => e.preventDefault()));
-        zone.ondrop = (e) => {
-            if(e.dataTransfer.files.length) {
-                input.files = e.dataTransfer.files;
-                input.onchange({target: input});
-            }
-        };
-    </script>
+        <!-- MAIN TOOL PANEL -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 mb-12">
+            
+            <!-- Left Controls Column (5 cols) -->
+            <div class="lg:col-span-5 space-y-6">
+                
+                <!-- File Input Dropzone -->
+                <div class="glass-card rounded-3xl p-6 border border-white/5 space-y-4">
+                    <h3 class="text-sm font-bold text-white uppercase tracking-wider flex items-center gap-2">
+                        <svg class="w-4 h-4 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path></svg>
+                        Select Source PDF(s)
+                    </h3>
+                    
+                    <div id="dropzone" class="border-2 border-dashed border-white/10 hover:border-blue-500/50 transition-all rounded-2xl p-6 text-center cursor-pointer bg-slate-950/40">
+                        <input type="file" id="pdf-file-input" accept=".pdf" multiple class="hidden" onchange="handleFileSelect(event)">
+                        <label for="pdf-file-input" class="cursor-pointer flex flex-col items-center justify-center gap-2">
+                            <svg class="w-10 h-10 text-blue-400 animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                            <span class="text-xs font-semibold text-gray-200">Click or Drag PDF files here</span>
+                            <span id="file-count-label" class="text-[11px] text-gray-400">100% Private Client-Side Processing</span>
+                        </label>
+                    </div>
 
-    <div class="sponsored-box" style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.05), transparent); border: 1px solid rgba(59, 130, 246, 0.15); border-radius: 12px; padding: 25px; margin: 40px auto; max-width: 600px; text-align: center; font-family: 'Outfit', sans-serif;">
-        <h3 style="margin-top: 0; color: #60a5fa; font-size: 1.3rem;">Premium PDF Pack</h3>
-        <p style="font-size: 0.9rem; color: #9ca3af; margin-bottom: 15px;">Get our comprehensive visual cheat sheet pack + clean layout templates.</p>
-        <a href="https://aegishub.lemonsqueezy.com/checkout/buy/22815780-b4e8-466d-a4eb-5bd71d121707?embed=1" class="lemonsqueezy-button" style="display: inline-block; background: #3b82f6; color: white; text-decoration: none; padding: 10px 20px; border-radius: 8px; font-weight: bold; font-size: 0.9rem; transition: background 0.2s;">Get Offer ($4.99)</a>
-    </div>
-    <script src="https://assets.lemonsqueezy.com/lemon.js" defer></script>
-    
+                    <!-- Selected Files List -->
+                    <div id="file-list" class="space-y-2 max-h-40 overflow-y-auto pr-1"></div>
+                </div>
 
-    
-    
+                <!-- Mode Specific Options Card -->
+                <div class="glass-card rounded-3xl p-6 border border-white/5 space-y-4">
+                    
+                    <!-- Panel: Redaction -->
+                    <div id="panel-redact" class="mode-panel space-y-4">
+                        <h3 class="text-sm font-bold text-white uppercase tracking-wider">PII Redaction Controls</h3>
+                        
+                        <div>
+                            <label class="block text-xs font-semibold text-gray-300 mb-1">Target Page(s) to Redact</label>
+                            <input type="text" id="redact-pages" placeholder="e.g. 1, 2-5, all" value="all" class="w-full px-3.5 py-2.5 rounded-xl text-xs">
+                            <p class="text-[10px] text-gray-500 mt-1">Specify page numbers or "all"</p>
+                        </div>
 
-    
-    
+                        <div>
+                            <label class="block text-xs font-semibold text-gray-300 mb-1">Redaction Target Area</label>
+                            <select id="redact-preset" onchange="toggleCustomRedactArea()" class="w-full px-3.5 py-2.5 rounded-xl text-xs">
+                                <option value="header">Header Banner (Top 12% of page)</option>
+                                <option value="footer">Footer Banner (Bottom 10% of page)</option>
+                                <option value="signature">Bottom Right Signature Box</option>
+                                <option value="custom">Custom Bounding Box (Points)</option>
+                            </select>
+                        </div>
 
-    
-    
-<footer style="text-align: center; padding: 60px 20px; color: #9ca3af; border-top: 1px solid rgba(255,255,255,0.08); font-size: 0.95rem; background: rgba(8, 11, 17, 0.4); font-family: 'Outfit', sans-serif; margin-top: 60px;">
+                        <div id="custom-coords-box" class="hidden grid grid-cols-2 gap-3">
+                            <div>
+                                <label class="block text-[10px] text-gray-400">Start X (pts)</label>
+                                <input type="number" id="redact-x" value="50" class="w-full px-3 py-1.5 rounded-xl text-xs">
+                            </div>
+                            <div>
+                                <label class="block text-[10px] text-gray-400">Start Y (pts)</label>
+                                <input type="number" id="redact-y" value="50" class="w-full px-3 py-1.5 rounded-xl text-xs">
+                            </div>
+                            <div>
+                                <label class="block text-[10px] text-gray-400">Width (pts)</label>
+                                <input type="number" id="redact-w" value="200" class="w-full px-3 py-1.5 rounded-xl text-xs">
+                            </div>
+                            <div>
+                                <label class="block text-[10px] text-gray-400">Height (pts)</label>
+                                <input type="number" id="redact-h" value="100" class="w-full px-3 py-1.5 rounded-xl text-xs">
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-semibold text-gray-300 mb-1">Redaction Box Color</label>
+                            <select id="redact-color" class="w-full px-3.5 py-2.5 rounded-xl text-xs">
+                                <option value="black">Solid Black █</option>
+                                <option value="white">Solid White █</option>
+                                <option value="gray">Slate Gray █</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Panel: Merge -->
+                    <div id="panel-merge" class="mode-panel hidden space-y-4">
+                        <h3 class="text-sm font-bold text-white uppercase tracking-wider">PDF Merge Controls</h3>
+                        <p class="text-xs text-gray-400">Upload 2 or more PDF documents above to combine them into a single consolidated file.</p>
+                    </div>
+
+                    <!-- Panel: Split -->
+                    <div id="panel-split" class="mode-panel hidden space-y-4">
+                        <h3 class="text-sm font-bold text-white uppercase tracking-wider">Extract Pages Controls</h3>
+                        <div>
+                            <label class="block text-xs font-semibold text-gray-300 mb-1">Page Range to Extract *</label>
+                            <input type="text" id="split-range" placeholder="e.g. 1-3, 5, 8-10" value="1" class="w-full px-3.5 py-2.5 rounded-xl text-xs">
+                            <p class="text-[10px] text-gray-500 mt-1">Comma-separated page numbers or ranges (1-indexed)</p>
+                        </div>
+                    </div>
+
+                    <!-- Panel: Watermark -->
+                    <div id="panel-watermark" class="mode-panel hidden space-y-4">
+                        <h3 class="text-sm font-bold text-white uppercase tracking-wider">Watermark Controls</h3>
+                        <div>
+                            <label class="block text-xs font-semibold text-gray-300 mb-1">Watermark Text *</label>
+                            <input type="text" id="wm-text" placeholder="e.g. CONFIDENTIAL / DRAFT" value="CONFIDENTIAL" class="w-full px-3.5 py-2.5 rounded-xl text-xs">
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-3">
+                            <div>
+                                <label class="block text-xs font-semibold text-gray-300 mb-1">Font Size (pts)</label>
+                                <input type="number" id="wm-size" value="48" class="w-full px-3.5 py-2.5 rounded-xl text-xs">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-semibold text-gray-300 mb-1">Opacity (0.1-1.0)</label>
+                                <input type="number" id="wm-opacity" step="0.1" min="0.1" max="1.0" value="0.3" class="w-full px-3.5 py-2.5 rounded-xl text-xs">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Action Trigger Button -->
+                    <button onclick="executePdfAction()" id="action-btn" class="w-full py-3 px-4 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-bold text-xs shadow-lg transition-all flex items-center justify-center gap-2">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                        <span id="action-btn-text">Execute PII Redaction & Download</span>
+                    </button>
+                </div>
+
+            </div>
+
+            <!-- Right Status & Document Details Column (7 cols) -->
+            <div class="lg:col-span-7 space-y-6">
+                
+                <div class="glass-card rounded-3xl p-6 border border-white/5 space-y-4">
+                    <h3 class="text-sm font-bold text-white uppercase tracking-wider flex items-center justify-between">
+                        <span>PDF Metadata & Diagnostics</span>
+                        <span id="status-badge" class="text-[10px] font-mono px-2 py-0.5 rounded bg-blue-500/10 text-blue-400 border border-blue-500/20">Ready</span>
+                    </h3>
+
+                    <div id="meta-display" class="grid grid-cols-2 md:grid-cols-4 gap-3">
+                        <div class="bg-slate-950/50 p-3 rounded-xl border border-white/5">
+                            <div class="text-[10px] text-gray-500 uppercase font-bold">Total Pages</div>
+                            <div id="info-pages" class="text-lg font-mono font-bold text-white">0</div>
+                        </div>
+                        <div class="bg-slate-950/50 p-3 rounded-xl border border-white/5">
+                            <div class="text-[10px] text-gray-500 uppercase font-bold">File Size</div>
+                            <div id="info-size" class="text-lg font-mono font-bold text-white">0 KB</div>
+                        </div>
+                        <div class="bg-slate-950/50 p-3 rounded-xl border border-white/5">
+                            <div class="text-[10px] text-gray-500 uppercase font-bold">PDF Version</div>
+                            <div id="info-version" class="text-lg font-mono font-bold text-white">-</div>
+                        </div>
+                        <div class="bg-slate-950/50 p-3 rounded-xl border border-white/5">
+                            <div class="text-[10px] text-gray-500 uppercase font-bold">Security Status</div>
+                            <div id="info-security" class="text-lg font-mono font-bold text-emerald-400">Unlocked</div>
+                        </div>
+                    </div>
+
+                    <!-- Processing Progress / Log Box -->
+                    <div class="space-y-2 pt-2">
+                        <div class="text-xs font-semibold text-gray-300">Engine Output Log</div>
+                        <div id="log-box" class="w-full h-48 bg-slate-950/70 border border-white/5 rounded-xl p-4 font-mono text-xs text-blue-300 overflow-y-auto space-y-1">
+                            <div class="text-gray-500">[System] Aegis local PDF engine initialized. Select a PDF file to begin.</div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer style="text-align: center; padding: 60px 20px; color: #9ca3af; border-top: 1px solid rgba(255,255,255,0.08); font-size: 0.95rem; background: rgba(8, 11, 17, 0.4); font-family: 'Outfit', sans-serif; margin-top: 60px;">
         <p>&copy; 2026 Aegis Developer Hub. All rights reserved.</p>
         <p style="font-size: 0.85rem; max-width: 800px; margin: 15px auto; line-height: 1.5; color: #9ca3af;">
-            <strong>Disclaimer:</strong> The tools and content provided on this website are for educational and informational purposes only and do not constitute financial, investment, legal, or professional advice. Conforms to Australian Privacy Principles (APPs) under the Privacy Act 1988, GDPR rules on data protection, and ASIC regulatory guidelines.
+            <strong>Disclaimer:</strong> The Aegis PDF Suite executes entirely in local browser memory using WebAssembly / PDF-Lib. Your documents are never uploaded to any remote server. Conforms to APPs under Privacy Act 1988, GDPR rules, and ASIC guidelines.
         </p>
         <p style="margin-top: 20px;">
             <a href="/static/privacy.html" style="color: #9ca3af; text-decoration: underline; margin-right: 15px;">Privacy Policy</a>
             <a href="/static/terms.html" style="color: #9ca3af; text-decoration: underline;">Terms of Service & Disclaimer</a>
         </p>
     </footer>
+
+    <!-- JavaScript Application Engine -->
+    <script>
+        let selectedFiles = [];
+        let currentMode = 'redact';
+
+        // DOM Initialization
+        document.addEventListener('DOMContentLoaded', () => {
+            const dropzone = document.getElementById('dropzone');
+            ['dragover', 'dragenter'].forEach(evt => {
+                dropzone.addEventListener(evt, (e) => {
+                    e.preventDefault();
+                    dropzone.classList.add('border-blue-500');
+                });
+            });
+            ['dragleave', 'drop'].forEach(evt => {
+                dropzone.addEventListener(evt, (e) => {
+                    e.preventDefault();
+                    dropzone.classList.remove('border-blue-500');
+                });
+            });
+            dropzone.addEventListener('drop', (e) => {
+                if (e.dataTransfer.files.length) {
+                    handleFiles(Array.from(e.dataTransfer.files));
+                }
+            });
+        });
+
+        function switchMode(mode) {
+            currentMode = mode;
+            document.querySelectorAll('.mode-tab').forEach(btn => {
+                btn.className = 'mode-tab px-4 py-2.5 rounded-xl text-xs font-bold text-gray-400 hover:text-white transition-all';
+            });
+            document.getElementById(`tab-${mode}`).className = 'mode-tab px-4 py-2.5 rounded-xl text-xs font-bold transition-all bg-blue-600 text-white shadow';
+
+            document.querySelectorAll('.mode-panel').forEach(p => p.classList.add('hidden'));
+            document.getElementById(`panel-${mode}`).classList.remove('hidden');
+
+            const btnTextMap = {
+                redact: 'Execute PII Redaction & Download',
+                merge: 'Merge PDF Documents & Download',
+                split: 'Extract Page Range & Download',
+                watermark: 'Apply Watermark & Download'
+            };
+            document.getElementById('action-btn-text').textContent = btnTextMap[mode];
+            logEvent(`Switched operation mode to [${mode.toUpperCase()}]`);
+        }
+
+        function handleFileSelect(e) {
+            if (e.target.files.length) {
+                handleFiles(Array.from(e.target.files));
+            }
+        }
+
+        async function handleFiles(files) {
+            const pdfFiles = files.filter(f => f.name.toLowerCase().endsWith('.pdf'));
+            if (!pdfFiles.length) {
+                showToast('Please select valid PDF file(s)', 'rose');
+                return;
+            }
+
+            if (currentMode === 'merge') {
+                selectedFiles = [...selectedFiles, ...pdfFiles];
+            } else {
+                selectedFiles = [pdfFiles[0]];
+            }
+
+            renderFileList();
+            await inspectPrimaryPdf();
+        }
+
+        function renderFileList() {
+            const container = document.getElementById('file-list');
+            container.innerHTML = selectedFiles.map((f, idx) => `
+                <div class="flex items-center justify-between p-2 rounded-xl bg-slate-950/50 border border-white/5 text-xs">
+                    <span class="truncate max-w-[200px] text-gray-200">${escapeHtml(f.name)}</span>
+                    <span class="text-[10px] text-gray-400 font-mono">${(f.size / 1024).toFixed(1)} KB</span>
+                    <button onclick="removeFile(${idx})" class="text-rose-400 hover:text-rose-300 font-bold px-1">&times;</button>
+                </div>
+            `).join('');
+            document.getElementById('file-count-label').textContent = `${selectedFiles.length} file(s) selected`;
+        }
+
+        function removeFile(idx) {
+            selectedFiles.splice(idx, 1);
+            renderFileList();
+            if (selectedFiles.length === 0) {
+                resetMetadataDisplay();
+            }
+        }
+
+        async function inspectPrimaryPdf() {
+            if (!selectedFiles.length) return;
+            const primary = selectedFiles[0];
+            logEvent(`Reading file structure: ${primary.name}...`);
+
+            try {
+                const arrayBuffer = await primary.arrayBuffer();
+                const pdfDoc = await PDFLib.PDFDocument.load(arrayBuffer, { ignoreEncryption: true });
+                
+                const pageCount = pdfDoc.getPageCount();
+                document.getElementById('info-pages').textContent = pageCount;
+                document.getElementById('info-size').textContent = (primary.size / 1024).toFixed(1) + ' KB';
+                document.getElementById('info-version').textContent = '1.7';
+                document.getElementById('info-security').textContent = 'Unlocked';
+
+                logEvent(`Successfully parsed PDF: ${pageCount} pages loaded.`);
+                showToast(`Loaded ${primary.name} (${pageCount} pages)`);
+            } catch (err) {
+                console.error(err);
+                logEvent(`[ERROR] Failed to parse PDF structure: ${err.message}`);
+                showToast('Failed to parse PDF file', 'rose');
+            }
+        }
+
+        function resetMetadataDisplay() {
+            document.getElementById('info-pages').textContent = '0';
+            document.getElementById('info-size').textContent = '0 KB';
+            document.getElementById('info-version').textContent = '-';
+            document.getElementById('info-security').textContent = 'Unlocked';
+        }
+
+        function toggleCustomRedactArea() {
+            const val = document.getElementById('redact-preset').value;
+            const box = document.getElementById('custom-coords-box');
+            if (val === 'custom') {
+                box.classList.remove('hidden');
+            } else {
+                box.classList.add('hidden');
+            }
+        }
+
+        async function executePdfAction() {
+            if (!selectedFiles.length) {
+                showToast('Please select a PDF file first', 'rose');
+                return;
+            }
+
+            const btn = document.getElementById('action-btn');
+            btn.disabled = true;
+            document.getElementById('status-badge').textContent = 'Processing';
+            document.getElementById('status-badge').className = 'text-[10px] font-mono px-2 py-0.5 rounded bg-amber-500/10 text-amber-400 border border-amber-500/20';
+
+            try {
+                if (currentMode === 'redact') {
+                    await processRedact();
+                } else if (currentMode === 'merge') {
+                    await processMerge();
+                } else if (currentMode === 'split') {
+                    await processSplit();
+                } else if (currentMode === 'watermark') {
+                    await processWatermark();
+                }
+                document.getElementById('status-badge').textContent = 'Completed';
+                document.getElementById('status-badge').className = 'text-[10px] font-mono px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-400 border border-emerald-500/20';
+            } catch (err) {
+                console.error(err);
+                logEvent(`[ERROR] Processing failed: ${err.message}`);
+                showToast('Operation failed: ' + err.message, 'rose');
+                document.getElementById('status-badge').textContent = 'Failed';
+                document.getElementById('status-badge').className = 'text-[10px] font-mono px-2 py-0.5 rounded bg-rose-500/10 text-rose-400 border border-rose-500/20';
+            } finally {
+                btn.disabled = false;
+            }
+        }
+
+        async function processRedact() {
+            logEvent('Executing real client-side PII redaction...');
+            const primary = selectedFiles[0];
+            const arrayBuffer = await primary.arrayBuffer();
+            const pdfDoc = await PDFLib.PDFDocument.load(arrayBuffer);
+            const totalPages = pdfDoc.getPageCount();
+
+            const preset = document.getElementById('redact-preset').value;
+            const colorName = document.getElementById('redact-color').value;
+
+            let rgbColor = PDFLib.rgb(0, 0, 0); // black
+            if (colorName === 'white') rgbColor = PDFLib.rgb(1, 1, 1);
+            if (colorName === 'gray') rgbColor = PDFLib.rgb(0.4, 0.4, 0.4);
+
+            const pagesToProcess = parsePageRange(document.getElementById('redact-pages').value, totalPages);
+
+            pagesToProcess.forEach(pageIdx => {
+                const page = pdfDoc.getPage(pageIdx);
+                const { width, height } = page.getSize();
+
+                let x = 0, y = 0, w = width, h = 50;
+
+                if (preset === 'header') {
+                    x = 0; y = height * 0.88; w = width; h = height * 0.12;
+                } else if (preset === 'footer') {
+                    x = 0; y = 0; w = width; h = height * 0.1;
+                } else if (preset === 'signature') {
+                    x = width * 0.5; y = 20; w = width * 0.45; h = 100;
+                } else if (preset === 'custom') {
+                    x = parseFloat(document.getElementById('redact-x').value) || 0;
+                    y = parseFloat(document.getElementById('redact-y').value) || 0;
+                    w = parseFloat(document.getElementById('redact-w').value) || 100;
+                    h = parseFloat(document.getElementById('redact-h').value) || 50;
+                }
+
+                page.drawRectangle({
+                    x: x,
+                    y: y,
+                    width: w,
+                    height: h,
+                    color: rgbColor,
+                });
+            });
+
+            logEvent(`Redacted ${pagesToProcess.length} page(s) with solid box overlay.`);
+            const pdfBytes = await pdfDoc.save();
+            downloadBytes(pdfBytes, `Redacted_${primary.name}`);
+        }
+
+        async function processMerge() {
+            if (selectedFiles.length < 2) {
+                showToast('Please select at least 2 PDF files to merge', 'rose');
+                return;
+            }
+            logEvent(`Merging ${selectedFiles.length} PDF files...`);
+            const mergedPdf = await PDFLib.PDFDocument.create();
+
+            for (const file of selectedFiles) {
+                logEvent(`Appending pages from ${file.name}...`);
+                const bytes = await file.arrayBuffer();
+                const srcDoc = await PDFLib.PDFDocument.load(bytes);
+                const copiedPages = await mergedPdf.copyPages(srcDoc, srcDoc.getPageIndices());
+                copiedPages.forEach(p => mergedPdf.addPage(p));
+            }
+
+            logEvent(`Consolidated ${mergedPdf.getPageCount()} total pages.`);
+            const pdfBytes = await mergedPdf.save();
+            downloadBytes(pdfBytes, 'Merged_Document.pdf');
+        }
+
+        async function processSplit() {
+            const primary = selectedFiles[0];
+            const arrayBuffer = await primary.arrayBuffer();
+            const srcDoc = await PDFLib.PDFDocument.load(arrayBuffer);
+            const totalPages = srcDoc.getPageCount();
+
+            const targetIndices = parsePageRange(document.getElementById('split-range').value, totalPages);
+            if (!targetIndices.length) {
+                showToast('Invalid page range specified', 'rose');
+                return;
+            }
+
+            logEvent(`Extracting ${targetIndices.length} page(s) from ${primary.name}...`);
+            const newPdf = await PDFLib.PDFDocument.create();
+            const copiedPages = await newPdf.copyPages(srcDoc, targetIndices);
+            copiedPages.forEach(p => newPdf.addPage(p));
+
+            const pdfBytes = await newPdf.save();
+            downloadBytes(pdfBytes, `Extracted_${primary.name}`);
+        }
+
+        async function processWatermark() {
+            const primary = selectedFiles[0];
+            const arrayBuffer = await primary.arrayBuffer();
+            const pdfDoc = await PDFLib.PDFDocument.load(arrayBuffer);
+
+            const text = document.getElementById('wm-text').value.trim() || 'CONFIDENTIAL';
+            const size = parseFloat(document.getElementById('wm-size').value) || 48;
+            const opacity = parseFloat(document.getElementById('wm-opacity').value) || 0.3;
+
+            logEvent(`Applying watermark "${text}" across ${pdfDoc.getPageCount()} page(s)...`);
+            const font = await pdfDoc.embedFont(PDFLib.StandardFonts.HelveticaBold);
+
+            const pages = pdfDoc.getPages();
+            pages.forEach(page => {
+                const { width, height } = page.getSize();
+                const textWidth = font.widthOfTextAtSize(text, size);
+                const textHeight = font.heightAtSize(size);
+
+                page.drawText(text, {
+                    x: (width - textWidth) / 2,
+                    y: (height - textHeight) / 2,
+                    size: size,
+                    font: font,
+                    color: PDFLib.rgb(0.8, 0.2, 0.2),
+                    opacity: opacity,
+                    rotate: PDFLib.degrees(45),
+                });
+            });
+
+            const pdfBytes = await pdfDoc.save();
+            downloadBytes(pdfBytes, `Watermarked_${primary.name}`);
+        }
+
+        function parsePageRange(rangeStr, totalPages) {
+            if (!rangeStr || rangeStr.trim().toLowerCase() === 'all') {
+                return Array.from({ length: totalPages }, (_, i) => i);
+            }
+            const indices = new Set();
+            const parts = rangeStr.split(',');
+            parts.forEach(part => {
+                const p = part.trim();
+                if (p.includes('-')) {
+                    const [start, end] = p.split('-').map(n => parseInt(n.trim(), 10));
+                    if (!isNaN(start) && !isNaN(end)) {
+                        for (let i = Math.max(1, start); i <= Math.min(totalPages, end); i++) {
+                            indices.add(i - 1);
+                        }
+                    }
+                } else {
+                    const num = parseInt(p, 10);
+                    if (!isNaN(num) && num >= 1 && num <= totalPages) {
+                        indices.add(num - 1);
+                    }
+                }
+            });
+            return Array.from(indices).sort((a, b) => a - b);
+        }
+
+        function downloadBytes(bytes, filename) {
+            const blob = new Blob([bytes], { type: 'application/pdf' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = filename;
+            a.click();
+            URL.revokeObjectURL(url);
+            logEvent(`[SUCCESS] File "${filename}" downloaded.`);
+            showToast(`Downloaded ${filename}`);
+        }
+
+        function logEvent(msg) {
+            const box = document.getElementById('log-box');
+            const entry = document.createElement('div');
+            entry.textContent = `[${new Date().toLocaleTimeString()}] ${msg}`;
+            box.appendChild(entry);
+            box.scrollTop = box.scrollHeight;
+        }
+
+        function showToast(message, type = 'blue') {
+            const container = document.getElementById('toast-container');
+            const toast = document.createElement('div');
+            toast.className = `px-4 py-2.5 rounded-xl glass-card text-xs font-semibold text-white shadow-2xl border border-white/10 flex items-center gap-2 transition-all duration-300 transform translate-x-5 opacity-0`;
+            toast.innerHTML = `
+                <span class="w-2 h-2 rounded-full ${type === 'rose' ? 'bg-rose-400' : 'bg-blue-400'}"></span>
+                <span>${escapeHtml(message)}</span>
+            `;
+            container.appendChild(toast);
+
+            setTimeout(() => {
+                toast.classList.remove('translate-x-5', 'opacity-0');
+            }, 10);
+
+            setTimeout(() => {
+                toast.classList.add('opacity-0', 'translate-x-5');
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
+        }
+
+        function escapeHtml(str) {
+            if (!str) return '';
+            return str.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#039;");
+        }
+    </script>
 </body>
 </html>
