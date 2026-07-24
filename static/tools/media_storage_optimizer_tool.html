@@ -542,7 +542,7 @@
         }
 
         function generateBatchScript() {
-            const encoder = document.getElementById('encoder-select').value;
+            const encoderKey = document.getElementById('encoder-select').value;
             const rf = document.getElementById('rf-slider').value;
             const scriptBox = document.getElementById('script-output');
 
@@ -551,20 +551,39 @@
                 return;
             }
 
+            const hbEncoders = {
+                'x265_10bit': 'x265_10bit',
+                'hevc_nvenc': 'nvenc_h265',
+                'hevc_qsv': 'qsv_h265',
+                'hevc_amf': 'vce_h265',
+                'x264_legacy': 'x264'
+            };
+
+            const ffmpegEncoders = {
+                'x265_10bit': `-c:v libx265 -pix_fmt yuv420p10le -crf ${rf}`,
+                'hevc_nvenc': `-c:v hevc_nvenc -cq ${rf}`,
+                'hevc_qsv': `-c:v hevc_qsv -global_quality ${rf}`,
+                'hevc_amf': `-c:v hevc_amf -rc cqp -qp_p ${rf}`,
+                'x264_legacy': `-c:v libx264 -crf ${rf}`
+            };
+
+            const hbCodec = hbEncoders[encoderKey] || 'x265_10bit';
+            const ffCodec = ffmpegEncoders[encoderKey] || `-c:v libx265 -crf ${rf}`;
+
             let lines = [];
             lines.push(`# Media Storage Optimizer Pro v2.0 - Batch Transcode Queue`);
-            lines.push(`# Encoder: ${encoder} | Quality RF: ${rf}`);
+            lines.push(`# Encoder: ${encoderKey} | Quality RF/CRF: ${rf}`);
             lines.push(``);
 
             if (currentScriptType === 'handbrake') {
                 currentScannedFiles.forEach((file, idx) => {
                     const outPath = file.path.replace(/\.[^/.]+$/, "_optimized.mkv");
-                    lines.push(`HandBrakeCLI.exe -i "${file.path}" -o "${outPath}" -e ${encoder.startsWith('hevc') ? 'x265_10bit' : 'x265'} -q ${rf} --priority below`);
+                    lines.push(`HandBrakeCLI.exe -i "${file.path}" -o "${outPath}" -e ${hbCodec} -q ${rf} --priority below`);
                 });
             } else {
                 currentScannedFiles.forEach((file, idx) => {
                     const outPath = file.path.replace(/\.[^/.]+$/, "_optimized.mp4");
-                    lines.push(`ffmpeg -i "${file.path}" -c:v libx265 -crf ${rf} -preset medium -c:a copy "${outPath}"`);
+                    lines.push(`ffmpeg -i "${file.path}" ${ffCodec} -preset medium -c:a copy "${outPath}"`);
                 });
             }
 
