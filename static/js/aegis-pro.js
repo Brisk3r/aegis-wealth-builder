@@ -253,11 +253,35 @@ window.AegisPro = (function() {
 
     document.addEventListener('DOMContentLoaded', init);
 
+    /**
+     * Downloads digital product packages for Pro / Enterprise members
+     */
+    function downloadProduct(productKey) {
+        if (!isPro()) {
+            openModal();
+            return { success: false, message: 'Pro Membership required to download this product package.' };
+        }
+        
+        let fileUrl = '/static/downloads/MediaStorageOptimizer_v2.0.zip';
+        if (productKey === 'media-optimizer' || !productKey) {
+            fileUrl = '/static/downloads/MediaStorageOptimizer_v2.0.zip';
+        }
+
+        const a = document.createElement('a');
+        a.href = fileUrl;
+        a.download = fileUrl.split('/').pop();
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        return { success: true, message: 'Download started!' };
+    }
+
     return {
         getTier: getTier,
         isPro: isPro,
         isEnterprise: isEnterprise,
         openCheckout: openCheckout,
+        downloadProduct: downloadProduct,
         activateKey: activateKey,
         resetLicense: resetLicense,
         openModal: openModal,

@@ -54,7 +54,8 @@ TOOL_DESCRIPTIONS = {
     "Markdown Table Generator": "Convert raw CSV spreadsheets or tab-delimited text into clean, formatted Markdown tables.",
     "QR Code Generator": "Generate high-resolution QR codes for website URLs, contact cards, or text payloads with PNG image downloads.",
     "ROAS Break-Even Calculator": "Calculate break-even Return on Ad Spend (ROAS), unit gross margin percentages, and max Customer Acquisition Cost (CAC).",
-    "Daily Marketing Consistency Timer": "Sprint focus timer for daily marketing outreach, social posting consistency, and developer log tracking."
+    "Daily Marketing Consistency Timer": "Sprint focus timer for daily marketing outreach, social posting consistency, and developer log tracking.",
+    "Media Storage Optimizer Pro": "Scan WizTree & WinDirStat CSV reports, estimate terabytes of video storage savings with HEVC/AV1 codecs, generate FFmpeg & HandBrake CLI scripts, and access Desktop Optimizer Pro."
 }
 
 AFFILIATE_DESCRIPTIONS = {
