@@ -174,9 +174,15 @@
             document.getElementById('content-' + tab).classList.remove('hidden');
         }
 
+        const SAMPLE_JSON = '{\n  "appName": "Aegis Studio",\n  "version": "2.0",\n  "active": true,\n  "tools": ["json", "css", "seo"]\n}';
+
         // Tab 1: Formatter
         function formatJson() {
-            const raw = document.getElementById('jsonRawInput').value.trim();
+            let raw = document.getElementById('jsonRawInput').value.trim();
+            if (!raw) {
+                raw = SAMPLE_JSON;
+                document.getElementById('jsonRawInput').value = SAMPLE_JSON;
+            }
             const output = document.getElementById('jsonOutput');
             try {
                 const parsed = JSON.parse(raw);
@@ -188,7 +194,11 @@
             }
         }
         function minifyJson() {
-            const raw = document.getElementById('jsonRawInput').value.trim();
+            let raw = document.getElementById('jsonRawInput').value.trim();
+            if (!raw) {
+                raw = SAMPLE_JSON;
+                document.getElementById('jsonRawInput').value = SAMPLE_JSON;
+            }
             const output = document.getElementById('jsonOutput');
             try {
                 const parsed = JSON.parse(raw);
@@ -207,7 +217,11 @@
 
         // Tab 2: Schema
         function generateSchema() {
-            const raw = document.getElementById('schemaRawInput').value.trim();
+            let raw = document.getElementById('schemaRawInput').value.trim();
+            if (!raw) {
+                raw = SAMPLE_JSON;
+                document.getElementById('schemaRawInput').value = SAMPLE_JSON;
+            }
             const output = document.getElementById('schemaOutput');
             try {
                 const parsed = JSON.parse(raw);
