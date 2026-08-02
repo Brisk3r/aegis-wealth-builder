@@ -11,20 +11,35 @@ const outfit = Outfit({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://aegis-wealth-builder.vercel.app"),
   title: "Aegis Hub | Ultimate Developer & SVG Suite",
   description: "High-performance developer utilities, hyper-functional SVG Studio, vector converters, pattern generators, and micro-SaaS calculators.",
   keywords: ["SVG Editor", "SVG Converter", "SVG Generator", "Developer Tools", "UTM Builder", "RegEx Tester", "ROAS Calculator"],
+  icons: {
+    icon: "/favicon.png",
+    shortcut: "/favicon.png",
+    apple: "/logo.png",
+  },
   openGraph: {
     title: "Aegis Hub | Ultimate Developer & SVG Suite",
     description: "High-performance developer utilities and hyper-functional SVG Studio.",
     url: "https://aegis-wealth-builder.vercel.app",
     siteName: "Aegis Hub",
+    images: [
+      {
+        url: "/hero_banner.png",
+        width: 1200,
+        height: 630,
+        alt: "Aegis Hub Banner",
+      },
+    ],
     type: "website",
   },
   twitter: {
     card: "summary_large_image",
     title: "Aegis Hub | Ultimate Developer & SVG Suite",
     description: "High-performance developer utilities and hyper-functional SVG Studio.",
+    images: ["/hero_banner.png"],
   },
   other: {
     "google-adsense-account": "ca-pub-4750454395006570"

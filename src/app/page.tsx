@@ -1,16 +1,38 @@
 import Link from "next/link";
+import Image from "next/image";
 import styles from "./page.module.css";
 
 export default function Home() {
   return (
     <div className={styles.container}>
-      {/* Hero Section */}
+      {/* Hero Section with Brand Banner */}
       <section className={`glass ${styles.hero}`}>
-        <span className={styles.badge}>Aegis Developer Hub</span>
+        <div style={{ display: "flex", alignItems: "center", gap: "0.75rem", marginBottom: "0.5rem" }}>
+          <Image 
+            src="/logo.png" 
+            alt="Aegis Hub Logo" 
+            width={44} 
+            height={44} 
+            style={{ borderRadius: "8px", objectFit: "contain" }}
+          />
+          <span className={styles.badge}>Aegis Developer Hub</span>
+        </div>
+
         <h1 className={styles.title}>The Ultimate Suite of Developer & Design Utilities</h1>
         <p className={styles.description}>
           High-performance, zero-friction tools for frontend engineers, UI designers, and developer-founders.
         </p>
+
+        {/* Hero Graphic Banner */}
+        <div style={{ position: "relative", width: "100%", height: "240px", borderRadius: "12px", overflow: "hidden", margin: "1rem 0", border: "1px solid var(--glass-border)" }}>
+          <Image 
+            src="/hero_banner.png" 
+            alt="Aegis Hub Platform Graphic" 
+            fill 
+            style={{ objectFit: "cover" }}
+          />
+        </div>
+
         <div className={styles.actions}>
           <Link href="/svg-editor" className={styles.ctaPrimary}>
             Launch SVG Studio
