@@ -4,5 +4,6 @@
 This version has breaking changes — APIs, conventions, and file structure may all differ from your training data. Read the relevant guide in `node_modules/next/dist/docs/` before writing any code. Heed deprecation notices.
 <!-- END:nextjs-agent-rules -->
 
-# Project Golden Rule
-Under no circumstances should any source code, prompts, AI instructions, system metadata, or evidence of AI/Agent generation be exposed in public-facing files, UI components, HTML comments, metadata, or public output. All work must appear entirely native, professional, and human-crafted.
+# Project Golden Rule & Quality Standard
+- **Golden Rule**: Under no circumstances should any source code, prompts, AI instructions, system metadata, or evidence of AI/Agent generation be exposed in public-facing files, UI components, HTML comments, metadata, or public output. All work must appear entirely native, professional, and human-crafted.
+- **Zero Low-Quality Compromises**: Low-quality code, jagged vector math, broken curves, or unpolished UI components are strictly forbidden. All SVG path math must use smooth cubic/quadratic Bezier curves (`C`/`S`/`Q`), layouts must be hyper-polished glassmorphic UI, and all tools must offer elite, professional utility.

@@ -3,10 +3,22 @@
 import { useState } from "react";
 import styles from "../utilities.module.css";
 
+const PRESETS = [
+  { name: "Email Address", pattern: "[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}", sample: "Contact info@aegisdev.com or user.test@gmail.com for help." },
+  { name: "URL / Domain", pattern: "https?://[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}(/\\S*)?", sample: "Visit https://aegisdev.com/svg-editor or http://example.org today." },
+  { name: "IPv4 Address", pattern: "\\b(?:\\d{1,3}\\.){3}\\d{1,3}\\b", sample: "Server logs: 192.168.1.1 and 10.0.0.254 active." },
+  { name: "Hex Color Code", pattern: "#?([a-fA-F0-9]{6}|[a-fA-F0-9]{3})\\b", sample: "Colors: #6366f1, #000, and #ffffff." }
+];
+
 export default function RegexTesterPage() {
-  const [pattern, setPattern] = useState<string>("([a-zA-Z0-9]+)@([a-zA-Z0-9]+)\\.com");
+  const [pattern, setPattern] = useState<string>("([a-zA-Z0-9._%+-]+)@([a-zA-Z0-9.-]+)\\.com");
   const [flags, setFlags] = useState<string>("g");
   const [testText, setTestText] = useState<string>("Hello contact user@example.com or admin@test.com today.");
+
+  const applyPreset = (p: typeof PRESETS[0]) => {
+    setPattern(p.pattern);
+    setTestText(p.sample);
+  };
 
   let matches: string[] = [];
   let isError = false;
@@ -35,6 +47,21 @@ export default function RegexTesterPage() {
       </div>
 
       <div className="glass" style={{ padding: "2rem", borderRadius: "12px", display: "flex", flexDirection: "column", gap: "1.25rem", maxWidth: "800px", margin: "0 auto", width: "100%" }}>
+        {/* Preset Selector */}
+        <div style={{ display: "flex", alignItems: "center", gap: "0.5rem", flexWrap: "wrap" }}>
+          <span style={{ fontSize: "0.85rem", color: "rgba(255,255,255,0.6)", fontWeight: 600 }}>Pattern Presets:</span>
+          {PRESETS.map((p) => (
+            <button 
+              key={p.name}
+              type="button" 
+              onClick={() => applyPreset(p)}
+              style={{ background: "rgba(255,255,255,0.06)", border: "1px solid var(--glass-border)", color: "#fff", padding: "0.3rem 0.6rem", borderRadius: "4px", fontSize: "0.8rem", cursor: "pointer" }}
+            >
+              {p.name}
+            </button>
+          ))}
+        </div>
+
         <div style={{ display: "flex", gap: "1rem" }}>
           <div style={{ flex: 1, display: "flex", flexDirection: "column", gap: "0.4rem" }}>
             <label style={{ fontSize: "0.9rem", fontWeight: 600 }}>Expression Pattern</label>

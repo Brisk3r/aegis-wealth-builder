@@ -106,7 +106,7 @@
 }
 
 .previewBox {
-  min-height: 200px;
+  min-height: 220px;
   background: #090a0f;
   border: 1px solid var(--glass-border);
   border-radius: 8px;
@@ -125,6 +125,18 @@
   background: var(--accent);
   color: white;
   border: none;
+  padding: 0.4rem 0.85rem;
+  border-radius: 6px;
+  font-weight: 600;
+  font-size: 0.85rem;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.copyBtnSecondary {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid var(--glass-border);
+  color: var(--foreground);
   padding: 0.4rem 0.85rem;
   border-radius: 6px;
   font-weight: 600;

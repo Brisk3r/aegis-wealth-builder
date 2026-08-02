@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import { Outfit } from "next/font/google";
 import "./globals.css";
 import Script from "next/script";
+import Header from "@/components/Header";
+import Footer from "@/components/Footer";
 
 const outfit = Outfit({
   variable: "--font-outfit",
@@ -9,15 +11,25 @@ const outfit = Outfit({
 });
 
 export const metadata: Metadata = {
-  title: "Aegis Hub | Ultimate SVG Workspace",
-  description: "A premium suite of tools delivering real value.",
+  title: "Aegis Hub | Ultimate Developer & SVG Suite",
+  description: "High-performance developer utilities, hyper-functional SVG Studio, vector converters, pattern generators, and micro-SaaS calculators.",
+  keywords: ["SVG Editor", "SVG Converter", "SVG Generator", "Developer Tools", "UTM Builder", "RegEx Tester", "ROAS Calculator"],
+  openGraph: {
+    title: "Aegis Hub | Ultimate Developer & SVG Suite",
+    description: "High-performance developer utilities and hyper-functional SVG Studio.",
+    url: "https://aegis-wealth-builder.vercel.app",
+    siteName: "Aegis Hub",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Aegis Hub | Ultimate Developer & SVG Suite",
+    description: "High-performance developer utilities and hyper-functional SVG Studio.",
+  },
   other: {
     "google-adsense-account": "ca-pub-4750454395006570"
   }
 };
-
-import Header from "@/components/Header";
-import Footer from "@/components/Footer";
 
 export default function RootLayout({
   children,

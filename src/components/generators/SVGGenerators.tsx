@@ -2,40 +2,48 @@
 
 import { useState } from "react";
 import styles from "./Generators.module.css";
+import { generateCubicBezierWaveSvg } from "@/utils/waveMath";
 
 export default function SVGGenerators() {
-  const [activeTab, setActiveTab] = useState<"waves" | "patterns">("waves");
+  const [activeTab, setActiveTab] = useState<"waves" | "patterns" | "gradients">("waves");
 
-  // Wave Generator State
+  // Multi-Layer Wave State
   const [amplitude, setAmplitude] = useState<number>(50);
   const [frequency, setFrequency] = useState<number>(3);
   const [waveColor, setWaveColor] = useState<string>("#6366f1");
-  const [waveHeight, setWaveHeight] = useState<number>(200);
+  const [waveHeight, setWaveHeight] = useState<number>(250);
+  const [layerCount, setLayerCount] = useState<number>(3);
 
   // Pattern Generator State
   const [patternType, setPatternType] = useState<"dots" | "grid" | "isometric">("dots");
   const [patternColor, setPatternColor] = useState<string>("#818cf8");
-  const [patternSize, setPatternSize] = useState<number>(20);
-  const [dotRadius, setDotRadius] = useState<number>(2);
+  const [patternSize, setPatternSize] = useState<number>(24);
+  const [dotRadius, setDotRadius] = useState<number>(3);
 
-  const [copied, setCopied] = useState(false);
+  // Gradient Generator State
+  const [gradColor1, setGradColor1] = useState<string>("#4f46e5");
+  const [gradColor2, setGradColor2] = useState<string>("#ec4899");
+  const [gradAngle, setGradAngle] = useState<number>(135);
 
-  // Generate Wave SVG Path
-  const generateWavePath = () => {
-    const width = 1440;
-    const points = [];
-    const step = width / (frequency * 10);
-    
-    for (let x = 0; x <= width; x += step) {
-      const y = waveHeight / 2 + Math.sin((x / width) * Math.PI * 2 * frequency) * amplitude;
-      points.push(`${x.toFixed(1)},${y.toFixed(1)}`);
+  const [copiedFormat, setCopiedFormat] = useState<string | null>(null);
+
+  // Generate Multi-Layer Cubic Bezier Waves
+  const generateWaves = () => {
+    const layers = [];
+    for (let i = 0; i < layerCount; i++) {
+      const opacity = 1 - i * (0.6 / Math.max(1, layerCount - 1));
+      const amp = amplitude - i * 8;
+      const freq = frequency + i * 0.5;
+      const phase = i * 0.8;
+      layers.push({
+        amplitude: Math.max(10, amp),
+        frequency: freq,
+        phase: phase,
+        fillColor: waveColor,
+        opacity: Math.max(0.2, opacity)
+      });
     }
-
-    const pathData = `M 0,${waveHeight} L ${points.join(" L ")} L ${width},${waveHeight} Z`;
-
-    return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${width} ${waveHeight}" width="100%" height="${waveHeight}">
-  <path fill="${waveColor}" d="${pathData}" />
-</svg>`;
+    return generateCubicBezierWaveSvg(1440, waveHeight, layers);
   };
 
   // Generate Pattern SVG
@@ -46,55 +54,90 @@ export default function SVGGenerators() {
 </svg>`;
     } else if (patternType === "grid") {
       return `<svg xmlns="http://www.w3.org/2000/svg" width="${patternSize}" height="${patternSize}">
-  <path d="M ${patternSize} 0 L 0 0 0 ${patternSize}" fill="none" stroke="${patternColor}" stroke-width="1" />
+  <path d="M ${patternSize} 0 L 0 0 0 ${patternSize}" fill="none" stroke="${patternColor}" stroke-width="1.5" />
 </svg>`;
     } else {
-      // Isometric
       return `<svg xmlns="http://www.w3.org/2000/svg" width="${patternSize * 2}" height="${patternSize * 2}">
-  <path d="M${patternSize} 0 L${patternSize * 2} ${patternSize} L${patternSize} ${patternSize * 2} L0 ${patternSize} Z" fill="none" stroke="${patternColor}" stroke-width="1" />
+  <path d="M${patternSize} 0 L${patternSize * 2} ${patternSize} L${patternSize} ${patternSize * 2} L0 ${patternSize} Z" fill="none" stroke="${patternColor}" stroke-width="1.5" />
 </svg>`;
     }
   };
 
-  const currentSvg = activeTab === "waves" ? generateWavePath() : generatePatternSvg();
+  // Generate Gradient SVG
+  const generateGradientSvg = () => {
+    return `<svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="0 0 800 400">
+  <defs>
+    <linearGradient id="aegis-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="${gradColor1}" />
+      <stop offset="100%" stop-color="${gradColor2}" />
+    </linearGradient>
+  </defs>
+  <rect width="100%" height="100%" fill="url(#aegis-gradient)" />
+</svg>`;
+  };
 
-  const handleCopy = () => {
+  const getCurrentSvg = () => {
+    if (activeTab === "waves") return generateWaves();
+    if (activeTab === "patterns") return generatePatternSvg();
+    return generateGradientSvg();
+  };
+
+  const currentSvg = getCurrentSvg();
+
+  const handleCopySvg = () => {
     navigator.clipboard.writeText(currentSvg);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
+    setCopiedFormat("svg");
+    setTimeout(() => setCopiedFormat(null), 2000);
+  };
+
+  const handleCopyCss = () => {
+    let cssCode = "";
+    if (activeTab === "gradients") {
+      cssCode = `background: linear-gradient(${gradAngle}deg, ${gradColor1}, ${gradColor2});`;
+    } else {
+      const dataUri = `data:image/svg+xml;utf8,${encodeURIComponent(currentSvg)}`;
+      cssCode = `background-image: url("${dataUri}");`;
+    }
+    navigator.clipboard.writeText(cssCode);
+    setCopiedFormat("css");
+    setTimeout(() => setCopiedFormat(null), 2000);
   };
 
   return (
     <div className={styles.container}>
       <div className={styles.header}>
-        <h1 className={styles.title}>SVG Wave & Pattern Studio</h1>
+        <h1 className={styles.title}>SVG Wave, Pattern & Gradient Studio</h1>
         <p className={styles.description}>
-          Design liquid section dividers and geometric background patterns for web UI.
+          Generate silky-smooth cubic Bezier section dividers, geometric background patterns, and vibrant mesh gradients.
         </p>
       </div>
 
-      {/* Selector Tabs */}
       <div className={styles.tabBar}>
         <button 
           className={`${styles.tab} ${activeTab === 'waves' ? styles.tabActive : ''}`}
           onClick={() => setActiveTab('waves')}
         >
-          🌊 Wave Divider Generator
+          🌊 Smooth Cubic Waves
         </button>
         <button 
           className={`${styles.tab} ${activeTab === 'patterns' ? styles.tabActive : ''}`}
           onClick={() => setActiveTab('patterns')}
         >
-          ✨ Background Pattern Generator
+          ✨ Background Patterns
+        </button>
+        <button 
+          className={`${styles.tab} ${activeTab === 'gradients' ? styles.tabActive : ''}`}
+          onClick={() => setActiveTab('gradients')}
+        >
+          🌈 Mesh Gradients
         </button>
       </div>
 
       <div className={styles.grid}>
-        {/* Controls Column */}
         <div className={`glass ${styles.card}`}>
-          <h3>{activeTab === 'waves' ? 'Wave Configuration' : 'Pattern Configuration'}</h3>
+          <h3>Configuration Controls</h3>
 
-          {activeTab === 'waves' ? (
+          {activeTab === 'waves' && (
             <>
               <div className={styles.formGroup}>
                 <label>Wave Color</label>
@@ -107,10 +150,21 @@ export default function SVGGenerators() {
               </div>
 
               <div className={styles.formGroup}>
-                <label>Amplitude ({amplitude}px)</label>
+                <label>Wave Height ({waveHeight}px)</label>
                 <input 
                   type="range" 
-                  min="10" 
+                  min="120" 
+                  max="400" 
+                  value={waveHeight} 
+                  onChange={(e) => setWaveHeight(parseInt(e.target.value))} 
+                />
+              </div>
+
+              <div className={styles.formGroup}>
+                <label>Bezier Amplitude ({amplitude}px)</label>
+                <input 
+                  type="range" 
+                  min="15" 
                   max="120" 
                   value={amplitude} 
                   onChange={(e) => setAmplitude(parseInt(e.target.value))} 
@@ -118,28 +172,31 @@ export default function SVGGenerators() {
               </div>
 
               <div className={styles.formGroup}>
-                <label>Frequency ({frequency})</label>
+                <label>Wave Frequency ({frequency})</label>
                 <input 
                   type="range" 
                   min="1" 
-                  max="8" 
+                  max="6" 
+                  step="0.5"
                   value={frequency} 
-                  onChange={(e) => setFrequency(parseInt(e.target.value))} 
+                  onChange={(e) => setFrequency(parseFloat(e.target.value))} 
                 />
               </div>
 
               <div className={styles.formGroup}>
-                <label>Canvas Height ({waveHeight}px)</label>
+                <label>Layer Depth ({layerCount} layers)</label>
                 <input 
                   type="range" 
-                  min="100" 
-                  max="400" 
-                  value={waveHeight} 
-                  onChange={(e) => setWaveHeight(parseInt(e.target.value))} 
+                  min="1" 
+                  max="5" 
+                  value={layerCount} 
+                  onChange={(e) => setLayerCount(parseInt(e.target.value))} 
                 />
               </div>
             </>
-          ) : (
+          )}
+
+          {activeTab === 'patterns' && (
             <>
               <div className={styles.formGroup}>
                 <label>Pattern Style</label>
@@ -165,11 +222,11 @@ export default function SVGGenerators() {
               </div>
 
               <div className={styles.formGroup}>
-                <label>Grid Cell Size ({patternSize}px)</label>
+                <label>Cell Size ({patternSize}px)</label>
                 <input 
                   type="range" 
-                  min="10" 
-                  max="60" 
+                  min="12" 
+                  max="64" 
                   value={patternSize} 
                   onChange={(e) => setPatternSize(parseInt(e.target.value))} 
                 />
@@ -189,15 +246,55 @@ export default function SVGGenerators() {
               )}
             </>
           )}
+
+          {activeTab === 'gradients' && (
+            <>
+              <div className={styles.formGroup}>
+                <label>Start Color</label>
+                <input 
+                  type="color" 
+                  value={gradColor1} 
+                  onChange={(e) => setGradColor1(e.target.value)} 
+                  className={styles.colorPicker}
+                />
+              </div>
+
+              <div className={styles.formGroup}>
+                <label>End Color</label>
+                <input 
+                  type="color" 
+                  value={gradColor2} 
+                  onChange={(e) => setGradColor2(e.target.value)} 
+                  className={styles.colorPicker}
+                />
+              </div>
+
+              <div className={styles.formGroup}>
+                <label>Gradient Angle ({gradAngle}°)</label>
+                <input 
+                  type="range" 
+                  min="0" 
+                  max="360" 
+                  step="15"
+                  value={gradAngle} 
+                  onChange={(e) => setGradAngle(parseInt(e.target.value))} 
+                />
+              </div>
+            </>
+          )}
         </div>
 
-        {/* Live Preview & Export Column */}
         <div className={`glass ${styles.card}`}>
           <div className={styles.cardHeader}>
-            <h3>Live Preview</h3>
-            <button onClick={handleCopy} className={styles.copyBtn}>
-              {copied ? 'Copied SVG!' : 'Copy SVG Code'}
-            </button>
+            <h3>Live Vector Preview</h3>
+            <div style={{ display: "flex", gap: "0.5rem" }}>
+              <button onClick={handleCopySvg} className={styles.copyBtn}>
+                {copiedFormat === 'svg' ? 'Copied SVG!' : 'Copy SVG Code'}
+              </button>
+              <button onClick={handleCopyCss} className={styles.copyBtnSecondary}>
+                {copiedFormat === 'css' ? 'Copied CSS!' : 'Copy CSS Rule'}
+              </button>
+            </div>
           </div>
 
           <div 
@@ -206,7 +303,7 @@ export default function SVGGenerators() {
           />
 
           <div className={styles.codeOutput}>
-            <span className={styles.outputTitle}>Generated SVG Markup</span>
+            <span className={styles.outputTitle}>Generated Markup</span>
             <textarea 
               value={currentSvg} 
               readOnly 

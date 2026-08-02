@@ -4,7 +4,7 @@ import { useState } from "react";
 import styles from "./Converter.module.css";
 import { minifySvg, cleanSvgMetadata, convertSvgToReactJsx, convertSvgToVue } from "@/utils/svgOptimizer";
 
-const INITIAL_SVG = `<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 24 24" fill="none" stroke="#6366f1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+const INITIAL_SVG = `<svg xmlns="http://www.w3.org/2000/svg" width="120" height="120" viewBox="0 0 24 24" fill="none" stroke="#6366f1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
   <polygon points="12 2 2 7 12 12 22 7 12 2"/>
   <polyline points="2 17 12 22 22 17"/>
   <polyline points="2 12 12 17 22 12"/>
@@ -13,7 +13,8 @@ const INITIAL_SVG = `<svg xmlns="http://www.w3.org/2000/svg" width="100" height=
 export default function SVGConverter() {
   const [svgInput, setSvgInput] = useState(INITIAL_SVG);
   const [exportFormat, setExportFormat] = useState<"png" | "webp" | "jpeg" | "jsx" | "vue" | "datauri">("png");
-  const [scaleFactor, setScaleFactor] = useState<number>(2);
+  const [scaleFactor, setScaleFactor] = useState<number>(4);
+  const [bgColor, setBgColor] = useState<string>("transparent");
   const [outputCode, setOutputCode] = useState<string>("");
   const [copied, setCopied] = useState(false);
 
@@ -44,30 +45,39 @@ export default function SVGConverter() {
     } else if (exportFormat === "datauri") {
       setOutputCode(`data:image/svg+xml;utf8,${encodeURIComponent(svgInput)}`);
     } else {
-      // Raster formats (PNG, WEBP, JPEG)
+      // Ultra-HD Rasterizer with Supersampling
       const img = new Image();
       const svgBlob = new Blob([svgInput], { type: "image/svg+xml;charset=utf-8" });
       const url = URL.createObjectURL(svgBlob);
 
       img.onload = () => {
+        const baseWidth = img.width || 300;
+        const baseHeight = img.height || 300;
+        
         const canvas = document.createElement("canvas");
-        canvas.width = (img.width || 300) * scaleFactor;
-        canvas.height = (img.height || 300) * scaleFactor;
+        canvas.width = baseWidth * scaleFactor;
+        canvas.height = baseHeight * scaleFactor;
         const ctx = canvas.getContext("2d");
+        
         if (ctx) {
-          if (exportFormat === "jpeg") {
-            ctx.fillStyle = "#ffffff";
+          ctx.imageSmoothingEnabled = true;
+          ctx.imageSmoothingQuality = "high";
+
+          // Background Fill
+          if (bgColor !== "transparent" || exportFormat === "jpeg") {
+            ctx.fillStyle = bgColor === "transparent" ? "#ffffff" : bgColor;
             ctx.fillRect(0, 0, canvas.width, canvas.height);
           }
+
           ctx.scale(scaleFactor, scaleFactor);
           ctx.drawImage(img, 0, 0);
-          
+
           const mimeType = `image/${exportFormat}`;
           const dataUrl = canvas.toDataURL(mimeType, 0.95);
-          
+
           const a = document.createElement("a");
           a.href = dataUrl;
-          a.download = `converted-icon.${exportFormat}`;
+          a.download = `converted-vector.${exportFormat}`;
           document.body.appendChild(a);
           a.click();
           document.body.removeChild(a);
@@ -87,14 +97,13 @@ export default function SVGConverter() {
   return (
     <div className={styles.container}>
       <div className={styles.header}>
-        <h1 className={styles.title}>SVG Converter & Optimizer Studio</h1>
+        <h1 className={styles.title}>SVG Converter & HD Rasterizer Studio</h1>
         <p className={styles.description}>
-          Batch clean metadata, strip bloated comments, and convert SVG vector files to PNG, WEBP, JPEG, React JSX, or Vue 3 components.
+          Batch clean metadata, strip bloat, and convert SVGs to 4K Ultra-HD PNG, WEBP, JPEG, React JSX, or Vue 3.
         </p>
       </div>
 
       <div className={styles.grid}>
-        {/* Left Column: Input & Live Preview */}
         <div className={`glass ${styles.card}`}>
           <div className={styles.cardHeader}>
             <h3>1. Input SVG Code or Upload File</h3>
@@ -119,7 +128,7 @@ export default function SVGConverter() {
           </div>
 
           <div className={styles.previewContainer}>
-            <span className={styles.previewLabel}>Live Preview</span>
+            <span className={styles.previewLabel}>Live Vector Preview</span>
             <div 
               className={styles.previewBox} 
               dangerouslySetInnerHTML={{ __html: svgInput }}
@@ -127,9 +136,8 @@ export default function SVGConverter() {
           </div>
         </div>
 
-        {/* Right Column: Converter Settings & Output */}
         <div className={`glass ${styles.card}`}>
-          <h3>2. Convert & Export Settings</h3>
+          <h3>2. Export & HD Rasterizer Settings</h3>
 
           <div className={styles.formGroup}>
             <label className={styles.label}>Target Output Format</label>
@@ -148,23 +156,39 @@ export default function SVGConverter() {
           </div>
 
           {["png", "webp", "jpeg"].includes(exportFormat) && (
-            <div className={styles.formGroup}>
-              <label className={styles.label}>Resolution Scale Factor ({scaleFactor}x)</label>
-              <input 
-                type="range" 
-                min="1" 
-                max="8" 
-                step="1" 
-                value={scaleFactor} 
-                onChange={(e) => setScaleFactor(parseInt(e.target.value))}
-                className={styles.range}
-              />
-              <span className={styles.hint}>Higher scale generates ultra-sharp HD rasters.</span>
-            </div>
+            <>
+              <div className={styles.formGroup}>
+                <label className={styles.label}>Resolution Scale ({scaleFactor}x Supersampled)</label>
+                <input 
+                  type="range" 
+                  min="1" 
+                  max="8" 
+                  step="1" 
+                  value={scaleFactor} 
+                  onChange={(e) => setScaleFactor(parseInt(e.target.value))}
+                  className={styles.range}
+                />
+                <span className={styles.hint}>8x supersampling generates 4K crystal-clear raster images.</span>
+              </div>
+
+              <div className={styles.formGroup}>
+                <label className={styles.label}>Background Canvas Fill</label>
+                <select 
+                  value={bgColor} 
+                  onChange={(e) => setBgColor(e.target.value)}
+                  className={styles.select}
+                >
+                  <option value="transparent">Transparent Background</option>
+                  <option value="#ffffff">Solid White (#ffffff)</option>
+                  <option value="#000000">Solid Black (#000000)</option>
+                  <option value="#0d0e15">Dark Theme (#0d0e15)</option>
+                </select>
+              </div>
+            </>
           )}
 
           <button onClick={handleConvert} className={styles.primaryBtn}>
-            Convert & Export
+            Convert & Export Asset
           </button>
 
           {["jsx", "vue", "datauri"].includes(exportFormat) && outputCode && (

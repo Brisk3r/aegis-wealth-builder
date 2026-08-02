@@ -1,6 +1,65 @@
 /**
- * Client-side SVG Optimizer & Formatter Utility
+ * Client-side SVG Optimizer & Deep Attribute Parsing Utility
  */
+
+export function applyDeepColorOverrides(
+  rawSvg: string,
+  fillColor?: string,
+  strokeColor?: string,
+  strokeWidth?: number
+): string {
+  if (!rawSvg) return "";
+  try {
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(rawSvg, "image/svg+xml");
+    const svg = doc.querySelector("svg");
+    if (!svg) return rawSvg;
+
+    const vectorElements = svg.querySelectorAll("path, circle, rect, polygon, polyline, ellipse, line, g");
+    vectorElements.forEach((el) => {
+      // Remove inline style locks for fill/stroke
+      const currentStyle = el.getAttribute("style");
+      if (currentStyle) {
+        const cleanedStyle = currentStyle
+          .replace(/fill\s*:\s*[^;]+;?/gi, "")
+          .replace(/stroke\s*:\s*[^;]+;?/gi, "")
+          .replace(/stroke-width\s*:\s*[^;]+;?/gi, "");
+        if (cleanedStyle.trim()) {
+          el.setAttribute("style", cleanedStyle);
+        } else {
+          el.removeAttribute("style");
+        }
+      }
+
+      // Apply fill override if element uses fill
+      if (fillColor && el.tagName !== "g") {
+        const currentFill = el.getAttribute("fill");
+        if (currentFill !== "none") {
+          el.setAttribute("fill", fillColor);
+        }
+      }
+
+      // Apply stroke override if element uses stroke
+      if (strokeColor && el.tagName !== "g") {
+        const currentStroke = el.getAttribute("stroke");
+        if (currentStroke && currentStroke !== "none") {
+          el.setAttribute("stroke", strokeColor);
+        }
+      }
+
+      // Apply stroke width override
+      if (strokeWidth !== undefined && el.tagName !== "g") {
+        if (el.hasAttribute("stroke") || el.hasAttribute("stroke-width")) {
+          el.setAttribute("stroke-width", strokeWidth.toString());
+        }
+      }
+    });
+
+    return new XMLSerializer().serializeToString(doc);
+  } catch {
+    return rawSvg;
+  }
+}
 
 export function sanitizeAndFormatSvg(rawSvg: string): string {
   if (!rawSvg) return "";
@@ -9,8 +68,7 @@ export function sanitizeAndFormatSvg(rawSvg: string): string {
     const doc = parser.parseFromString(rawSvg, "image/svg+xml");
     const svg = doc.querySelector("svg");
     if (!svg) return rawSvg;
-    
-    // Ensure xmlns is set
+
     if (!svg.getAttribute("xmlns")) {
       svg.setAttribute("xmlns", "http://www.w3.org/2000/svg");
     }
@@ -24,9 +82,9 @@ export function sanitizeAndFormatSvg(rawSvg: string): string {
 export function minifySvg(rawSvg: string): string {
   if (!rawSvg) return "";
   return rawSvg
-    .replace(/<!--[\s\S]*?-->/g, "") // remove comments
-    .replace(/>\s+</g, "><") // remove whitespace between tags
-    .replace(/\s{2,}/g, " ") // collapse spaces
+    .replace(/<!--[\s\S]*?-->/g, "")
+    .replace(/>\s+</g, "><")
+    .replace(/\s{2,}/g, " ")
     .trim();
 }
 
@@ -36,11 +94,9 @@ export function cleanSvgMetadata(rawSvg: string): string {
     const parser = new DOMParser();
     const doc = parser.parseFromString(rawSvg, "image/svg+xml");
     
-    // Remove metadata elements
     const metadataTags = doc.querySelectorAll("metadata, title, desc, sketch\\:type");
     metadataTags.forEach((el) => el.remove());
 
-    // Remove sketch/inkscape/sodipodi attributes
     const allNodes = doc.querySelectorAll("*");
     allNodes.forEach((node) => {
       const attrs = Array.from(node.attributes);
@@ -66,7 +122,6 @@ export function cleanSvgMetadata(rawSvg: string): string {
 export function convertSvgToReactJsx(rawSvg: string, componentName: string = "CustomIcon"): string {
   if (!rawSvg) return "";
   
-  // Convert standard SVG attributes to camelCase for React
   const jsx = rawSvg
     .replace(/class=/g, "className=")
     .replace(/stroke-width=/g, "strokeWidth=")

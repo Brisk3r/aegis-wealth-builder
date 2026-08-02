@@ -2,6 +2,7 @@
 
 import { useEffect, useRef } from "react";
 import styles from "./Editor.module.css";
+import { applyDeepColorOverrides } from "@/utils/svgOptimizer";
 
 interface CanvasProps {
   svgContent: string | null;
@@ -32,14 +33,15 @@ export default function Canvas({
 
   useEffect(() => {
     if (containerRef.current && svgContent) {
-      containerRef.current.innerHTML = svgContent;
+      const processed = applyDeepColorOverrides(svgContent, fillColor, strokeColor, strokeWidth);
+      containerRef.current.innerHTML = processed;
       const svg = containerRef.current.querySelector('svg');
       if (svg) {
         svg.style.width = '100%';
         svg.style.height = '100%';
       }
     }
-  }, [svgContent]);
+  }, [svgContent, fillColor, strokeColor, strokeWidth]);
 
   const transformStyle = `scale(${scale}) rotate(${rotation}deg) scaleX(${flipX ? -1 : 1}) scaleY(${flipY ? -1 : 1})`;
 
@@ -53,8 +55,7 @@ export default function Canvas({
             color: strokeColor,
             fill: fillColor,
             transform: transformStyle,
-            opacity: opacity,
-            "--svg-stroke-width": `${strokeWidth}px` 
+            opacity: opacity
           } as React.CSSProperties}
         />
       ) : (

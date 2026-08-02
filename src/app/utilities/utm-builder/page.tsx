@@ -12,6 +12,12 @@ export default function UtmBuilderPage() {
   const [content, setContent] = useState("");
   const [copied, setCopied] = useState(false);
 
+  const applyPreset = (presetSource: string, presetMedium: string, presetCampaign: string) => {
+    setSource(presetSource);
+    setMedium(presetMedium);
+    setCampaign(presetCampaign);
+  };
+
   const generateUrl = () => {
     if (!baseUrl) return "";
     try {
@@ -45,6 +51,39 @@ export default function UtmBuilderPage() {
       </div>
 
       <div className="glass" style={{ padding: "2rem", borderRadius: "12px", display: "flex", flexDirection: "column", gap: "1.25rem", maxWidth: "800px", margin: "0 auto", width: "100%" }}>
+        {/* Presets Bar */}
+        <div style={{ display: "flex", alignItems: "center", gap: "0.5rem", flexWrap: "wrap" }}>
+          <span style={{ fontSize: "0.85rem", color: "rgba(255,255,255,0.6)", fontWeight: 600 }}>Quick Presets:</span>
+          <button 
+            type="button" 
+            onClick={() => applyPreset("reddit", "social", "product_launch")}
+            style={{ background: "rgba(255,255,255,0.06)", border: "1px solid var(--glass-border)", color: "#fff", padding: "0.3rem 0.6rem", borderRadius: "4px", fontSize: "0.8rem", cursor: "pointer" }}
+          >
+            Reddit Launch
+          </button>
+          <button 
+            type="button" 
+            onClick={() => applyPreset("twitter", "social", "announcement")}
+            style={{ background: "rgba(255,255,255,0.06)", border: "1px solid var(--glass-border)", color: "#fff", padding: "0.3rem 0.6rem", borderRadius: "4px", fontSize: "0.8rem", cursor: "pointer" }}
+          >
+            Twitter Post
+          </button>
+          <button 
+            type="button" 
+            onClick={() => applyPreset("producthunt", "referral", "ph_launch")}
+            style={{ background: "rgba(255,255,255,0.06)", border: "1px solid var(--glass-border)", color: "#fff", padding: "0.3rem 0.6rem", borderRadius: "4px", fontSize: "0.8rem", cursor: "pointer" }}
+          >
+            Product Hunt
+          </button>
+          <button 
+            type="button" 
+            onClick={() => applyPreset("newsletter", "email", "weekly_digest")}
+            style={{ background: "rgba(255,255,255,0.06)", border: "1px solid var(--glass-border)", color: "#fff", padding: "0.3rem 0.6rem", borderRadius: "4px", fontSize: "0.8rem", cursor: "pointer" }}
+          >
+            Email Digest
+          </button>
+        </div>
+
         <div style={{ display: "flex", flexDirection: "column", gap: "0.4rem" }}>
           <label style={{ fontSize: "0.9rem", fontWeight: 600 }}>Website URL *</label>
           <input 
@@ -101,6 +140,17 @@ export default function UtmBuilderPage() {
               style={{ background: "rgba(255,255,255,0.05)", border: "1px solid var(--glass-border)", color: "#fff", padding: "0.6rem", borderRadius: "6px", outline: "none" }}
             />
           </div>
+        </div>
+
+        <div style={{ display: "flex", flexDirection: "column", gap: "0.4rem" }}>
+          <label style={{ fontSize: "0.9rem", fontWeight: 600 }}>Campaign Content (utm_content)</label>
+          <input 
+            type="text" 
+            value={content} 
+            onChange={(e) => setContent(e.target.value)}
+            placeholder="e.g. banner_ad, sidebar_link"
+            style={{ background: "rgba(255,255,255,0.05)", border: "1px solid var(--glass-border)", color: "#fff", padding: "0.6rem", borderRadius: "6px", outline: "none" }}
+          />
         </div>
 
         <div style={{ display: "flex", flexDirection: "column", gap: "0.5rem", marginTop: "1rem" }}>
