@@ -1,11 +1,12 @@
 import Link from "next/link";
 import Image from "next/image";
 import styles from "./page.module.css";
+import AdSlot from "@/components/AdSlot";
 
 export default function Home() {
   return (
     <div className={styles.container}>
-      {/* Hero Section with Brand Banner */}
+      {/* Hero Flagship Banner */}
       <section className={`glass ${styles.hero}`}>
         <div style={{ display: "flex", alignItems: "center", gap: "0.75rem", marginBottom: "0.5rem" }}>
           <Image 
@@ -15,19 +16,19 @@ export default function Home() {
             height={44} 
             style={{ borderRadius: "8px", objectFit: "contain" }}
           />
-          <span className={styles.badge}>Aegis Developer Hub</span>
+          <span className={styles.badge}>Flagship Vector Studio</span>
         </div>
 
-        <h1 className={styles.title}>The Ultimate Suite of Developer & Design Utilities</h1>
+        <h1 className={styles.title}>Interactive SVG Vector Node & Path Studio</h1>
         <p className={styles.description}>
-          High-performance, zero-friction tools for frontend engineers, UI designers, and developer-founders.
+          A state-of-the-art vector editor. Click, drag, and transform path nodes and Bezier control handles live on the canvas.
         </p>
 
         {/* Hero Graphic Banner */}
         <div style={{ position: "relative", width: "100%", height: "240px", borderRadius: "12px", overflow: "hidden", margin: "1rem 0", border: "1px solid var(--glass-border)" }}>
           <Image 
             src="/hero_banner.png" 
-            alt="Aegis Hub Platform Graphic" 
+            alt="Aegis Vector Studio Graphic" 
             fill 
             style={{ objectFit: "cover" }}
           />
@@ -35,88 +36,55 @@ export default function Home() {
 
         <div className={styles.actions}>
           <Link href="/svg-editor" className={styles.ctaPrimary}>
-            Launch SVG Studio
+            📍 Open Interactive Vector Studio
           </Link>
           <Link href="/svg-converter" className={styles.ctaSecondary}>
-            SVG Converter & Optimizer
+            ⚡ SVG Optimizer & Exporter
           </Link>
         </div>
       </section>
 
-      {/* Feature Grid Section */}
+      {/* Architectural Ad Unit */}
+      <AdSlot type="banner" />
+
+      {/* Flagship Feature Highlights */}
       <section className={styles.featuresSection}>
-        <h2 className={styles.sectionHeading}>Featured Utility Suites</h2>
+        <h2 className={styles.sectionHeading}>Vector Node Studio Capabilities</h2>
         <div className={styles.grid}>
 
           <div className={`glass ${styles.card}`}>
             <div className={styles.cardHeader}>
-              <span className={styles.cardIcon}>🎨</span>
-              <span className={styles.cardTag}>Vector Suite</span>
+              <span className={styles.cardIcon}>📍</span>
+              <span className={styles.cardTag}>Interactive Node Dragging</span>
             </div>
-            <h3>SVG Studio & Code Editor</h3>
-            <p>Search thousands of vector icons, transform paths live, customize fills/strokes, edit XML code 2-way, and export to SVG or React JSX.</p>
+            <h3>Real-Time Node & Anchor Dragging</h3>
+            <p>Click any path vertex to display interactive anchor points and Bezier control handles. Drag nodes in real-time with zero lag.</p>
             <Link href="/svg-editor" className={styles.cardLink}>
-              Open SVG Studio &rarr;
+              Launch Node Studio &rarr;
+            </Link>
+          </div>
+
+          <div className={`glass ${styles.card}`}>
+            <div className={styles.cardHeader}>
+              <span className={styles.cardIcon}>⚙️</span>
+              <span className={styles.cardTag}>Precision Editing</span>
+            </div>
+            <h3>Numeric Coordinate Inspector</h3>
+            <p>Inspect exact X/Y coordinates for every vector point. Convert nodes between MoveTo (M), LineTo (L), and Cubic Bezier (C) curves.</p>
+            <Link href="/svg-editor" className={styles.cardLink}>
+              Inspect Coordinates &rarr;
             </Link>
           </div>
 
           <div className={`glass ${styles.card}`}>
             <div className={styles.cardHeader}>
               <span className={styles.cardIcon}>⚡</span>
-              <span className={styles.cardTag}>Vector Suite</span>
+              <span className={styles.cardTag}>Multi-Format Export</span>
             </div>
-            <h3>SVG Converter & Optimizer</h3>
-            <p>Batch clean SVG metadata, minify XML code, and rasterize vectors to HD PNG, WEBP, JPEG, React TSX, or Vue 3 SFC components.</p>
+            <h3>HD Raster & React Component Exporter</h3>
+            <p>Export modified vector paths to clean SVG, 4K supersampled PNG, WEBP, Data URI, or ready-to-use React JSX/TSX components.</p>
             <Link href="/svg-converter" className={styles.cardLink}>
-              Open Converter &rarr;
-            </Link>
-          </div>
-
-          <div className={`glass ${styles.card}`}>
-            <div className={styles.cardHeader}>
-              <span className={styles.cardIcon}>🌊</span>
-              <span className={styles.cardTag}>Generators</span>
-            </div>
-            <h3>Wave & Pattern Generators</h3>
-            <p>Design responsive SVG section wave dividers, seamless background grids, isometric diamonds, and dot matrix patterns.</p>
-            <Link href="/svg-generators" className={styles.cardLink}>
-              Open Generators &rarr;
-            </Link>
-          </div>
-
-          <div className={`glass ${styles.card}`}>
-            <div className={styles.cardHeader}>
-              <span className={styles.cardIcon}>🔗</span>
-              <span className={styles.cardTag}>Utilities</span>
-            </div>
-            <h3>UTM Campaign Builder</h3>
-            <p>Generate clean, standardized campaign tracking URLs for product launches across Reddit, Twitter, and email newsletters.</p>
-            <Link href="/utilities/utm-builder" className={styles.cardLink}>
-              Build UTM Link &rarr;
-            </Link>
-          </div>
-
-          <div className={`glass ${styles.card}`}>
-            <div className={styles.cardHeader}>
-              <span className={styles.cardIcon}>📊</span>
-              <span className={styles.cardTag}>Utilities</span>
-            </div>
-            <h3>ROAS & SaaS Financial Calculator</h3>
-            <p>Calculate break-even targets, target acquisition costs (CAC), and net profit margins for micro-SaaS launches.</p>
-            <Link href="/utilities/roas-calculator" className={styles.cardLink}>
-              Open Calculator &rarr;
-            </Link>
-          </div>
-
-          <div className={`glass ${styles.card}`}>
-            <div className={styles.cardHeader}>
-              <span className={styles.cardIcon}>📚</span>
-              <span className={styles.cardTag}>Education</span>
-            </div>
-            <h3>Developer Guides & Tutorials</h3>
-            <p>In-depth technical guides on vector performance optimization, React component pipelines, and modern glassmorphic UI filters.</p>
-            <Link href="/guides" className={styles.cardLink}>
-              Read Articles &rarr;
+              Open Exporter &rarr;
             </Link>
           </div>
 

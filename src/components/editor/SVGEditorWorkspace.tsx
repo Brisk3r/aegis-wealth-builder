@@ -2,59 +2,90 @@
 
 import { useState } from "react";
 import Sidebar from "./Sidebar";
-import Canvas from "./Canvas";
+import NodeCanvas from "./NodeCanvas";
+import NodeInspector from "./NodeInspector";
 import Toolbar from "./Toolbar";
 import ExportPanel from "./ExportPanel";
 import CodeEditor from "./CodeEditor";
 import styles from "./Editor.module.css";
-import { minifySvg, cleanSvgMetadata, sanitizeAndFormatSvg } from "@/utils/svgOptimizer";
+import { parseSvgPathD, serializeNodesToD, PathNode } from "@/utils/svgPathParser";
 
-const DEFAULT_SVG = `<svg xmlns="http://www.w3.org/2000/svg" width="96" height="96" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-  <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
-</svg>`;
+const INITIAL_NODES: PathNode[] = [
+  { id: "node-1", type: "M", x: 250, y: 50 },
+  { id: "node-2", type: "C", x: 450, y: 250, cp1x: 350, cp1y: 50, cp2x: 450, cp2y: 150 },
+  { id: "node-3", type: "C", x: 250, y: 450, cp1x: 450, cp1y: 350, cp2x: 350, cp2y: 450 },
+  { id: "node-4", type: "C", x: 50, y: 250, cp1x: 150, cp1y: 450, cp2x: 50, cp2y: 350 },
+  { id: "node-5", type: "C", x: 250, y: 50, cp1x: 50, cp1y: 150, cp2x: 150, cp2y: 50 },
+  { id: "node-6", type: "Z", x: 0, y: 0 }
+];
 
 export default function SVGEditorWorkspace() {
-  const [svgContent, setSvgContent] = useState<string>(DEFAULT_SVG);
+  const [nodes, setNodes] = useState<PathNode[]>(INITIAL_NODES);
   const [fillColor, setFillColor] = useState<string>("#6366f1");
   const [strokeColor, setStrokeColor] = useState<string>("#818cf8");
   const [scale, setScale] = useState<number>(1);
-  const [strokeWidth, setStrokeWidth] = useState<number>(2);
+  const [strokeWidth, setStrokeWidth] = useState<number>(3);
   const [rotation, setRotation] = useState<number>(0);
   const [opacity, setOpacity] = useState<number>(1);
   const [flipX, setFlipX] = useState<boolean>(false);
   const [flipY, setFlipY] = useState<boolean>(false);
   const [bgGrid, setBgGrid] = useState<"grid-dark" | "grid-light" | "transparent" | "solid">("grid-dark");
-  const [activeTab, setActiveTab] = useState<"canvas" | "code">("canvas");
+  const [showNodes, setShowNodes] = useState<boolean>(true);
+  const [activeTab, setActiveTab] = useState<"canvas" | "inspector" | "code">("canvas");
 
-  const handleMinify = () => {
-    setSvgContent(minifySvg(svgContent));
+  const currentPathD = serializeNodesToD(nodes);
+  const fullSvgContent = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500" width="500" height="500">
+  <path d="${currentPathD}" fill="${fillColor}" stroke="${strokeColor}" stroke-width="${strokeWidth}" />
+</svg>`;
+
+  const handleSelectSvgFromLibrary = (rawSvg: string) => {
+    try {
+      const match = rawSvg.match(/d="([^"]+)"/);
+      if (match && match[1]) {
+        const parsed = parseSvgPathD(match[1]);
+        if (parsed.length > 0) {
+          setNodes(parsed);
+          return;
+        }
+      }
+    } catch {
+      // Fallback
+    }
   };
 
-  const handleClean = () => {
-    setSvgContent(cleanSvgMetadata(svgContent));
-  };
-
-  const handleFormat = () => {
-    setSvgContent(sanitizeAndFormatSvg(svgContent));
+  const handleCodeChange = (newCode: string) => {
+    const match = newCode.match(/d="([^"]+)"/);
+    if (match && match[1]) {
+      const parsed = parseSvgPathD(match[1]);
+      if (parsed.length > 0) {
+        setNodes(parsed);
+      }
+    }
   };
 
   return (
     <div className={styles.workspace}>
-      <Sidebar onSelectSvg={(svg) => {
-        setSvgContent(svg);
-      }} />
+      <Sidebar onSelectSvg={handleSelectSvgFromLibrary} />
       
       <div className={styles.mainArea}>
         <div className={`glass ${styles.editorCore}`}>
-          {/* Top Bar with Mode Switcher & Quick Actions */}
+          {/* Top Bar with Studio Modes */}
           <div className={styles.tabHeader}>
             <div className={styles.tabGroup}>
               <button 
                 className={`${styles.tabBtn} ${activeTab === 'canvas' ? styles.tabActive : ''}`}
                 onClick={() => setActiveTab('canvas')}
               >
-                Canvas Studio
+                📍 Node Canvas Studio
               </button>
+
+              <button 
+                className={`${styles.tabBtn} ${activeTab === 'inspector' ? styles.tabActive : ''}`}
+                onClick={() => setActiveTab('inspector')}
+              >
+                ⚙️ Coordinate Inspector
+              </button>
+
               <button 
                 className={`${styles.tabBtn} ${activeTab === 'code' ? styles.tabActive : ''}`}
                 onClick={() => setActiveTab('code')}
@@ -64,9 +95,12 @@ export default function SVGEditorWorkspace() {
             </div>
 
             <div className={styles.quickActions}>
-              <button onClick={handleClean} className={styles.actionBtn} title="Strip metadata and comments">Clean</button>
-              <button onClick={handleMinify} className={styles.actionBtn} title="Minify XML">Minify</button>
-              <button onClick={handleFormat} className={styles.actionBtn} title="Format XML">Format</button>
+              <button 
+                onClick={() => setShowNodes(!showNodes)} 
+                className={`${styles.actionBtn} ${showNodes ? styles.toggleActive : ''}`}
+              >
+                {showNodes ? "Hide Handles" : "Show Handles"}
+              </button>
             </div>
           </div>
 
@@ -82,9 +116,10 @@ export default function SVGEditorWorkspace() {
             bgGrid={bgGrid} setBgGrid={setBgGrid}
           />
 
-          {activeTab === 'canvas' ? (
-            <Canvas 
-              svgContent={svgContent} 
+          {activeTab === 'canvas' && (
+            <NodeCanvas 
+              nodes={nodes}
+              onNodesChange={setNodes}
               fillColor={fillColor}
               strokeColor={strokeColor} 
               scale={scale} 
@@ -94,17 +129,27 @@ export default function SVGEditorWorkspace() {
               flipX={flipX}
               flipY={flipY}
               bgGrid={bgGrid}
+              showNodes={showNodes}
             />
-          ) : (
+          )}
+
+          {activeTab === 'inspector' && (
+            <NodeInspector 
+              nodes={nodes} 
+              onNodesChange={setNodes} 
+            />
+          )}
+
+          {activeTab === 'code' && (
             <CodeEditor 
-              svgCode={svgContent} 
-              onChange={setSvgContent} 
+              svgCode={fullSvgContent} 
+              onChange={handleCodeChange} 
             />
           )}
         </div>
 
         <ExportPanel 
-          svgContent={svgContent}
+          svgContent={fullSvgContent}
           fillColor={fillColor}
           strokeColor={strokeColor}
           scale={scale}
