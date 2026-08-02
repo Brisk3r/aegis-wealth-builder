@@ -1,0 +1,99 @@
+"use client";
+
+import { useState } from "react";
+import styles from "../utilities.module.css";
+
+export default function RegexTesterPage() {
+  const [pattern, setPattern] = useState<string>("([a-zA-Z0-9]+)@([a-zA-Z0-9]+)\\.com");
+  const [flags, setFlags] = useState<string>("g");
+  const [testText, setTestText] = useState<string>("Hello contact user@example.com or admin@test.com today.");
+
+  let matches: string[] = [];
+  let isError = false;
+  let errorMessage = "";
+
+  try {
+    if (pattern) {
+      const regex = new RegExp(pattern, flags);
+      const matchedArray = testText.match(regex);
+      if (matchedArray) {
+        matches = Array.from(matchedArray);
+      }
+    }
+  } catch (err: unknown) {
+    isError = true;
+    errorMessage = (err as Error)?.message || "Invalid Regular Expression Syntax";
+  }
+
+  return (
+    <div className={styles.container}>
+      <div className={styles.header}>
+        <h1 className={styles.title}>RegEx Tester & Debugger Studio</h1>
+        <p className={styles.description}>
+          Test JavaScript regular expressions live with instant pattern matching and flags evaluation.
+        </p>
+      </div>
+
+      <div className="glass" style={{ padding: "2rem", borderRadius: "12px", display: "flex", flexDirection: "column", gap: "1.25rem", maxWidth: "800px", margin: "0 auto", width: "100%" }}>
+        <div style={{ display: "flex", gap: "1rem" }}>
+          <div style={{ flex: 1, display: "flex", flexDirection: "column", gap: "0.4rem" }}>
+            <label style={{ fontSize: "0.9rem", fontWeight: 600 }}>Expression Pattern</label>
+            <input 
+              type="text" 
+              value={pattern} 
+              onChange={(e) => setPattern(e.target.value)}
+              placeholder="e.g. [a-z]+"
+              style={{ background: "rgba(255,255,255,0.05)", border: isError ? "1px solid #ef4444" : "1px solid var(--glass-border)", color: "#fff", padding: "0.6rem", borderRadius: "6px", fontFamily: "monospace", outline: "none" }}
+            />
+          </div>
+
+          <div style={{ width: "100px", display: "flex", flexDirection: "column", gap: "0.4rem" }}>
+            <label style={{ fontSize: "0.9rem", fontWeight: 600 }}>Flags</label>
+            <input 
+              type="text" 
+              value={flags} 
+              onChange={(e) => setFlags(e.target.value)}
+              placeholder="g, i, m"
+              style={{ background: "rgba(255,255,255,0.05)", border: "1px solid var(--glass-border)", color: "#fff", padding: "0.6rem", borderRadius: "6px", fontFamily: "monospace", outline: "none" }}
+            />
+          </div>
+        </div>
+
+        {isError && (
+          <div style={{ background: "rgba(239,68,68,0.15)", border: "1px solid #ef4444", color: "#fca5a5", padding: "0.75rem", borderRadius: "6px", fontSize: "0.9rem" }}>
+            ⚠️ {errorMessage}
+          </div>
+        )}
+
+        <div style={{ display: "flex", flexDirection: "column", gap: "0.4rem" }}>
+          <label style={{ fontSize: "0.9rem", fontWeight: 600 }}>Test String</label>
+          <textarea 
+            value={testText} 
+            onChange={(e) => setTestText(e.target.value)}
+            rows={5}
+            style={{ background: "rgba(10,10,15,0.8)", border: "1px solid var(--glass-border)", color: "#fff", padding: "0.8rem", borderRadius: "6px", fontFamily: "monospace", outline: "none" }}
+          />
+        </div>
+
+        <div style={{ display: "flex", flexDirection: "column", gap: "0.5rem" }}>
+          <span style={{ fontSize: "0.9rem", fontWeight: 600, color: "rgba(255,255,255,0.8)" }}>
+            Matches Found ({matches.length}):
+          </span>
+          <div style={{ background: "rgba(10,10,15,0.9)", border: "1px solid var(--glass-border)", padding: "1rem", borderRadius: "6px", minHeight: "80px" }}>
+            {matches.length === 0 ? (
+              <span style={{ color: "rgba(255,255,255,0.4)" }}>No matches found for current pattern.</span>
+            ) : (
+              <div style={{ display: "flex", flexWrap: "wrap", gap: "0.5rem" }}>
+                {matches.map((m, idx) => (
+                  <span key={idx} style={{ background: "rgba(99,102,241,0.25)", border: "1px solid var(--accent)", color: "#a5b4fc", padding: "0.25rem 0.6rem", borderRadius: "4px", fontFamily: "monospace" }}>
+                    {m}
+                  </span>
+                ))}
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}

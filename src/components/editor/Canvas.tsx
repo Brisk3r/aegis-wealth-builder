@@ -5,12 +5,29 @@ import styles from "./Editor.module.css";
 
 interface CanvasProps {
   svgContent: string | null;
-  color: string;
+  fillColor: string;
+  strokeColor: string;
   scale: number;
   strokeWidth: number;
+  rotation: number;
+  opacity: number;
+  flipX: boolean;
+  flipY: boolean;
+  bgGrid: "grid-dark" | "grid-light" | "transparent" | "solid";
 }
 
-export default function Canvas({ svgContent, color, scale, strokeWidth }: CanvasProps) {
+export default function Canvas({
+  svgContent,
+  fillColor,
+  strokeColor,
+  scale,
+  strokeWidth,
+  rotation,
+  opacity,
+  flipX,
+  flipY,
+  bgGrid
+}: CanvasProps) {
   const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -24,15 +41,19 @@ export default function Canvas({ svgContent, color, scale, strokeWidth }: Canvas
     }
   }, [svgContent]);
 
+  const transformStyle = `scale(${scale}) rotate(${rotation}deg) scaleX(${flipX ? -1 : 1}) scaleY(${flipY ? -1 : 1})`;
+
   return (
-    <div className={styles.canvasContainer}>
+    <div className={`${styles.canvasContainer} ${styles[bgGrid]}`}>
       {svgContent ? (
         <div 
           ref={containerRef} 
           className={styles.svgWrapper}
           style={{ 
-            color: color, 
-            transform: `scale(${scale})`,
+            color: strokeColor,
+            fill: fillColor,
+            transform: transformStyle,
+            opacity: opacity,
             "--svg-stroke-width": `${strokeWidth}px` 
           } as React.CSSProperties}
         />
