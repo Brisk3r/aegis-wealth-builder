@@ -39,7 +39,6 @@ import {
   QrCode,
   Volume2,
   VolumeX,
-  HelpCircle,
   ShieldCheck,
   FileText,
   Info,
@@ -102,6 +101,18 @@ export default function SymbolStudio() {
   const [toastMessage, setToastMessage] = useState<string | null>(null);
   const [copiedChar, setCopiedChar] = useState<string | null>(null);
 
+  // Broadcast activeTab changes to Header and URL
+  const changeTab = useCallback((newTab: ActiveTabType) => {
+    setActiveTab(newTab);
+    if (typeof window !== 'undefined') {
+      window.dispatchEvent(
+        new CustomEvent('glyphcraft_tab_changed', {
+          detail: { tab: newTab }
+        })
+      );
+    }
+  }, []);
+
   // Synthesized Web Audio Click
   const playClickSound = useCallback(() => {
     if (!audioFeedback || typeof window === 'undefined') return;
@@ -123,7 +134,7 @@ export default function SymbolStudio() {
     }
   }, [audioFeedback]);
 
-  // Load from localStorage on mount
+  // Load from localStorage & check URL params on mount
   useEffect(() => {
     try {
       const savedFavs = localStorage.getItem('aegis_symbol_favs');
@@ -136,17 +147,71 @@ export default function SymbolStudio() {
       if (savedSearches) setRecentSearches(JSON.parse(savedSearches));
       const savedAudio = localStorage.getItem('aegis_symbol_audio');
       if (savedAudio !== null) setAudioFeedback(JSON.parse(savedAudio));
+
+      // Read initial URL query parameters
+      if (typeof window !== 'undefined') {
+        const params = new URLSearchParams(window.location.search);
+        const tabParam = params.get('tab') as ActiveTabType;
+        const catParam = params.get('category');
+        const queryParam = params.get('q');
+        if (tabParam) changeTab(tabParam);
+        if (catParam) setSelectedCategory(catParam);
+        if (queryParam) setSearchQuery(queryParam);
+      }
     } catch {
       // Ignore
     }
-  }, []);
+  }, [changeTab]);
+
+  // Global event listener for header and footer navigation
+  useEffect(() => {
+    const handleGlobalNav = (e: Event) => {
+      const custom = e as CustomEvent<{
+        tab?: ActiveTabType;
+        category?: string;
+        subCategory?: string;
+        query?: string;
+      }>;
+      if (custom.detail) {
+        if (custom.detail.tab) {
+          changeTab(custom.detail.tab);
+        }
+        if (custom.detail.category) {
+          setSelectedCategory(custom.detail.category);
+          setSelectedSubCategory('all');
+        }
+        if (custom.detail.subCategory) {
+          setSelectedSubCategory(custom.detail.subCategory);
+        }
+        if (custom.detail.query !== undefined) {
+          setSearchQuery(custom.detail.query);
+        }
+        setShowFavoritesOnly(false);
+        setShowRecentsOnly(false);
+      }
+    };
+
+    const handlePolicyEvent = (e: Event) => {
+      const custom = e as CustomEvent<{ policy: 'privacy' | 'terms' | 'about' | 'contact' }>;
+      if (custom.detail?.policy) {
+        setShowPolicyModal(custom.detail.policy);
+      }
+    };
+
+    window.addEventListener('glyphcraft_nav', handleGlobalNav);
+    window.addEventListener('glyphcraft_open_policy', handlePolicyEvent);
+    return () => {
+      window.removeEventListener('glyphcraft_nav', handleGlobalNav);
+      window.removeEventListener('glyphcraft_open_policy', handlePolicyEvent);
+    };
+  }, [changeTab]);
 
   // Keyboard shortcut listener (/ or Ctrl+K to search, Esc to clear)
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if ((e.key === '/' || ((e.ctrlKey || e.metaKey) && e.key === 'k')) && document.activeElement !== searchInputRef.current && document.activeElement !== trayInputRef.current) {
         e.preventDefault();
-        setActiveTab('symbols');
+        changeTab('symbols');
         searchInputRef.current?.focus();
       } else if (e.key === 'Escape') {
         if (searchQuery) {
@@ -158,7 +223,7 @@ export default function SymbolStudio() {
     };
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [searchQuery]);
+  }, [searchQuery, changeTab]);
 
   const triggerToast = useCallback((msg: string) => {
     setToastMessage(msg);
@@ -255,7 +320,7 @@ export default function SymbolStudio() {
 
   const applyQuickChip = (chip: typeof QUICK_SEARCH_CHIPS[0]) => {
     playClickSound();
-    setActiveTab('symbols');
+    changeTab('symbols');
     setShowFavoritesOnly(false);
     setShowRecentsOnly(false);
     if (chip.category && chip.category !== 'all') {
@@ -345,7 +410,7 @@ export default function SymbolStudio() {
     ctx.fillStyle = gradient;
     ctx.fillRect(0, 0, 1200, 630);
 
-    // Subtle Glow Accent
+    // Glow Accent
     ctx.beginPath();
     ctx.arc(600, 315, 280, 0, Math.PI * 2);
     ctx.fillStyle = 'rgba(168, 85, 247, 0.08)';
@@ -360,7 +425,7 @@ export default function SymbolStudio() {
     ctx.fillStyle = '#c084fc';
     ctx.font = 'bold 24px sans-serif';
     ctx.textAlign = 'center';
-    ctx.fillText('✦ GLYPHCRAFT STUDIO -- AEGIS SOFTWARE ✦', 600, 95);
+    ctx.fillText('✦ GLYPHCRAFT STUDIO -- UNICODE & SYMBOL FORGE ✦', 600, 95);
 
     // Center Rendered Text
     ctx.fillStyle = '#ffffff';
@@ -506,7 +571,7 @@ export default function SymbolStudio() {
         <div className={styles.tabNavRow}>
           <button
             className={`${styles.tabBtn} ${activeTab === 'symbols' ? styles.tabBtnActive : ''}`}
-            onClick={() => { setActiveTab('symbols'); setShowFavoritesOnly(false); setShowRecentsOnly(false); playClickSound(); }}
+            onClick={() => { changeTab('symbols'); setShowFavoritesOnly(false); setShowRecentsOnly(false); playClickSound(); }}
           >
             <Sparkles size={16} />
             <span>Symbols & Glyphs ({SYMBOLS_COLLECTION.length}+)</span>
@@ -514,7 +579,7 @@ export default function SymbolStudio() {
 
           <button
             className={`${styles.tabBtn} ${activeTab === 'fonts' ? styles.tabBtnActive : ''}`}
-            onClick={() => { setActiveTab('fonts'); playClickSound(); }}
+            onClick={() => { changeTab('fonts'); playClickSound(); }}
           >
             <Type size={16} />
             <span>Unicode Font Styler (22+ Styles)</span>
@@ -522,7 +587,7 @@ export default function SymbolStudio() {
 
           <button
             className={`${styles.tabBtn} ${activeTab === 'banner' ? styles.tabBtnActive : ''}`}
-            onClick={() => { setActiveTab('banner'); playClickSound(); }}
+            onClick={() => { changeTab('banner'); playClickSound(); }}
           >
             <Palette size={16} />
             <span>ASCII Big Text Banners</span>
@@ -530,7 +595,7 @@ export default function SymbolStudio() {
 
           <button
             className={`${styles.tabBtn} ${activeTab === 'decorator' ? styles.tabBtnActive : ''}`}
-            onClick={() => { setActiveTab('decorator'); playClickSound(); }}
+            onClick={() => { changeTab('decorator'); playClickSound(); }}
           >
             <LayoutTemplate size={16} />
             <span>Text Decorator Wrappers</span>
@@ -538,7 +603,7 @@ export default function SymbolStudio() {
 
           <button
             className={`${styles.tabBtn} ${activeTab === 'bio' ? styles.tabBtnActive : ''}`}
-            onClick={() => { setActiveTab('bio'); playClickSound(); }}
+            onClick={() => { changeTab('bio'); playClickSound(); }}
           >
             <Layers size={16} />
             <span>Social Bio & Live Mockups</span>
@@ -985,7 +1050,7 @@ export default function SymbolStudio() {
                     <button
                       key={f.id}
                       className={`${styles.bannerFontBtn} ${selectedBannerFont === f.id ? styles.bannerFontActive : ''}`}
-                      onClick={() => setSelectedBannerFont(f.id)}
+                      onClick={() => { setSelectedBannerFont(f.id); playClickSound(); }}
                     >
                       {f.name}
                     </button>
@@ -1082,6 +1147,7 @@ export default function SymbolStudio() {
                     key={tmpl.title}
                     className={`${styles.bioTemplatePill} ${selectedBioIndex === idx ? styles.bioPillActive : ''}`}
                     onClick={() => {
+                      playClickSound();
                       setSelectedBioIndex(idx);
                       setBioContent(tmpl.template);
                       setMockupPlatform(tmpl.platform as 'Instagram' | 'Discord' | 'TikTok');
@@ -1140,19 +1206,19 @@ export default function SymbolStudio() {
                     <div className={styles.mockupPlatformBtns}>
                       <button
                         className={`${styles.mockupTab} ${mockupPlatform === 'Instagram' ? styles.mockupTabActive : ''}`}
-                        onClick={() => setMockupPlatform('Instagram')}
+                        onClick={() => { setMockupPlatform('Instagram'); playClickSound(); }}
                       >
                         IG
                       </button>
                       <button
                         className={`${styles.mockupTab} ${mockupPlatform === 'Discord' ? styles.mockupTabActive : ''}`}
-                        onClick={() => setMockupPlatform('Discord')}
+                        onClick={() => { setMockupPlatform('Discord'); playClickSound(); }}
                       >
                         Discord
                       </button>
                       <button
                         className={`${styles.mockupTab} ${mockupPlatform === 'TikTok' ? styles.mockupTabActive : ''}`}
-                        onClick={() => setMockupPlatform('TikTok')}
+                        onClick={() => { setMockupPlatform('TikTok'); playClickSound(); }}
                       >
                         TikTok
                       </button>
@@ -1224,7 +1290,7 @@ export default function SymbolStudio() {
             {/* Compliance Footer Links */}
             <div className={styles.complianceLinksRow}>
               <button onClick={() => setShowPolicyModal('about')} className={styles.policyLinkBtn}>
-                <Info size={13} /> About Aegis Hub
+                <Info size={13} /> About Us
               </button>
               <button onClick={() => setShowPolicyModal('privacy')} className={styles.policyLinkBtn}>
                 <ShieldCheck size={13} /> Privacy Policy
@@ -1255,7 +1321,7 @@ export default function SymbolStudio() {
                     className={`${styles.categoryJumpBtn} ${selectedCategory === cat.id ? styles.categoryJumpBtnActive : ''}`}
                     onClick={() => {
                       playClickSound();
-                      setActiveTab('symbols');
+                      changeTab('symbols');
                       setSelectedCategory(cat.id);
                       setSelectedSubCategory('all');
                       setShowFavoritesOnly(false);
@@ -1428,7 +1494,7 @@ export default function SymbolStudio() {
               <h3 className={styles.modalTitle}>
                 {showPolicyModal === 'privacy' && 'Privacy Policy'}
                 {showPolicyModal === 'terms' && 'Terms of Service'}
-                {showPolicyModal === 'about' && 'About Aegis Hub'}
+                {showPolicyModal === 'about' && 'About Us'}
                 {showPolicyModal === 'contact' && 'Contact & Support'}
               </h3>
               <button onClick={() => setShowPolicyModal(null)} className={styles.closeModalBtn}>✕</button>
@@ -1438,7 +1504,7 @@ export default function SymbolStudio() {
               {showPolicyModal === 'privacy' && (
                 <div>
                   <p><strong>Effective Date:</strong> January 2026</p>
-                  <p>Aegis Hub (&quot;we&quot;, &quot;us&quot;) operates GlyphCraft Studio as a free, client-side browser utility. We value your privacy and do not sell, rent, or collect personal data.</p>
+                  <p>GlyphCraft Studio (&quot;we&quot;, &quot;us&quot;) operates as a free, client-side browser utility. We value your privacy and do not sell, rent, or collect personal data.</p>
                   <h4>1. Data Collection & Local Storage</h4>
                   <p>Your starred symbols, recent clipboard history, and custom settings are stored exclusively in your browser&apos;s local storage. This data never leaves your device.</p>
                   <h4>2. Third-Party Advertisements</h4>
@@ -1452,9 +1518,9 @@ export default function SymbolStudio() {
                 <div>
                   <p><strong>Effective Date:</strong> January 2026</p>
                   <h4>1. Acceptance of Terms</h4>
-                  <p>By accessing Aegis Hub and GlyphCraft Studio, you agree to use the service for lawful personal and commercial purposes in accordance with these Terms.</p>
+                  <p>By accessing GlyphCraft Studio, you agree to use the service for lawful personal and commercial purposes in accordance with these Terms.</p>
                   <h4>2. Intellectual Property</h4>
-                  <p>All Unicode characters and glyphs are part of the universal Unicode standard. The application interface, layout, and brand assets are copyright Aegis Software Productions.</p>
+                  <p>All Unicode characters and glyphs are part of the universal Unicode standard. The application interface, layout, and brand assets are copyright GlyphCraft Studio.</p>
                   <h4>3. Disclaimer of Warranty</h4>
                   <p>GlyphCraft Studio is provided &quot;as is&quot; without warranties of any kind. We are not liable for any character rendering differences across legacy operating systems.</p>
                 </div>
@@ -1462,19 +1528,18 @@ export default function SymbolStudio() {
 
               {showPolicyModal === 'about' && (
                 <div>
-                  <h4>About Aegis Hub & GlyphCraft Studio</h4>
-                  <p>Aegis Hub is an independent software studio committed to creating high-performance, dark-mode developer tools, aesthetic typography suites, and digital utilities.</p>
-                  <p>GlyphCraft Studio was built to solve the frustration of low-quality symbol sites by providing an ultra-responsive, zero-clutter forge with real-time transforms, ASCII banners, and social profile previews.</p>
+                  <h4>About GlyphCraft Studio</h4>
+                  <p>GlyphCraft Studio is a dedicated online unicode and aesthetic symbol forge designed for creators, developers, streamers, and social media users.</p>
+                  <p>Our mission is to provide an ultra-responsive, zero-clutter forge with real-time transforms, ASCII banners, and social profile previews.</p>
                 </div>
               )}
 
               {showPolicyModal === 'contact' && (
                 <div>
-                  <h4>Contact Aegis Hub Team</h4>
+                  <h4>Contact GlyphCraft Studio</h4>
                   <p>We welcome feature requests, symbol submissions, and feedback!</p>
                   <p><strong>Email:</strong> support@aegishub.dev</p>
                   <p><strong>Website:</strong> https://aegishub.dev</p>
-                  <p><strong>GitHub:</strong> https://github.com/Brisk3r/aegis-wealth-builder</p>
                 </div>
               )}
             </div>
