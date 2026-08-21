@@ -16,10 +16,10 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://aegis-wealth-builder.vercel.app"),
-  title: "Aegis Hub | Developer Utilities, Technical Research & Interactive Labs",
-  description: "High-density digital engineering platform featuring SVG Studio Pro, Regex Intelligence Lab, peer-reviewed whitepapers, physics simulations, and price telemetry.",
-  keywords: ["Aegis Hub", "Developer Tools", "SVG Studio Pro", "Regex Lab", "Technical Whitepapers", "Physics Simulation", "Market Telemetry", "Palliative Care OS"],
+  metadataBase: new URL("https://aegishub.dev"),
+  title: "Aegis Hub | Cool Symbols, Kaomoji & Unicode Font Forge",
+  description: "High-density digital engineering platform featuring GlyphCraft Studio (2,000+ aesthetic symbols, Lenny faces, fancy Unicode fonts, and social bio generators).",
+  keywords: ["Aegis Hub", "Cool Symbols", "Kaomoji", "Unicode Font Generator", "Lenny Face", "Discord Symbols", "Instagram Bio"],
   icons: {
     icon: "/favicon.png",
     shortcut: "/favicon.png",
@@ -27,9 +27,9 @@ export const metadata: Metadata = {
   },
   manifest: "/manifest.json",
   openGraph: {
-    title: "Aegis Hub | Developer Utilities, Technical Research & Interactive Labs",
-    description: "High-density digital engineering platform featuring SVG Studio Pro, Regex Intelligence, technical whitepapers, and interactive simulation engines.",
-    url: "https://aegis-wealth-builder.vercel.app",
+    title: "Aegis Hub | Cool Symbols, Kaomoji & Unicode Font Forge",
+    description: "High-density digital engineering platform featuring GlyphCraft Studio with 2,000+ aesthetic symbols, Lenny faces, and fancy font generators.",
+    url: "https://aegishub.dev",
     siteName: "Aegis Hub",
     type: "website",
   },

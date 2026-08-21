@@ -374,7 +374,7 @@ export default function SymbolStudio() {
     // Subtitle Link
     ctx.fillStyle = '#38bdf8';
     ctx.font = '20px sans-serif';
-    ctx.fillText('https://aegis-wealth-builder.vercel.app', 600, 545);
+    ctx.fillText('https://aegishub.dev', 600, 545);
 
     // Trigger Download
     const a = document.createElement('a');
@@ -1473,7 +1473,7 @@ export default function SymbolStudio() {
                   <h4>Contact Aegis Hub Team</h4>
                   <p>We welcome feature requests, symbol submissions, and feedback!</p>
                   <p><strong>Email:</strong> support@aegishub.dev</p>
-                  <p><strong>Website:</strong> https://aegis-wealth-builder.vercel.app</p>
+                  <p><strong>Website:</strong> https://aegishub.dev</p>
                   <p><strong>GitHub:</strong> https://github.com/Brisk3r/aegis-wealth-builder</p>
                 </div>
               )}

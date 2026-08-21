@@ -22,7 +22,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: 'GlyphCraft Studio | Cool Symbols, Kaomoji & Unicode Font Forge',
     description: 'Instant 1-click copy & paste forge with 2,000+ aesthetic glyphs, Lenny combos, 22+ Unicode fonts, and social bio builders.',
-    url: 'https://aegis-wealth-builder.vercel.app',
+    url: 'https://aegishub.dev',
     siteName: 'Aegis Hub GlyphCraft Studio',
     type: 'website'
   }
@@ -35,7 +35,7 @@ export default function Home() {
       {
         '@type': 'WebApplication',
         'name': 'GlyphCraft Studio',
-        'url': 'https://aegis-wealth-builder.vercel.app',
+        'url': 'https://aegishub.dev',
         'description': 'Online suite for discovering, filtering, and copying aesthetic unicode symbols, kaomoji emoticons, and stylized typography.',
         'applicationCategory': 'UtilitiesApplication',
         'operatingSystem': 'All',

@@ -827,7 +827,7 @@ export const BIO_TEMPLATES: BioTemplate[] = [
   {
     title: 'Cyber Developer Terminal',
     platform: 'Discord',
-    template: `⚡ [SYSTEM: ONLINE]\n⌬ Senior Software Architect ⌬\n⟦ Typescript ⨂ Rust ⨂ AI ⟧\n⎔ Building Aegis Software Productions\n🔗 https://aegis-wealth-builder.vercel.app`
+    template: `⚡ [SYSTEM: ONLINE]\n⌬ Senior Software Architect ⌬\n⟦ Typescript ⨂ Rust ⨂ AI ⟧\n⎔ Building Aegis Software Productions\n🔗 https://aegishub.dev`
   },
   {
     title: 'Coquette Soft Ribbon',
