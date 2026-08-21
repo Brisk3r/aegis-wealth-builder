@@ -1,0 +1,214 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.pageHeader {
+  padding: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--bg-surface);
+  border: 1px solid var(--card-border-subtle);
+  border-radius: 14px;
+}
+
+.headerTitleCol {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.title {
+  font-size: 2rem;
+  font-weight: 800;
+  color: #f8fafc;
+  font-family: var(--font-outfit);
+}
+
+.subtitle {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+}
+
+.controlBar {
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  background: var(--bg-surface);
+  border: 1px solid var(--card-border-subtle);
+  border-radius: 12px;
+}
+
+.searchWrapper {
+  position: relative;
+  width: 100%;
+}
+
+.searchIcon {
+  position: absolute;
+  left: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-muted);
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
+.searchInput {
+  width: 100%;
+  background: #090d16;
+  border: 1px solid var(--card-border);
+  color: #f8fafc;
+  padding: 0.75rem 1rem 0.75rem 3.2rem;
+  border-radius: 8px;
+  font-family: var(--font-inter);
+  font-size: 0.88rem;
+  outline: none;
+  transition: border-color 0.2s ease;
+}
+
+.searchInput:focus {
+  border-color: var(--accent-blue);
+}
+
+.tabRow {
+  display: flex;
+  gap: 0.4rem;
+  flex-wrap: wrap;
+}
+
+.categoryBtn {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--card-border-subtle);
+  color: var(--text-secondary);
+  font-size: 0.78rem;
+  font-weight: 600;
+  font-family: var(--font-outfit);
+  padding: 0.4rem 0.85rem;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.categoryBtn:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: #f8fafc;
+}
+
+.activeCategory {
+  background: #151d30;
+  color: #60a5fa;
+  border-color: var(--accent-blue);
+}
+
+.newsSection {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.newsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.25rem;
+}
+
+.loadingGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.25rem;
+}
+
+.skeletonCard {
+  height: 260px;
+  background: var(--bg-surface);
+  border: 1px solid var(--card-border-subtle);
+  border-radius: 12px;
+  animation: pulse 1.5s infinite;
+}
+
+.emptyState {
+  padding: 3rem;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--text-secondary);
+  background: var(--bg-surface);
+  border: 1px solid var(--card-border-subtle);
+  border-radius: 12px;
+}
+
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.sidebarSticky {
+  position: sticky;
+  top: 140px;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.widget {
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  background: var(--bg-surface);
+  border: 1px solid var(--card-border-subtle);
+  border-radius: 12px;
+}
+
+.widgetTitle {
+  font-size: 0.92rem;
+  font-weight: 700;
+  color: #f8fafc;
+  font-family: var(--font-outfit);
+  border-bottom: 1px solid var(--card-border-subtle);
+  padding-bottom: 0.5rem;
+}
+
+.outletList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.outletBtn {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--card-border-subtle);
+  padding: 0.55rem 0.75rem;
+  border-radius: 6px;
+  color: var(--text-secondary);
+  font-size: 0.8rem;
+  font-weight: 600;
+  font-family: var(--font-outfit);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.outletBtn:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: #f8fafc;
+}
+
+.activeOutlet {
+  background: rgba(59, 130, 246, 0.1);
+  color: #60a5fa;
+  border-color: rgba(59, 130, 246, 0.3);
+}
+
+.activeCheck {
+  font-weight: 700;
+}

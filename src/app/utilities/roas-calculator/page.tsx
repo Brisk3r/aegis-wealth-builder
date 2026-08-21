@@ -75,7 +75,7 @@ export default function RoasCalculatorPage() {
               onClick={handleExportReport}
               style={{ background: "var(--accent)", color: "#fff", border: "none", padding: "0.4rem 0.9rem", borderRadius: "6px", fontSize: "0.85rem", fontWeight: 600, cursor: "pointer" }}
             >
-              📥 Export JSON Report
+              ** Export JSON Report
             </button>
           </div>
 
@@ -212,7 +212,7 @@ export default function RoasCalculatorPage() {
           <div className="glass" style={{ padding: "1.5rem", borderRadius: "14px", display: "flex", flexDirection: "column", gap: "0.75rem" }}>
             <h4 style={{ margin: 0, fontSize: "1.05rem" }}>Benchmark Guidelines</h4>
             <p style={{ margin: 0, fontSize: "0.85rem", color: "rgba(255,255,255,0.65)", lineHeight: 1.5 }}>
-              Healthy SaaS companies target an <strong>LTV : CAC ratio ≥ 3.0x</strong> and a CAC payback period under 12 months.
+              Healthy SaaS companies target an <strong>LTV : CAC ratio * 3.0x</strong> and a CAC payback period under 12 months.
             </p>
           </div>
 

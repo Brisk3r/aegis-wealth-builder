@@ -1,0 +1,172 @@
+.card {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+}
+
+.imageWrapper {
+  position: relative;
+  width: 100%;
+  height: 140px;
+  background: #0f172a;
+  overflow: hidden;
+}
+
+.thumbImage {
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.card:hover .thumbImage {
+  transform: scale(1.05);
+}
+
+.discountBadge {
+  position: absolute;
+  top: 0.65rem;
+  right: 0.65rem;
+  background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+  color: #ffffff;
+  font-family: var(--font-outfit);
+  font-weight: 900;
+  font-size: 0.9rem;
+  padding: 0.35rem 0.65rem;
+  border-radius: 6px;
+  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.4);
+  z-index: 2;
+}
+
+.storeBadge {
+  position: absolute;
+  bottom: 0.65rem;
+  left: 0.65rem;
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.25rem 0.6rem;
+  border-radius: 6px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #ffffff;
+  backdrop-filter: blur(8px);
+  z-index: 2;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.5);
+}
+
+.cardBody {
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.title {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #ffffff;
+  line-height: 1.3;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  height: 2.6rem;
+}
+
+.ratingsRow {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  flex-wrap: wrap;
+}
+
+.ratingPill, .metacriticPill, .dealRatingPill {
+  font-size: 0.7rem;
+  font-weight: 700;
+  padding: 0.2rem 0.5rem;
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: var(--text-secondary);
+}
+
+.metacriticPill {
+  border-color: rgba(16, 185, 129, 0.3);
+  color: var(--accent-green);
+}
+
+.dealRatingPill {
+  border-color: rgba(0, 240, 255, 0.3);
+  color: var(--accent-cyan);
+}
+
+.priceRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  padding-top: 0.75rem;
+  margin-top: auto;
+}
+
+.priceCol {
+  display: flex;
+  flex-direction: column;
+}
+
+.salePrice {
+  font-family: var(--font-outfit);
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: #ffffff;
+}
+
+.normalPrice {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  text-decoration: line-through;
+}
+
+.priceSubRow {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  flex-wrap: wrap;
+}
+
+.rawUsdLabel {
+  font-size: 0.7rem;
+  color: var(--accent-cyan);
+  font-weight: 600;
+}
+
+.actionButtons {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.wishlistBtn {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid var(--card-border);
+  border-radius: 8px;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.wishlistBtn:hover {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.wishlisted {
+  border-color: #ef4444;
+  background: rgba(239, 68, 68, 0.15);
+}

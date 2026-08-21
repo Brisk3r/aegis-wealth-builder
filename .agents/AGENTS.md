@@ -4,6 +4,7 @@
 - **IRONCLAD QUALITY & NO SLOP**: Pokey single-serve tools, empty floating input cards, or low-density layouts are strictly forbidden. Every tool must come out as a fully featured, high-density, comprehensive suite (with visual metrics, breakdowns, charts, presets, and export capabilities).
 - **ARCHITECTURAL AD SLOTS IS MANDATORY**: Every page and tool layout MUST preserve clean, dedicated architectural AdSense slots (Header banners, Sidebar units, and Bottom content banners) without flex squeezing or layout shift.
 - **ZERO LOW-QUALITY COMPROMISES**: All SVG path math must use smooth cubic/quadratic Bezier curves (`C`/`S`/`Q`), layouts must be hyper-polished glassmorphic UI with Outfit typography and smooth micro-animations.
+- **STRICT ASCII UI & ZERO-MOJIBAKE RULE**: Windows PowerShell loads `.ps1` files using ANSI (Windows-1252) by default. NEVER embed raw multi-byte Unicode emojis (`🔍`, `⚡`, `🔬`, `▶`) or typographic dashes (`–`, `—`) in PowerShell scripts, XAML strings, or UI labels. Always use standard 7-bit ASCII characters (`[+]`, `[>]`, `--`, `[DISCOVER]`) and normalize script files to pure ASCII encoding.
 - **UI Framework**: Next.js App Router.
 - **Styling**: Vanilla CSS (CSS Modules & Global CSS).
 - **Theme**: Dark Mode strictly enforced.

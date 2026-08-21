@@ -1,0 +1,124 @@
+// Aegis Hub - Prisma Schema
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+enum Role {
+  USER
+  ADMIN
+}
+
+enum StoreType {
+  DIGITAL
+  PHYSICAL
+}
+
+enum NotificationChannel {
+  EMAIL
+  PUSH
+}
+
+model User {
+  id           String            @id @default(uuid())
+  email        String            @unique
+  passwordHash String
+  name         String
+  role         Role              @default(USER)
+  createdAt    DateTime          @default(now())
+  wishlists    Wishlist[]
+  logs         NotificationLog[]
+}
+
+model Game {
+  id              String            @id @default(uuid())
+  title           String
+  slug            String            @unique
+  description     String
+  coverImageUrl   String
+  publisher       String
+  developer       String
+  releaseDate     DateTime
+  metacriticScore Int
+  createdAt       DateTime          @default(now())
+  updatedAt       DateTime          @updatedAt
+  storeListings   StoreListing[]
+  wishlists       Wishlist[]
+  logs            NotificationLog[]
+
+  @@index([slug])
+}
+
+model Store {
+  id            String         @id @default(uuid())
+  name          String
+  slug          String         @unique
+  baseUrl       String
+  logoUrl       String
+  storeType     StoreType      @default(DIGITAL)
+  storeListings StoreListing[]
+}
+
+model StoreListing {
+  id              String         @id @default(uuid())
+  gameId          String
+  storeId         String
+  storeItemUrl    String
+  currentPrice    Float
+  originalPrice   Float
+  discountPercent Float
+  currency        String         @default("USD")
+  isAvailable     Boolean        @default(true)
+  lastCheckedAt   DateTime       @default(now())
+  game            Game           @relation(fields: [gameId], references: [id], onDelete: Cascade)
+  store           Store          @relation(fields: [storeId], references: [id], onDelete: Cascade)
+  priceHistories  PriceHistory[]
+
+  @@unique([gameId, storeId])
+  @@index([gameId])
+  @@index([storeId])
+}
+
+model PriceHistory {
+  id              String       @id @default(uuid())
+  storeListingId  String
+  price           Float
+  originalPrice   Float
+  discountPercent Float
+  currency        String       @default("USD")
+  recordedAt      DateTime     @default(now())
+  storeListing    StoreListing @relation(fields: [storeListingId], references: [id], onDelete: Cascade)
+
+  @@index([storeListingId, recordedAt])
+}
+
+model Wishlist {
+  id                 String   @id @default(uuid())
+  userId             String
+  gameId             String
+  targetPrice        Float
+  notifyOnAllTimeLow Boolean  @default(true)
+  createdAt          DateTime @default(now())
+  user               User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  game               Game     @relation(fields: [gameId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, gameId])
+  @@index([userId])
+}
+
+model NotificationLog {
+  id        String              @id @default(uuid())
+  userId    String
+  gameId    String
+  price     Float
+  sentAt    DateTime            @default(now())
+  channel   NotificationChannel @default(EMAIL)
+  user      User                @relation(fields: [userId], references: [id], onDelete: Cascade)
+  game      Game                @relation(fields: [gameId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+}

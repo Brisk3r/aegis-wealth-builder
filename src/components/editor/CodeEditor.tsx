@@ -53,13 +53,13 @@ export default function CodeEditor({ svgCode, onChange }: CodeEditorProps) {
             {isValidXml ? "Valid XML" : "Syntax Error"}
           </span>
           <span style={{ fontSize: "0.75rem", color: "rgba(255,255,255,0.4)" }}>
-            {lineCount} lines • {byteSize} B
+            {lineCount} lines * {byteSize} B
           </span>
         </div>
 
         <div style={{ display: "flex", gap: "0.5rem" }}>
           <button onClick={handlePrettify} className={styles.copyBtn}>
-            ✨ Prettify XML
+            * Prettify XML
           </button>
           <button onClick={handleCopy} className={styles.copyBtn}>
             {copied ? "Copied!" : "Copy Code"}
@@ -69,7 +69,7 @@ export default function CodeEditor({ svgCode, onChange }: CodeEditorProps) {
 
       {!isValidXml && (
         <div style={{ padding: "0.5rem 1rem", background: "rgba(239,68,68,0.15)", border: "1px solid #ef4444", color: "#fca5a5", fontSize: "0.8rem", borderRadius: "4px", marginBottom: "0.5rem" }}>
-          ⚠️ {xmlErrorMsg}
+          [!] {xmlErrorMsg}
         </div>
       )}
 

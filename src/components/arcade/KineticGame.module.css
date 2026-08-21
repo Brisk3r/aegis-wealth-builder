@@ -1,0 +1,1570 @@
+.gameSuiteContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  width: 100%;
+  max-width: 1380px;
+  margin: 0 auto;
+  user-select: none;
+  font-family: var(--font-outfit, sans-serif);
+}
+
+/* Mode Selector Strip */
+.modeSelectorStrip {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+  gap: 0.6rem;
+  width: 100%;
+}
+
+.modeBtn {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  padding: 0.65rem 0.85rem;
+  background: rgba(15, 23, 42, 0.8);
+  border: 1px solid rgba(148, 163, 184, 0.2);
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-align: left;
+}
+
+.modeBtn:hover {
+  background: rgba(0, 240, 255, 0.1);
+  border-color: #00F0FF;
+  transform: translateY(-1px);
+}
+
+.modeActive {
+  background: linear-gradient(135deg, rgba(0, 240, 255, 0.15), rgba(57, 255, 20, 0.1));
+  border-color: #00F0FF;
+  box-shadow: 0 0 14px rgba(0, 240, 255, 0.3);
+}
+
+.modeIcon {
+  font-size: 0.95rem;
+  color: #00F0FF;
+  font-weight: 800;
+}
+
+.modeCol {
+  display: flex;
+  flex-direction: column;
+}
+
+.modeName {
+  font-size: 0.8rem;
+  font-weight: 800;
+  color: #F8FAFC;
+}
+
+.modeBadge {
+  font-size: 0.65rem;
+  font-weight: 700;
+  color: #39FF14;
+}
+
+/* Tactical Abilities Hotkeys */
+.abilitiesStrip {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.5rem;
+}
+
+.abilityBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  padding: 0.55rem;
+  background: rgba(15, 23, 42, 0.85);
+  border: 1px solid rgba(0, 240, 255, 0.3);
+  border-radius: 8px;
+  font-size: 0.75rem;
+  font-weight: 800;
+  color: #F8FAFC;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.abilityReady {
+  border-color: #00F0FF;
+  box-shadow: 0 0 10px rgba(0, 240, 255, 0.25);
+}
+
+.abilityReady:hover {
+  background: rgba(0, 240, 255, 0.2);
+  transform: scale(1.02);
+}
+
+.abilityCooldown {
+  border-color: rgba(148, 163, 184, 0.2);
+  color: #64748B;
+  cursor: not-allowed;
+}
+
+.abilityHotkey {
+  color: #39FF14;
+  font-family: monospace;
+}
+
+.abilityName {
+  white-space: nowrap;
+}
+
+.cooldownTag {
+  color: #FF3366;
+  font-family: monospace;
+}
+
+/* Top HUD Ribbon */
+.hudRibbon {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)) auto;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.85rem 1.25rem;
+  background: rgba(15, 23, 42, 0.85);
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(0, 240, 255, 0.2);
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+}
+
+.hudStatBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.hudLabel {
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: #94A3B8;
+  text-transform: uppercase;
+}
+
+.hudValueScore {
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: #00F0FF;
+  text-shadow: 0 0 10px rgba(0, 240, 255, 0.5);
+  font-family: monospace;
+}
+
+.hudValueRecord {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #FFD700;
+  font-family: monospace;
+}
+
+.hudValueSector {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #39FF14;
+}
+
+.launchesPips {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.launchPip {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  transition: all 0.2s ease;
+}
+
+.pipActive {
+  background: #00F0FF;
+  box-shadow: 0 0 8px #00F0FF;
+}
+
+.pipEmpty {
+  background: rgba(148, 163, 184, 0.25);
+}
+
+.hudValueCombo {
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: #FF3366;
+  font-family: monospace;
+}
+
+.hudValueShards {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #00F0FF;
+  font-family: monospace;
+}
+
+.hudActionBlock {
+  display: flex;
+  align-items: center;
+}
+
+.hudPauseBtn {
+  background: rgba(30, 41, 59, 0.8);
+  border: 1px solid rgba(148, 163, 184, 0.3);
+  color: #F8FAFC;
+  font-weight: 700;
+  font-size: 0.8rem;
+  padding: 0.45rem 0.9rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.hudPauseBtn:hover {
+  background: rgba(0, 240, 255, 0.15);
+  border-color: #00F0FF;
+  color: #00F0FF;
+}
+
+/* Arena Grid */
+.gameArenaGrid {
+  display: grid;
+  grid-template-columns: 1fr 340px;
+  gap: 1.25rem;
+  align-items: start;
+}
+
+.canvasWrapper {
+  position: relative;
+  width: 100%;
+  height: 680px;
+  background: #020408;
+  border: 1px solid rgba(0, 240, 255, 0.25);
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
+  display: flex;
+  flex-direction: column;
+}
+
+.canvasContainer {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  touch-action: none;
+}
+
+.gameCanvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+  cursor: crosshair;
+}
+
+/* Floating Canvas Controls */
+.canvasOverlayControls {
+  position: absolute;
+  bottom: 1rem;
+  left: 1rem;
+  right: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  pointer-events: auto;
+}
+
+.overdriveGaugeContainer {
+  position: relative;
+  height: 22px;
+  background: rgba(15, 23, 42, 0.8);
+  border: 1px solid rgba(255, 230, 0, 0.3);
+  border-radius: 6px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.overdriveGaugeFill {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  background: linear-gradient(90deg, #FF9900, #FFE600);
+  box-shadow: 0 0 12px rgba(255, 230, 0, 0.6);
+  transition: width 0.15s ease;
+}
+
+.overdriveGaugeText {
+  position: relative;
+  z-index: 2;
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  color: #FFFFFF;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);
+}
+
+.overdriveBtn {
+  width: 100%;
+  padding: 0.7rem;
+  border-radius: 8px;
+  background: rgba(30, 41, 59, 0.7);
+  border: 1px solid rgba(148, 163, 184, 0.3);
+  color: #94A3B8;
+  font-size: 0.85rem;
+  font-weight: 800;
+  cursor: not-allowed;
+  transition: all 0.2s ease;
+}
+
+.overdriveReady {
+  background: linear-gradient(135deg, #FF9900, #FFE600);
+  border-color: #FFE600;
+  color: #0F172A;
+  cursor: pointer;
+  box-shadow: 0 0 20px rgba(255, 230, 0, 0.7);
+  animation: pulseOverdrive 1.5s infinite alternate;
+}
+
+@keyframes pulseOverdrive {
+  0% { transform: scale(1); box-shadow: 0 0 15px rgba(255, 230, 0, 0.5); }
+  100% { transform: scale(1.02); box-shadow: 0 0 30px rgba(255, 230, 0, 0.9); }
+}
+
+/* Sidebar Telemetry Deck */
+.sideTelemetryDeck {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.deckPanel {
+  padding: 1.1rem;
+  background: rgba(15, 23, 42, 0.8);
+  border: 1px solid rgba(0, 240, 255, 0.15);
+  border-radius: 12px;
+}
+
+.deckTitle {
+  font-size: 0.95rem;
+  font-weight: 800;
+  color: #00F0FF;
+  letter-spacing: 0.05em;
+  margin: 0;
+}
+
+.deckSub {
+  font-size: 0.8rem;
+  color: #94A3B8;
+  margin: 0.25rem 0 0.85rem 0;
+}
+
+.deckButtonsGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.5rem;
+}
+
+.deckNavBtn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35rem;
+  padding: 0.75rem 0.5rem;
+  background: rgba(30, 41, 59, 0.6);
+  border: 1px solid rgba(148, 163, 184, 0.2);
+  border-radius: 8px;
+  color: #F8FAFC;
+  font-size: 0.78rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.deckNavBtn:hover {
+  background: rgba(0, 240, 255, 0.12);
+  border-color: #00F0FF;
+  color: #00F0FF;
+  transform: translateY(-2px);
+}
+
+.deckBtnIcon {
+  font-size: 0.95rem;
+  color: #00F0FF;
+}
+
+.deckSectionTitle {
+  font-size: 0.8rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  color: #CBD5E1;
+  margin: 0 0 0.75rem 0;
+  text-transform: uppercase;
+}
+
+.emptyAugmentsText {
+  font-size: 0.78rem;
+  color: #64748B;
+  line-height: 1.4;
+  margin: 0;
+}
+
+.augmentsMiniList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  max-height: 180px;
+  overflow-y: auto;
+}
+
+.augMiniItem {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.5rem;
+  background: rgba(30, 41, 59, 0.4);
+  border: 1px solid rgba(148, 163, 184, 0.15);
+  border-radius: 6px;
+}
+
+.augMiniIcon {
+  font-size: 0.85rem;
+  color: #39FF14;
+  font-weight: 800;
+}
+
+.augMiniCol {
+  display: flex;
+  flex-direction: column;
+}
+
+.augMiniName {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: #F8FAFC;
+}
+
+.augMiniTag {
+  font-size: 0.68rem;
+  color: #94A3B8;
+}
+
+.sidebarAdContainer {
+  margin-top: 0.5rem;
+}
+
+/* Modals Common Backdrop */
+.modalBackdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.82);
+  backdrop-filter: blur(12px);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  animation: fadeIn 0.2s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* Drafting Modal */
+.draftModalContainer {
+  width: 100%;
+  max-width: 900px;
+  background: #0B0F19;
+  border: 1px solid rgba(0, 240, 255, 0.4);
+  border-radius: 16px;
+  padding: 2rem;
+  box-shadow: 0 10px 40px rgba(0, 240, 255, 0.25);
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.draftHeader {
+  text-align: center;
+}
+
+.draftBadge {
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  color: #39FF14;
+  text-transform: uppercase;
+}
+
+.draftTitle {
+  font-size: 1.75rem;
+  font-weight: 900;
+  color: #F8FAFC;
+  margin: 0.35rem 0;
+  letter-spacing: 0.05em;
+}
+
+.draftSubtitle {
+  font-size: 0.9rem;
+  color: #94A3B8;
+  margin: 0;
+}
+
+.draftCardsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1.25rem;
+}
+
+.draftCard {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding: 1.25rem;
+  background: rgba(15, 23, 42, 0.9);
+  border-radius: 12px;
+  border: 1px solid rgba(148, 163, 184, 0.2);
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.draftCard:hover {
+  transform: translateY(-4px);
+}
+
+.rarityCommon {
+  border-color: rgba(0, 240, 255, 0.3);
+}
+.rarityCommon:hover {
+  border-color: #00F0FF;
+  box-shadow: 0 0 20px rgba(0, 240, 255, 0.3);
+}
+
+.rarityRare {
+  border-color: rgba(57, 255, 20, 0.4);
+}
+.rarityRare:hover {
+  border-color: #39FF14;
+  box-shadow: 0 0 25px rgba(57, 255, 20, 0.35);
+}
+
+.rarityEpic {
+  border-color: rgba(191, 0, 255, 0.4);
+}
+.rarityEpic:hover {
+  border-color: #BF00FF;
+  box-shadow: 0 0 30px rgba(191, 0, 255, 0.4);
+}
+
+.rarityLegendary {
+  border-color: rgba(255, 215, 0, 0.5);
+}
+.rarityLegendary:hover {
+  border-color: #FFD700;
+  box-shadow: 0 0 35px rgba(255, 215, 0, 0.5);
+}
+
+.cardRarityRow {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.7rem;
+  font-weight: 800;
+}
+
+.cardCategory {
+  color: #94A3B8;
+  letter-spacing: 0.05em;
+}
+
+.cardRarityTag {
+  color: #00F0FF;
+}
+
+.cardIconBox {
+  font-size: 1.5rem;
+  color: #F8FAFC;
+  margin: 0.25rem 0;
+}
+
+.cardName {
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: #F8FAFC;
+  margin: 0;
+}
+
+.cardTagline {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: #39FF14;
+  margin: 0;
+}
+
+.cardDesc {
+  font-size: 0.8rem;
+  color: #CBD5E1;
+  line-height: 1.45;
+  margin: 0;
+  flex: 1;
+}
+
+.cardSelectBtn {
+  padding: 0.65rem;
+  background: rgba(0, 240, 255, 0.15);
+  border: 1px solid #00F0FF;
+  color: #00F0FF;
+  font-size: 0.8rem;
+  font-weight: 800;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.cardSelectBtn:hover {
+  background: #00F0FF;
+  color: #0B0F19;
+}
+
+/* Modal General Layouts */
+.modalHeaderRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+}
+
+.categoryBadge {
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  color: #00F0FF;
+  text-transform: uppercase;
+}
+
+.modalTitle {
+  font-size: 1.5rem;
+  font-weight: 900;
+  color: #F8FAFC;
+  margin: 0.25rem 0;
+}
+
+.modalSubtitle {
+  font-size: 0.85rem;
+  color: #94A3B8;
+  margin: 0;
+}
+
+.shardWalletBox {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  padding: 0.6rem 1rem;
+  background: rgba(15, 23, 42, 0.8);
+  border: 1px solid rgba(0, 240, 255, 0.3);
+  border-radius: 8px;
+}
+
+.shardWalletLabel {
+  font-size: 0.68rem;
+  font-weight: 700;
+  color: #94A3B8;
+}
+
+.shardWalletValue {
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: #00F0FF;
+  font-family: monospace;
+}
+
+.modalFooterRow {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.75rem;
+  margin-top: 1.25rem;
+}
+
+.modalCloseBtn {
+  padding: 0.65rem 1.25rem;
+  background: rgba(30, 41, 59, 0.8);
+  border: 1px solid rgba(148, 163, 184, 0.3);
+  color: #F8FAFC;
+  font-size: 0.85rem;
+  font-weight: 800;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.modalCloseBtn:hover {
+  background: rgba(0, 240, 255, 0.15);
+  border-color: #00F0FF;
+  color: #00F0FF;
+}
+
+/* Tech Matrix Modal */
+.techModalContainer, .hangarModalContainer, .achModalContainer, .supplyModalContainer, .pauseModalContainer {
+  width: 100%;
+  max-width: 960px;
+  max-height: 90vh;
+  overflow-y: auto;
+  background: #0B0F19;
+  border: 1px solid rgba(0, 240, 255, 0.35);
+  border-radius: 16px;
+  padding: 1.75rem;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6);
+}
+
+.techGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1rem;
+}
+
+.techCard {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+  padding: 1.1rem;
+  background: rgba(15, 23, 42, 0.75);
+  border: 1px solid rgba(148, 163, 184, 0.18);
+  border-radius: 10px;
+}
+
+.techCardHeader {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.techIcon {
+  font-size: 1.1rem;
+  color: #00F0FF;
+}
+
+.techTitleCol {
+  display: flex;
+  flex-direction: column;
+}
+
+.techName {
+  font-size: 0.95rem;
+  font-weight: 800;
+  color: #F8FAFC;
+  margin: 0;
+}
+
+.techLevelTag {
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: #39FF14;
+}
+
+.techDescription {
+  font-size: 0.78rem;
+  color: #94A3B8;
+  line-height: 1.4;
+  margin: 0;
+}
+
+.techStatsRow {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.72rem;
+  font-weight: 700;
+}
+
+.statCurrent {
+  color: #CBD5E1;
+}
+
+.statNext {
+  color: #00F0FF;
+}
+
+.techProgressBarBg {
+  height: 6px;
+  background: rgba(148, 163, 184, 0.2);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.techProgressBarFill {
+  height: 100%;
+  background: linear-gradient(90deg, #00F0FF, #39FF14);
+}
+
+.techUpgradeBtn {
+  padding: 0.55rem;
+  border-radius: 6px;
+  font-size: 0.75rem;
+  font-weight: 800;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btnAfford {
+  background: rgba(0, 240, 255, 0.15);
+  border: 1px solid #00F0FF;
+  color: #00F0FF;
+}
+.btnAfford:hover {
+  background: #00F0FF;
+  color: #0B0F19;
+}
+
+.btnLocked {
+  background: rgba(30, 41, 59, 0.5);
+  border: 1px solid rgba(148, 163, 184, 0.2);
+  color: #64748B;
+  cursor: not-allowed;
+}
+
+.btnMaxed {
+  background: rgba(57, 255, 20, 0.1);
+  border: 1px solid #39FF14;
+  color: #39FF14;
+  cursor: default;
+}
+
+/* Hangar Modal */
+.hangarTabRow {
+  display: flex;
+  gap: 0.75rem;
+  margin-bottom: 1.25rem;
+}
+
+.hangarTabBtn {
+  padding: 0.6rem 1.2rem;
+  background: rgba(30, 41, 59, 0.6);
+  border: 1px solid rgba(148, 163, 184, 0.2);
+  border-radius: 8px;
+  color: #94A3B8;
+  font-size: 0.8rem;
+  font-weight: 800;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.tabActive {
+  background: rgba(0, 240, 255, 0.15);
+  border-color: #00F0FF;
+  color: #00F0FF;
+}
+
+.vesselsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.1rem;
+}
+
+.vesselCard {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding: 1.1rem;
+  background: rgba(15, 23, 42, 0.75);
+  border: 1px solid rgba(148, 163, 184, 0.2);
+  border-radius: 10px;
+}
+
+.vesselEquipped {
+  border-color: #00F0FF;
+  box-shadow: 0 0 16px rgba(0, 240, 255, 0.2);
+}
+
+.vesselHeader {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.vesselOrbPreview {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+}
+
+.vesselName {
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: #F8FAFC;
+  margin: 0;
+}
+
+.vesselTitle {
+  font-size: 0.72rem;
+  color: #94A3B8;
+}
+
+.vesselDesc {
+  font-size: 0.78rem;
+  color: #CBD5E1;
+  line-height: 1.4;
+  margin: 0;
+}
+
+.vesselTraitBadge {
+  padding: 0.35rem 0.6rem;
+  background: rgba(0, 240, 255, 0.1);
+  border-radius: 4px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: #00F0FF;
+}
+
+.vesselStatsList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.statLine {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.72rem;
+  color: #94A3B8;
+}
+
+.statVal {
+  color: #F8FAFC;
+  font-weight: 700;
+}
+
+.vesselActionBtn {
+  padding: 0.6rem;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  font-weight: 800;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btnEquipped {
+  background: rgba(57, 255, 20, 0.15);
+  border: 1px solid #39FF14;
+  color: #39FF14;
+  cursor: default;
+}
+
+.btnEquip {
+  background: rgba(0, 240, 255, 0.15);
+  border: 1px solid #00F0FF;
+  color: #00F0FF;
+}
+.btnEquip:hover {
+  background: #00F0FF;
+  color: #0B0F19;
+}
+
+.btnUnlock {
+  background: rgba(255, 215, 0, 0.15);
+  border: 1px solid #FFD700;
+  color: #FFD700;
+}
+.btnUnlock:hover {
+  background: #FFD700;
+  color: #0B0F19;
+}
+
+.trailsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+}
+
+.trailCard {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  padding: 0.85rem;
+  background: rgba(15, 23, 42, 0.75);
+  border: 1px solid rgba(148, 163, 184, 0.2);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.trailCard:hover {
+  border-color: #00F0FF;
+}
+
+.trailEquipped {
+  border-color: #00F0FF;
+  box-shadow: 0 0 12px rgba(0, 240, 255, 0.3);
+}
+
+.trailColorSample {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+}
+
+.trailInfoCol {
+  display: flex;
+  flex-direction: column;
+}
+
+.trailName {
+  font-size: 0.85rem;
+  font-weight: 800;
+  color: #F8FAFC;
+  margin: 0;
+}
+
+.trailStatus {
+  font-size: 0.7rem;
+  color: #94A3B8;
+}
+
+/* Game Over Modal */
+.gameOverModalContainer {
+  width: 100%;
+  max-width: 680px;
+  background: #0B0F19;
+  border: 1px solid rgba(255, 51, 102, 0.4);
+  border-radius: 16px;
+  padding: 2rem;
+  box-shadow: 0 10px 40px rgba(255, 51, 102, 0.25);
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.gameOverHeader {
+  text-align: center;
+}
+
+.lossBadge {
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  color: #FF3366;
+  text-transform: uppercase;
+}
+
+.lossTitle {
+  font-size: 1.6rem;
+  font-weight: 900;
+  color: #F8FAFC;
+  margin: 0.3rem 0;
+}
+
+.lossSubtitle {
+  font-size: 0.85rem;
+  color: #94A3B8;
+  margin: 0;
+}
+
+.scoreHighlightGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.scoreBoxMain, .scoreBoxSide {
+  display: flex;
+  flex-direction: column;
+  padding: 1rem;
+  background: rgba(15, 23, 42, 0.85);
+  border-radius: 10px;
+  border: 1px solid rgba(0, 240, 255, 0.2);
+}
+
+.scoreLabel {
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: #94A3B8;
+  text-transform: uppercase;
+}
+
+.scoreValueMain {
+  font-size: 1.75rem;
+  font-weight: 900;
+  color: #00F0FF;
+  font-family: monospace;
+}
+
+.scoreValueSide {
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: #FFD700;
+  font-family: monospace;
+}
+
+.newRecordTag {
+  font-size: 0.7rem;
+  font-weight: 800;
+  color: #39FF14;
+  margin-top: 0.25rem;
+}
+
+.telemetryGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.65rem;
+}
+
+.telemetryCard {
+  display: flex;
+  flex-direction: column;
+  padding: 0.65rem;
+  background: rgba(30, 41, 59, 0.5);
+  border-radius: 8px;
+  text-align: center;
+}
+
+.telLabel {
+  font-size: 0.65rem;
+  font-weight: 700;
+  color: #94A3B8;
+}
+
+.telVal {
+  font-size: 0.95rem;
+  font-weight: 800;
+  color: #F8FAFC;
+  margin-top: 0.2rem;
+}
+
+.telValHighlight {
+  font-size: 0.95rem;
+  font-weight: 800;
+  color: #00F0FF;
+  margin-top: 0.2rem;
+}
+
+.rewardHookBox {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1rem 1.25rem;
+  background: linear-gradient(135deg, rgba(0, 240, 255, 0.1), rgba(57, 255, 20, 0.1));
+  border: 1px solid rgba(0, 240, 255, 0.4);
+  border-radius: 10px;
+}
+
+.rewardHookInfo {
+  display: flex;
+  flex-direction: column;
+}
+
+.rewardHookBadge {
+  font-size: 0.68rem;
+  font-weight: 800;
+  color: #39FF14;
+}
+
+.rewardHookTitle {
+  font-size: 1rem;
+  font-weight: 900;
+  color: #F8FAFC;
+  margin: 0.2rem 0;
+}
+
+.rewardHookDesc {
+  font-size: 0.75rem;
+  color: #CBD5E1;
+  margin: 0;
+}
+
+.rewardClaimBtn {
+  padding: 0.75rem 1rem;
+  background: linear-gradient(135deg, #00F0FF, #39FF14);
+  border: none;
+  border-radius: 8px;
+  color: #0B0F19;
+  font-size: 0.8rem;
+  font-weight: 900;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.2s ease;
+}
+
+.rewardClaimBtn:hover {
+  transform: scale(1.03);
+}
+
+.btnClaimed {
+  background: rgba(30, 41, 59, 0.8);
+  color: #64748B;
+  cursor: default;
+}
+
+.reviveOptionBox {
+  width: 100%;
+}
+
+.reviveBtn {
+  width: 100%;
+  padding: 0.75rem;
+  background: rgba(57, 255, 20, 0.15);
+  border: 1px solid #39FF14;
+  color: #39FF14;
+  font-size: 0.85rem;
+  font-weight: 800;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.reviveBtn:hover {
+  background: #39FF14;
+  color: #0B0F19;
+}
+
+.gameOverActionRow {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr;
+  gap: 0.75rem;
+}
+
+.btnRestartPrimary {
+  padding: 0.85rem;
+  background: linear-gradient(135deg, #00F0FF, #0077FF);
+  border: none;
+  border-radius: 8px;
+  color: #FFFFFF;
+  font-size: 0.9rem;
+  font-weight: 900;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btnRestartPrimary:hover {
+  box-shadow: 0 0 20px rgba(0, 240, 255, 0.6);
+}
+
+.btnSecondaryNav {
+  padding: 0.85rem;
+  background: rgba(30, 41, 59, 0.8);
+  border: 1px solid rgba(148, 163, 184, 0.3);
+  color: #F8FAFC;
+  font-size: 0.8rem;
+  font-weight: 800;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btnSecondaryNav:hover {
+  background: rgba(0, 240, 255, 0.15);
+  border-color: #00F0FF;
+  color: #00F0FF;
+}
+
+.modalAdWrapper {
+  margin-top: 0.5rem;
+}
+
+/* Supply Drop Modal */
+.supplyCrateDisplay {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2rem;
+  background: rgba(15, 23, 42, 0.6);
+  border-radius: 12px;
+  gap: 1.25rem;
+}
+
+.crateIconBox {
+  font-size: 2.5rem;
+  color: #FFE600;
+  padding: 1.5rem;
+  background: rgba(30, 41, 59, 0.8);
+  border: 2px solid #FFE600;
+  border-radius: 16px;
+  box-shadow: 0 0 25px rgba(255, 230, 0, 0.4);
+}
+
+.crateSpinning {
+  animation: crateSpin 0.4s infinite alternate;
+}
+
+@keyframes crateSpin {
+  0% { transform: rotate(-8deg) scale(1); }
+  100% { transform: rotate(8deg) scale(1.1); }
+}
+
+.rewardAnnouncement {
+  text-align: center;
+}
+
+.rewardWonBadge {
+  font-size: 0.8rem;
+  font-weight: 800;
+  color: #39FF14;
+}
+
+.rewardWonTitle {
+  font-size: 1.6rem;
+  font-weight: 900;
+  color: #FFE600;
+  margin: 0.25rem 0;
+  font-family: monospace;
+}
+
+.rewardWonSub {
+  font-size: 0.85rem;
+  color: #CBD5E1;
+  margin: 0;
+}
+
+.rewardOddsList {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.75rem;
+  width: 100%;
+}
+
+.oddItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0.65rem;
+  background: rgba(30, 41, 59, 0.5);
+  border-radius: 6px;
+  font-size: 0.8rem;
+  color: #F8FAFC;
+  font-weight: 700;
+}
+
+.oddPct {
+  font-size: 0.7rem;
+  color: #94A3B8;
+  margin-top: 0.2rem;
+}
+
+/* Achievements Modal */
+.achievementsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1rem;
+}
+
+.achCard {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+  padding: 1rem;
+  background: rgba(15, 23, 42, 0.75);
+  border: 1px solid rgba(148, 163, 184, 0.15);
+  border-radius: 10px;
+}
+
+.achReady {
+  border-color: #39FF14;
+  box-shadow: 0 0 15px rgba(57, 255, 20, 0.2);
+}
+
+.achClaimed {
+  opacity: 0.65;
+}
+
+.achHeaderRow {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.achIcon {
+  font-size: 1.1rem;
+  color: #00F0FF;
+}
+
+.achTitleCol {
+  display: flex;
+  flex-direction: column;
+}
+
+.achName {
+  font-size: 0.95rem;
+  font-weight: 800;
+  color: #F8FAFC;
+  margin: 0;
+}
+
+.achDesc {
+  font-size: 0.75rem;
+  color: #94A3B8;
+}
+
+.achProgressRow {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.achProgressBarBg {
+  flex: 1;
+  height: 6px;
+  background: rgba(148, 163, 184, 0.2);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.achProgressBarFill {
+  height: 100%;
+  background: linear-gradient(90deg, #00F0FF, #39FF14);
+}
+
+.achProgressText {
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: #CBD5E1;
+  font-family: monospace;
+}
+
+.achFooterRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.achRewardTag {
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: #FFE600;
+}
+
+.btnClaimReward {
+  padding: 0.4rem 0.75rem;
+  background: #39FF14;
+  border: none;
+  border-radius: 6px;
+  color: #0B0F19;
+  font-size: 0.75rem;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.badgeClaimed {
+  font-size: 0.7rem;
+  font-weight: 800;
+  color: #64748B;
+}
+
+.badgeLocked {
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: #94A3B8;
+}
+
+/* Pause Menu */
+.pauseAudioControls, .pauseControlsGuide {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding: 1rem;
+  background: rgba(15, 23, 42, 0.7);
+  border-radius: 10px;
+  margin-bottom: 1rem;
+}
+
+.pauseSectionTitle {
+  font-size: 0.8rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  color: #00F0FF;
+  margin: 0;
+  text-transform: uppercase;
+}
+
+.volumeRow {
+  display: grid;
+  grid-template-columns: 140px 1fr 50px;
+  align-items: center;
+  gap: 1rem;
+  font-size: 0.8rem;
+  color: #CBD5E1;
+}
+
+.volumeSlider {
+  accent-color: #00F0FF;
+  cursor: pointer;
+}
+
+.muteToggleBtn {
+  padding: 0.6rem;
+  background: rgba(30, 41, 59, 0.8);
+  border: 1px solid rgba(148, 163, 184, 0.3);
+  color: #F8FAFC;
+  font-size: 0.8rem;
+  font-weight: 800;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.controlGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 0.75rem;
+}
+
+.controlItem {
+  display: flex;
+  flex-direction: column;
+  padding: 0.65rem;
+  background: rgba(30, 41, 59, 0.5);
+  border-radius: 6px;
+}
+
+.ctrlKey {
+  font-size: 0.72rem;
+  font-weight: 800;
+  color: #39FF14;
+}
+
+.ctrlAction {
+  font-size: 0.75rem;
+  color: #94A3B8;
+  margin-top: 0.2rem;
+}
+
+.pauseActionsGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+}
+
+/* Mobile & Tablet Responsive */
+@media (max-width: 1024px) {
+  .gameArenaGrid {
+    grid-template-columns: 1fr;
+  }
+  .canvasWrapper {
+    height: 560px;
+  }
+  .telemetryGrid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+  .hudRibbon {
+    grid-template-columns: 1fr 1fr;
+  }
+  .canvasWrapper {
+    height: 480px;
+  }
+  .scoreHighlightGrid {
+    grid-template-columns: 1fr;
+  }
+  .rewardHookBox {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .rewardClaimBtn {
+    text-align: center;
+  }
+  .gameOverActionRow {
+    grid-template-columns: 1fr;
+  }
+}

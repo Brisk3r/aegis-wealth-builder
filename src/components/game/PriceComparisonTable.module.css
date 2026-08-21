@@ -1,0 +1,134 @@
+.tableWrapper {
+  padding: 1.5rem;
+  margin-top: 1.5rem;
+}
+
+.tableHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.25rem;
+}
+
+.tableTitle {
+  font-size: 1.25rem;
+  font-family: var(--font-outfit);
+  color: var(--text-primary);
+}
+
+.emptyMsg {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+
+.tableResponsive {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+  font-size: 0.9rem;
+}
+
+.table th {
+  padding: 0.75rem 1rem;
+  color: var(--text-secondary);
+  font-family: var(--font-outfit);
+  font-weight: 700;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.table td {
+  padding: 1rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  vertical-align: middle;
+}
+
+.lowestRow {
+  background: rgba(16, 185, 129, 0.06);
+}
+
+.storeCol {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.storeName {
+  font-family: var(--font-outfit);
+  font-weight: 700;
+  color: var(--text-primary);
+  font-size: 0.95rem;
+}
+
+.lowestBadge {
+  background: rgba(16, 185, 129, 0.2);
+  color: var(--accent-green);
+  border: 1px solid rgba(16, 185, 129, 0.4);
+  padding: 0.2rem 0.45rem;
+  border-radius: 4px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-family: var(--font-outfit);
+}
+
+.available {
+  color: var(--accent-green);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.unavailable {
+  color: var(--text-muted);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-size: 0.85rem;
+}
+
+.origPrice {
+  color: var(--text-muted);
+  text-decoration: line-through;
+}
+
+.discountTag {
+  color: #ffffff;
+  background: var(--accent-orange);
+  padding: 0.2rem 0.5rem;
+  border-radius: 4px;
+  font-weight: 800;
+  font-family: var(--font-outfit);
+  font-size: 0.8rem;
+}
+
+.noDiscount {
+  color: var(--text-muted);
+}
+
+.priceCell {
+  font-family: var(--font-outfit);
+}
+
+.currentPrice {
+  font-weight: 700;
+  font-size: 1.1rem;
+  color: var(--text-primary);
+}
+
+.lowestPriceText {
+  color: var(--accent-green);
+  font-size: 1.25rem;
+  font-weight: 800;
+}

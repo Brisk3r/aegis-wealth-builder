@@ -96,7 +96,7 @@ export default async function GuideArticlePage({ params }: { params: Promise<{ s
 
       <article className="glass" style={{ padding: "2.5rem", borderRadius: "12px" }}>
         <span style={{ fontSize: "0.85rem", color: "var(--accent)", fontWeight: 600, textTransform: "uppercase" }}>
-          {article.category} • {article.readTime}
+          {article.category} * {article.readTime}
         </span>
         <h1 style={{ fontSize: "2.25rem", margin: "0.75rem 0 1.5rem 0", lineHeight: 1.3 }}>{article.title}</h1>
         

@@ -76,14 +76,14 @@ export default function SVGEditorWorkspace() {
                 className={`${styles.tabBtn} ${activeTab === 'canvas' ? styles.tabActive : ''}`}
                 onClick={() => setActiveTab('canvas')}
               >
-                📍 Node Canvas Studio
+                ** Node Canvas Studio
               </button>
 
               <button 
                 className={`${styles.tabBtn} ${activeTab === 'inspector' ? styles.tabActive : ''}`}
                 onClick={() => setActiveTab('inspector')}
               >
-                ⚙️ Coordinate Inspector
+                [*] Coordinate Inspector
               </button>
 
               <button 

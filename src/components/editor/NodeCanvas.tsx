@@ -139,7 +139,7 @@ export default function NodeCanvas({
             onClick={handleDeleteSelected}
             style={{ background: "rgba(239,68,68,0.2)", border: "1px solid #ef4444", color: "#fca5a5", padding: "0.25rem 0.6rem", borderRadius: "4px", fontSize: "0.8rem", cursor: "pointer" }}
           >
-            🗑️ Delete Node
+            *** Delete Node
           </button>
         )}
       </div>

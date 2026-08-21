@@ -43,7 +43,7 @@ export default function GuidesPage() {
       <div className={styles.grid}>
         {GUIDES.map((guide) => (
           <Link key={guide.slug} href={`/guides/${guide.slug}`} className={`glass ${styles.card}`}>
-            <span className={styles.category}>{guide.category} • {guide.readTime}</span>
+            <span className={styles.category}>{guide.category} * {guide.readTime}</span>
             <h3>{guide.title}</h3>
             <p>{guide.description}</p>
             <span className={styles.readMore}>Read Article &rarr;</span>

@@ -83,7 +83,7 @@ export default function Toolbar({
       </div>
 
       <div className={styles.toolGroup}>
-        <label className={styles.toolLabel}>Rotate ({rotation}°)</label>
+        <label className={styles.toolLabel}>Rotate ({rotation} deg)</label>
         <input 
           type="range" 
           min="-180" 

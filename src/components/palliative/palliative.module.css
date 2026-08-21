@@ -1,0 +1,604 @@
+/* Aegis Care OS - Healthcare & Family Care Coordination Design System */
+
+.container {
+  max-width: 1380px;
+  margin: 0 auto;
+  padding: 1.25rem 1rem 3rem 1rem;
+  color: var(--p-text-primary, #F0EDE8);
+  font-family: var(--font-inter, system-ui, -apple-system, sans-serif);
+  min-height: 100vh;
+}
+
+/* Theme Variations */
+.themeDefault {
+  --p-bg-card: rgba(26, 32, 44, 0.88);
+  --p-bg-card-hover: rgba(33, 41, 57, 0.95);
+  --p-border: rgba(42, 157, 143, 0.2);
+  --p-border-focus: rgba(42, 157, 143, 0.5);
+  --p-accent: #2A9D8F;
+  --p-accent-secondary: #E76F51;
+  --p-accent-green: #6B9080;
+  --p-accent-orange: #E9C46A;
+  --p-accent-red: #D64545;
+  --p-text-primary: #F0EDE8;
+  --p-text-secondary: #94A3B8;
+  --p-text-muted: #64748B;
+  --p-pill-bg: rgba(42, 157, 143, 0.1);
+  --p-surface: #0F172A;
+}
+
+/* Warm Amber Night Vision Mode */
+.themeAmberNight {
+  --p-bg-card: rgba(35, 28, 20, 0.9);
+  --p-bg-card-hover: rgba(45, 36, 25, 0.96);
+  --p-border: rgba(233, 196, 106, 0.22);
+  --p-border-focus: rgba(233, 196, 106, 0.5);
+  --p-accent: #E9C46A;
+  --p-accent-secondary: #D9A05B;
+  --p-accent-green: #C5A869;
+  --p-accent-orange: #E29547;
+  --p-accent-red: #C55E5E;
+  --p-text-primary: #F3E8D0;
+  --p-text-secondary: #C8A97E;
+  --p-text-muted: #9E8262;
+  --p-pill-bg: rgba(233, 196, 106, 0.12);
+  --p-surface: #12100C;
+  background-color: #12100C;
+}
+
+/* Deep Low-Glare Dark Red Mode */
+.themeDimRed {
+  --p-bg-card: rgba(40, 20, 20, 0.9);
+  --p-bg-card-hover: rgba(50, 25, 25, 0.96);
+  --p-border: rgba(214, 69, 69, 0.22);
+  --p-border-focus: rgba(214, 69, 69, 0.5);
+  --p-accent: #D64545;
+  --p-accent-secondary: #B94040;
+  --p-accent-green: #C86060;
+  --p-accent-orange: #D96A4A;
+  --p-accent-red: #A33535;
+  --p-text-primary: #F0D0D0;
+  --p-text-secondary: #C88A8A;
+  --p-text-muted: #9E6262;
+  --p-pill-bg: rgba(214, 69, 69, 0.12);
+  --p-surface: #140E0E;
+  background-color: #140E0E;
+}
+
+/* Top Care Pod Header Banner */
+.podBanner {
+  background: var(--p-bg-card);
+  backdrop-filter: blur(14px);
+  border: 1px solid var(--p-border);
+  border-radius: 20px;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+}
+
+.podBannerTop {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.patientInfo {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.patientAvatar {
+  width: 54px;
+  height: 54px;
+  border-radius: 50%;
+  background: var(--p-pill-bg);
+  border: 1.5px solid var(--p-border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  color: var(--p-text-primary);
+  flex-shrink: 0;
+}
+
+.patientDetails h1 {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--p-text-primary);
+  margin-bottom: 0.2rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.patientSub {
+  font-size: 0.85rem;
+  color: var(--p-text-secondary);
+}
+
+.headerControls {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.carerSelectWrapper {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: rgba(0, 0, 0, 0.35);
+  padding: 0.45rem 0.85rem;
+  border-radius: 24px;
+  border: 1px solid var(--p-border);
+}
+
+.carerSelect {
+  background: transparent;
+  border: none;
+  color: var(--p-text-primary);
+  font-size: 0.85rem;
+  font-weight: 600;
+  outline: none;
+  cursor: pointer;
+}
+
+.carerSelect option {
+  background: #1e293b;
+  color: #f8fafc;
+}
+
+.themeToggleBtn {
+  min-height: 40px;
+  padding: 0.45rem 0.95rem;
+  border-radius: 24px;
+  border: 1px solid var(--p-border);
+  background: var(--p-pill-bg);
+  color: var(--p-text-primary);
+  font-size: 0.85rem;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  cursor: pointer;
+  touch-action: manipulation;
+  transition: all 0.2s ease;
+}
+
+.themeToggleBtn:hover {
+  border-color: var(--p-accent);
+  transform: translateY(-1px);
+}
+
+.syncBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.45rem 0.85rem;
+  border-radius: 24px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  background: rgba(107, 144, 128, 0.15);
+  color: var(--p-accent-green);
+  border: 1px solid rgba(107, 144, 128, 0.3);
+  touch-action: manipulation;
+}
+
+/* Quick Bedside Action Bar */
+.quickActionGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+  gap: 0.75rem;
+}
+
+.quickLogBtn {
+  min-height: 56px;
+  padding: 0.75rem 0.5rem;
+  border-radius: 14px;
+  border: 1px solid var(--p-border);
+  background: var(--p-pill-bg);
+  color: var(--p-text-primary);
+  font-size: 0.85rem;
+  font-weight: 600;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  cursor: pointer;
+  touch-action: manipulation;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  transition: all 0.2s ease;
+  text-align: center;
+}
+
+.quickLogBtn:hover, .quickLogBtn:focus-visible {
+  border-color: var(--p-accent);
+  background: var(--p-bg-card-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.quickLogBtn:active {
+  transform: scale(0.96);
+}
+
+/* Navigation Tabs (Desktop & Tablet) */
+.navTabs {
+  display: flex;
+  gap: 0.5rem;
+  overflow-x: auto;
+  padding-bottom: 0.5rem;
+  margin-bottom: 1.5rem;
+  border-bottom: 1px solid var(--p-border);
+  scrollbar-width: none;
+}
+
+.navTabs::-webkit-scrollbar {
+  display: none;
+}
+
+.navTabBtn {
+  min-height: 44px;
+  padding: 0.6rem 1.1rem;
+  border-radius: 24px;
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--p-text-secondary);
+  font-size: 0.875rem;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  cursor: pointer;
+  touch-action: manipulation;
+  user-select: none;
+  white-space: nowrap;
+  transition: all 0.2s ease;
+}
+
+.navTabBtn:hover {
+  color: var(--p-text-primary);
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.activeNavTab {
+  background: var(--p-pill-bg) !important;
+  color: var(--p-accent) !important;
+  border-color: var(--p-border) !important;
+}
+
+/* Card Container */
+.card {
+  background: var(--p-bg-card);
+  backdrop-filter: blur(12px);
+  border: 1px solid var(--p-border);
+  border-radius: 18px;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+}
+
+.cardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.25rem;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.cardTitle {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--p-text-primary);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* Modal Overlay & Card */
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(8px);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+}
+
+.modalContent {
+  background: var(--p-bg-card);
+  border: 1.5px solid var(--p-border-focus);
+  border-radius: 20px;
+  width: 100%;
+  max-width: 650px;
+  max-height: 90vh;
+  overflow-y: auto;
+  padding: 1.75rem;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
+  animation: modalFade 0.25s ease-out;
+}
+
+@keyframes modalFade {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Form Controls with Bedside Touch Targets */
+.inputField, .selectField, .textareaField {
+  width: 100%;
+  min-height: 48px;
+  padding: 0.75rem 1rem;
+  border-radius: 12px;
+  border: 1px solid var(--p-border);
+  background: rgba(0, 0, 0, 0.35);
+  color: var(--p-text-primary);
+  font-size: 0.95rem;
+  font-family: inherit;
+  margin-bottom: 1rem;
+  outline: none;
+  transition: border-color 0.2s ease;
+}
+
+.inputField:focus, .selectField:focus, .textareaField:focus {
+  border-color: var(--p-accent);
+}
+
+.btnGroup {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  margin-bottom: 1.25rem;
+}
+
+.chipBtn {
+  min-height: 44px;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  border: 1px solid var(--p-border);
+  background: rgba(0, 0, 0, 0.25);
+  color: var(--p-text-secondary);
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  touch-action: manipulation;
+  user-select: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  transition: all 0.2s ease;
+}
+
+.chipBtn:hover {
+  border-color: var(--p-accent);
+  color: var(--p-text-primary);
+}
+
+.chipBtnActive {
+  background: var(--p-pill-bg) !important;
+  color: var(--p-accent) !important;
+  border-color: var(--p-accent) !important;
+}
+
+/* Medication Cards */
+.medCardGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 1.25rem;
+}
+
+.medCard {
+  background: var(--p-bg-card);
+  border: 1px solid var(--p-border);
+  border-radius: 18px;
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 1rem;
+  position: relative;
+}
+
+.medCardLocked {
+  border-top: 4px solid var(--p-accent-orange);
+}
+
+.medCardEligible {
+  border-top: 4px solid var(--p-accent-green);
+}
+
+.lockoutBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.3rem 0.75rem;
+  border-radius: 24px;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.badgeLocked {
+  background: rgba(233, 196, 106, 0.15);
+  color: var(--p-accent-orange);
+  border: 1px solid rgba(233, 196, 106, 0.3);
+}
+
+.badgeEligible {
+  background: rgba(107, 144, 128, 0.15);
+  color: var(--p-accent-green);
+  border: 1px solid rgba(107, 144, 128, 0.3);
+}
+
+/* SBAR Briefing Box */
+.sbarContainer {
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px solid var(--p-border);
+  border-radius: 18px;
+  padding: 1.25rem;
+  font-family: inherit;
+  font-size: 0.875rem;
+  line-height: 1.6;
+  white-space: pre-wrap;
+  color: var(--p-text-primary);
+  max-height: 480px;
+  overflow-y: auto;
+}
+
+/* Mobile Bottom Navigation Bar (Mobile only) */
+.mobileBottomNav {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 0.75rem 0.75rem 6rem 0.75rem;
+  }
+  
+  .podBanner {
+    padding: 1rem;
+    border-radius: 16px;
+  }
+  
+  .podBannerTop {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .quickActionGrid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.5rem;
+  }
+  
+  .quickLogBtn {
+    min-height: 60px;
+    font-size: 0.75rem;
+    padding: 0.5rem 0.25rem;
+  }
+  
+  .card {
+    padding: 1rem;
+    border-radius: 16px;
+  }
+  
+  .modalContent {
+    padding: 1.25rem;
+    border-radius: 18px;
+    max-height: 95vh;
+  }
+  
+  .medCardGrid {
+    grid-template-columns: 1fr;
+  }
+  
+  .headerControls {
+    width: 100%;
+    justify-content: flex-start;
+  }
+
+  /* Fixed Bottom Nav for Instant Thumb Access on Mobile */
+  .mobileBottomNav {
+    display: flex;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 64px;
+    background: rgba(15, 23, 42, 0.95);
+    backdrop-filter: blur(16px);
+    border-top: 1px solid rgba(42, 157, 143, 0.2);
+    z-index: 99;
+    align-items: center;
+    justify-content: space-around;
+    padding: 0 0.5rem;
+  }
+
+  .mobileBottomNavItem {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 0.2rem;
+    color: var(--p-text-secondary);
+    font-size: 0.7rem;
+    font-weight: 600;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    flex: 1;
+    height: 100%;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .mobileBottomNavActive {
+    color: var(--p-accent) !important;
+  }
+
+  .mobileFabLog {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: #2A9D8F;
+    color: #ffffff;
+    border: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 4px 12px rgba(42, 157, 143, 0.4);
+    margin-top: -16px;
+    cursor: pointer;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+  }
+}
+
+@media (max-width: 480px) {
+  .quickActionGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .patientDetails h1 {
+    font-size: 1.25rem;
+  }
+  
+  .cardTitle {
+    font-size: 1.1rem;
+  }
+}
+
+/* Print Styles */
+@media print {
+  body {
+    background: #ffffff !important;
+    color: #000000 !important;
+  }
+  .container {
+    max-width: 100% !important;
+    padding: 0 !important;
+  }
+  .noPrint {
+    display: none !important;
+  }
+  .printableReport {
+    background: #ffffff !important;
+    color: #000000 !important;
+    border: none !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+  }
+}

@@ -1,0 +1,143 @@
+.chartContainer {
+  padding: 1.5rem;
+  margin-top: 1.5rem;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+}
+
+.chartTitle {
+  font-size: 1.25rem;
+  font-family: var(--font-outfit);
+  color: var(--text-primary);
+}
+
+.chartSubtitle {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  margin-top: 0.2rem;
+}
+
+.analyticsStats {
+  display: flex;
+  gap: 1rem;
+}
+
+.statBadge {
+  display: flex;
+  flex-direction: column;
+  background: rgba(15, 21, 39, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 0.5rem 0.85rem;
+  border-radius: 8px;
+}
+
+.statLabel {
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  text-transform: uppercase;
+}
+
+.statVal {
+  font-family: var(--font-outfit);
+  font-weight: 800;
+  font-size: 1.1rem;
+}
+
+.controlsBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+  padding: 0.75rem 1rem;
+  background: rgba(15, 21, 39, 0.6);
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  margin-bottom: 1.25rem;
+}
+
+.timeRangeGroup, .storeFilterGroup {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  flex-wrap: wrap;
+}
+
+.icon {
+  color: var(--accent-cyan);
+  margin-right: 0.3rem;
+}
+
+.rangeBtn {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: var(--text-secondary);
+  padding: 0.35rem 0.65rem;
+  border-radius: 6px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  font-family: var(--font-outfit);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.rangeBtn:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--text-primary);
+}
+
+.activeRange {
+  background: var(--accent-cyan-glow);
+  border-color: var(--accent-cyan);
+  color: var(--accent-cyan);
+}
+
+.storePill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid;
+  color: var(--text-muted);
+  padding: 0.3rem 0.6rem;
+  border-radius: 6px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  font-family: var(--font-outfit);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.activePill {
+  color: var(--text-primary);
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.colorDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+
+.chartWrapper {
+  position: relative;
+  width: 100%;
+}
+
+.emptyState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem;
+  color: var(--text-muted);
+  gap: 0.75rem;
+}

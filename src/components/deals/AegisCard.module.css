@@ -1,0 +1,234 @@
+.card {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+}
+
+.imageContainer {
+  position: relative;
+  width: 100%;
+  height: 160px;
+  background: #0f172a;
+  overflow: hidden;
+}
+
+.coverImg {
+  object-fit: cover;
+  transition: transform 0.35s ease;
+}
+
+.card:hover .coverImg {
+  transform: scale(1.05);
+}
+
+.historyLowBadge {
+  position: absolute;
+  top: 0.65rem;
+  left: 0.65rem;
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  color: #ffffff;
+  font-family: var(--font-outfit);
+  font-weight: 900;
+  font-size: 0.72rem;
+  padding: 0.3rem 0.6rem;
+  border-radius: 6px;
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.4);
+  z-index: 2;
+  letter-spacing: 0.04em;
+}
+
+.discountTag {
+  position: absolute;
+  top: 0.65rem;
+  right: 0.65rem;
+  background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+  color: #ffffff;
+  font-family: var(--font-outfit);
+  font-weight: 900;
+  font-size: 0.9rem;
+  padding: 0.35rem 0.65rem;
+  border-radius: 6px;
+  box-shadow: 0 4px 12px rgba(239, 68, 68, 0.4);
+  z-index: 2;
+}
+
+.cardContent {
+  padding: 1.1rem;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  gap: 0.7rem;
+}
+
+.platformRow {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  flex-wrap: wrap;
+}
+
+.platformPill {
+  background: rgba(0, 240, 255, 0.12);
+  color: var(--accent-cyan);
+  border: 1px solid rgba(0, 240, 255, 0.25);
+  font-size: 0.68rem;
+  font-weight: 700;
+  padding: 0.2rem 0.5rem;
+  border-radius: 4px;
+}
+
+.metacriticBadge {
+  margin-left: auto;
+  font-size: 0.7rem;
+  font-weight: 800;
+  color: var(--accent-green);
+  background: rgba(16, 185, 129, 0.15);
+  border: 1px solid rgba(16, 185, 129, 0.3);
+  padding: 0.2rem 0.5rem;
+  border-radius: 4px;
+}
+
+.gameTitle {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #ffffff;
+  line-height: 1.3;
+}
+
+.publisherText {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+}
+
+.priceContainer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  padding-top: 0.75rem;
+  margin-top: auto;
+}
+
+.priceCol {
+  display: flex;
+  flex-direction: column;
+}
+
+.currentPrice {
+  font-family: var(--font-outfit);
+  font-size: 1.3rem;
+  font-weight: 900;
+  color: #ffffff;
+}
+
+.subPriceRow {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.msrpPrice {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  text-decoration: line-through;
+}
+
+.usdBase {
+  font-size: 0.7rem;
+  color: var(--accent-cyan);
+  font-weight: 600;
+}
+
+.actionsGroup {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.chartToggleBtn, .wishlistBtn {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid var(--card-border);
+  border-radius: 8px;
+  width: 34px;
+  height: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.chartToggleBtn:hover, .wishlistBtn:hover {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: var(--accent-cyan);
+}
+
+.wishlisted {
+  background: rgba(239, 68, 68, 0.15);
+  border-color: #ef4444;
+}
+
+.storeMatrix {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  background: rgba(15, 23, 42, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  padding: 0.65rem;
+  border-radius: 8px;
+}
+
+.matrixTitle {
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.storeRow {
+  display: flex;
+  gap: 0.4rem;
+  flex-wrap: wrap;
+}
+
+.storeOptionChip {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 0.3rem 0.55rem;
+  border-radius: 6px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.storeOptionChip:hover {
+  background: rgba(0, 240, 255, 0.12);
+  color: var(--accent-cyan);
+  border-color: rgba(0, 240, 255, 0.3);
+}
+
+.chipPrice {
+  font-weight: 800;
+  color: #ffffff;
+}
+
+.chartDrawer {
+  background: rgba(10, 14, 26, 0.9);
+  border: 1px solid rgba(0, 240, 255, 0.2);
+  padding: 0.85rem;
+  border-radius: 10px;
+  animation: fadeIn 0.25s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-5px); }
+  to { opacity: 1; transform: translateY(0); }
+}

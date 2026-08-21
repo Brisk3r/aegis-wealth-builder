@@ -1,0 +1,164 @@
+.playPageWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  width: 100%;
+  max-width: 1380px;
+  margin: 0 auto;
+  padding: 1.5rem 1rem 3rem 1rem;
+}
+
+.headerAdSlot, .footerAdSlot {
+  width: 100%;
+}
+
+.gameHeroHeader {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 0.75rem;
+  max-width: 860px;
+  margin: 0 auto;
+}
+
+.heroBadgeRow {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.heroLiveBadge {
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  color: #39FF14;
+  background: rgba(57, 255, 20, 0.12);
+  border: 1px solid rgba(57, 255, 20, 0.35);
+  padding: 0.35rem 0.75rem;
+  border-radius: 999px;
+}
+
+.heroVersionBadge {
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: #94A3B8;
+  background: rgba(148, 163, 184, 0.1);
+  padding: 0.35rem 0.65rem;
+  border-radius: 999px;
+}
+
+.heroTitle {
+  font-size: 2.5rem;
+  font-weight: 900;
+  letter-spacing: 0.04em;
+  color: #F8FAFC;
+  margin: 0;
+}
+
+.heroHighlight {
+  color: #c084fc;
+  text-shadow: 0 0 20px rgba(192, 132, 252, 0.35);
+}
+
+.heroSubtitle {
+  font-size: 1.05rem;
+  line-height: 1.6;
+  color: #94A3B8;
+  margin: 0;
+}
+
+.gameArenaSection {
+  width: 100%;
+}
+
+/* Tactical Guide Section */
+.tacticalGuideSection {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  padding: 2rem;
+  background: #0c1017;
+  border: 1px solid rgba(139, 92, 246, 0.2);
+  border-radius: 16px;
+}
+
+.guideHeaderCol {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.guideCategoryBadge {
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  color: #c084fc;
+}
+
+.guideTitle {
+  font-size: 1.6rem;
+  font-weight: 900;
+  color: #F8FAFC;
+  margin: 0;
+}
+
+.guideDesc {
+  font-size: 0.95rem;
+  color: #94A3B8;
+  margin: 0;
+}
+
+.guideCardsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.25rem;
+}
+
+.guideCard {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+  padding: 1.35rem;
+  background: #07090e;
+  border: 1px solid var(--card-border-subtle);
+  border-radius: 12px;
+  transition: all 0.2s ease;
+}
+
+.guideCard:hover {
+  border-color: #8b5cf6;
+  transform: translateY(-2px);
+}
+
+.guideCardIcon {
+  font-size: 1rem;
+  font-weight: 800;
+  color: #34d399;
+}
+
+.guideCardTitle {
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: #F8FAFC;
+  margin: 0;
+}
+
+.guideCardText {
+  font-size: 0.85rem;
+  line-height: 1.5;
+  color: #CBD5E1;
+  margin: 0;
+}
+
+@media (max-width: 768px) {
+  .heroTitle {
+    font-size: 1.85rem;
+  }
+  .heroSubtitle {
+    font-size: 0.9rem;
+  }
+  .tacticalGuideSection {
+    padding: 1.25rem;
+  }
+}

@@ -117,19 +117,19 @@ export default function SVGGenerators() {
           className={`${styles.tab} ${activeTab === 'waves' ? styles.tabActive : ''}`}
           onClick={() => setActiveTab('waves')}
         >
-          🌊 Smooth Cubic Waves
+          ** Smooth Cubic Waves
         </button>
         <button 
           className={`${styles.tab} ${activeTab === 'patterns' ? styles.tabActive : ''}`}
           onClick={() => setActiveTab('patterns')}
         >
-          ✨ Background Patterns
+          * Background Patterns
         </button>
         <button 
           className={`${styles.tab} ${activeTab === 'gradients' ? styles.tabActive : ''}`}
           onClick={() => setActiveTab('gradients')}
         >
-          🌈 Mesh Gradients
+          ** Mesh Gradients
         </button>
       </div>
 
@@ -270,7 +270,7 @@ export default function SVGGenerators() {
               </div>
 
               <div className={styles.formGroup}>
-                <label>Gradient Angle ({gradAngle}°)</label>
+                <label>Gradient Angle ({gradAngle} deg)</label>
                 <input 
                   type="range" 
                   min="0" 

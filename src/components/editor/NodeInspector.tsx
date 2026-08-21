@@ -77,7 +77,7 @@ export default function NodeInspector({ nodes, onNodesChange }: NodeInspectorPro
               </select>
               {node.type !== "Z" && (
                 <button onClick={() => deleteNode(node.id)} className={styles.deleteNodeBtn} title="Delete Point">
-                  ✕
+                  [X]
                 </button>
               )}
             </div>

@@ -91,7 +91,7 @@ export default function RegexTesterPage() {
 
           {isError && (
             <div style={{ background: "rgba(239,68,68,0.15)", border: "1px solid #ef4444", color: "#fca5a5", padding: "0.75rem", borderRadius: "6px", fontSize: "0.9rem" }}>
-              ⚠️ {errorMessage}
+              [!] {errorMessage}
             </div>
           )}
 

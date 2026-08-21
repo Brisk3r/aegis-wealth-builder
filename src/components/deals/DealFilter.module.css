@@ -1,0 +1,113 @@
+.filterPanel {
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.1rem;
+}
+
+.filterHeader {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  padding-bottom: 0.75rem;
+}
+
+.filterIcon {
+  font-size: 1.1rem;
+}
+
+.filterTitle {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.countBadge {
+  margin-left: auto;
+  font-size: 0.7rem;
+  font-weight: 800;
+  color: var(--accent-cyan);
+  background: rgba(0, 240, 255, 0.1);
+  border: 1px solid rgba(0, 240, 255, 0.25);
+  padding: 0.2rem 0.5rem;
+  border-radius: 4px;
+}
+
+.inputGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.labelRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.label {
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.priceVal {
+  font-size: 0.85rem;
+  font-weight: 800;
+  color: var(--accent-cyan);
+}
+
+.textInput, .selectInput {
+  background: rgba(15, 23, 42, 0.8);
+  border: 1px solid var(--card-border);
+  color: #ffffff;
+  padding: 0.6rem 0.8rem;
+  border-radius: 8px;
+  font-family: var(--font-inter);
+  font-size: 0.85rem;
+  outline: none;
+  transition: border-color 0.2s ease;
+}
+
+.textInput:focus, .selectInput:focus {
+  border-color: var(--accent-cyan);
+}
+
+.selectInput option {
+  background: #0f172a;
+  color: #ffffff;
+}
+
+.rangeSlider {
+  width: 100%;
+  accent-color: var(--accent-cyan);
+  cursor: pointer;
+}
+
+.presetButtons {
+  display: flex;
+  gap: 0.35rem;
+  margin-top: 0.25rem;
+}
+
+.presetBtn {
+  flex: 1;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: var(--text-secondary);
+  font-size: 0.68rem;
+  font-weight: 600;
+  padding: 0.25rem 0.2rem;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.presetBtn:hover {
+  background: rgba(0, 240, 255, 0.15);
+  color: var(--accent-cyan);
+  border-color: rgba(0, 240, 255, 0.3);
+}

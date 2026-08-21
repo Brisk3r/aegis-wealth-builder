@@ -1,0 +1,1399 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GlyphCraft Studio | 2,000+ Cool Symbols, Kaomoji & Unicode Font Forge</title>
+  <meta name="description" content="Copy and paste over 2,000+ cool symbols, aesthetic sparkles, kaomoji emoticons, Lenny faces, fancy Unicode fonts, and social bio templates.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-dark: #070913;
+      --surface-card: rgba(15, 23, 42, 0.65);
+      --surface-hover: rgba(30, 41, 59, 0.85);
+      --primary-accent: #a855f7;
+      --secondary-accent: #38bdf8;
+      --emerald-accent: #10b981;
+      --amber-accent: #fbbf24;
+      --orange-accent: #f97316;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --border-subtle: rgba(255, 255, 255, 0.08);
+      --border-glow: rgba(168, 85, 247, 0.35);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      font-family: 'Outfit', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      min-height: 100vh;
+      line-height: 1.5;
+      padding-bottom: 170px;
+      overflow-x: hidden;
+    }
+
+    .app-container {
+      max-width: 1440px;
+      margin: 0 auto;
+      padding: 1.25rem;
+    }
+
+    /* Navigation Header */
+    .site-nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.85rem 1.5rem;
+      background: rgba(15, 23, 42, 0.7);
+      border: 1px solid var(--border-subtle);
+      border-radius: 16px;
+      backdrop-filter: blur(16px);
+      margin-bottom: 1.5rem;
+    }
+
+    .brand-logo {
+      display: flex;
+      align-items: center;
+      gap: 0.65rem;
+      text-decoration: none;
+      color: #fff;
+    }
+
+    .brand-icon-box {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, #a855f7, #38bdf8);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 1.2rem;
+      box-shadow: 0 4px 12px rgba(168, 85, 247, 0.35);
+    }
+
+    .brand-title {
+      font-size: 1.15rem;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+    }
+
+    .brand-title span {
+      background: linear-gradient(135deg, #c084fc, #38bdf8);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .brand-subtitle {
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      display: block;
+    }
+
+    .nav-motto {
+      font-size: 0.78rem;
+      color: var(--secondary-accent);
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      background: rgba(56, 189, 248, 0.08);
+      padding: 0.35rem 0.85rem;
+      border-radius: 9999px;
+      border: 1px solid rgba(56, 189, 248, 0.2);
+    }
+
+    /* Ad Placeholder Slots */
+    .ad-slot-banner {
+      width: 100%;
+      min-height: 90px;
+      background: rgba(15, 23, 42, 0.4);
+      border: 1px dashed rgba(255, 255, 255, 0.12);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #64748b;
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 1px;
+      margin-bottom: 1.75rem;
+    }
+
+    .ad-slot-skyscraper {
+      width: 100%;
+      min-height: 380px;
+      background: rgba(15, 23, 42, 0.4);
+      border: 1px dashed rgba(255, 255, 255, 0.12);
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #64748b;
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-align: center;
+      padding: 1rem;
+    }
+
+    /* Hero Banner */
+    .hero-banner {
+      text-align: center;
+      padding: 2.25rem 1.5rem;
+      background: radial-gradient(circle at 50% 0%, rgba(168, 85, 247, 0.18), rgba(15, 23, 42, 0.5) 75%);
+      border: 1px solid var(--border-subtle);
+      border-radius: 20px;
+      backdrop-filter: blur(12px);
+      margin-bottom: 1.75rem;
+    }
+
+    .hero-badge {
+      display: inline-block;
+      background: rgba(168, 85, 247, 0.15);
+      border: 1px solid rgba(168, 85, 247, 0.35);
+      color: #d8b4fe;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.8px;
+      padding: 0.3rem 0.85rem;
+      border-radius: 9999px;
+      margin-bottom: 0.85rem;
+    }
+
+    .hero-title {
+      font-size: 2.5rem;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      line-height: 1.2;
+      margin-bottom: 0.65rem;
+      background: linear-gradient(135deg, #ffffff 30%, #c084fc 70%, #38bdf8 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .hero-desc {
+      max-width: 760px;
+      margin: 0 auto 1.5rem auto;
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+
+    .tab-row {
+      display: flex;
+      justify-content: center;
+      gap: 0.55rem;
+      flex-wrap: wrap;
+    }
+
+    .tab-button {
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--border-subtle);
+      color: #cbd5e1;
+      padding: 0.55rem 1rem;
+      border-radius: 10px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: inherit;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .tab-button:hover {
+      background: rgba(255, 255, 255, 0.08);
+      color: #fff;
+    }
+
+    .tab-button.active {
+      background: linear-gradient(135deg, rgba(168, 85, 247, 0.25), rgba(56, 189, 248, 0.25));
+      border-color: rgba(168, 85, 247, 0.5);
+      color: #fff;
+      box-shadow: 0 0 14px rgba(168, 85, 247, 0.2);
+    }
+
+    /* Studio Layout Grid */
+    .studio-layout {
+      display: grid;
+      grid-template-columns: 1fr 340px;
+      gap: 1.75rem;
+    }
+
+    @media (max-width: 1024px) {
+      .studio-layout {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* Search & Command Deck */
+    .search-command-deck {
+      display: flex;
+      gap: 0.75rem;
+      margin-bottom: 0.75rem;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+
+    .search-input-box {
+      flex: 1;
+      min-width: 260px;
+      position: relative;
+    }
+
+    .search-input-box input {
+      width: 100%;
+      background: rgba(15, 23, 42, 0.75);
+      border: 1px solid var(--border-subtle);
+      border-radius: 12px;
+      padding: 0.8rem 1rem;
+      color: #fff;
+      font-size: 0.95rem;
+      outline: none;
+      font-family: inherit;
+      transition: border-color 0.2s;
+    }
+
+    .search-input-box input:focus {
+      border-color: var(--primary-accent);
+      box-shadow: 0 0 0 2px rgba(168, 85, 247, 0.25);
+    }
+
+    .sort-box {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      background: rgba(15, 23, 42, 0.75);
+      border: 1px solid var(--border-subtle);
+      border-radius: 12px;
+      padding: 0.5rem 0.85rem;
+    }
+
+    .sort-select {
+      background: transparent;
+      border: none;
+      color: #f8fafc;
+      font-size: 0.82rem;
+      font-weight: 600;
+      outline: none;
+      cursor: pointer;
+      font-family: inherit;
+    }
+
+    .sort-select option {
+      background: #0f172a;
+      color: #f8fafc;
+    }
+
+    .toggle-fav-btn {
+      background: rgba(15, 23, 42, 0.75);
+      border: 1px solid var(--border-subtle);
+      border-radius: 12px;
+      padding: 0.65rem 1rem;
+      color: var(--text-muted);
+      font-size: 0.82rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-family: inherit;
+      transition: all 0.15s;
+    }
+
+    .toggle-fav-btn.active {
+      background: rgba(251, 191, 36, 0.15);
+      border-color: var(--amber-accent);
+      color: var(--amber-accent);
+    }
+
+    /* Quick Search Chips */
+    .quick-chips-row {
+      display: flex;
+      align-items: center;
+      gap: 0.45rem;
+      overflow-x: auto;
+      padding-bottom: 0.5rem;
+      margin-bottom: 0.75rem;
+      scrollbar-width: none;
+    }
+
+    .quick-chip {
+      flex-shrink: 0;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--border-subtle);
+      padding: 0.35rem 0.7rem;
+      border-radius: 8px;
+      color: #cbd5e1;
+      font-size: 0.78rem;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: inherit;
+      transition: all 0.15s;
+    }
+
+    .quick-chip:hover {
+      background: rgba(168, 85, 247, 0.18);
+      border-color: var(--primary-accent);
+      color: #fff;
+    }
+
+    /* Category Filter Pills */
+    .category-pills {
+      display: flex;
+      gap: 0.45rem;
+      overflow-x: auto;
+      padding-bottom: 0.65rem;
+      margin-bottom: 0.85rem;
+      scrollbar-width: thin;
+      scrollbar-color: rgba(255, 255, 255, 0.1) transparent;
+    }
+
+    .category-pill {
+      flex-shrink: 0;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--border-subtle);
+      padding: 0.45rem 0.85rem;
+      border-radius: 9999px;
+      color: var(--text-muted);
+      font-size: 0.8rem;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: inherit;
+      transition: all 0.15s ease;
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+    }
+
+    .category-pill:hover {
+      background: rgba(255, 255, 255, 0.08);
+      color: #fff;
+    }
+
+    .category-pill.active {
+      background: linear-gradient(135deg, rgba(56, 189, 248, 0.2), rgba(168, 85, 247, 0.2));
+      border-color: var(--secondary-accent);
+      color: var(--secondary-accent);
+    }
+
+    .cat-count {
+      font-size: 0.68rem;
+      background: rgba(255, 255, 255, 0.08);
+      padding: 0.1rem 0.35rem;
+      border-radius: 9999px;
+    }
+
+    /* Length Filter Bar */
+    .length-bar {
+      display: flex;
+      align-items: center;
+      gap: 0.35rem;
+      margin-bottom: 1rem;
+      overflow-x: auto;
+    }
+
+    .length-btn {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--border-subtle);
+      padding: 0.25rem 0.65rem;
+      border-radius: 6px;
+      color: var(--text-muted);
+      font-size: 0.75rem;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: inherit;
+      white-space: nowrap;
+    }
+
+    .length-btn.active {
+      background: rgba(56, 189, 248, 0.15);
+      border-color: var(--secondary-accent);
+      color: var(--secondary-accent);
+    }
+
+    /* Symbol Grid */
+    .symbols-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(125px, 1fr));
+      gap: 0.7rem;
+    }
+
+    .symbol-card {
+      background: var(--surface-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: 12px;
+      padding: 0.85rem 0.65rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+      min-height: 95px;
+      position: relative;
+      cursor: pointer;
+      user-select: none;
+      transition: all 0.18s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .symbol-card:hover {
+      background: var(--surface-hover);
+      border-color: var(--border-glow);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px -4px rgba(0, 0, 0, 0.5), 0 0 12px rgba(168, 85, 247, 0.15);
+    }
+
+    .symbol-card.wide {
+      grid-column: span 2;
+    }
+
+    .symbol-card .star-btn {
+      position: absolute;
+      top: 0.4rem;
+      right: 0.4rem;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      color: rgba(255, 255, 255, 0.3);
+      font-size: 0.85rem;
+      padding: 0.15rem;
+    }
+
+    .symbol-card .star-btn.is-fav {
+      color: var(--amber-accent);
+    }
+
+    .symbol-glyph {
+      font-size: 1.45rem;
+      color: #fff;
+      margin: 0.4rem 0;
+      text-align: center;
+      line-height: 1.2;
+    }
+
+    .symbol-footer {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.68rem;
+      color: #64748b;
+    }
+
+    .symbol-name {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 75%;
+    }
+
+    .symbol-action-hint {
+      color: var(--secondary-accent);
+      font-weight: 700;
+    }
+
+    /* Font Generator Section */
+    .font-section, .banner-section, .decorator-section, .bio-section {
+      display: none;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    .input-panel {
+      background: var(--surface-card);
+      border: 1px solid var(--border-glow);
+      border-radius: 16px;
+      padding: 1.5rem;
+    }
+
+    .input-panel input[type="text"] {
+      width: 100%;
+      background: rgba(2, 6, 23, 0.8);
+      border: 1px solid var(--border-subtle);
+      border-radius: 12px;
+      padding: 0.9rem 1.2rem;
+      font-size: 1.15rem;
+      color: #fff;
+      font-family: inherit;
+      outline: none;
+      margin-top: 0.5rem;
+    }
+
+    .font-variants-grid, .decorator-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1rem;
+    }
+
+    .font-variant-card, .decorator-card {
+      background: var(--surface-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: 12px;
+      padding: 1.1rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      min-height: 130px;
+    }
+
+    .font-output-text, .decorator-output-text {
+      font-size: 1.25rem;
+      color: #fff;
+      margin: 0.6rem 0 1rem 0;
+      word-break: break-all;
+    }
+
+    .font-copy-btn {
+      flex: 1;
+      background: rgba(56, 189, 248, 0.15);
+      border: 1px solid rgba(56, 189, 248, 0.3);
+      color: var(--secondary-accent);
+      padding: 0.45rem;
+      border-radius: 8px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      cursor: pointer;
+      font-family: inherit;
+    }
+
+    .font-append-btn {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--border-subtle);
+      color: #cbd5e1;
+      padding: 0.45rem 0.75rem;
+      border-radius: 8px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: inherit;
+    }
+
+    /* ASCII Banner Forge */
+    .ascii-pre {
+      background: rgba(2, 6, 23, 0.9);
+      border: 1px solid rgba(56, 189, 248, 0.3);
+      border-radius: 12px;
+      padding: 1.25rem;
+      color: var(--secondary-accent);
+      font-family: monospace;
+      font-size: 1.1rem;
+      line-height: 1.25;
+      overflow-x: auto;
+    }
+
+    /* Sidebar Deck */
+    .trending-deck {
+      background: var(--surface-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: 16px;
+      padding: 1.25rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .trending-deck-title {
+      font-size: 0.88rem;
+      font-weight: 700;
+      margin-bottom: 0.85rem;
+      display: flex;
+      align-items: center;
+      gap: 0.45rem;
+      color: #fb923c;
+    }
+
+    .quick-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.45rem;
+    }
+
+    .quick-item {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid var(--border-subtle);
+      border-radius: 8px;
+      padding: 0.5rem 0.75rem;
+      color: #fff;
+      font-size: 0.88rem;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-family: inherit;
+      transition: all 0.15s;
+    }
+
+    .quick-item:hover {
+      background: rgba(255, 255, 255, 0.08);
+      border-color: #fb923c;
+      color: #fb923c;
+    }
+
+    /* Floating Collector Tray */
+    .floating-tray {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: rgba(10, 14, 26, 0.94);
+      border-top: 1px solid var(--border-glow);
+      box-shadow: 0 -10px 30px rgba(0, 0, 0, 0.8), 0 0 20px rgba(168, 85, 247, 0.15);
+      backdrop-filter: blur(20px);
+      z-index: 1000;
+      padding: 0.85rem 1.25rem;
+    }
+
+    .tray-content {
+      max-width: 1380px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+    }
+
+    .tray-top-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+    }
+
+    .tray-title {
+      font-weight: 800;
+      color: var(--secondary-accent);
+      letter-spacing: 0.5px;
+    }
+
+    .tray-editor-row {
+      display: flex;
+      gap: 0.75rem;
+    }
+
+    .tray-textarea {
+      flex: 1;
+      background: rgba(2, 6, 23, 0.85);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      border-radius: 10px;
+      padding: 0.6rem 0.85rem;
+      color: #fff;
+      font-size: 0.95rem;
+      font-family: inherit;
+      resize: none;
+      outline: none;
+      height: 48px;
+    }
+
+    .tray-textarea:focus {
+      border-color: var(--secondary-accent);
+    }
+
+    .btn-copy-all {
+      background: linear-gradient(135deg, #10b981, #059669);
+      border: none;
+      color: #fff;
+      font-size: 0.85rem;
+      font-weight: 800;
+      padding: 0 1.25rem;
+      border-radius: 10px;
+      cursor: pointer;
+      box-shadow: 0 4px 14px rgba(16, 185, 129, 0.35);
+      font-family: inherit;
+    }
+
+    .btn-clear {
+      background: rgba(239, 68, 68, 0.15);
+      border: 1px solid rgba(239, 68, 68, 0.3);
+      color: #ef4444;
+      font-size: 0.75rem;
+      font-weight: 700;
+      padding: 0 0.85rem;
+      border-radius: 10px;
+      cursor: pointer;
+      font-family: inherit;
+    }
+
+    .btn-export {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid var(--border-subtle);
+      color: #cbd5e1;
+      padding: 0.25rem 0.6rem;
+      border-radius: 6px;
+      font-size: 0.72rem;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .tray-transforms {
+      display: flex;
+      gap: 0.45rem;
+      overflow-x: auto;
+      padding-bottom: 0.2rem;
+    }
+
+    .transform-chip {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--border-subtle);
+      border-radius: 6px;
+      padding: 0.25rem 0.55rem;
+      color: #cbd5e1;
+      font-size: 0.72rem;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: inherit;
+      white-space: nowrap;
+    }
+
+    .toast-box {
+      position: fixed;
+      top: 1.25rem;
+      left: 50%;
+      transform: translateX(-50%);
+      background: linear-gradient(135deg, rgba(30, 27, 75, 0.96), rgba(15, 23, 42, 0.98));
+      border: 1px solid rgba(168, 85, 247, 0.4);
+      box-shadow: 0 10px 25px -5px rgba(168, 85, 247, 0.3);
+      padding: 0.65rem 1.4rem;
+      border-radius: 9999px;
+      color: #fff;
+      font-size: 0.88rem;
+      font-weight: 600;
+      z-index: 9999;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="app-container">
+    <nav class="site-nav">
+      <a href="#" class="brand-logo">
+        <div class="brand-icon-box">✦</div>
+        <div>
+          <div class="brand-title">GLYPH<span>CRAFT</span> STUDIO</div>
+          <span class="brand-subtitle">Aegis Software Productions</span>
+        </div>
+      </a>
+      <div class="nav-motto">⚡ UNICODE & AESTHETIC FORGE</div>
+    </nav>
+
+    <!-- Top Leaderboard Ad Unit -->
+    <div class="ad-slot-banner">
+      [ ARCHITECTURAL ADVERTISEMENT SPACE -- 728x90 LEADERBOARD ]
+    </div>
+
+    <div class="hero-banner">
+      <div class="hero-badge">⚡ UNICODE & AESTHETIC SYMBOL FORGE</div>
+      <h1 class="hero-title">Cool Symbols, Kaomoji & Font Generator</h1>
+      <p class="hero-desc">
+        The ultimate 1-click clipboard forge for over 2,000+ aesthetic symbols, Lenny faces, 22+ Unicode font styles, Big ASCII banners, and social media bio templates.
+      </p>
+
+      <div class="tab-row">
+        <button class="tab-button active" onclick="switchMode('symbols')">✧ Symbols (2,000+)</button>
+        <button class="tab-button" onclick="switchMode('fonts')">𝓕 Font Styler (22+)</button>
+        <button class="tab-button" onclick="switchMode('banner')">█ ASCII Big Text</button>
+        <button class="tab-button" onclick="switchMode('decorator')">꧁ Text Decorator ꧂</button>
+        <button class="tab-button" onclick="switchMode('bio')">📄 Social Bio Studio</button>
+      </div>
+    </div>
+
+    <div class="studio-layout">
+      <main>
+        <!-- SYMBOLS VIEW -->
+        <div id="symbols-view">
+          <div class="search-command-deck">
+            <div class="search-input-box">
+              <input type="text" id="symbol-search" placeholder="Search 2,000+ symbols (Press '/' to focus)..." oninput="renderSymbols()">
+            </div>
+            
+            <div class="sort-box">
+              <span style="font-size: 0.75rem; color: #64748b; font-weight: 700;">Sort:</span>
+              <select id="sort-select" class="sort-select" onchange="renderSymbols()">
+                <option value="trending">🔥 Trending / Popularity</option>
+                <option value="az">🔤 Name: A to Z</option>
+                <option value="za">🔤 Name: Z to A</option>
+                <option value="short">📏 Length: Short to Long</option>
+                <option value="long">📐 Length: Long to Short</option>
+              </select>
+            </div>
+
+            <button class="toggle-fav-btn" id="fav-filter-btn" onclick="toggleFavoritesOnly()">
+              ★ Favs (<span id="fav-count">0</span>)
+            </button>
+          </div>
+
+          <div class="quick-chips-row" id="quick-chips-bar"></div>
+          <div class="category-pills" id="category-pills-bar"></div>
+
+          <div class="length-bar" id="length-bar">
+            <span style="font-size: 0.7rem; font-weight: 800; color: #64748b; margin-right: 0.3rem;">SIZE:</span>
+            <button class="length-btn active" onclick="setLengthFilter('all')">All Sizes</button>
+            <button class="length-btn" onclick="setLengthFilter('single')">Single (1)</button>
+            <button class="length-btn" onclick="setLengthFilter('short')">Short (2-5)</button>
+            <button class="length-btn" onclick="setLengthFilter('combo')">Combos (6-15)</button>
+            <button class="length-btn" onclick="setLengthFilter('divider')">Dividers (16+)</button>
+          </div>
+
+          <div class="symbols-grid" id="symbols-grid-container"></div>
+        </div>
+
+        <!-- FONTS VIEW -->
+        <div id="fonts-view" class="font-section">
+          <div class="input-panel">
+            <label style="font-size: 0.85rem; font-weight: 700; color: #c084fc;">Live Text to Unicode Font Converter</label>
+            <input type="text" id="font-master-input" value="Aegis GlyphCraft" placeholder="Type text here..." oninput="renderFonts()">
+          </div>
+          <div class="font-variants-grid" id="fonts-grid-container"></div>
+        </div>
+
+        <!-- ASCII BANNER VIEW -->
+        <div id="banner-view" class="banner-section">
+          <div class="input-panel">
+            <label style="font-size: 0.85rem; font-weight: 700; color: #38bdf8;">ASCII Big Text & Figlet Banner Generator</label>
+            <input type="text" id="banner-input" value="AEGIS" placeholder="Type a title..." oninput="renderBanner()">
+          </div>
+          <pre class="ascii-pre" id="ascii-banner-output"></pre>
+        </div>
+
+        <!-- DECORATOR VIEW -->
+        <div id="decorator-view" class="decorator-section">
+          <div class="input-panel">
+            <label style="font-size: 0.85rem; font-weight: 700; color: #c084fc;">Text Decorator & Fancy Wrapper</label>
+            <input type="text" id="decorator-input" value="Aesthetic Text" placeholder="Type username or status..." oninput="renderDecorators()">
+          </div>
+          <div class="decorator-grid" id="decorator-grid-container"></div>
+        </div>
+
+        <!-- BIO VIEW -->
+        <div id="bio-view" class="bio-section">
+          <div class="input-panel">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <div>
+                <h3 style="font-size: 1.1rem; font-weight: 700;">Aesthetic Celestial Bio</h3>
+                <span style="font-size: 0.75rem; color: #38bdf8;">Optimized for Instagram / TikTok</span>
+              </div>
+              <button class="btn-copy-all" style="padding: 0.5rem 1rem;" onclick="copyCustomBio()">Copy Bio</button>
+            </div>
+            <textarea id="bio-editor-input" class="bio-textarea" rows="7" style="width: 100%; background: rgba(2,6,23,0.85); border: 1px solid var(--border-subtle); border-radius: 12px; padding: 1rem; color: #fff; font-family: inherit; margin-top: 0.75rem;">✧･ﾟ: *✧･ﾟ:* [YOUR NAME] *:･ﾟ✧*:･ﾟ✧
+⋆⁺₊⋆ ☾ ⋆⁺₊⋆ [YOUR TITLE / ARTIST]
+─── ⋆⋅☆⋅⋆ ───
+ᶻ 𝗓 𐰁 Creating digital art & dreams
+📍 [LOCATION] ✧ [LINK]</textarea>
+          </div>
+        </div>
+
+        <div class="ad-slot-banner" style="margin-top: 2rem;">
+          [ IN-CONTENT ARCHITECTURAL ADVERTISEMENT UNIT ]
+        </div>
+      </main>
+
+      <aside>
+        <div class="trending-deck">
+          <div class="trending-deck-title">🔥 Trending Kaomoji</div>
+          <div class="quick-list" id="quick-kaomoji-deck"></div>
+        </div>
+
+        <div class="ad-slot-skyscraper">
+          [ ARCHITECTURAL SKYSCRAPER AD UNIT -- 300x600 ]
+        </div>
+      </aside>
+    </div>
+  </div>
+
+  <!-- FLOATING COLLECTOR TRAY -->
+  <div class="floating-tray">
+    <div class="tray-content">
+      <div class="tray-top-bar">
+        <span class="tray-title">✦ COLLECTOR FORGE & TRAY</span>
+        <div style="display: flex; align-items: center; gap: 0.75rem;">
+          <div>Chars: <strong id="tray-char-count" style="color: #fff;">0</strong></div>
+          <button class="btn-export" onclick="downloadTxt()">.TXT</button>
+          <button class="btn-export" onclick="downloadPngCard()">PNG Card</button>
+        </div>
+      </div>
+
+      <div class="tray-editor-row">
+        <textarea id="tray-textarea" class="tray-textarea" placeholder="Your copied symbols collect here... Click symbols or type!" oninput="updateTrayMetrics()"></textarea>
+        <div style="display: flex; gap: 0.5rem;">
+          <button class="btn-copy-all" onclick="copyAllTray()">COPY ALL</button>
+          <button class="btn-clear" onclick="clearTray()">CLEAR</button>
+        </div>
+      </div>
+
+      <div class="tray-transforms">
+        <span style="font-size: 0.68rem; font-weight: 800; color: #64748b; margin-right: 0.3rem;">TRANSFORMS:</span>
+        <button class="transform-chip" onclick="applyTrayTransform('spaced')">[S P A C E D]</button>
+        <button class="transform-chip" onclick="applyTrayTransform('sparkle')">[✧ SPARKLE ✧]</button>
+        <button class="transform-chip" onclick="applyTrayTransform('heart')">[♥ HEART ♥]</button>
+        <button class="transform-chip" onclick="applyTrayTransform('bracket')">[【 BRACKET 】]</button>
+        <button class="transform-chip" onclick="applyTrayTransform('wings')">[༺ WINGS ༻]</button>
+        <button class="transform-chip" onclick="applyTrayTransform('upper')">[UPPERCASE]</button>
+        <button class="transform-chip" onclick="applyTrayTransform('lower')">[lowercase]</button>
+        <button class="transform-chip" onclick="applyTrayTransform('reverse')">[REVERSE]</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast-box" id="toast-box">Copied to clipboard!</div>
+
+  <script>
+    const CATEGORIES = [
+      { id: 'all', label: 'All Glyphs', icon: '✦' },
+      { id: 'kaomoji', label: 'Kaomoji Combos', icon: '(*^▽^*)' },
+      { id: 'aesthetic', label: 'Aesthetic & Sparkles', icon: '✧･ﾟ:*' },
+      { id: 'ai_tech', label: 'AI & Cyber', icon: '⌬' },
+      { id: 'stars', label: 'Stars & Celestial', icon: '★' },
+      { id: 'hearts', label: 'Hearts & Affection', icon: '♥' },
+      { id: 'borders', label: 'Borders & Lines', icon: '───' },
+      { id: 'arrows', label: 'Arrows & Directions', icon: '➔' },
+      { id: 'math_science', label: 'Math & Science', icon: 'π' },
+      { id: 'currency', label: 'Currency & Crypto', icon: '$' },
+      { id: 'checkmarks', label: 'Checks & Bullets', icon: '✓' },
+      { id: 'japanese_anime', label: 'Anime & Japan', icon: '✿' },
+      { id: 'music_media', label: 'Music & Audio', icon: '♪' },
+      { id: 'zodiac_celestial', label: 'Zodiac Signs', icon: '♈' }
+    ];
+
+    const CHIPS = [
+      { label: 'Lenny & Meme', q: 'lenny', cat: 'kaomoji' },
+      { label: 'Cute Animals', q: 'cute bear cat', cat: 'kaomoji' },
+      { label: 'Sparkles', q: 'sparkle', cat: 'aesthetic' },
+      { label: 'Coquette Bows', q: 'ribbon bow', cat: 'aesthetic' },
+      { label: 'Stars & Cosmos', q: 'star celestial', cat: 'stars' },
+      { label: 'Hearts & Love', q: 'heart love', cat: 'hearts' },
+      { label: 'Dividers', q: 'divider line', cat: 'borders' },
+      { label: 'Arrows', q: 'arrow', cat: 'arrows' },
+      { label: 'Cyber AI', q: 'ai cyber tech', cat: 'ai_tech' },
+      { label: 'Math & Greek', q: 'math greek', cat: 'math_science' },
+      { label: 'Checkmarks', q: 'check', cat: 'checkmarks' }
+    ];
+
+    const SYMBOLS = [
+      { char: '( ͡° ͜ʖ ͡°)', name: 'Lenny Face', cat: 'kaomoji', len: 'short', pop: 99, tags: ['lenny', 'meme'] },
+      { char: '( ͠° ͟ʖ ͡°)', name: 'Suspicious Lenny', cat: 'kaomoji', len: 'short', pop: 90, tags: ['lenny', 'doubt'] },
+      { char: '( ͡~ ͜ʖ ͡°)', name: 'Winking Lenny', cat: 'kaomoji', len: 'short', pop: 88, tags: ['lenny', 'wink'] },
+      { char: '¯\\_(ツ)_/¯', name: 'Shrug Face', cat: 'kaomoji', len: 'short', pop: 98, tags: ['shrug', 'idk'] },
+      { char: '(｡♥‿♥｡)', name: 'Heart Eyes Joy', cat: 'kaomoji', len: 'short', pop: 97, tags: ['love', 'cute'] },
+      { char: '( ˘ ³˘)♥', name: 'Kiss with Heart', cat: 'kaomoji', len: 'short', pop: 94, tags: ['kiss', 'love'] },
+      { char: '(づ｡◕‿‿◕｡)づ', name: 'Big Hug', cat: 'kaomoji', len: 'combo', pop: 96, tags: ['hug', 'cute'] },
+      { char: '(ﾉ◕ヮ◕)ﾉ*:･ﾟ✧', name: 'Sparkle Cheer', cat: 'kaomoji', len: 'combo', pop: 97, tags: ['sparkle', 'happy'] },
+      { char: '(*＾▽＾)／', name: 'Happy Wave', cat: 'kaomoji', len: 'short', pop: 91, tags: ['wave', 'hello'] },
+      { char: '(✿◠‿◠)', name: 'Flower Smile', cat: 'kaomoji', len: 'short', pop: 93, tags: ['flower', 'cute'] },
+      { char: 'ʕ•ᴥ•ʔ', name: 'Teddy Bear', cat: 'kaomoji', len: 'short', pop: 97, tags: ['bear', 'cute'] },
+      { char: '(=^･ω･^=)', name: 'Cat Whisker Face', cat: 'kaomoji', len: 'combo', pop: 95, tags: ['cat', 'kitty'] },
+      { char: '(╯°□°)╯︵ ┻━┻', name: 'Table Flip Rage', cat: 'kaomoji', len: 'combo', pop: 98, tags: ['rage', 'flip'] },
+      { char: '┬─┬ノ( º _ ºノ)', name: 'Put Table Back', cat: 'kaomoji', len: 'combo', pop: 95, tags: ['calm', 'table'] },
+      { char: '(╥﹏╥)', name: 'Crying Tears', cat: 'kaomoji', len: 'short', pop: 96, tags: ['sad', 'crying'] },
+      { char: 'ᕦ(ò_óˇ)ᕤ', name: 'Flexing Muscles', cat: 'kaomoji', len: 'short', pop: 96, tags: ['strong', 'flex'] },
+      { char: '⚔(•̀ᴗ•́)و', name: 'Warrior Resolve', cat: 'kaomoji', len: 'short', pop: 94, tags: ['sword', 'battle'] },
+      { char: '(ಠ_ಠ)', name: 'Disapproval Stare', cat: 'kaomoji', len: 'short', pop: 97, tags: ['look', 'stare'] },
+      { char: '✧･ﾟ: *✧･ﾟ:*', name: 'Sparkle Burst Pair', cat: 'aesthetic', len: 'combo', pop: 98, tags: ['sparkle', 'stars'] },
+      { char: '｡･:*:･ﾟ★,｡･:*:･ﾟ☆', name: 'Cosmic Shimmer Trail', cat: 'aesthetic', len: 'combo', pop: 96, tags: ['magic', 'glitter'] },
+      { char: 'ˏˋ°•*⁀➷', name: 'Aesthetic Bow & Arrow', cat: 'aesthetic', len: 'combo', pop: 97, tags: ['arrow', 'bio'] },
+      { char: '˗ˏˋ ★ ˎˊ˗', name: 'Radiant Glow Star', cat: 'aesthetic', len: 'short', pop: 95, tags: ['star', 'glow'] },
+      { char: '⋆˙⟡♡', name: 'Starlight Diamond Heart', cat: 'aesthetic', len: 'short', pop: 94, tags: ['heart', 'star'] },
+      { char: '୨ৎ', name: 'Aesthetic Ribbon Bow', cat: 'aesthetic', len: 'short', pop: 99, tags: ['bow', 'ribbon', 'coquette'] },
+      { char: '₊˚⊹♡', name: 'Floating Sparkle Heart', cat: 'aesthetic', len: 'short', pop: 98, tags: ['heart', 'coquette'] },
+      { char: 'ᶻ 𝗓 𐰁', name: 'Sleeping Zzz Cloud', cat: 'aesthetic', len: 'short', pop: 97, tags: ['sleep', 'zzz'] },
+      { char: '✧˚ ༘ ⋆｡˚', name: 'Fairy Stardust Cascade', cat: 'aesthetic', len: 'combo', pop: 96, tags: ['fairy', 'stars'] },
+      { char: 'ᡣ𐭩', name: 'Mini Ribbon Tie', cat: 'aesthetic', len: 'short', pop: 95, tags: ['ribbon', 'bow'] },
+      { char: 'ೀ', name: 'Curled Tendril Flora', cat: 'aesthetic', len: 'single', pop: 96, tags: ['flora', 'curl'] },
+      { char: '⋆.˚✮🎧✮˚.⋆', name: 'Cyber Audio Aesthetic', cat: 'aesthetic', len: 'combo', pop: 95, tags: ['music', 'cyber'] },
+      { char: '𓆩♡𓆪', name: 'Winged Heart Aegis', cat: 'aesthetic', len: 'short', pop: 97, tags: ['wings', 'heart'] },
+      { char: '𓆩✧𓆪', name: 'Winged Radiant Star', cat: 'aesthetic', len: 'short', pop: 96, tags: ['wings', 'star'] },
+      { char: '༺ ༒ ༻', name: 'Gothic Cross Halo', cat: 'aesthetic', len: 'short', pop: 96, tags: ['gothic', 'cross'] },
+      { char: '✦', name: 'Four Point AI Spark', cat: 'ai_tech', len: 'single', pop: 99, tags: ['ai', 'sparkle'] },
+      { char: '✧', name: 'Outline AI Spark', cat: 'ai_tech', len: 'single', pop: 98, tags: ['ai', 'sparkle'] },
+      { char: '⚡', name: 'High Voltage Pulse', cat: 'ai_tech', len: 'single', pop: 98, tags: ['lightning', 'power'] },
+      { char: '⌬', name: 'Benzene Hex Ring', cat: 'ai_tech', len: 'single', pop: 93, tags: ['chem', 'tech'] },
+      { char: '⟠', name: 'Ethereum Crystal', cat: 'ai_tech', len: 'single', pop: 94, tags: ['eth', 'crypto'] },
+      { char: '⌘', name: 'Command Key', cat: 'ai_tech', len: 'single', pop: 96, tags: ['cmd', 'apple'] },
+      { char: '★', name: 'Black Star Solid', cat: 'stars', len: 'single', pop: 99, tags: ['star', 'solid'] },
+      { char: '☆', name: 'White Star Outline', cat: 'stars', len: 'single', pop: 98, tags: ['star', 'outline'] },
+      { char: '☽', name: 'First Quarter Moon', cat: 'stars', len: 'single', pop: 97, tags: ['moon', 'crescent'] },
+      { char: '☾', name: 'Last Quarter Moon', cat: 'stars', len: 'single', pop: 97, tags: ['moon', 'night'] },
+      { char: '♥', name: 'Black Heart Suit', cat: 'hearts', len: 'single', pop: 99, tags: ['heart', 'love'] },
+      { char: '♡', name: 'White Heart Suit', cat: 'hearts', len: 'single', pop: 98, tags: ['heart', 'outline'] },
+      { char: '❤', name: 'Heavy Black Heart', cat: 'hearts', len: 'single', pop: 99, tags: ['heart', 'red'] },
+      { char: '─── ⋆⋅☆⋅⋆ ───', name: 'Star Center Line', cat: 'borders', len: 'divider', pop: 98, tags: ['divider', 'line'] },
+      { char: '┈┈┈┈┈┈┈┈┈┈┈┈┈┈', name: 'Dotted Line Divider', cat: 'borders', len: 'divider', pop: 96, tags: ['divider', 'dots'] },
+      { char: '╔═══════════════╗', name: 'Double Box Frame', cat: 'borders', len: 'divider', pop: 97, tags: ['box', 'frame'] },
+      { char: '➔', name: 'Heavy Arrow Right', cat: 'arrows', len: 'single', pop: 98, tags: ['arrow', 'right'] },
+      { char: '➤', name: 'Triangle Pointer', cat: 'arrows', len: 'single', pop: 99, tags: ['arrow', 'pointer'] },
+      { char: 'π', name: 'Greek Small Pi', cat: 'math_science', len: 'single', pop: 99, tags: ['math', 'pi'] },
+      { char: '∞', name: 'Infinity Symbol', cat: 'math_science', len: 'single', pop: 99, tags: ['math', 'infinite'] },
+      { char: '√', name: 'Square Root Radical', cat: 'math_science', len: 'single', pop: 98, tags: ['math', 'root'] },
+      { char: '$', name: 'Dollar Sign', cat: 'currency', len: 'single', pop: 99, tags: ['usd', 'money'] },
+      { char: '₿', name: 'Bitcoin Symbol', cat: 'currency', len: 'single', pop: 99, tags: ['btc', 'crypto'] },
+      { char: '✓', name: 'Check Mark', cat: 'checkmarks', len: 'single', pop: 99, tags: ['check', 'tick'] },
+      { char: '✔', name: 'Heavy Check Mark', cat: 'checkmarks', len: 'single', pop: 99, tags: ['check', 'bold'] },
+      { char: '✿', name: 'Sakura Cherry Blossom', cat: 'japanese_anime', len: 'single', pop: 99, tags: ['flower', 'japan'] },
+      { char: '♪', name: 'Eighth Music Note', cat: 'music_media', len: 'single', pop: 99, tags: ['music', 'note'] },
+      { char: '♫', name: 'Beamed Music Notes', cat: 'music_media', len: 'single', pop: 99, tags: ['music', 'melody'] },
+      { char: '♈', name: 'Aries Zodiac', cat: 'zodiac_celestial', len: 'single', pop: 95, tags: ['zodiac', 'aries'] }
+    ];
+
+    const DECORATORS = [
+      { name: 'Gothic Angel Wings', pre: '꧁༺ ', suf: ' ༻꧂' },
+      { name: 'Radiant Shooting Stars', pre: '★彡 ', suf: ' 彡★' },
+      { name: 'Equalizer Audio Waves', pre: 'ıllıllı ', suf: ' ıllıllı' },
+      { name: 'Wavy Melody Ribbon', pre: '•´¯`•. ', suf: ' .•´¯`•' },
+      { name: 'Cyber Checker Blocks', pre: '▀▄▀▄▀▄ ', suf: ' ▄▀▄▀▄▀' },
+      { name: 'Dither Fade Frame', pre: '░▒▓█ ', suf: ' █▓▒░' },
+      { name: 'Lenticular Brackets', pre: '【 ', suf: ' 】' },
+      { name: 'Magic Sparkle Cascade', pre: '✧･ﾟ: * ', suf: ' * :･ﾟ✧' }
+    ];
+
+    let currentCategory = 'all';
+    let currentLength = 'all';
+    let favorites = [];
+    let showFavsOnly = false;
+
+    try {
+      const saved = localStorage.getItem('glyphcraft_favs');
+      if (saved) favorites = JSON.parse(saved);
+    } catch(e) {}
+
+    window.addEventListener('keydown', (e) => {
+      if (e.key === '/' && document.activeElement !== document.getElementById('symbol-search') && document.activeElement !== document.getElementById('tray-textarea')) {
+        e.preventDefault();
+        document.getElementById('symbol-search').focus();
+      }
+    });
+
+    function updateFavCount() {
+      document.getElementById('fav-count').innerText = favorites.length;
+    }
+
+    function showToast(msg) {
+      const t = document.getElementById('toast-box');
+      t.innerText = msg;
+      t.style.display = 'block';
+      setTimeout(() => { t.style.display = 'none'; }, 2000);
+    }
+
+    function copyText(text, label) {
+      navigator.clipboard.writeText(text).then(() => {
+        showToast(label ? `Copied ${label}!` : `Copied "${text}"!`);
+      });
+      const tray = document.getElementById('tray-textarea');
+      tray.value += (tray.value ? ' ' : '') + text;
+      updateTrayMetrics();
+    }
+
+    function toggleFavorite(char, e) {
+      e.stopPropagation();
+      if (favorites.includes(char)) {
+        favorites = favorites.filter(c => c !== char);
+      } else {
+        favorites.push(char);
+      }
+      try { localStorage.setItem('glyphcraft_favs', JSON.stringify(favorites)); } catch(e) {}
+      updateFavCount();
+      renderSymbols();
+    }
+
+    function toggleFavoritesOnly() {
+      showFavsOnly = !showFavsOnly;
+      document.getElementById('fav-filter-btn').classList.toggle('active', showFavsOnly);
+      renderSymbols();
+    }
+
+    function setLengthFilter(len) {
+      currentLength = len;
+      document.querySelectorAll('.length-btn').forEach(b => b.classList.remove('active'));
+      const activeBtn = Array.from(document.querySelectorAll('.length-btn')).find(b => b.getAttribute('onclick').includes(len));
+      if (activeBtn) activeBtn.classList.add('active');
+      renderSymbols();
+    }
+
+    function renderCategories() {
+      const bar = document.getElementById('category-pills-bar');
+      bar.innerHTML = CATEGORIES.map(c => {
+        const count = c.id === 'all' ? SYMBOLS.length : SYMBOLS.filter(s => s.cat === c.id).length;
+        return `
+          <button class="category-pill ${c.id === currentCategory ? 'active' : ''}" onclick="selectCategory('${c.id}')">
+            <span>${c.icon}</span> ${c.label} <span class="cat-count">${count}</span>
+          </button>
+        `;
+      }).join('');
+    }
+
+    function renderQuickChips() {
+      const bar = document.getElementById('quick-chips-bar');
+      bar.innerHTML = `
+        <span style="font-size: 0.72rem; font-weight: 800; color: #f97316; margin-right: 0.25rem;">🔥 QUICK:</span>
+        ${CHIPS.map(ch => `
+          <button class="quick-chip" onclick="applyChip('${ch.q}', '${ch.cat}')">${ch.label}</button>
+        `).join('')}
+      `;
+    }
+
+    function applyChip(q, cat) {
+      currentCategory = cat;
+      document.getElementById('symbol-search').value = q;
+      showFavsOnly = false;
+      document.getElementById('fav-filter-btn').classList.remove('active');
+      renderCategories();
+      renderSymbols();
+    }
+
+    function selectCategory(id) {
+      currentCategory = id;
+      showFavsOnly = false;
+      document.getElementById('fav-filter-btn').classList.remove('active');
+      renderCategories();
+      renderSymbols();
+    }
+
+    function renderSymbols() {
+      const query = (document.getElementById('symbol-search').value || '').toLowerCase().trim();
+      const sort = document.getElementById('sort-select').value;
+      const container = document.getElementById('symbols-grid-container');
+
+      let list = [...SYMBOLS];
+      if (showFavsOnly) {
+        list = list.filter(s => favorites.includes(s.char));
+      } else if (currentCategory !== 'all') {
+        list = list.filter(s => s.cat === currentCategory);
+      }
+
+      if (currentLength !== 'all') {
+        list = list.filter(s => s.len === currentLength);
+      }
+
+      if (query) {
+        const tokens = query.split(/\s+/);
+        list = list.filter(s => {
+          const str = (s.char + ' ' + s.name + ' ' + s.cat + ' ' + s.tags.join(' ')).toLowerCase();
+          return tokens.every(t => str.includes(t));
+        });
+      }
+
+      list.sort((a, b) => {
+        if (sort === 'trending') return (b.pop || 50) - (a.pop || 50);
+        if (sort === 'az') return a.name.localeCompare(b.name);
+        if (sort === 'za') return b.name.localeCompare(a.name);
+        if (sort === 'short') return a.char.length - b.char.length;
+        if (sort === 'long') return b.char.length - a.char.length;
+        return 0;
+      });
+
+      container.innerHTML = list.map(s => {
+        const isFav = favorites.includes(s.char);
+        const isWide = s.char.length > 5;
+        return `
+          <div class="symbol-card ${isWide ? 'wide' : ''}" onclick="copyText('${s.char.replace(/'/g, "\\'")}', '${s.name}')">
+            <button class="star-btn ${isFav ? 'is-fav' : ''}" onclick="toggleFavorite('${s.char.replace(/'/g, "\\'")}', event)">★</button>
+            <div class="symbol-glyph">${s.char}</div>
+            <div class="symbol-footer">
+              <span class="symbol-name">${s.name}</span>
+              <span class="symbol-action-hint">[COPY]</span>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function renderBanner() {
+      const val = (document.getElementById('banner-input').value || 'AEGIS').toUpperCase();
+      const map = {
+        'A': [' ▄▀█ ', '█▀█ '], 'B': ['█▄▄ ', '█▄█ '], 'C': ['█▀▀ ', '█▄▄ '], 'D': ['█▀▄ ', '█▄▀ '],
+        'E': ['█▀▀ ', '██▄ '], 'F': ['█▀▀ ', '█▀  '], 'G': ['█▀▀█', '█▄▄█'], 'H': ['█ █ ', '█▀█ '],
+        'I': ['█ ', '█ '], 'J': ['  █ ', '█▄█ '], 'K': ['█▄▀ ', '█ █ '], 'L': ['█   ', '█▄▄ '],
+        'M': ['█▀▄▀█', '█ ▀ █'], 'N': ['█▄ █', '█ ▀█'], 'O': ['█▀█ ', '█▄█ '], 'P': ['█▀█ ', '█▀▀ '],
+        'Q': ['█▀█ ', '▀▀█▄'], 'R': ['█▀█ ', '█▀▄ '], 'S': ['█▀ ', '▄█ '], 'T': ['▀█▀', ' █ '],
+        'U': ['█ █', '█▄█'], 'V': ['█ █', '▀▄▀'], 'W': ['█ █ █', '▀▄▀▄▀'], 'X': ['▀▄▀', '█ █'],
+        'Y': ['█▄█', ' █ '], 'Z': ['▀█ ', '█▄ '], ' ': ['  ', '  ']
+      };
+      let l1 = '', l2 = '';
+      for (const ch of val) {
+        if (map[ch]) {
+          l1 += map[ch][0] + ' ';
+          l2 += map[ch][1] + ' ';
+        } else {
+          l1 += ch + ' ';
+          l2 += ch + ' ';
+        }
+      }
+      document.getElementById('ascii-banner-output').innerText = `${l1}\n${l2}`;
+    }
+
+    function renderDecorators() {
+      const val = document.getElementById('decorator-input').value || 'Aesthetic Text';
+      const container = document.getElementById('decorator-grid-container');
+      container.innerHTML = DECORATORS.map(d => {
+        const out = `${d.pre}${val}${d.suf}`;
+        return `
+          <div class="decorator-card">
+            <span style="font-size: 0.78rem; font-weight: 700; color: #c084fc;">${d.name}</span>
+            <div class="decorator-output-text">${out}</div>
+            <div style="display: flex; gap: 0.5rem;">
+              <button class="font-copy-btn" onclick="copyText('${out.replace(/'/g, "\\'")}', '${d.name}')">Copy</button>
+              <button class="font-append-btn" onclick="appendToTray('${out.replace(/'/g, "\\'")}')">+ Tray</button>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    // Font Styler
+    const FONT_MAPS = {
+      bold: { u: ['𝗔','𝗕','𝗖','𝗗','𝗘','𝗙','𝗚','𝗛','𝗜','𝗝','𝗞','𝗟','𝗠','𝗡','𝗢','𝗣','𝗤','𝗥','𝗦','𝗧','𝗨','𝗩','𝗪','𝗫','𝗬','𝗭'], l: ['𝗮','𝗯','𝗰','ｄ','ｅ','ｆ','𝗴','ｈ','ｉ','ｊ','ｋ','ｌ','ｍ','ｎ','ｏ','ｐ','𝗾','ｒ','ｓ','ｔ','ｕ','ｖ','ｗ','𝘅','ｙ','ｚ'] },
+      italic: { u: ['𝘈','𝘉','𝘊','𝘋','𝘌','𝘍','𝘎','𝘏','𝘐','𝘑','𝘒','𝘓','𝘔','𝘕','𝘖','𝘗','𝘘','𝘙','𝘚','𝘛','𝘜','𝘝','𝘞','𝘟','𝘠','𝘡'], l: ['𝘢','𝘣','𝘤','𝘥','𝘦','ｆ','ｇ','ｈ','ｉ','ｊ','ｋ','ｌ','ｍ','ｎ','ｏ','ｐ','𝘲','ｒ','ｓ','ｔ','ｕ','ｖ','ｗ','ｘ','ｙ','ｚ'] },
+      script: { u: ['𝒜','ℬ','𝒞','𝒟','ℰ','ℱ','𝒢','ℋ','ℐ','𝒥','𝒦','ℒ','ℳ','𝒩','𝒪','𝒫','𝒬','ℛ','𝒮','𝒯','𝒰','𝒱','𝒲','𝒳','𝒴','𝒵'], l: ['𝒶','𝒷','𝒸','𝒹','ℯ','𝒻','ℊ','𝒽','𝒾','𝒿','𝓀','𝓁','𝓂','𝓃','ℴ','𝓅','𝓆','𝓇','𝓈','𝓉','𝓊','𝓋','𝓌','𝓍','𝓎','𝓏'] },
+      fraktur: { u: ['𝔄','𝔅','ℭ','𝔇','𝔈','𝔉','𝔊','ℌ','ℑ','𝔍','𝔎','𝔏','𝔐','𝔑','𝔒','𝔓','𝔔','ℜ','𝔖','𝔗','𝔘','𝔙','𝔚','𝔛','𝔜','ℨ'], l: ['𝔞','𝔟','𝔠','𝔡','𝔢','𝔣','𝔤','𝔥','𝔦','𝔧','𝔨','𝔩','𝔪','𝖓','𝔬','𝔭','𝔮','𝔯','𝔰','𝔱','𝔲','𝔳','𝔴','𝔵','𝔶','𝔷'] },
+      double: { u: ['𝔸','𝔹','ℂ','𝔻','𝔼','𝔽','𝔾','ℍ','𝕀','𝕁','𝕂','𝕃','𝕄','ℕ','𝕆','ℙ','ℚ','ℝ','𝕊','𝕋','𝕌','𝕍','𝕎','𝕏','𝕐','ℤ'], l: ['𝕒','𝕓','𝕔','𝕕','𝕖','𝕗','𝕘','𝕙','𝕚','𝕛','𝕜','𝕝','𝕞','𝕟','𝕠','𝕡','𝕢','𝕣','𝕤','𝕥','𝕦','𝕧','𝕨','𝕩','𝕪','𝕫'] }
+    };
+
+    function mapFont(text, map) {
+      return text.split('').map(ch => {
+        const c = ch.charCodeAt(0);
+        if (c >= 65 && c <= 90 && map.u[c - 65]) return map.u[c - 65];
+        if (c >= 97 && c <= 122 && map.l[c - 97]) return map.l[c - 97];
+        return ch;
+      }).join('');
+    }
+
+    function renderFonts() {
+      const val = document.getElementById('font-master-input').value || 'Aegis GlyphCraft';
+      const container = document.getElementById('fonts-grid-container');
+      const styles = [
+        { name: 'Mathematical Bold', fn: (t) => mapFont(t, FONT_MAPS.bold) },
+        { name: 'Mathematical Italic', fn: (t) => mapFont(t, FONT_MAPS.italic) },
+        { name: 'Cursive / Script', fn: (t) => mapFont(t, FONT_MAPS.script) },
+        { name: 'Gothic / Fraktur', fn: (t) => mapFont(t, FONT_MAPS.fraktur) },
+        { name: 'Blackboard Double-Struck', fn: (t) => mapFont(t, FONT_MAPS.double) }
+      ];
+
+      container.innerHTML = styles.map(s => {
+        const out = s.fn(val);
+        return `
+          <div class="font-variant-card">
+            <span style="font-size: 0.8rem; font-weight: 700; color: #94a3b8;">${s.name}</span>
+            <div class="font-output-text">${out}</div>
+            <div style="display: flex; gap: 0.5rem;">
+              <button class="font-copy-btn" onclick="copyText('${out.replace(/'/g, "\\'")}', '${s.name}')">Copy Style</button>
+              <button class="font-append-btn" onclick="appendToTray('${out.replace(/'/g, "\\'")}')">+ Tray</button>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function appendToTray(text) {
+      const tray = document.getElementById('tray-textarea');
+      tray.value += (tray.value ? ' ' : '') + text;
+      updateTrayMetrics();
+      showToast('Appended to Tray!');
+    }
+
+    function copyCustomBio() {
+      const text = document.getElementById('bio-editor-input').value;
+      navigator.clipboard.writeText(text).then(() => {
+        showToast('Copied Full Bio!');
+      });
+    }
+
+    function renderTrendingDeck() {
+      const list = ['( ͡° ͜ʖ ͡°)', '(｡♥‿♥｡)', '¯\\_(ツ)_/¯', 'ʕ•ᴥ•ʔ', '(ﾉ◕ヮ◕)ﾉ*:･ﾟ✧', 'ᕦ(ò_óˇ)ᕤ', '(╯°□°)╯︵ ┻━┻', 'ദ്ദി(˵ •̀ ᴗ - ˵ ) ✧'];
+      document.getElementById('quick-kaomoji-deck').innerHTML = list.map(k => `
+        <button class="quick-item" onclick="copyText('${k.replace(/'/g, "\\'")}', 'Kaomoji')">
+          <span>${k}</span>
+          <span>📋</span>
+        </button>
+      `).join('');
+    }
+
+    function updateTrayMetrics() {
+      const val = document.getElementById('tray-textarea').value;
+      document.getElementById('tray-char-count').innerText = val.length;
+    }
+
+    function copyAllTray() {
+      const val = document.getElementById('tray-textarea').value;
+      if (!val) return;
+      navigator.clipboard.writeText(val).then(() => {
+        showToast('Copied all tray text to clipboard!');
+      });
+    }
+
+    function clearTray() {
+      document.getElementById('tray-textarea').value = '';
+      updateTrayMetrics();
+    }
+
+    function applyTrayTransform(type) {
+      const tray = document.getElementById('tray-textarea');
+      let val = tray.value;
+      if (!val) return;
+      if (type === 'spaced') val = val.split('').join(' ');
+      if (type === 'upper') val = val.toUpperCase();
+      if (type === 'lower') val = val.toLowerCase();
+      if (type === 'reverse') val = val.split('').reverse().join('');
+      if (type === 'sparkle') val = `✧･ﾟ: * ${val} * :･ﾟ✧`;
+      if (type === 'heart') val = `♥ ${val} ♥`;
+      if (type === 'bracket') val = `【 ${val} 】`;
+      if (type === 'wings') val = `༺ ${val} ༻`;
+      tray.value = val;
+      updateTrayMetrics();
+      showToast(`Applied ${type.toUpperCase()} transform!`);
+    }
+
+    function downloadTxt() {
+      const val = document.getElementById('tray-textarea').value;
+      if (!val) return;
+      const blob = new Blob([val], { type: 'text/plain;charset=utf-8' });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = 'glyphcraft-symbols.txt';
+      a.click();
+    }
+
+    function downloadPngCard() {
+      const val = document.getElementById('tray-textarea').value;
+      if (!val) return;
+      const canvas = document.createElement('canvas');
+      canvas.width = 1000;
+      canvas.height = 500;
+      const ctx = canvas.getContext('2d');
+      ctx.fillStyle = '#0f172a';
+      ctx.fillRect(0, 0, 1000, 500);
+      ctx.fillStyle = '#c084fc';
+      ctx.font = 'bold 24px sans-serif';
+      ctx.textAlign = 'center';
+      ctx.fillText('✦ GLYPHCRAFT STUDIO -- AEGIS HUB ✦', 500, 80);
+      ctx.fillStyle = '#ffffff';
+      ctx.font = '40px sans-serif';
+      ctx.fillText(val, 500, 260);
+      const a = document.createElement('a');
+      a.href = canvas.toDataURL('image/png');
+      a.download = 'glyphcraft-card.png';
+      a.click();
+    }
+
+    function switchMode(mode) {
+      document.querySelectorAll('.tab-button').forEach(b => b.classList.remove('active'));
+      const activeBtn = Array.from(document.querySelectorAll('.tab-button')).find(b => b.getAttribute('onclick').includes(mode));
+      if (activeBtn) activeBtn.classList.add('active');
+
+      document.getElementById('symbols-view').style.display = (mode === 'symbols') ? 'block' : 'none';
+      document.getElementById('fonts-view').style.display = mode === 'fonts' ? 'flex' : 'none';
+      document.getElementById('banner-view').style.display = mode === 'banner' ? 'flex' : 'none';
+      document.getElementById('decorator-view').style.display = mode === 'decorator' ? 'flex' : 'none';
+      document.getElementById('bio-view').style.display = mode === 'bio' ? 'flex' : 'none';
+
+      if (mode === 'fonts') renderFonts();
+      if (mode === 'banner') renderBanner();
+      if (mode === 'decorator') renderDecorators();
+    }
+
+    renderCategories();
+    renderQuickChips();
+    renderSymbols();
+    renderTrendingDeck();
+    updateFavCount();
+  </script>
+</body>
+</html>

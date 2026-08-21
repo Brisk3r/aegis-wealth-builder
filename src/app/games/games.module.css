@@ -1,0 +1,337 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.pageHeader {
+  padding: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: radial-gradient(circle at 90% 10%, rgba(0, 240, 255, 0.12) 0%, rgba(19, 27, 46, 0.8) 100%);
+}
+
+.headerTitleCol {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.title {
+  font-size: 2rem;
+  font-weight: 900;
+  color: #ffffff;
+}
+
+.subtitle {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+}
+
+.tabBar {
+  display: flex;
+  gap: 0.5rem;
+  padding: 0.5rem;
+}
+
+.tabBtn {
+  flex: 1;
+  background: transparent;
+  border: none;
+  color: var(--text-secondary);
+  font-family: var(--font-outfit);
+  font-size: 0.95rem;
+  font-weight: 700;
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.activeTab {
+  background: rgba(0, 240, 255, 0.12);
+  color: var(--accent-cyan);
+  border: 1px solid rgba(0, 240, 255, 0.25);
+}
+
+.mainContent {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.releasesGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 1.5rem;
+}
+
+.releaseCard {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border-radius: 12px;
+  transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+.releaseCard:hover {
+  transform: translateY(-4px);
+  border-color: rgba(0, 240, 255, 0.35);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+}
+
+.cardImageWrapper {
+  position: relative;
+  width: 100%;
+  height: 190px;
+  background: #0f172a;
+  overflow: hidden;
+}
+
+.cardImg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s ease;
+}
+
+.releaseCard:hover .cardImg {
+  transform: scale(1.05);
+}
+
+.statusBadge {
+  position: absolute;
+  top: 0.75rem;
+  right: 0.75rem;
+  background: rgba(15, 23, 42, 0.85);
+  color: var(--accent-cyan);
+  border: 1px solid rgba(0, 240, 255, 0.35);
+  font-size: 0.72rem;
+  font-weight: 800;
+  padding: 0.3rem 0.7rem;
+  border-radius: 6px;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+}
+
+.cardBody {
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+}
+
+.metaRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.genreTag {
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--accent-purple);
+  background: rgba(168, 85, 247, 0.15);
+  border: 1px solid rgba(168, 85, 247, 0.3);
+  padding: 0.25rem 0.6rem;
+  border-radius: 4px;
+}
+
+.dateTag {
+  font-size: 0.78rem;
+  font-weight: 800;
+  color: #ffffff;
+}
+
+.gameTitle {
+  font-size: 1.2rem;
+  font-weight: 800;
+  color: #ffffff;
+  line-height: 1.3;
+}
+
+.developerText, .platformText {
+  font-size: 0.82rem;
+  color: var(--text-secondary);
+}
+
+.wishlistSection {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.savingsMeter {
+  padding: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: linear-gradient(135deg, rgba(0, 240, 255, 0.1) 0%, rgba(168, 85, 247, 0.1) 100%);
+}
+
+.meterCol {
+  display: flex;
+  flex-direction: column;
+}
+
+.meterTitle {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  text-transform: uppercase;
+}
+
+.meterNum {
+  font-family: var(--font-outfit);
+  font-size: 1.75rem;
+  font-weight: 900;
+  color: var(--accent-cyan);
+}
+
+.meterBadge {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  font-weight: 700;
+  font-size: 0.85rem;
+  color: #ffffff;
+}
+
+.emptyWishlist {
+  padding: 3.5rem;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--text-secondary);
+}
+
+.wishlistGrid {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+
+.wishlistCard {
+  padding: 0.85rem 1.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.25rem;
+}
+
+.wishlistThumb {
+  width: 90px;
+  height: 50px;
+  object-fit: cover;
+  border-radius: 6px;
+}
+
+.wishlistInfo {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.wishlistTitle {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.wishlistStore {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+.wishlistPrices {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.wishlistSale {
+  font-family: var(--font-outfit);
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: #ffffff;
+}
+
+.wishlistNormal {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  text-decoration: line-through;
+}
+
+.wishlistActions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.removeBtn {
+  background: rgba(239, 68, 68, 0.15);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  border-radius: 6px;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.sidebarSticky {
+  position: sticky;
+  top: 140px;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.widget {
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.widgetTitle {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.widgetDesc {
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+}
+
+.specChecklist {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.specItem {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  padding: 0.4rem 0;
+  border-bottom: 1px dashed rgba(255, 255, 255, 0.08);
+}
+
+.cyanVal {
+  color: var(--accent-cyan);
+  font-weight: 600;
+}

@@ -1,45 +1,37 @@
 import type { Metadata } from "next";
-import { Outfit } from "next/font/google";
+import { Outfit, Inter } from "next/font/google";
 import "./globals.css";
 import Script from "next/script";
-import Header from "@/components/Header";
-import Footer from "@/components/Footer";
+import AppShell from "@/components/layout/AppShell";
+import { CurrencyProvider } from "@/context/CurrencyContext";
 
 const outfit = Outfit({
   variable: "--font-outfit",
   subsets: ["latin"],
 });
 
+const inter = Inter({
+  variable: "--font-inter",
+  subsets: ["latin"],
+});
+
 export const metadata: Metadata = {
   metadataBase: new URL("https://aegis-wealth-builder.vercel.app"),
-  title: "Aegis Hub | Ultimate Developer & SVG Suite",
-  description: "High-performance developer utilities, hyper-functional SVG Studio, vector converters, pattern generators, and micro-SaaS calculators.",
-  keywords: ["SVG Editor", "SVG Converter", "SVG Generator", "Developer Tools", "UTM Builder", "RegEx Tester", "ROAS Calculator"],
+  title: "Aegis Hub | Developer Utilities, Technical Research & Interactive Labs",
+  description: "High-density digital engineering platform featuring SVG Studio Pro, Regex Intelligence Lab, peer-reviewed whitepapers, physics simulations, and price telemetry.",
+  keywords: ["Aegis Hub", "Developer Tools", "SVG Studio Pro", "Regex Lab", "Technical Whitepapers", "Physics Simulation", "Market Telemetry", "Palliative Care OS"],
   icons: {
     icon: "/favicon.png",
     shortcut: "/favicon.png",
     apple: "/logo.png",
   },
+  manifest: "/manifest.json",
   openGraph: {
-    title: "Aegis Hub | Ultimate Developer & SVG Suite",
-    description: "High-performance developer utilities and hyper-functional SVG Studio.",
+    title: "Aegis Hub | Developer Utilities, Technical Research & Interactive Labs",
+    description: "High-density digital engineering platform featuring SVG Studio Pro, Regex Intelligence, technical whitepapers, and interactive simulation engines.",
     url: "https://aegis-wealth-builder.vercel.app",
     siteName: "Aegis Hub",
-    images: [
-      {
-        url: "/hero_banner.png",
-        width: 1200,
-        height: 630,
-        alt: "Aegis Hub Banner",
-      },
-    ],
     type: "website",
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "Aegis Hub | Ultimate Developer & SVG Suite",
-    description: "High-performance developer utilities and hyper-functional SVG Studio.",
-    images: ["/hero_banner.png"],
   },
   other: {
     "google-adsense-account": "ca-pub-4750454395006570"
@@ -52,7 +44,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={outfit.variable}>
+    <html lang="en" className={`${outfit.variable} ${inter.variable}`}>
       <head>
         <Script 
           async 
@@ -62,13 +54,11 @@ export default function RootLayout({
         />
       </head>
       <body>
-        <div className="layout-container">
-          <Header />
-          <main className="main-content">
+        <CurrencyProvider>
+          <AppShell>
             {children}
-          </main>
-          <Footer />
-        </div>
+          </AppShell>
+        </CurrencyProvider>
       </body>
     </html>
   );

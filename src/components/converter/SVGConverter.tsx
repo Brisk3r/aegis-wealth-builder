@@ -123,7 +123,7 @@ export default function SVGConverter() {
 
           <div className={styles.actionsRow}>
             <button onClick={handleOptimize} className={styles.secondaryBtn}>
-              ⚡ Optimize & Clean XML
+              [EPIC] Optimize & Clean XML
             </button>
           </div>
 
