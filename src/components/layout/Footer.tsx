@@ -14,60 +14,59 @@ export default function Footer() {
         <div className={styles.footerGrid}>
           {/* Brand Info */}
           <div className={styles.brandCol}>
-            <h3 className={styles.footerBrandTitle}>AEGIS<span className={styles.accentBlue}>HUB</span></h3>
+            <h3 className={styles.footerBrandTitle}>GLYPH<span className={styles.accentBlue}>CRAFT</span></h3>
             <p className={styles.footerDesc}>
-              High-density digital platform engineering developer utilities, deep technical whitepapers, interactive simulation physics, and real-time market telemetry.
+              The ultimate 1-click clipboard forge for over 2,000+ aesthetic symbols, Lenny faces, fancy Unicode font styles, Big ASCII banners, and social bio generators. Free and privacy-friendly.
             </p>
             <div className={styles.storeBadges}>
-              <span className={styles.storeTag}>[DEV] Utilities</span>
-              <span className={styles.storeTag}>[LAB] Research</span>
-              <span className={styles.storeTag}>[SIM] Physics</span>
-              <span className={styles.storeTag}>[RADAR] Telemetry</span>
-              <span className={styles.storeTag}>[CARE] Comfort OS</span>
+              <span className={styles.storeTag}>2,000+ Glyphs</span>
+              <span className={styles.storeTag}>22+ Font Styles</span>
+              <span className={styles.storeTag}>Kaomoji Arena</span>
+              <span className={styles.storeTag}>ASCII Banners</span>
+              <span className={styles.storeTag}>Client-Side</span>
             </div>
           </div>
 
-          {/* Quick Hub Links */}
+          {/* Quick Tool Links */}
           <div className={styles.linkCol}>
-            <h4 className={styles.colTitle}>PLATFORM PILLARS</h4>
+            <h4 className={styles.colTitle}>POPULAR CATEGORIES</h4>
             <ul className={styles.linkList}>
-              <li><Link href="/tools">Developer Utilities Suite</Link></li>
-              <li><Link href="/research">Deep Technical Research</Link></li>
-              <li><Link href="/events">Scheduled Events Calendar</Link></li>
-              <li><Link href="/play">Simulation & Arcade Arena</Link></li>
-              <li><Link href="/deals">Price & Hardware Radar</Link></li>
-              <li><Link href="/palliative-care">Palliative Care Comfort OS</Link></li>
+              <li><Link href="/">Lenny Faces & Meme Kaomoji</Link></li>
+              <li><Link href="/">Aesthetic Sparkles & Ribbons</Link></li>
+              <li><Link href="/">Stars, Moons & Celestial Glyphs</Link></li>
+              <li><Link href="/">Hearts, Flowers & Affection</Link></li>
+              <li><Link href="/">Borders, Dividers & Filigree</Link></li>
+              <li><Link href="/">Arrows & Directional Icons</Link></li>
             </ul>
           </div>
 
-          {/* Technical Documentation & Tools */}
+          {/* Typography & Tools */}
           <div className={styles.linkCol}>
-            <h4 className={styles.colTitle}>KEY WORKBENCHES</h4>
+            <h4 className={styles.colTitle}>GENERATOR SUITES</h4>
             <ul className={styles.linkList}>
-              <li><Link href="/tools/svg-studio">SVG Studio Pro</Link></li>
-              <li><Link href="/tools/regex-lab">Regex Intelligence Lab</Link></li>
-              <li><Link href="/tools/asset-converter">Smart Asset Converter</Link></li>
-              <li><Link href="/tools/web-optimizer">Code Optimizer Lab</Link></li>
-              <li><Link href="/tools/telemetry-deals">Telemetry Deals Engine</Link></li>
-              <li><Link href="/guides">Architecture Guides</Link></li>
+              <li><Link href="/">Mathematical Bold & Italic Fonts</Link></li>
+              <li><Link href="/">Gothic Fraktur & Cursive Fonts</Link></li>
+              <li><Link href="/">3D ASCII Big Text Banner Forge</Link></li>
+              <li><Link href="/">Text Decorator & Wrapper Tool</Link></li>
+              <li><Link href="/">Social Media Bio Formatter</Link></li>
+              <li><Link href="/">Glitch & Zalgo Text Generator</Link></li>
             </ul>
           </div>
         </div>
 
         <div className={styles.footerBottom}>
-          <p>(c) {new Date().getFullYear()} Aegis Digital Platform. Engineered for zero slop and maximum utility.</p>
+          <p>© {new Date().getFullYear()} GlyphCraft Studio (Aegis Hub). All rights reserved. Powered by Unicode Standards.</p>
           <div className={styles.legalLinks}>
-            <span>Privacy Policy</span>
+            <Link href="/">Privacy Policy</Link>
             <span>|</span>
-            <span>Terms of Service</span>
+            <Link href="/">Terms of Service</Link>
             <span>|</span>
-            <span>Affiliate Disclosure</span>
+            <Link href="/">About Us</Link>
             <span>|</span>
-            <span>Telemetry Status</span>
+            <Link href="/">Contact & Support</Link>
           </div>
         </div>
       </div>
     </footer>
   );
 }
-

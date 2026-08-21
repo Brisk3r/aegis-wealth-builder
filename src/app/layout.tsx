@@ -17,9 +17,22 @@ const inter = Inter({
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://aegishub.dev"),
-  title: "Aegis Hub | Cool Symbols, Kaomoji & Unicode Font Forge",
-  description: "High-density digital engineering platform featuring GlyphCraft Studio (2,000+ aesthetic symbols, Lenny faces, fancy Unicode fonts, and social bio generators).",
-  keywords: ["Aegis Hub", "Cool Symbols", "Kaomoji", "Unicode Font Generator", "Lenny Face", "Discord Symbols", "Instagram Bio"],
+  title: "GlyphCraft Studio | Cool Symbols, Kaomoji & Unicode Font Generator",
+  description: "Copy and paste over 2,000+ cool symbols, aesthetic kaomoji, Lenny faces, fancy Unicode font styles, Big ASCII banners, and social media bio templates.",
+  keywords: [
+    "cool symbols",
+    "symbols copy and paste",
+    "kaomoji",
+    "lenny face",
+    "aesthetic symbols",
+    "unicode font generator",
+    "fancy fonts",
+    "ascii art",
+    "discord symbols",
+    "instagram bio symbols",
+    "text decorator",
+    "glyphcraft"
+  ],
   icons: {
     icon: "/favicon.png",
     shortcut: "/favicon.png",
@@ -27,10 +40,10 @@ export const metadata: Metadata = {
   },
   manifest: "/manifest.json",
   openGraph: {
-    title: "Aegis Hub | Cool Symbols, Kaomoji & Unicode Font Forge",
-    description: "High-density digital engineering platform featuring GlyphCraft Studio with 2,000+ aesthetic symbols, Lenny faces, and fancy font generators.",
+    title: "GlyphCraft Studio | Cool Symbols, Kaomoji & Unicode Font Generator",
+    description: "Copy and paste over 2,000+ cool symbols, aesthetic kaomoji, Lenny faces, fancy Unicode font styles, and social bio templates.",
     url: "https://aegishub.dev",
-    siteName: "Aegis Hub",
+    siteName: "GlyphCraft Studio",
     type: "website",
   },
   other: {
